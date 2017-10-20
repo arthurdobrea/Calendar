@@ -38,6 +38,31 @@
             </div>
         </spring:bind>
 
+        <spring:bind path="firstname">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="firstname" class="form-control" placeholder="First name"
+                            autofocus="true"></form:input>
+                <form:errors path="firstname"></form:errors>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="lastname">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="lastname" class="form-control" placeholder="Last name"
+                            autofocus="true"></form:input>
+                <form:errors path="lastname"></form:errors>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="email">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="email" class="form-control" placeholder="Email"
+                            autofocus="true"></form:input>
+                <form:errors path="email"></form:errors>
+            </div>
+        </spring:bind>
+
+
         <spring:bind path="password">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="password" path="password" class="form-control" placeholder="Password"></form:input>

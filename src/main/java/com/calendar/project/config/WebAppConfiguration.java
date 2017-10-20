@@ -21,6 +21,8 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
     private static final String PREFIX = "/static/";
     private static final String SUFFIX = ".jsp";
 
+
+
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry

@@ -23,6 +23,9 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User user = (User) o;
         String username = user.getUsername();
+        String firstname = user.getFirstname();
+        String lastname = user.getLastname();
+        String email = user.getEmail();
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         int usernameLength = username.length();
@@ -32,6 +35,24 @@ public class UserValidator implements Validator {
 
         if (userService.exists(username)) {
             errors.rejectValue("username", "Duplicate.userForm.username");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
+        int firstnameLength = firstname.length();
+        if (firstnameLength < 2 || firstnameLength > 32) {
+            errors.rejectValue("firstname", "Size.userForm.name");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
+        int lastnameLength = lastname.length();
+        if (lastnameLength < 2 || lastnameLength > 32) {
+            errors.rejectValue("lastname", "Size.userForm.lastname");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+        int emailLength = email.length();
+        if ((emailLength < 10 || emailLength > 32)&&(!email.contains("@"))) {
+            errors.rejectValue("email", "Size.userForm.email");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
