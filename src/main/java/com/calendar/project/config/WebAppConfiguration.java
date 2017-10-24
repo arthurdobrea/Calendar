@@ -1,26 +1,26 @@
 package com.calendar.project.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.servlet.ServletContext;
+
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.calendar.project")
-public class WebAppConfiguration extends WebMvcConfigurerAdapter {
+@ComponentScan(basePackages = {"com.calendar.project"})
+public class WebAppConfiguration implements WebMvcConfigurer {
 
     private static final String RES_HANDLER = "/resources/**";
     private static final String RES_LOCATION = "/resources/";
     private static final String PREFIX = "/static/";
     private static final String SUFFIX = ".jsp";
-
 
 
     @Override

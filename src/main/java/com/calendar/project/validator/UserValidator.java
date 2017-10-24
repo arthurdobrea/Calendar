@@ -16,11 +16,14 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
+
         return User.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
+
+        //
         User user = (User) o;
         String username = user.getUsername();
         String firstname = user.getFirstname();

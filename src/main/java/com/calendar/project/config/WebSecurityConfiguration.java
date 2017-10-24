@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.hibernate.criterion.Restrictions.and;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -33,7 +35,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        // @formatter:off
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -49,8 +50,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                 .and()
                     .logout()
-                    .logoutSuccessUrl("/login?logout");
-        // @formatter:on
+                    .logoutSuccessUrl("/login?logout")
+                .and()
+                .exceptionHandling().accessDeniedPage("/login");
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -59,12 +61,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder);
-    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
