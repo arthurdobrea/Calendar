@@ -1,9 +1,10 @@
-package com.calendar.project.service;
+package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,16 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private final UserDao userDao;
 
+    @Autowired
     private final RoleDao roleDao;
 
+    @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
+
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;

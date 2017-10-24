@@ -1,4 +1,4 @@
-package com.calendar.project.service;
+package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;

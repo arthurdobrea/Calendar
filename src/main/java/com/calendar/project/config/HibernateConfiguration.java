@@ -2,9 +2,7 @@ package com.calendar.project.config;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,6 +17,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
+@ComponentScan(basePackages = {"com.calendar.project"})
 public class HibernateConfiguration {
 
     private final Environment environment;
@@ -43,7 +42,7 @@ public class HibernateConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource) {
         final LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("com.calendar.project.model");
+        entityManagerFactory.setPackagesToScan("com.calendar.project");
         entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactory.setJpaProperties(hibernateProperties());
         return entityManagerFactory;

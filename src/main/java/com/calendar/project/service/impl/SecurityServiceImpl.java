@@ -1,5 +1,6 @@
-package com.calendar.project.service;
+package com.calendar.project.service.impl;
 
+import com.calendar.project.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class SecurityServiceImpl implements SecurityService {
         if (userDetails instanceof UserDetails) {
             return ((UserDetails) userDetails).getUsername();
         }
-
         return null;
     }
 

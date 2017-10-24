@@ -31,6 +31,12 @@ public class User {
     @Transient
     private String confirmPassword;
 
+    public User(){};
+
+    public User(String username) {
+        this.username = username;
+    }
+
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -113,7 +119,6 @@ public class User {
         if (!lastname.equals(user.lastname)) return false;
         if (!email.equals(user.email)) return false;
         if (!password.equals(user.password)) return false;
-        if (!confirmPassword.equals(user.confirmPassword)) return false;
         return roles.equals(user.roles);
     }
 
@@ -125,7 +130,6 @@ public class User {
         result = 31 * result + lastname.hashCode();
         result = 31 * result + email.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + confirmPassword.hashCode();
         result = 31 * result + roles.hashCode();
         return result;
     }
