@@ -52,4 +52,16 @@ public class UserServiceImpl implements UserService {
     public boolean exists(String username) {
         return userDao.findByUsername(username) != null;
     }
+
+    @Override
+    @Transactional
+    public void update(User editedUser) {
+        User user = userDao.findByUsername(editedUser.getUsername());
+
+        user.setFirstname(editedUser.getFirstname());
+        user.setLastname(editedUser.getLastname());
+        user.setEmail(editedUser.getEmail());
+
+        userDao.update(user);
+    }
 }

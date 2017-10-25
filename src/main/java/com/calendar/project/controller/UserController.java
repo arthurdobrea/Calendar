@@ -5,12 +5,15 @@ import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -67,5 +70,27 @@ public class UserController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin() {
         return "admin";
+    }
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
+    public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("firstname", user.getFirstname());
+        model.addAttribute("lastname", user.getLastname());
+        model.addAttribute("email", user.getEmail());
+
+        return "userControlPanel";
+    }
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        model.addAttribute("userForm", new User());
+
+        userService.update(userForm);
+
+        return "redirect:/welcome";
     }
 }
