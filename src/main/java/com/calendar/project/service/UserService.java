@@ -9,4 +9,6 @@ public interface UserService {
     User findByUsername(String username);
 
     boolean exists(String username);
+
+    void update(User editedUser);
 }
