@@ -1,5 +1,6 @@
-package com.calendar.project.dao;
+package com.calendar.project.dao.impl;
 
+import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.User;
 import org.springframework.stereotype.Repository;
 
