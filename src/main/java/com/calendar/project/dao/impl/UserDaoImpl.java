@@ -30,6 +30,17 @@ public class UserDaoImpl implements UserDao {
         entityManager.persist(user);
     }
 
+    public List<User> getAll(){
+        List<User> users = entityManager.createQuery("from User", User.class)
+                .getResultList();
+        for (User user : users) {
+            if (user != null) {
+                Hibernate.initialize(user.getRoles());
+            }
+        }
+        return users;
+    }
+
     @Override
     public List<User> getAll(){
         List<User> users = entityManager.createQuery("select u from User u", User.class)
