@@ -1,7 +1,7 @@
 package com.calendar.project.model;
 
 import javax.persistence.*;
-
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,13 +10,14 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }

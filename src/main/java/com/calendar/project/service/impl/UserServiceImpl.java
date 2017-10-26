@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
     public boolean exists(String username) {
         return userDao.findByUsername(username) != null;
     }
+
+    public List<User> getAllUsers(){
+        List<User> users = userDao.getAll();
+        return users;
+    };
 
     @Override
     @Transactional
