@@ -1,11 +1,8 @@
 package com.calendar.project.model;
 
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-
 
 @Entity
 @Table(name = "roles")
@@ -28,7 +25,6 @@ public class Role {
     public Role(String name) {
         this.name = name;
     }
-
 
     public Long getId() {
         return id;
