@@ -1,6 +1,8 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
+import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    EventService eventServiceImpl;
 
     @Autowired
     private UserService userService;
@@ -51,7 +56,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/login","/"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
 
         if (error != null) {
