@@ -40,3 +40,10 @@ INSERT roles VALUES (1,'ROLE_USER');
 INSERT roles VALUES (2,'ROLE_ADMIN');
 
 INSERT INTO user_roles VALUES(1,2);
+
+--Inserts for testing
+-- if there are some problems with inserts - correct them
+INSERT INTO users
+    VALUES (99, 'UserTest', 'Qawsed', 'Qawsed', 'adamaa14@gmail.com', '$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG');
+
+INSERT INTO user_roles VALUES(99,1);

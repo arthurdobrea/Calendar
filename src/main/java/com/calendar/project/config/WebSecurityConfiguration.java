@@ -5,17 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.sql.DataSource;
-
-import static org.hibernate.criterion.Restrictions.and;
 
 @Configuration
 @EnableWebSecurity
@@ -25,9 +19,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String ADMIN = "ADMIN";
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     public void setUserDetailsService(final UserDetailsService userDetailsService) {
@@ -58,8 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutSuccessUrl("/login?logout")
                 .and()
-                .exceptionHandling().accessDeniedPage("/login")
-                .and().rememberMe().rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400);
+                .exceptionHandling().accessDeniedPage("/login");
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -67,14 +57,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-        tokenRepositoryImpl.setDataSource(dataSource);
-        return tokenRepositoryImpl;
-    }
-
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {

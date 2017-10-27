@@ -11,4 +11,5 @@ public interface UserService {
     boolean exists(String username);
 
     void update(User editedUser);
+
 }

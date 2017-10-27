@@ -1,9 +1,8 @@
 package com.calendar.project.model;
 
 import javax.persistence.*;
+
 import java.util.Set;
-
-
 
 @Entity
 @Table(name = "users")
@@ -31,16 +30,17 @@ public class User {
     @Transient
     private String confirmPassword;
 
-    public User(){};
-
-    public User(String username) {
-        this.username = username;
-    }
-
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    public User() {
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -132,5 +132,19 @@ public class User {
         result = 31 * result + password.hashCode();
         result = 31 * result + roles.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

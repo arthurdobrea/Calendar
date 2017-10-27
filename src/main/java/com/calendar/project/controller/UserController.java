@@ -4,6 +4,7 @@ import com.calendar.project.model.User;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -63,13 +63,15 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/welcome"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome() {
         return "welcome";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(){return "index";}
+    public String index() {
+        return "index";
+    }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin() {
