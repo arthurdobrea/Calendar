@@ -4,6 +4,7 @@ package com.calendar.project.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -46,6 +47,14 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles  = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private List<Event> events; //events in which user participates
+
+    @OneToMany
+    private List<Event> eventsOfAuthor; //events where user is the author
 
     public Long getId() {
         return id;
@@ -110,6 +119,23 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public List<Event> getEventsOfAuthor() {
+        return eventsOfAuthor;
+    }
+
+    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
+        this.eventsOfAuthor = eventsOfAuthor;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
 
     @Override
     public boolean equals(Object o) {

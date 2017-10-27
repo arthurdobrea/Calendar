@@ -25,7 +25,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
-        <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/create-event">Create a new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
 
     </c:if>
