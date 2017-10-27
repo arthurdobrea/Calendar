@@ -5,7 +5,6 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
-
 import org.junit.Assert;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.junit.Test;
@@ -17,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.HashSet;
-import java.util.Set;
 
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,6 +26,12 @@ public class UserDaoTest {
 
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private RoleDao roleDao;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Test
     public void daoFindByUserNameTest(){
