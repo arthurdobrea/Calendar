@@ -1,6 +1,7 @@
 package com.calendar.project.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,7 +32,9 @@ public class User {
     @Transient
     private String confirmPassword;
 
-    public User(){};
+    public User(){
+        //for Hibernate
+    }
 
     public User(String username) {
         this.username = username;
@@ -41,6 +44,14 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private List<Event> events; //events in which user participates
+
+    @OneToMany
+    private List<Event> eventsOfAuthor; //events where user is the author
 
     public Long getId() {
         return id;
@@ -106,6 +117,23 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Event> getEventsOfAuthor() {
+        return eventsOfAuthor;
+    }
+
+    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
+        this.eventsOfAuthor = eventsOfAuthor;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,24 +141,32 @@ public class User {
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
-        if (!username.equals(user.username)) return false;
-        if (!firstname.equals(user.firstname)) return false;
-        if (!lastname.equals(user.lastname)) return false;
-        if (!email.equals(user.email)) return false;
-        if (!password.equals(user.password)) return false;
-        return roles.equals(user.roles);
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
+        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (confirmPassword != null ? !confirmPassword.equals(user.confirmPassword) : user.confirmPassword != null)
+            return false;
+        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
+        if (events != null ? !events.equals(user.events) : user.events != null) return false;
+        return eventsOfAuthor != null ? eventsOfAuthor.equals(user.eventsOfAuthor) : user.eventsOfAuthor == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + firstname.hashCode();
-        result = 31 * result + lastname.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + roles.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (confirmPassword != null ? confirmPassword.hashCode() : 0);
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (events != null ? events.hashCode() : 0);
+        result = 31 * result + (eventsOfAuthor != null ? eventsOfAuthor.hashCode() : 0);
         return result;
     }
 }
