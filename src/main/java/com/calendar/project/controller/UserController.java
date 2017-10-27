@@ -4,13 +4,15 @@ import com.calendar.project.model.User;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,10 +48,10 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -67,10 +69,8 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index() {
-        return "index";
-    }
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index(){return "index";}
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin() {
@@ -96,6 +96,6 @@ public class UserController {
 
         userService.update(userForm);
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
 }

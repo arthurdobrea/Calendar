@@ -1,5 +1,8 @@
 package com.calendar.project.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -38,6 +41,7 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -125,7 +129,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword);
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles);
     }
 
     @Override

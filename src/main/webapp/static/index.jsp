@@ -4,13 +4,17 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <link href='${contextPath}/resources/css/fullcalendar.min.css' rel='stylesheet' />
-    <link href='${contextPath}/resources/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
+    <link href='${contextPath}/resources/css/style.css' rel='stylesheet' />
+    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.min.js'></script>
-    <script>
-
+    <script src='${contextPath}/resources/js/calendar.js'></script>
+    <script src="${contextPath}/resources/js/angular.min.js"></script>
+    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="${contextPath}/resources/js/gcal.min.js"></script>
+<script>
         $(document).ready(function() {
 
             $('#calendar').fullCalendar({
@@ -90,6 +94,9 @@
 
     </script>
     <style>
+        ul {
+
+        }
 
         body {
             margin: 40px 10px;
@@ -106,6 +113,13 @@
     </style>
 </head>
 <body>
+
+<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+
+<a href="/index" class="btn">Calendar</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
+
+<p>
 
 <div id='calendar'></div>
 
