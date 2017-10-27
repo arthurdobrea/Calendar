@@ -22,8 +22,6 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-
-        //
         User user = (User) o;
         String username = user.getUsername();
         String firstname = user.getFirstname();
@@ -54,7 +52,7 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
         int emailLength = email.length();
-        if ((emailLength < 10 || emailLength > 32)&&(!email.contains("@"))) {
+        if ((emailLength < 10 || emailLength > 32) && (!email.contains("@"))) {
             errors.rejectValue("email", "Size.userForm.email");
         }
 

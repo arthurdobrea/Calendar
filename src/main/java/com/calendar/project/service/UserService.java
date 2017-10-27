@@ -15,4 +15,5 @@ public interface UserService {
     List<User> getAllUsers();
 
     void update(User editedUser);
+
 }

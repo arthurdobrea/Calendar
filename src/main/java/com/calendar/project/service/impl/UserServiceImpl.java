@@ -5,6 +5,7 @@ import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -38,9 +37,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getOne(1L));
+        roles.add(roleDao.getRole(1L));
         user.setRoles(roles);
+
         userDao.save(user);
     }
 

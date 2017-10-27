@@ -140,7 +140,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +
-                ", roles=" + roles +
+               // ", roles=" + roles +
                 '}';
     }
 }

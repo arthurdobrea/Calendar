@@ -4,7 +4,6 @@ import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
