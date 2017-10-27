@@ -25,10 +25,10 @@ CREATE TABLE user_roles
 (
   user_id BIGINT
     CONSTRAINT user_roles_fk
-    REFERENCES users,
+    REFERENCES users(id),
   role_id BIGINT
     CONSTRAINT user_roles_roles_id_fk
-    REFERENCES roles
+    REFERENCES roles(id)
 );
 
 INSERT INTO users (username, password) VALUES ('admin', '$2a$11$oBd.94VWAUq6RejwkI4sh.eo7XHOUXpw2oNAMFCLEHpV8fWUligLK');

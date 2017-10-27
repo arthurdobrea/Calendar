@@ -1,8 +1,14 @@
 package com.calendar.project.model;
 
-import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+
+
 
 @Entity
 @Table(name = "users")
@@ -10,6 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "username")
@@ -30,17 +37,17 @@ public class User {
     @Transient
     private String confirmPassword;
 
-    @ManyToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
-
-    public User() {
-    }
+    public User(){};
 
     public User(String username) {
         this.username = username;
     }
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles  = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -124,14 +131,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + firstname.hashCode();
-        result = 31 * result + lastname.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + roles.hashCode();
-        return result;
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles);
     }
 
     @Override
