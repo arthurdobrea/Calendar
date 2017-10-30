@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -64,7 +63,18 @@ public class UserServiceImpl implements UserService {
             }
         }
         return users;
-    }
+    };
+
+    @Override
+    public List<User> getAllUsers(){
+        List<User> users = userDao.getAll();
+        for (User user : users) {
+            if (user != null) {
+                Hibernate.initialize(user.getRoles());
+            }
+        }
+        return users;
+    };
 
     @Override
     @Transactional

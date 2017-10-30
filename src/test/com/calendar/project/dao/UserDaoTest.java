@@ -6,7 +6,6 @@ import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,6 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
-import java.util.Set;
 
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,41 +24,48 @@ import java.util.Set;
 @WebAppConfiguration
 public class UserDaoTest {
 
-    private User user;
-
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private RoleDao roleDao;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Before
-    public void setup() {
-        user = new User("UserTest12");
-        Role role = new Role("ROLE_USER");
-        role.setId(1L);
+    @Test
+    public void daoFindByUserNameTest(){
+        User user = new User("UserTest");
         Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roles.add(new Role("ROLE_USER"));
         user.setPassword("$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG");
         user.setFirstname("Qawsed");
         user.setLastname("Qawsed");
         user.setEmail("adamaa14@gmail.com");
         user.setRoles(roles);
-        user.setEvents(null);
-        user.setEventsOfAuthor(null);
-        entityManager.persist(user);
+
+        User user2;
+        user2 = userDao.findByUsername("UserTest");
+        user.setId(user2.getId());
+        Assert.assertEquals(user,user2);
     }
 
     @Test
-    public void daoFindByUserNameTest() {
-        User userFromDb = userDao.findByUsername(user.getUsername());
-        Assert.assertEquals(user, userFromDb);
+    public void daoPersistUserTest(){
+        User user = new User("UserTestVersion2");
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+        user.setPassword("$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG");
+        user.setFirstname("Qawsed");
+        user.setLastname("Qawsed");
+        user.setEmail("adamaa14@gmail.com");
+        user.setRoles(roles);
+        userDao.save(user);
 
-    }
-
-    @Test
-    public void daoPersistUserTest() {
-
+        User user2;
+        user2 = userDao.findByUsername("UserTest");
+        user.setId(user2.getId());
+        Assert.assertEquals(user,user2);
 
     }
 
