@@ -1,6 +1,13 @@
 package com.calendar.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.annotation.Reference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -9,34 +16,38 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "event_name")
     private String eventName;
 
-   @Enumerated(EnumType.STRING)
-   @Column(name = "event_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "event_type")
     private EventType eventType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference(value = "child")
+//    @Reference(value = "child")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
     @Column(name = "event_location")
     private String location;
 
-    @ManyToMany(mappedBy = "events")
+    @JsonBackReference(value = "child")
+    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     private Set<User> participants;
 
     @Column(name = "timebegin")
-    private LocalDateTime startTime;
+    private String startTime;
 
     @Column(name = "timeend")
-    private LocalDateTime endTime;
+    private String endTime;
 
     @Column(name = "createdata")
     private LocalDateTime eventCreated;
@@ -44,9 +55,7 @@ public class Event {
     @Column(name = "description")
     private String description;
 
-    public Event(){
-
-    }
+    public Event(){}
 
     public Long getId() {
         return id;
@@ -88,19 +97,19 @@ public class Event {
         this.participants = participants;
     }
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -160,5 +169,21 @@ public class Event {
         result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName='" + eventName + '\'' +
+                ", eventType=" + eventType +
+                //", author=" + author +
+                ", location='" + location + '\'' +
+                //", participants=" + participants +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", eventCreated=" + eventCreated +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

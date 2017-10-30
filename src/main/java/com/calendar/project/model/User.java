@@ -1,9 +1,18 @@
 package com.calendar.project.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
+
 import java.util.List;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +20,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,19 +51,18 @@ public class User {
         this.username = username;
     }
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles  = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> events; //events in which user participates
 
-    @OneToMany
-    private List<Event> eventsOfAuthor; //events where user is the author
+    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public Long getId() {
         return id;
@@ -150,12 +158,15 @@ public class User {
         if (!lastname.equals(user.lastname)) return false;
         if (!email.equals(user.email)) return false;
         if (!password.equals(user.password)) return false;
-        return roles.equals(user.roles);
+        if (!confirmPassword.equals(user.confirmPassword)) return false;
+        if (!roles.equals(user.roles)) return false;
+        if (!events.equals(user.events)) return false;
+        return eventsOfAuthor.equals(user.eventsOfAuthor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles);
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, events, eventsOfAuthor);
     }
 
     @Override
@@ -168,7 +179,9 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +
-               // ", roles=" + roles +
+                //", roles=" + roles +
+                //", events=" + events +
+                //", eventsOfAuthor=" + eventsOfAuthor +
                 '}';
     }
 }

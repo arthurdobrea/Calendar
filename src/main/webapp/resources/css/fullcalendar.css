@@ -16,7 +16,7 @@
 
 body .fc { /* extra precedence to overcome jqui */
 	font-size: 1em;
-	font-color: white;
+	font-color: #eaeaea;
 }
 
 
@@ -420,7 +420,7 @@ temporary rendered events).
 
 .fc-event .fc-bg { /* the generic .fc-bg already does position */
 	z-index: 1;
-	background: #fff;
+	background: #eaeaea;
 	opacity: .25;
 }
 
@@ -698,7 +698,7 @@ TODO: more distinction between this file and common.css
 }
 
 .fc-unthemed .fc-popover {
-	background-color: #fff;
+	background-color: #eaeaea;
 }
 
 .fc-unthemed .fc-divider,
@@ -712,7 +712,7 @@ TODO: more distinction between this file and common.css
 }
 
 .fc-unthemed td.fc-today {
-	background: #fcf8e3;
+	background: rgba(228, 159, 95, 0.46);
 }
 
 .fc-unthemed .fc-disabled-day {
