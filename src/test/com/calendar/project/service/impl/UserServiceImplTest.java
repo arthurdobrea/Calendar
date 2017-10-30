@@ -43,13 +43,19 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void save() throws Exception {
+    public void saveTest() throws Exception {
 //        Mockito.when(userDao.save(user)).thenReturn(user);
 //        userDao.save(user);
     }
 
     @Test
-    public void findByUsername() throws Exception {
+    public void existTest(){
+        Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
+        Assert.assertEquals(true,userService.exists(user.getUsername()));
+    }
+
+    @Test
+    public void findByUsernameTest() throws Exception {
         Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
 
         Assert.assertEquals(userService.findByUsername(user.getUsername()), user);
