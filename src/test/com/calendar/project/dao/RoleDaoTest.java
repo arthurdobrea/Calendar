@@ -5,6 +5,7 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.model.Role;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,9 +24,15 @@ public class RoleDaoTest {
     @Resource
     private RoleDao roleDao;
 
+    private Role role;
+
+    @Before
+    public  void setUp(){
+        role = new Role("ROLE_USER");
+    }
+
     @Test
     public void daoGetRoleByIdTest(){
-        Role role = new Role("ROLE_USER");
         Assert.assertEquals(role,roleDao.getRole(1L));
     }
 }

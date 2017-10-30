@@ -1,12 +1,16 @@
 package com.calendar.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,7 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @JsonBackReference(value = "child")
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
@@ -66,11 +71,12 @@ public class Role {
     }
 
     @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", users=" + users +
-                '}';
-    }
+public String toString() {
+    return "Role{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+           // ", users=" + users +
+            '}';
+}
+
 }

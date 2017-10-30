@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -27,11 +28,11 @@ public class EventDaoImpl implements EventDao{
 
     @Override
     public void saveEvent(Event event) {
-        entityManager.merge(event);
+        entityManager.persist(event);
     }
 
     public Event getEvent(long eventId) {
-        Event event = (Event) entityManager.createQuery("SELECT e FROM Event e WHERE id=:idOfEvent")
+        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id=:idOfEvent")
         .setParameter("idOfEvent", eventId).getSingleResult();
 
         Hibernate.initialize(event.getParticipants());  // TODO need to test
@@ -39,7 +40,9 @@ public class EventDaoImpl implements EventDao{
     }
 
     public List<Event> getEventsByUser(long userId) {
-        User user = (User) entityManager.createQuery("SELECT u FROM User u WHERE id=:idOfUser")
+
+
+        User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
                 .setParameter("idOfUser", userId).getSingleResult();
 
         Hibernate.initialize(user.getEvents()); // TODO don't forget testing
@@ -47,8 +50,8 @@ public class EventDaoImpl implements EventDao{
     }
 
     public List<Event> getAllEvents(){
-        List <Event> result;
-        result = entityManager.createQuery("SELECT e FROM Event e").getResultList();
+        List<Event> result;
+        result = entityManager.createQuery("FROM Event e").getResultList();
         return result;
     }
 

@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         return users;
-    };
+    }
 
     @Override
     @Transactional
