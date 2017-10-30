@@ -17,4 +17,8 @@ public interface EventDao {
 
     public List<Event> getEventsByUser(long userId);
 
+    public void deleteEvent(Event event);
+
+    public void updateEvent(Event event);
+
 }

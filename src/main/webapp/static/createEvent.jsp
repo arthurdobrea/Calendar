@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create an account</title>
+    <title>Create an event</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -74,10 +74,18 @@
             </div>
         </spring:bind>
 
+
         <spring:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
                                autofocus="true"></form:textarea>
+            </div>
+        </spring:bind>
+        
+        <spring:bind path="participants">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:select path = "participants" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+                          multiple="true" />
             </div>
         </spring:bind>
 

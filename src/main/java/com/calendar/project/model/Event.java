@@ -2,6 +2,7 @@ package com.calendar.project.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,16 +31,16 @@ public class Event {
     private String location;
 
     @ManyToMany(mappedBy = "events")
-    private Set<User> participants;
+    private List<User> participants;
 
     @Column(name = "timebegin")
-    private LocalDateTime startTime;
+    private String startTime;
 
     @Column(name = "timeend")
-    private LocalDateTime endTime;
+    private String endTime;
 
     @Column(name = "createdata")
-    private LocalDateTime eventCreated;
+    private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
@@ -80,27 +81,27 @@ public class Event {
         this.location = location;
     }
 
-    public Set<User> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<User> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -116,8 +117,8 @@ public class Event {
         return eventType;
     }
 
-    public void setEventType(EventType event_type) {
-        this.eventType = event_type;
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public String getDescription() {

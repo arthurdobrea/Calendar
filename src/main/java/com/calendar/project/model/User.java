@@ -138,6 +138,9 @@ public class User {
         this.events = events;
     }
 
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -167,10 +170,10 @@ public class User {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                ", roles=" + roles +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", confirmPassword='" + confirmPassword + '\'' +
+//                ", roles=" + roles +
                 '}';
     }
 }

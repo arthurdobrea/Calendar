@@ -17,4 +17,8 @@ public interface EventService {
 
     public List<Event> getEventsByUser(long id);
 
+    public void deleteEvent(Event event);
+
+    public void updateEvent(Event editedEvent);
+
 }

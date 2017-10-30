@@ -27,7 +27,7 @@ public class EventDaoImpl implements EventDao{
 
     @Override
     public void saveEvent(Event event) {
-        entityManager.persist(event);
+        entityManager.merge(event);
     }
 
     public Event getEvent(long eventId) {
@@ -39,7 +39,6 @@ public class EventDaoImpl implements EventDao{
     }
 
     public List<Event> getEventsByUser(long userId) {
-
         User user = (User) entityManager.createQuery("SELECT u FROM User u WHERE id=:idOfUser")
                 .setParameter("idOfUser", userId).getSingleResult();
 
@@ -52,5 +51,15 @@ public class EventDaoImpl implements EventDao{
         result = entityManager.createQuery("SELECT e FROM Event e").getResultList();
         return result;
     }
+
+    public void deleteEvent(Event event){
+        entityManager.remove(event);
+    }
+
+    public void updateEvent(Event event){
+        entityManager.merge(event);
+    }
+
+
 
 }
