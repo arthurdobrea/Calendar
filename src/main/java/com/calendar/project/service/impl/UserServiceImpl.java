@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         return users;
-    };
+    }
 
     @Override
     @Transactional
