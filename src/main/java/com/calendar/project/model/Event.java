@@ -18,8 +18,8 @@ public class Event {
     @Column(name = "event_name")
     private String eventName;
 
-   @Enumerated(EnumType.STRING)
-   @Column(name = "event_type")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "event_type")
     private EventType eventType;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -160,5 +160,21 @@ public class Event {
         result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName='" + eventName + '\'' +
+                ", eventType=" + eventType +
+                ", author=" + author +
+                ", location='" + location + '\'' +
+                ", participants=" + participants +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", eventCreated=" + eventCreated +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
