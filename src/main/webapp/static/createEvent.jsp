@@ -17,6 +17,7 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -25,6 +26,16 @@
 </head>
 
 <body>
+
+<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+
+<a href="/welcome" class="btn">Home</a>
+<a href="/index" class="btn">Calendar</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
+<a href="/create-event" class="btn">Create new event</a>
+<a href="/events" class="btn">All events</a>
+<a href="/logout" class="btn">Logout</a>
+ <p><p>
 
 <div class="container">
 
@@ -55,21 +66,22 @@
 
         <spring:bind path="location">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="location" class="form-control" placeholder="Location of the event"
+                <form:input type="text" path="location" class="form-control"
+                            placeholder="Location of the event"
                             autofocus="true"></form:input>
             </div>
         </spring:bind>
 
-
         <spring:bind path="startTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="startTime" class="form-control" placeholder="Start time"></form:input>
+                <form:input type="datetime-local" path="startTime" class="form-control" autofocus="true"
+                            placeholder="Start time"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="endTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="endTime" class="form-control"
+                <form:input type="datetime-local" path="endTime" class="form-control" autofocus="true"
                             placeholder="End time"></form:input>
             </div>
         </spring:bind>

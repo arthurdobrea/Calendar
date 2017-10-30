@@ -1,19 +1,26 @@
 package com.calendar.project.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
+
 import java.util.List;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
-
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,19 +51,18 @@ public class User {
         this.username = username;
     }
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles  = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> events; //events in which user participates
 
-    @OneToMany
-    private List<Event> eventsOfAuthor; //events where user is the author
+    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public Long getId() {
         return id;
@@ -138,6 +144,7 @@ public class User {
         this.events = events;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -145,23 +152,21 @@ public class User {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        return password != null ? password.equals(user.password) : user.password == null;
+        if (!id.equals(user.id)) return false;
+        if (!username.equals(user.username)) return false;
+        if (!firstname.equals(user.firstname)) return false;
+        if (!lastname.equals(user.lastname)) return false;
+        if (!email.equals(user.email)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!confirmPassword.equals(user.confirmPassword)) return false;
+        if (!roles.equals(user.roles)) return false;
+        if (!events.equals(user.events)) return false;
+        return eventsOfAuthor.equals(user.eventsOfAuthor);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        return result;
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, events, eventsOfAuthor);
     }
 
     @Override
@@ -174,6 +179,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +
+                //", roles=" + roles +
                 //", events=" + events +
                 //", eventsOfAuthor=" + eventsOfAuthor +
                 '}';
