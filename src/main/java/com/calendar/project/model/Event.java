@@ -1,11 +1,6 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.annotation.Reference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,9 +9,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 @Entity
 @Table(name = "events")
 public class Event implements Serializable {
@@ -34,7 +26,6 @@ public class Event implements Serializable {
     private EventType eventType;
 
     @JsonBackReference(value = "child")
-//    @Reference(value = "child")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
@@ -60,7 +51,8 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Event(){}
+    public Event() {
+    }
 
     public Long getId() {
         return id;

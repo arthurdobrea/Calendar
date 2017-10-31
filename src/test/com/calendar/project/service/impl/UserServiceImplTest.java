@@ -11,15 +11,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    private UserService userService;
+    private User user;
+
+    @Mock
+    private UserDao userDao;
 
     @Mock
     private RoleDao roleDao;
@@ -27,10 +27,7 @@ public class UserServiceImplTest {
     @Mock
     private BCryptPasswordEncoder pe;
 
-    @Mock
-    private UserDao userDao;
-
-    private User user;
+    private UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -49,9 +46,9 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void existTest(){
+    public void existTest() throws Exception {
         Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
-        Assert.assertEquals(true,userService.exists(user.getUsername()));
+        Assert.assertEquals(true, userService.exists(user.getUsername()));
     }
 
     @Test
@@ -63,4 +60,15 @@ public class UserServiceImplTest {
         Mockito.verify(userDao, Mockito.times(1)).findByUsername(user.getUsername());
     }
 
+    @Test
+    public void updateUserTest() throws Exception {
+        Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
+
+        user.setFirstname("Firstname");
+        user.setLastname("Lastname");
+        user.setEmail("email@mail");
+        userDao.update(user);
+
+        Assert.assertEquals(userService.findByUsername(user.getUsername()), user);
+    }
 }

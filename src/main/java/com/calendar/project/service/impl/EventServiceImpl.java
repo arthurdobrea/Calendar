@@ -6,12 +6,7 @@ import com.calendar.project.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -32,8 +27,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEventsByUser(long userId) {
-        List<Event> result = eventDao.getEventsByUser(userId);
-        return result;
+        return eventDao.getEventsByUser(userId);
     }
 
     @Override

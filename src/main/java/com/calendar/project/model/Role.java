@@ -1,8 +1,6 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -71,12 +69,10 @@ public class Role implements Serializable {
     }
 
     @Override
-public String toString() {
-    return "Role{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-           // ", users=" + users +
-            '}';
-}
-
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

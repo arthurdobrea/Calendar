@@ -1,14 +1,5 @@
 package com.calendar.project.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -22,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,16 +38,10 @@ public class User implements Serializable{
     @Transient
     private String confirmPassword;
 
-    public User(){};
-
-    public User(String username) {
-        this.username = username;
-    }
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles  = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
@@ -64,8 +49,15 @@ public class User implements Serializable{
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events; //events in which user participates
 
-    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
+
+    public User() {
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;

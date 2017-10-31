@@ -1,8 +1,6 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.config.*;
-import com.calendar.project.dao.RoleDao;
-import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.junit.Assert;
@@ -13,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +32,7 @@ public class UserDaoTest {
     private EntityManager entityManager;
 
     @Before
-    public void setup() {
+    public void setUp() {
         user = new User("UserTest12");
         Role role = new Role("ROLE_USER");
         role.setId(1L);
@@ -52,22 +49,21 @@ public class UserDaoTest {
     }
 
     @Test
-    public void daoFindByUserNameTest() {
+    public void daoFindByUserNameTest() throws Exception {
         User userFromDb = userDao.findByUsername(user.getUsername());
         Assert.assertEquals(user, userFromDb);
 
     }
 
     @Test
-    public void daoPersistUserTest() {
+    public void daoPersistUserTest() throws Exception {
         userDao.save(user);
         User userFromDb = userDao.findByUsername(user.getUsername());
         Assert.assertEquals(user, userFromDb);
     }
 
     @Test
-    public void daoUpdateUserTest() {
-        User user = new User("UserTest");
+    public void daoUpdateUserTest() throws Exception {
         user.setFirstname("changed name");
         user.setLastname("changed name 2");
         user.setEmail("changedemail@gmail.com");

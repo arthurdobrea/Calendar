@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -30,14 +29,13 @@ public class JSONControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setup () {
+    public void setUp() {
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         this.mockMvc = builder.build();
     }
 
     @Test
-    public void testJSONController () throws Exception {
-
+    public void testJSONController() throws Exception {
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/json/users")
                 .accept(MediaType.APPLICATION_JSON);
         this.mockMvc.perform(builder)
@@ -47,11 +45,10 @@ public class JSONControllerTest {
 
 
         builder = MockMvcRequestBuilders.get("/json/events")
-            .accept(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON);
         this.mockMvc.perform(builder)
-            .andExpect(MockMvcResultMatchers.status()
+                .andExpect(MockMvcResultMatchers.status()
                         .isOk())
-            .andDo(MockMvcResultHandlers.print());
-
-}
+                .andDo(MockMvcResultHandlers.print());
+    }
 }

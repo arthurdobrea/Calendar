@@ -127,5 +127,4 @@ public class EventController {
         model.addAttribute("events", eventService.getEvent(event.getId()));
         return "usersByEvents";
     }
-
 }

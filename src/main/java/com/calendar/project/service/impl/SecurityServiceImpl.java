@@ -1,7 +1,6 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.service.SecurityService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,11 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    public SecurityServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public String findLoggedInUsername() {
