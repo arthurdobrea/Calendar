@@ -1,5 +1,6 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
@@ -67,6 +68,7 @@ public class UserController {
             model.addAttribute("message", "Logged out successfully.");
         }
 
+        EmailSender.send();
         return "login";
     }
 
