@@ -24,6 +24,7 @@
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <junit.version>4.12</junit.version>
+        <java-mail.version>1.4.7</java-mail.version>
     </properties>
 
     <build>
@@ -180,8 +181,27 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.0.0.RELEASE</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Java email sender jar's -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${java-mail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>smtp</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1</version>
         </dependency>
 
     </dependencies>
