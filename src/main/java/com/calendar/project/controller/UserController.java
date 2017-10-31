@@ -96,6 +96,13 @@ public class UserController {
         return "userControlPanel";
     }
 
+    @RequestMapping(value = "/userPage", method = RequestMethod.GET)
+    public String userPage() {
+
+
+        return "userPage";
+    }
+
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
         model.addAttribute("userForm", new User());
