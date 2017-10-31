@@ -63,8 +63,8 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-
-        EmailSender.send();
+        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
+        //EmailSender.send();
         return "login";
     }
 
