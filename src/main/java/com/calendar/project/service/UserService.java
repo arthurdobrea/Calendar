@@ -1,7 +1,6 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.User;
-
 import java.util.List;
 
 public interface UserService {

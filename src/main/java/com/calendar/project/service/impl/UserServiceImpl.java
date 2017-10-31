@@ -10,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,9 +36,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getRole(1L));
         user.setRoles(roles);
+
         userDao.save(user);
     }
 
@@ -57,11 +57,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
+
         for (User user : users) {
             if (user != null) {
                 Hibernate.initialize(user.getRoles());
             }
         }
+
         return users;
     }
 

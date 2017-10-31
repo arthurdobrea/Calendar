@@ -6,23 +6,19 @@ import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/json")
 public class JSONController {
 
-        @Autowired
-        UserService userService;
+    @Autowired
+    UserService userService;
 
-        @Autowired
-        EventService eventService;
+    @Autowired
+    EventService eventService;
 
 //        @RequestMapping(value = "/register", method = RequestMethod.POST,
 //                consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -32,18 +28,19 @@ public class JSONController {
 //            userService.save(user);
 //        }
 
-        @RequestMapping(value = "/users",
-                method = RequestMethod.GET,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-        @ResponseStatus(HttpStatus.OK)
-        public @ResponseBody List<User> getUserInJSON() {
-            return userService.getAllUsers();
-        }
+    @RequestMapping(value = "/users",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<User> getUserInJSON() {
+        return userService.getAllUsers();
+    }
 
-        @RequestMapping(value = "/events",
-                method = RequestMethod.GET,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-        @ResponseStatus(HttpStatus.OK)
-        public @ResponseBody List<Event> getEventInJSON() {
-                return eventService.getAllEvents();}
-        }
+    @RequestMapping(value = "/events",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<Event> getEventInJSON() {
+        return eventService.getAllEvents();
+    }
+}
