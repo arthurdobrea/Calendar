@@ -32,7 +32,7 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
  <p><p>
@@ -96,7 +96,7 @@
         
         <spring:bind path="participants">
         <div class="form-group ${status.error ? 'has-error' : ''}">
-            <form:select path = "participants" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+            <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
                           multiple="true" />
             </div>
         </spring:bind>

@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Reference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ import java.util.Set;
 public class Event implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -41,8 +43,10 @@ public class Event implements Serializable {
     private String location;
 
     @JsonBackReference(value = "child")
-    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    private Set<User> participants;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> participants;
 
     @Column(name = "timebegin")
     private String startTime;

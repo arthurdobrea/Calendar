@@ -43,7 +43,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public void deleteEvent(Event event){
+    public void deleteEvent(Event eventToDelete){
+        Event event = eventDao.getEvent(eventToDelete.getId());
         eventDao.deleteEvent(event);
     }
 
@@ -53,7 +54,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventDao.getEvent(editedEvent.getId());
         event.setEventName(editedEvent.getEventName());
         event.setEventType(editedEvent.getEventType());
-        //add event.setParticipants
+        event.setParticipants(editedEvent.getParticipants());
         event.setDescription(editedEvent.getDescription());
         event.setLocation(editedEvent.getLocation());
         event.setStartTime(editedEvent.getStartTime());
