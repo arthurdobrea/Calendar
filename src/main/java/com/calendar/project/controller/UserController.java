@@ -2,6 +2,7 @@ package com.calendar.project.controller;
 
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
@@ -16,6 +17,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -99,6 +105,21 @@ public class UserController {
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String userPage() {
 
+
+        return "userPage";
+    }
+
+    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
+        User user = securityService.findLoggedInUsername();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String ptr: checkboxValue){
+            stringBuilder.append(ptr + ',');
+        }
+        String res = stringBuilder.toString();
+        user.setLabels(res);
+        user.setLastname("OLEG");
+        userService.update(user);
 
         return "userPage";
     }
