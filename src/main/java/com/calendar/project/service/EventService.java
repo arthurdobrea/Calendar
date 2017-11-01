@@ -1,16 +1,24 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
+
 import java.util.List;
 
+/**
+ * Created by mhristiniuc on 10/25/2017.
+ */
 public interface EventService {
 
-    void saveEvent(Event event);
+    public void saveEvent(Event event);
 
-    List<Event> getAllEvents();
+    public List<Event> getAllEvents();
 
-    Event getEvent(long eventId);
+    public Event getEvent(long eventId);
+    public Event getEventByName(String eventName);
 
-    List<Event> getEventsByUser(long id);
+    public List<Event> getEventsByUser(long id);
+
+    public List<EventType> getEventTypeList();
 
 }

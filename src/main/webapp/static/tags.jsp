@@ -21,14 +21,9 @@
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 <p><p>
-<h2>Events:</h2>
-<c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType.view()} |
-        <a href="/participants/${event.eventName}"> participants</a></p>
-    <p> <c:forEach items="${event.getParticipants()}" var="participant">
-        <p>${participant.username}</p>
-    </p>
-    </c:forEach>
+<h2>Tags:</h2>
+<c:forEach items="${tags}" var="tag">
+    <p>Tag: ${tag.tag} | <a href="/delete/${tag.id}"> delete me!</a></p>
 </c:forEach>
 </body>
 </html>

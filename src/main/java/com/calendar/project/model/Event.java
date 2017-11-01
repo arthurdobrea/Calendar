@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+/**
+ * Created by mhristiniuc on 10/25/2017.
+ */
 @Entity
 @Table(name = "events")
 public class Event implements Serializable {
@@ -23,6 +26,7 @@ public class Event implements Serializable {
     private EventType eventType;
 
     @JsonBackReference(value = "child")
+//    @Reference(value = "child")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
@@ -46,8 +50,13 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Event() {
-    }
+    //@ManyToMany(mappedBy = "tags",fetch = FetchType.EAGER )
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
+
+    public Event(){}
 
     public Long getId() {
         return id;
@@ -127,6 +136,14 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override

@@ -13,7 +13,7 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Create an account</title>
+    <title>Create an event</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -46,15 +46,10 @@
         <spring:bind path="eventType">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select  path="eventType" class="form-control" >
-
                     <option value="">Select Event Type</option>
-                    <option value="MEETING">Meeting</option>
-                    <option value="TRAINING">Training</option>
-                    <option value="STANDUP">Stand up</option>
-                    <option value="OFFLINE">Offline</option>
-                    <option value="TEAM_BUILDING">Team building</option>
-                    <option value="WORKSHOP">Workshop</option>
-                    <option value="OTHER">Other</option>
+                    <c:forEach items="${eventsList}" var="eventType">
+                        <option value="${eventType}"> ${eventType.view()} </option>
+                    </c:forEach>
         </form:select>
             </div>
         </spring:bind>

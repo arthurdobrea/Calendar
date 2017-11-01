@@ -40,8 +40,8 @@ public class EmailSender {
 
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress("adamaa14@gmail.com"));
-            msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("kuzea.k96@gmail.com",false));
+          //  msg.setRecipients(Message.RecipientType.TO,
+          //          InternetAddress.parse("kuzea.k96@gmail.com",false));
             msg.setSubject("KUZEEAAAAAAAA");
             msg.setText("I AM BEHIND YOU ");
             msg.setSentDate(new Date());
