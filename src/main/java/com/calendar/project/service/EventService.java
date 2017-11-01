@@ -9,12 +9,14 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    Event getEvent(long eventId);
+    Event getEvent(Long eventId);
 
     List<Event> getEventsByUser(long id);
 
-    public void deleteEvent(Event event);
+    void deleteEvent(Event event);
 
-    public void updateEvent(Event editedEvent);
+    void updateEvent(Event editedEvent);
+
+    List<Event> getEventsByAuthor(long authorId);
 
 }

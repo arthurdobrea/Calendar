@@ -15,4 +15,6 @@ public interface UserService {
 
     void update(User editedUser);
 
+    User getUser(long id);
+
 }

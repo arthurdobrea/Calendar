@@ -40,6 +40,7 @@ public class EventController {
         return "events";
     }
 
+
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
     public String updateEvent(Long eventId, Model model){
         model.addAttribute("eventForm", eventService.getEvent(eventId));
@@ -80,10 +81,10 @@ public class EventController {
 
     @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
-        Event e = new Event();
+        Event event = new Event();
         List<User> participants = userDao.getAll().stream().collect(Collectors.toList());
-        e.setParticipants(participants);
-        model.addAttribute("eventForm", e);
+        event.setParticipants(participants);
+        model.addAttribute("eventForm", event);
         //model.addAttribute("participants", participants);
 
         return "createEvent";
@@ -98,8 +99,8 @@ public class EventController {
         }
 
         eventForm.setParticipants(participans);
-        String username = securityService.findLoggedInUsername();
-        eventForm.setAuthor(userService.findByUsername(username));  // TODO maybe it is better to move to service
+        User user = securityService.findLoggedInUsername();
+        eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
         redirectAttributes.addAttribute("eventId", eventForm.getId());
         //model.addAttribute("event", eventForm);

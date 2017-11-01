@@ -14,7 +14,7 @@ import java.util.Set;
 public class Event implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -25,8 +25,8 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @JsonBackReference(value = "child")
-    @ManyToOne(fetch = FetchType.EAGER)
+   @JsonBackReference(value = "child")
+    @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 

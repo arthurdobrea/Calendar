@@ -31,8 +31,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(long eventId) {
-        return eventDao.getEvent(eventId);
+    public List<Event> getEventsByAuthor(long authorId){
+        return eventDao.getEventsByAuthor(authorId);
+    }
+
+    @Override
+    public Event getEvent(Long id) {
+        return eventDao.getEvent(id);
     }
 
     @Override

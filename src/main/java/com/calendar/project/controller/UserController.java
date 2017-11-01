@@ -16,12 +16,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class UserController {
 
     @Autowired
-    EventService eventServiceImpl;
+    EventService eventService;
 
     @Autowired
     private UserService userService;
@@ -97,11 +100,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String userPage() {
-
+    public String showMyEvents(  Model model, User user){
+        user = securityService.findLoggedInUsername();
+        List<Event> eventsByUser = eventService.getEventsByAuthor(user.getId());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("events", eventsByUser);
 
         return "userPage";
     }
+
+
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {

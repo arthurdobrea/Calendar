@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -28,7 +29,7 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
@@ -41,6 +42,19 @@
         <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
     </c:if>
-</div>
+
+        <h2>Events: ${events.size()}</h2>
+
+        <c:forEach items="${events}" var="event">
+        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+            <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
+            <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
+
+        </p>
+        </c:forEach>
+
+
+
+
 </body>
 </html>
