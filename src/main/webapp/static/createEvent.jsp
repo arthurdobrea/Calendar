@@ -32,14 +32,14 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
  <p><p>
 
 <div class="container">
 
-    <form:form method="POST" modelAttribute="eventForm" class="form-signin">
+    <form:form method="POST" action="${contextPath}/createEvent" modelAttribute="eventForm" class="form-signin">
         <h2 class="form-signin-heading">Create your event</h2>
         <spring:bind path="eventName">
             <div class="form-group ${status.error ? 'has-error' : ''}">

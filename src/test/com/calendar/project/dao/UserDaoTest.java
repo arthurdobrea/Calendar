@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
+import java.util.Set;
 
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)

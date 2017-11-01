@@ -1,3 +1,9 @@
+drop TABLE roles;
+drop TABLE users;
+drop TABLE user_roles;
+
+drop TABLE events;
+drop TABLE events_users;
 -- auto-generated definition
 CREATE TABLE users
 (
@@ -44,16 +50,15 @@ INSERT INTO users(id, username, firstname, lastname, email, password)
     VALUES (99, 'UserTest', 'Qawsed', 'Qawsed', 'adamaa14@gmail.com', '$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG');
 
 INSERT INTO user_roles VALUES(99, 1);
-
 CREATE TABLE events(
   id        BIGSERIAL NOT NULL
     CONSTRAINT events_pkey
     PRIMARY KEY,
   event_type  VARCHAR(255),
   event_location VARCHAR(255),
-  timebegin  TIMESTAMP,
-  timend     TIMESTAMP,
-  createdata  TIMESTAMP,
+  timebegin  TIMESTAMP WITHOUT TIME ZONE,
+  timend     TIMESTAMP WITHOUT TIME ZONE,
+  createdata  TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
   description VARCHAR(255),
   author_user_id BIGINT
     CONSTRAINT events_users__fk
@@ -71,4 +76,4 @@ CREATE TABLE events_users(
 );
 
 insert into events values(1, 'MEETING', 'NBC','2017-11-11 10:23:54', '2017-11-11 10:24:54',
-                          '2017-11-11 10:23:54', 'description', '1', 'example');
+                          now(), 'description', '1', 'example');

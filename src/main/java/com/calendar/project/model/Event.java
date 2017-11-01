@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.Reference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,17 +22,16 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "event_name")
-    private String eventName;
+    private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
     private EventType eventType;
 
     @JsonBackReference(value = "child")
-//    @Reference(value = "child")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
@@ -43,12 +43,15 @@ public class Event implements Serializable {
     @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     private Set<User> participants;
 
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
-    private String startTime;
+    private String start;
 
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
-    private String endTime;
+    private String end;
 
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
     private LocalDateTime eventCreated;
 
@@ -57,20 +60,28 @@ public class Event implements Serializable {
 
     public Event(){}
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getEventName() {
-        return eventName;
+//    public String getEventName() {
+//        return title;
+//    }
+//
+//    public void setEventName(String eventName) {
+//        this.title = eventName;
+//    }
+
+    public EventType getEventType() {
+        return eventType;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public User getAuthor() {
@@ -97,36 +108,28 @@ public class Event implements Serializable {
         this.participants = participants;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+//    public String getStartTime() {
+//        return start;
+//    }
+//
+//    public void setStartTime(String startTime) {
+//        this.start = startTime;
+//    }
+//
+//    public String getEndTime() {
+//        return end;
+//    }
+//
+//    public void setEndTime(String endTime) {
+//        this.end = endTime;
+//    }
 
     public LocalDateTime getEventCreated() {
-        return eventCreated.now();
+        return eventCreated;
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
-    }
-
-    public EventType getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(EventType event_type) {
-        this.eventType = event_type;
     }
 
     public String getDescription() {
@@ -137,6 +140,30 @@ public class Event implements Serializable {
         this.description = description;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,30 +171,30 @@ public class Event implements Serializable {
 
         Event event = (Event) o;
 
-        if (id != null ? !id.equals(event.id) : event.id != null) return false;
-        if (eventName != null ? !eventName.equals(event.eventName) : event.eventName != null) return false;
+        if (id != event.id) return false;
+        if (!title.equals(event.title)) return false;
         if (eventType != event.eventType) return false;
-        if (author != null ? !author.equals(event.author) : event.author != null) return false;
-        if (location != null ? !location.equals(event.location) : event.location != null) return false;
-        if (participants != null ? !participants.equals(event.participants) : event.participants != null) return false;
-        if (startTime != null ? !startTime.equals(event.startTime) : event.startTime != null) return false;
-        if (endTime != null ? !endTime.equals(event.endTime) : event.endTime != null) return false;
-        if (eventCreated != null ? !eventCreated.equals(event.eventCreated) : event.eventCreated != null) return false;
-        if (description != null ? !description.equals(event.description) : event.description != null) return false;
-
-        return true;
+        if (!author.equals(event.author)) return false;
+        if (!location.equals(event.location)) return false;
+        if (!participants.equals(event.participants)) return false;
+        if (!start.equals(event.start)) return false;
+        if (!end.equals(event.end)) return false;
+        if (!eventCreated.equals(event.eventCreated)) return false;
+        return description.equals(event.description);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (eventName != null ? eventName.hashCode() : 0);
-        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = id;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + eventType.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + location.hashCode();
+        result = 31 * result + participants.hashCode();
+        result = 31 * result + start.hashCode();
+        result = 31 * result + end.hashCode();
+        result = 31 * result + eventCreated.hashCode();
+        result = 31 * result + description.hashCode();
         return result;
     }
 
@@ -175,13 +202,13 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", eventName='" + eventName + '\'' +
+                ", eventName='" + title + '\'' +
                 ", eventType=" + eventType +
                 //", author=" + author +
                 ", location='" + location + '\'' +
                 //", participants=" + participants +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", startTime=" + start +
+                ", endTime=" + end +
                 ", eventCreated=" + eventCreated +
                 ", description='" + description + '\'' +
                 '}';

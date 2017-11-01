@@ -6,13 +6,10 @@ import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/json")
@@ -23,14 +20,6 @@ public class JSONController {
 
         @Autowired
         EventService eventService;
-
-//        @RequestMapping(value = "/register", method = RequestMethod.POST,
-//                consumes = MediaType.APPLICATION_JSON_VALUE)
-//        @ResponseStatus(HttpStatus.CREATED)
-//        public void handleJsonPostRequest (@RequestBody User user, Model model) {
-//            System.out.println("saving user: "+ user);
-//            userService.save(user);
-//        }
 
         @RequestMapping(value = "/users",
                 method = RequestMethod.GET,
@@ -45,5 +34,21 @@ public class JSONController {
                 produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody List<Event> getEventInJSON() {
-                return eventService.getAllEvents();}
+                return eventService.getAllEvents();
         }
+
+    @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Event>> getAll() {
+        List<Event> events = eventService.getAllEvents();
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+//    @RequestMapping(value="/allEvents", method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.OK)
+//    @ResponseBody
+//    public List<Event> handleAllUserRequest () {
+//        return eventService.getAllEventsForCalendar();
+//    }
+}

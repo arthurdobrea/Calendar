@@ -17,4 +17,5 @@ public interface EventService {
 
     public List<Event> getEventsByUser(long id);
 
+    List<Event> getAllEventsForCalendar();
 }
