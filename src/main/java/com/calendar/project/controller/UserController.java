@@ -92,14 +92,27 @@ public class UserController {
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
     public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
+        userForm = userService.findByUsername(auth.getName());
 
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("firstname", user.getFirstname());
-        model.addAttribute("lastname", user.getLastname());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("username", userForm.getUsername());
+        model.addAttribute("firstname", userForm.getFirstname());
+        model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("email", userForm.getEmail());
 
         return "userControlPanel";
+    }
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
@@ -122,14 +135,5 @@ public class UserController {
         userService.update(user);
 
         return "userPage";
-    }
-
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        model.addAttribute("userForm", new User());
-
-        userService.update(userForm);
-
-        return "redirect:/index";
     }
 }
