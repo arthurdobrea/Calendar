@@ -17,6 +17,4 @@ public interface EventDao {
     Event getEvent(long eventId);
 
     List<Event> getEventsByUser(long userId);
-
-    List<Event> getEventsForCalendar();
 }

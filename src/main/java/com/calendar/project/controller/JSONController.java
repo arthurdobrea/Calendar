@@ -43,12 +43,4 @@ public class JSONController {
         List<Event> events = eventService.getAllEvents();
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
-
-//    @RequestMapping(value="/allEvents", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public List<Event> handleAllUserRequest () {
-//        return eventService.getAllEventsForCalendar();
-//    }
 }

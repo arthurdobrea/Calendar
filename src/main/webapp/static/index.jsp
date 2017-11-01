@@ -17,21 +17,31 @@
     <script src="${contextPath}/resources/js/angular.min.js"></script>
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/gcal.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
 <script>
         $(document).ready(function() {
 
             $('#calendar').fullCalendar({
-
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay,listWeek'
+                    right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
-                defaultDate: '2017-11-01',
+                defaultDate: $('#calendar').fullCalendar('today'),//'2017-11-01',
                 navLinks: true, // can click day/week names to navigate views
                 //editable: true,
                 eventLimit: true,
+                eventClick: function() {
+                    // opens events in a popup window
+
+                    window.open('/createEvent', 'gcalevent', 'width=700,height=600');
+                    return false;
+                },
+
+                loading: function(bool) {
+                    $('#loading').toggle(bool);
+                },
                 events: {url:'/json/allEvents'
                     }
           //}//'//[
@@ -110,7 +120,6 @@
 </head>
 <body>
 
-<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>

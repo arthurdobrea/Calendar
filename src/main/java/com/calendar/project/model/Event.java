@@ -43,15 +43,13 @@ public class Event implements Serializable {
     @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     private Set<User> participants;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private String start;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
     private String end;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
     private LocalDateTime eventCreated;
 
@@ -67,14 +65,6 @@ public class Event implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public String getEventName() {
-//        return title;
-//    }
-//
-//    public void setEventName(String eventName) {
-//        this.title = eventName;
-//    }
 
     public EventType getEventType() {
         return eventType;
@@ -107,22 +97,6 @@ public class Event implements Serializable {
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
-
-//    public String getStartTime() {
-//        return start;
-//    }
-//
-//    public void setStartTime(String startTime) {
-//        this.start = startTime;
-//    }
-//
-//    public String getEndTime() {
-//        return end;
-//    }
-//
-//    public void setEndTime(String endTime) {
-//        this.end = endTime;
-//    }
 
     public LocalDateTime getEventCreated() {
         return eventCreated;

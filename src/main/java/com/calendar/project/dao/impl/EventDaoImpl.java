@@ -53,12 +53,4 @@ public class EventDaoImpl implements EventDao{
         result = entityManager.createQuery("FROM Event e").getResultList();
         return result;
     }
-
-    public List<Event> getEventsForCalendar(){
-        List<Event> result;
-        result = entityManager.createQuery("select e.id, e.title, e.start, e.end FROM Event e").getResultList();
-        return result;
-    }
-
-
 }

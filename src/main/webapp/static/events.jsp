@@ -23,7 +23,7 @@
 <p><p>
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType}</p>
+    <p>Name: ${event.title} | Type of event: ${event.eventType}</p>
 </c:forEach>
 </body>
 </html>

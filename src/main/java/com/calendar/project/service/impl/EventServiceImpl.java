@@ -40,7 +40,4 @@ public class EventServiceImpl implements EventService {
     public Event getEvent(long eventId) {
         return eventDao.getEvent(eventId);
     }
-
-    @Override
-    public List<Event> getAllEventsForCalendar(){ return eventDao.getEventsForCalendar();}
 }

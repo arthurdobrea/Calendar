@@ -41,9 +41,9 @@
 
     <form:form method="POST" action="${contextPath}/createEvent" modelAttribute="eventForm" class="form-signin">
         <h2 class="form-signin-heading">Create your event</h2>
-        <spring:bind path="eventName">
+        <spring:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="eventName" class="form-control" placeholder="Event name"
+                <form:input type="text" path="title" class="form-control" placeholder="Event name"
                             autofocus="true"></form:input>
             </div>
         </spring:bind>
@@ -72,16 +72,16 @@
             </div>
         </spring:bind>
 
-        <spring:bind path="startTime">
+        <spring:bind path="start">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="startTime" class="form-control" autofocus="true"
+                <form:input type="datetime-local" path="start" class="form-control" autofocus="true"
                             placeholder="Start time"></form:input>
             </div>
         </spring:bind>
 
-        <spring:bind path="endTime">
+        <spring:bind path="end">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="endTime" class="form-control" autofocus="true"
+                <form:input type="datetime-local" path="end" class="form-control" autofocus="true"
                             placeholder="End time"></form:input>
             </div>
         </spring:bind>
