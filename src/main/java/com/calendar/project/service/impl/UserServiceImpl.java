@@ -70,13 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User editedUser) {
-        User user = userDao.findByUsername(editedUser.getUsername());
-
-        user.setFirstname(editedUser.getFirstname());
-        user.setLastname(editedUser.getLastname());
-        user.setEmail(editedUser.getEmail());
-
-        userDao.update(user);
+        userDao.update(editedUser);
     }
 
     @Override

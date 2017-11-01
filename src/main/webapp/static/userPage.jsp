@@ -56,5 +56,15 @@
 
 
 
+
+    <form action="eventTypeLink" method="post">
+        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
+        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
+        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
+        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+        <input type="submit">
+    </form>
+
+</div>
 </body>
 </html>

@@ -61,3 +61,6 @@ CREATE TABLE events_users
   FOREIGN KEY (event_id) REFERENCES events(id)
 )
   ENGINE = InnoDB;
+
+ALTER TABLE `spring_security_app`.`users`
+ADD COLUMN `labels` VARCHAR(255) NULL AFTER `labels`;
