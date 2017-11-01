@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,7 +27,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getOne(1L));
+        roles.add(roleDao.getOne(2L));
         user.setRoles(roles);
         userDao.save(user);
     }
@@ -52,4 +52,38 @@ public class UserServiceImpl implements UserService {
     public boolean exists(String username) {
         return userDao.findByUsername(username) != null;
     }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userDao.findAllUsers();
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        User entity = userDao.findById(user.getId());
+        if(entity!=null){
+            entity.setUsername(entity.getUsername());
+            if(!user.getPassword().equals(entity.getPassword())){
+                entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
+            entity.setFirstname(user.getFirstname());
+            entity.setLastname(user.getLastname());
+            entity.setEmail(user.getEmail());
+            for(Role r: user.getRoles()){
+                userDao.updateRole(user.getId(), roleDao.findRoleIdByValue(r.getName()));
+            }
+            userDao.update(entity);
+        }
+    }
+    public User findById(Long id) {
+        User user = userDao.findById(id);
+        return user;
+    }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        userDao.deleteByUsername(username);
+    }
+
+
 }

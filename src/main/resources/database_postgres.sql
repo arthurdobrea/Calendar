@@ -12,7 +12,7 @@ CREATE TABLE users
 );
 
 -- auto-generated definition
-CREATE TABLE roles
+CREATE TABLE roleses
 (
   id   BIGSERIAL NOT NULL
     CONSTRAINT roles_pkey
@@ -28,13 +28,13 @@ CREATE TABLE user_roles
     REFERENCES users,
   role_id BIGINT
     CONSTRAINT user_roles_roles_id_fk
-    REFERENCES roles
+    REFERENCES roleses
 );
 
 INSERT INTO users (username, password) VALUES ('admin', '$2a$11$oBd.94VWAUq6RejwkI4sh.eo7XHOUXpw2oNAMFCLEHpV8fWUligLK');
 --password - 12345678
 
-INSERT INTO roles VALUES (1, 'ROLE_USER');
-INSERT INTO roles VALUES (2, 'ROLE_ADMIN');
+INSERT INTO roleses VALUES (1, 'ROLE_USER');
+INSERT INTO roleses VALUES (2, 'ROLE_ADMIN');
 
 INSERT INTO user_roles VALUES (1, 2);

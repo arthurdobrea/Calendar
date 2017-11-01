@@ -61,5 +61,4 @@ public class HibernateConfiguration {
         properties.put("hibernate.format_sql", "true");
         return properties;
     }
-
 }

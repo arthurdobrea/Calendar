@@ -9,6 +9,7 @@
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.min.js'></script>
+    <script src="${contextPath}/resources/css/bootstrap.min.css"></script>
     <script>
 
         $(document).ready(function() {
@@ -33,6 +34,7 @@
                         start: '2017-10-03',
                         end: '2017-10-6'
                     },
+
                     {
                         title: 'Long Event',
                         start: '2017-10-07',

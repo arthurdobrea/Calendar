@@ -1,46 +1,54 @@
 package com.calendar.project.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "APP_USER")
+public class User implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "firstname")
-    private String firstname;
-
-    @Column(name = "lastname")
-    private String lastname;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Transient
+    @Column(name = "FIRST_NAME")
+    private String firstname;
+
+    @Column(name = "LAST_NAME")
+    private String lastname;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+
+
+    @NotEmpty
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH,
+   CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE} )
+    @JoinTable(name = "USER_ROLE",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+    private Set<Role> roles = new HashSet<Role>();
+
+    @Transient //https://stackoverflow.com/questions/2154622/why-does-jpa-have-a-transient-annotation
     private String confirmPassword;
 
-    public User(){};
-
-    public User(String username) {
-        this.username = username;
-    }
-
-    @ManyToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+//    public User(){};
+//
+//    public User(String username) {
+//        this.username = username;
+//    }
 
     public Long getId() {
         return id;
@@ -102,8 +110,8 @@ public class User {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Set<Role> roleses) {
+        this.roles = roleses;
     }
 
     @Override
@@ -122,15 +130,15 @@ public class User {
         return roles.equals(user.roles);
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + username.hashCode();
-        result = 31 * result + firstname.hashCode();
-        result = 31 * result + lastname.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + roles.hashCode();
-        return result;
-    }
+//    @Override
+//    public int hashCode() {
+//        int result = id.hashCode();
+//        result = 31 * result + username.hashCode();
+//        result = 31 * result + firstname.hashCode();
+//        result = 31 * result + lastname.hashCode();
+//        result = 31 * result + email.hashCode();
+//        result = 31 * result + password.hashCode();
+//        result = 31 * result + roleses.hashCode();
+//        return result;
+//    }
 }

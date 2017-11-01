@@ -1,24 +1,30 @@
 package com.calendar.project.model;
 
 
+import com.calendar.project.service.impl.RoleProfile;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.Set;
 
 
 
 @Entity
-@Table(name = "roles")
+@Table(name = "APP_ROLE")
 public class Role {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name="name")
+    private String name = RoleProfile.USER.getRoleProfile();
+//    @Column(name = "name")
+//    private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+
+//    @ManyToMany(mappedBy = "name", fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH,
+//            CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE} )
+//    private Set<User> users;
 
     public Role() {
     }
@@ -44,22 +50,22 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", users=" + users +
-                '}';
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Role{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", users=" + users +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {
