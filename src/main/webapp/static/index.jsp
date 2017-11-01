@@ -125,6 +125,7 @@
 <a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/create-event" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
+<a href="/userPage" class="btn">User Page</a>
 <a href="/logout" class="btn">Logout</a>
 
 <div id='calendar'></div>

@@ -20,7 +20,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,25 +45,30 @@ public class User implements Serializable{
     @Transient
     private String confirmPassword;
 
-    public User(){};
+    //@ElementCollection(targetClass = String.class)
+    //@Enumerated(EnumType.STRING)
+    @Column(name = "labels")
+    private String labels;
 
-    public User(String username) {
-        this.username = username;
-    }
-
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles  = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private List<Event> events; //events in which user participates
 
-    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
+
+    public User() {
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -129,6 +134,14 @@ public class User implements Serializable{
         this.roles = roles;
     }
 
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
+    }
+
     public List<Event> getEventsOfAuthor() {
         return eventsOfAuthor;
     }
@@ -144,7 +157,6 @@ public class User implements Serializable{
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-
 
     @Override
     public boolean equals(Object o) {
