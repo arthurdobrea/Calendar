@@ -32,11 +32,17 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
+
     @Column(name = "password")
     private String password;
 
     @Transient
     private String confirmPassword;
+
+    //@ElementCollection(targetClass = String.class)
+    //@Enumerated(EnumType.STRING)
+    @Column(name = "labels")
+    private String labels;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -121,6 +127,14 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 
     public List<Event> getEventsOfAuthor() {

@@ -2,6 +2,7 @@ package com.calendar.project.controller;
 
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
@@ -16,6 +17,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -86,14 +92,27 @@ public class UserController {
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
     public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
+        userForm = userService.findByUsername(auth.getName());
 
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("firstname", user.getFirstname());
-        model.addAttribute("lastname", user.getLastname());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("username", userForm.getUsername());
+        model.addAttribute("firstname", userForm.getFirstname());
+        model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("email", userForm.getEmail());
 
         return "userControlPanel";
+    }
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
@@ -103,12 +122,18 @@ public class UserController {
         return "userPage";
     }
 
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        model.addAttribute("userForm", new User());
+    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
+        User user = securityService.findLoggedInUsername();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String ptr: checkboxValue){
+            stringBuilder.append(ptr + ',');
+        }
+        String res = stringBuilder.toString();
+        user.setLabels(res);
+        user.setLastname("OLEG");
+        userService.update(user);
 
-        userService.update(userForm);
-
-        return "redirect:/index";
+        return "userPage";
     }
 }

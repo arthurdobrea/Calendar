@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -41,6 +42,15 @@
         <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
     </c:if>
+
+    <form action="eventTypeLink" method="post">
+        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
+        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
+        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
+        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+        <input type="submit">
+    </form>
+
 </div>
 </body>
 </html>
