@@ -55,6 +55,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllUsers() {
+        return userDao.findAllUsers();
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        User entity = userDao.findById(user.getId());
+        if(entity!=null){
+            entity.setUsername(entity.getUsername());
+            if(!user.getPassword().equals(entity.getPassword())){
+                entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
+            entity.setFirstname(user.getFirstname());
+            entity.setLastname(user.getLastname());
+            entity.setEmail(user.getEmail());
+            for(Role r: user.getRoles()){
+                userDao.updateRole(user.getId(), roleDao.findRoleIdByValue(r.getName()));
+            }
+            userDao.update(entity);
+        }
+    }
+    public User findById(Long id) {
+        User user = userDao.findById(id);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByUsername(String username) {
+        userDao.deleteByUsername(userDao.findByUsername(username));
+    }
+
+
+
+    @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
 

@@ -1,8 +1,15 @@
 package com.calendar.project.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 @Entity
 @Table(name = "users")
@@ -24,7 +31,6 @@ public class User implements Serializable {
 
     @Column(name = "email")
     private String email;
-
 
     @Column(name = "password")
     private String password;
