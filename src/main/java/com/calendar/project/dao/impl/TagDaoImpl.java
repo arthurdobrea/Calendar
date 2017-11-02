@@ -28,8 +28,7 @@ public class TagDaoImpl implements TagDao{
 
     @Override
     public void deleteTag(Tag tag) {
-        entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
-        //entityManager.remove(tag);
+            entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
     }
 
     @Override

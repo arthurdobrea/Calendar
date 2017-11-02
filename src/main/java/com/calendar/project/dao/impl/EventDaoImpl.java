@@ -2,11 +2,13 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -42,7 +44,6 @@ public class EventDaoImpl implements EventDao {
     }
 
     public List<Event> getEventsByUser(Long userId) {
-
         User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
                 .setParameter("idOfUser", userId).getSingleResult();
 
@@ -53,6 +54,13 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getAllEvents() {
         return entityManager.createQuery("from Event e").getResultList();
     }
+
+//    public List<Event> getAllFutureEvents() {
+//        return entityManager.createQuery("from Event e where e.startTime>= :now")
+//                .setParameter("now", LocalDateTime.now())
+//                .getResultList();
+//    }
+
 
     @Override
     public Event getEvent(long eventId) {

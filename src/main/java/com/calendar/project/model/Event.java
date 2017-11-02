@@ -1,6 +1,8 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -38,10 +40,14 @@ public class Event implements Serializable {
     @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     private Set<User> participants;
 
+
     @Column(name = "timebegin")
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME)
     private String startTime;
 
+
     @Column(name = "timeend")
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME)
     private String endTime;
 
     @Column(name = "createdata")
@@ -50,10 +56,10 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    //@ManyToMany(mappedBy = "tags",fetch = FetchType.EAGER )
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
     public Event(){}

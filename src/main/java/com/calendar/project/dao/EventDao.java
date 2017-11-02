@@ -1,6 +1,7 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Tag;
 
 import java.util.List;
 import java.util.Set;
@@ -10,14 +11,17 @@ import java.util.Set;
  */
 public interface EventDao {
 
-    public void saveEvent(Event event);
+    void saveEvent(Event event);
 
-    public List<Event> getAllEvents();
+    List<Event> getAllEvents();
 
-    public Event getEvent(long eventId);
+    Event getEvent(long eventId);
 
-    public Event getEventByName(String eventName);
+    Event getEventByName(String eventName);
 
-    public List<Event> getEventsByUser(long userId);
+    List<Event> getEventsByUser(long userId);
+
+    //List<Event> getAllFutureEvents();
+
 
 }

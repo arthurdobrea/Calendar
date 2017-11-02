@@ -21,4 +21,6 @@ public interface EventService {
 
     public List<EventType> getEventTypeList();
 
+    public List<Event> getFutureEventsByType(EventType eventType);
+
 }

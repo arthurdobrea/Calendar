@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,7 @@ public class EventServiceImpl implements EventService {
         return eventDao.getAllEvents();
     }
 
+
     @Override
     public List<Event> getEventsByUser(long userId) {
         List<Event> result = eventDao.getEventsByUser(userId);
@@ -56,6 +58,17 @@ public class EventServiceImpl implements EventService {
             EventTypeList.add(eventType);
         }
         return EventTypeList;
+    }
+
+    @Override
+    public List<Event> getFutureEventsByType(EventType eventType) {
+        List<Event> eventList = new ArrayList<>();
+        for (Event event : getAllEvents()) {
+            String startDate = event.getStartTime().replace(' ','T'); // convert to ISO DateTime
+            LocalDateTime ldt =LocalDateTime.parse(startDate);
+            if (event.getEventType().equals(eventType)&& ldt.isAfter( LocalDateTime.now())) eventList.add(event);
+        }
+        return eventList;
     }
 
 

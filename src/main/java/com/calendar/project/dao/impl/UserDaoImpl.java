@@ -23,7 +23,13 @@ public class UserDaoImpl implements UserDao {
                 .findFirst()
                 .orElse(null);
     }
-
+    @Override
+    public List<User> getUsersByLabel(String label) {
+        List<User> users = entityManager.createQuery("from User u where u.labels Like :label", User.class)
+                .setParameter("label", "%"+label+"%")
+                .getResultList();
+        return users;
+    }
     @Override
     public void save(User user) {
         entityManager.persist(user);

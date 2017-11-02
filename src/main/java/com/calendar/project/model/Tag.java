@@ -14,10 +14,10 @@ public class Tag {
     @Column(name = "tag_name")
     private String tag;
 
-//    @ManyToMany(fetch = FetchType.EAGER )
-//    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
-//            inverseJoinColumns = @JoinColumn(name = "event_id"))
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+   @ManyToMany(fetch = FetchType.EAGER )
+   @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
+           inverseJoinColumns = @JoinColumn(name = "event_id"))
+//    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     private Set<Event> events;
 
     public Tag() {

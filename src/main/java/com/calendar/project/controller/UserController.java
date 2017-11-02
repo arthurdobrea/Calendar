@@ -38,6 +38,8 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -70,7 +72,7 @@ public class UserController {
             model.addAttribute("message", "Logged out successfully.");
         }
         // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        EmailSender.send();
+        //EmailSender.send();
         return "login";
     }
 
@@ -103,9 +105,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String userPage() {
-
-
+    public String userPage(Model model) {
+        model.addAttribute("eventsList", eventServiceImpl.getEventTypeList());
         return "userPage";
     }
 
@@ -118,9 +119,9 @@ public class UserController {
         }
         String res = stringBuilder.toString();
         user.setLabels(res);
-        user.setLastname("OLEG");
         userService.update(user);
-
+        //is mailing all events to current user  by his labels and event types.
+        userService.mailToUser(user);
         return "userPage";
     }
 
@@ -131,5 +132,17 @@ public class UserController {
         userService.update(userForm);
 
         return "redirect:/index";
+    }
+
+    // is mailing all events to all users when labels are equals to event types.
+    @RequestMapping(value = "/mailing", method = RequestMethod.GET)
+    public String mailing() {
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/mailing", method = RequestMethod.POST)
+    public String mailing(Model model) {
+        userService.mailToAllUsers();
+        return "mailing";
     }
 }

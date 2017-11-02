@@ -48,12 +48,10 @@ public class TagController {
     @RequestMapping(value = "/create-tag", method = RequestMethod.POST)
     public String createTag(@ModelAttribute("tagForm") Tag tagForm) {
         tagService.saveTag(tagForm);
-        return "redirect:/index";
+        return "redirect:/tags";
     }
     @RequestMapping(value = "/delete/{tag.id}", method = RequestMethod.GET)
     public String deleteTag (@PathVariable("tag.id") String tagId, ModelMap model)  {
-
-       // System.out.println("-------"+tagService.getTagById(tagId));
         tagService.deleteTag(tagService.getTag(new Long(tagId)));
         model.addAttribute("tags", tagService.getAllTags());
         return "redirect:/tags";

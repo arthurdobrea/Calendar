@@ -44,10 +44,11 @@
     </c:if>
 
     <form action="eventTypeLink" method="post">
-        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
-        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
-        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
-        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+       <c:forEach items="${eventsList}" var="eventType">
+           <p>${eventType.view()}
+           <input type="checkbox" name="checkboxName" value="${eventType}"/><br>
+        </c:forEach>
+           <p>
         <input type="submit">
     </form>
 
