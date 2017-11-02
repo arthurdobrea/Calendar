@@ -1,10 +1,11 @@
 package com.calendar.project.service;
 
-
+import com.calendar.project.model.User;
 
 public interface SecurityService {
 
-    String findLoggedInUsername();
+    User findLoggedInUsername();
 
     void autoLogin(String username, String password);
+
 }

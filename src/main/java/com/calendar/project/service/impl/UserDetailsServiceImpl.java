@@ -21,6 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
+    public UserDetailsServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);

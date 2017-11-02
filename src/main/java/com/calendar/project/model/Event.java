@@ -1,15 +1,21 @@
 package com.calendar.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "event_name")
@@ -19,15 +25,19 @@ public class Event {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+   @JsonBackReference(value = "child")
+    @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
     @Column(name = "event_location")
     private String location;
 
-    @ManyToMany(mappedBy = "events")
-    private Set<User> participants;
+    @JsonBackReference(value = "child")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> participants;
 
     @Column(name = "timebegin")
     private String startTime;
@@ -41,12 +51,7 @@ public class Event {
     @Column(name = "description")
     private String description;
 
-    public Event(){
-        //for Hibernate
-    }
-
-    public Event(String eventName) {
-        this.eventName = eventName;
+    public Event() {
     }
 
     public Long getId() {
@@ -81,11 +86,11 @@ public class Event {
         this.location = location;
     }
 
-    public Set<User> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<User> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
 
@@ -106,11 +111,11 @@ public class Event {
     }
 
     public LocalDateTime getEventCreated() {
-        return LocalDateTime.now();
+        return eventCreated.now();
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {
-        this.eventCreated = LocalDateTime.now();
+        this.eventCreated = eventCreated;
     }
 
     public EventType getEventType() {

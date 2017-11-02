@@ -1,17 +1,25 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 
 import java.util.List;
 
 public interface EventService {
 
-    public void saveEvent(Event event);
+    void saveEvent(Event event);
 
-    public List<Event> getAllEvents();
+    List<Event> getAllEvents();
 
-    public Event getEvent(long eventId);
+    Event getEvent(Long eventId);
 
-    public List<Event> getEventsByUser(long id);
+    List<Event> getEventsByUser(long id);
+
+    void deleteEvent(Event event);
+
+    void updateEvent(Event editedEvent);
+
+    List<Event> getEventsByAuthor(long authorId);
+
 
 }

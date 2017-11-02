@@ -8,7 +8,6 @@ public enum EventType {
     OFFLINE,
     TEAM_BUILDING;
 
-    EventType(){
-
+    EventType() {
     }
 }

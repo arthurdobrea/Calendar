@@ -1,6 +1,7 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.User;
+import java.util.List;
 
 public interface UserService {
 
@@ -10,5 +11,10 @@ public interface UserService {
 
     boolean exists(String username);
 
+    List<User> getAllUsers();
+
     void update(User editedUser);
+
+    User getUser(long id);
+
 }
