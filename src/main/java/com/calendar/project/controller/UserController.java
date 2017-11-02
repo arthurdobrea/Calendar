@@ -27,7 +27,7 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    EventService eventServiceImpl;
+    EventService eventService;
 
     @Autowired
     private UserService userService;
@@ -37,8 +37,6 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
-
-
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -94,20 +92,41 @@ public class UserController {
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
     public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
+        userForm = userService.findByUsername(auth.getName());
 
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("firstname", user.getFirstname());
-        model.addAttribute("lastname", user.getLastname());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("username", userForm.getUsername());
+        model.addAttribute("firstname", userForm.getFirstname());
+        model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("email", userForm.getEmail());
 
         return "userControlPanel";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String userPage(Model model) {
+    public String showMyEvents(  Model model, User user){
+        user = securityService.findLoggedInUsername();
+        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("eventsByAuthor", eventsByAuthor);
+        model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventServiceImpl.getEventTypeList());
         return "userPage";
+    }
+
+
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)

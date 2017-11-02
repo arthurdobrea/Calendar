@@ -1,14 +1,5 @@
 package com.calendar.project.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -17,6 +8,8 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+
 
 @Entity
 @Table(name = "users")
@@ -39,6 +32,7 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
+
     @Column(name = "password")
     private String password;
 
@@ -55,12 +49,14 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
+    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events; //events in which user participates
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {
@@ -158,6 +154,10 @@ public class User implements Serializable {
         this.events = events;
     }
 
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
+    }
+
     public Set<EventType> getLabelsAsEnums(){
         Set <EventType> labelSet=new HashSet();
         String labelArray[] = labels.split(",");
@@ -171,41 +171,26 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (confirmPassword != null ? !confirmPassword.equals(user.confirmPassword) : user.confirmPassword != null)
-            return false;
-        if (labels != null ? !labels.equals(user.labels) : user.labels != null) return false;
-        if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
-        if (events != null ? !events.equals(user.events) : user.events != null) return false;
-        return eventsOfAuthor != null ? eventsOfAuthor.equals(user.eventsOfAuthor) : user.eventsOfAuthor == null;
+        if (!id.equals(user.id)) return false;
+        if (!username.equals(user.username)) return false;
+        if (!firstname.equals(user.firstname)) return false;
+        if (!lastname.equals(user.lastname)) return false;
+        if (!email.equals(user.email)) return false;
+        if (!password.equals(user.password)) return false;
+        if (!confirmPassword.equals(user.confirmPassword)) return false;
+        if (!roles.equals(user.roles)) return false;
+        if (!events.equals(user.events)) return false;
+        return eventsOfAuthor.equals(user.eventsOfAuthor);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (confirmPassword != null ? confirmPassword.hashCode() : 0);
-        result = 31 * result + (labels != null ? labels.hashCode() : 0);
-        result = 31 * result + (roles != null ? roles.hashCode() : 0);
-        result = 31 * result + (events != null ? events.hashCode() : 0);
-        result = 31 * result + (eventsOfAuthor != null ? eventsOfAuthor.hashCode() : 0);
-        return result;
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, events, eventsOfAuthor);
     }
-
-
 
     @Override
     public String toString() {
@@ -214,12 +199,10 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                //", roles=" + roles +
-                //", events=" + events +
-                //", eventsOfAuthor=" + eventsOfAuthor +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", confirmPassword='" + confirmPassword + '\'' +
+//                ", roles=" + roles +
                 '}';
     }
 }

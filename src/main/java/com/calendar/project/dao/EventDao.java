@@ -3,25 +3,26 @@ package com.calendar.project.dao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Tag;
 
-import java.util.List;
-import java.util.Set;
+import com.calendar.project.model.User;
 
-/**
- * Created by mhristiniuc on 10/26/2017.
- */
+import java.util.List;
+
 public interface EventDao {
 
     void saveEvent(Event event);
 
     List<Event> getAllEvents();
 
-    Event getEvent(long eventId);
+    Event getEvent(Long eventId);
 
     Event getEventByName(String eventName);
 
     List<Event> getEventsByUser(long userId);
 
-    //List<Event> getAllFutureEvents();
+    void deleteEvent(Event event);
 
+    void updateEvent(Event event);
+
+    List<Event> getEventsByAuthor(long authorId);
 
 }

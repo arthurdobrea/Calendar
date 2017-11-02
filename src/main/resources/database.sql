@@ -63,4 +63,4 @@ CREATE TABLE events_users
   ENGINE = InnoDB;
 
 ALTER TABLE `spring_security_app`.`users`
-ADD COLUMN `labels` VARCHAR(255) NULL AFTER `labels`;
+ADD COLUMN `labels` VARCHAR(255) NULL AFTER `lastName`;

@@ -1,6 +1,5 @@
 package com.calendar.project.service;
 
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import java.util.List;
 
@@ -19,5 +18,7 @@ public interface UserService {
     void mailToAllUsers();
 
     void mailToUser(User user);
+
+    User getUser(long id);
 
 }

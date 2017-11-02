@@ -15,5 +15,7 @@ public interface UserDao {
 
     List<User> getUsersByLabel(String label);
 
+    User getUser(long id);
+
 
 }

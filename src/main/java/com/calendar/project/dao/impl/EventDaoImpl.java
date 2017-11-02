@@ -2,13 +2,11 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -39,12 +37,10 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getEventsByUser(long userId) {
-        return null;
-    }
 
-    public List<Event> getEventsByUser(Long userId) {
-        User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
+    public List<Event> getEventsByUser(long userId) {
+
+        User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
                 .setParameter("idOfUser", userId).getSingleResult();
 
         Hibernate.initialize(user.getEvents()); // TODO don't forget testing
@@ -55,15 +51,22 @@ public class EventDaoImpl implements EventDao {
         return entityManager.createQuery("from Event e").getResultList();
     }
 
-//    public List<Event> getAllFutureEvents() {
-//        return entityManager.createQuery("from Event e where e.startTime>= :now")
-//                .setParameter("now", LocalDateTime.now())
-//                .getResultList();
-//    }
+    public void deleteEvent(Event event){
+        entityManager.remove(event);
+    }
 
+    public void updateEvent(Event event){
+        entityManager.merge(event);
+    }
 
     @Override
-    public Event getEvent(long eventId) {
-        return null;
+    public List<Event> getEventsByAuthor(long authorId) {
+
+        List<Event> events = entityManager
+                .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
+                .setParameter("idOfAuthor", authorId).getResultList();
+
+        return events;
     }
+
 }

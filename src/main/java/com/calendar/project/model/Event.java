@@ -1,16 +1,14 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 @Entity
 @Table(name = "events")
 public class Event implements Serializable {
@@ -28,7 +26,6 @@ public class Event implements Serializable {
     private EventType eventType;
 
     @JsonBackReference(value = "child")
-//    @Reference(value = "child")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
@@ -37,14 +34,14 @@ public class Event implements Serializable {
     private String location;
 
     @JsonBackReference(value = "child")
-    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    private Set<User> participants;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> participants;
 
     @Column(name = "timebegin")
     @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME)
     private String startTime;
-
 
     @Column(name = "timeend")
     @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME)
@@ -96,11 +93,11 @@ public class Event implements Serializable {
         this.location = location;
     }
 
-    public Set<User> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<User> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
 
