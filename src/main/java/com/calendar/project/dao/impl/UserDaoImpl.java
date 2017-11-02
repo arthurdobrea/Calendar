@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -66,8 +67,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteByUsername(String username) {
-
+    public void deleteByUsername(User user) {
+        entityManager.remove(user);
     }
 
 }

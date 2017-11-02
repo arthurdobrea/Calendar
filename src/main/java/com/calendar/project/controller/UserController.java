@@ -117,7 +117,7 @@ public class UserController {
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
-        return "redirect:/list";
+        return "redirect:/admin";
     }
 
     private String getPrincipal(){

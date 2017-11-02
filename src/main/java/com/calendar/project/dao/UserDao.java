@@ -15,5 +15,5 @@ public interface UserDao{
     void update(User user);
     void updateRole(Long userId,  Long role_id);
 
-    void deleteByUsername(String username);
+    void deleteByUsername(User user);
 }
