@@ -10,6 +10,7 @@ import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +55,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -66,6 +67,15 @@ public class UserController {
         // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
         //EmailSender.send();
         return "login";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String mainPage(){
+        if(getPrincipal().equals("anonymousUser")){
+            return "redirect:/login";
+        } else {
+            return "/index";
+        }
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -110,5 +120,17 @@ public class UserController {
         userService.update(userForm);
 
         return "redirect:/index";
+    }
+
+    private String getPrincipal(){
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }
