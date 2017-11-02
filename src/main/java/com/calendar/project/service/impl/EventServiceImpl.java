@@ -1,11 +1,14 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.model.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,6 +49,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventDao.getEvent(eventToDelete.getId());
         eventDao.deleteEvent(event);
     }
+
 
     @Override
     @Transactional

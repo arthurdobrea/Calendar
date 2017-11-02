@@ -1,11 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>ShowEvent</title>
 </head>
 <body>
-<h2>You have created the following event:</h2>
+<h2>Event details:</h2>
+
+<form:form method="POST" modelAttribute="eventForm" class="form-signin">
+    <h2 class="form-signin-heading"></h2>
+
+    <spring:bind path="id">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
+                        autofocus="true"></form:input>
+        </div>
+    </spring:bind>
+</form:form>
 
     <p>Name: ${eventForm.eventName} <br>
         Type: ${eventForm.eventType}<br>

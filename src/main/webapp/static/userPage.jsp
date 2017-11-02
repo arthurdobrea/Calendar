@@ -30,6 +30,7 @@
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/createEvent" class="btn">Create new event</a>
+<a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
@@ -43,9 +44,9 @@
         </h2>
     </c:if>
 
-        <h2>Events: ${events.size()}</h2>
+        <h2>Events created by me: ${eventsByAuthor.size()}</h2>
 
-        <c:forEach items="${events}" var="event">
+        <c:forEach items="${eventsByAuthor}" var="event">
         <p>Name: ${event.eventName} | Type of event: ${event.eventType}
             <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
             <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
@@ -53,6 +54,15 @@
         </p>
         </c:forEach>
 
+
+
+    <h2>Events where I am invited: ${eventsByUser.size()}</h2>
+
+    <c:forEach items="${eventsByUser}" var="event">
+        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
+        </p>
+    </c:forEach>
 
 
 

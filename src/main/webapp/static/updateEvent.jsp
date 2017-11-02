@@ -21,10 +21,11 @@
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
 
 </head>
 
-<body>
+<body onload="eventStartValidation()">
 
 <div class="container">
 
@@ -34,20 +35,20 @@
         <spring:bind path="id">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
-                            autofocus="true"></form:input>
+                            autofocus="true" required="true"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="eventName">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="eventName" class="form-control" placeholder="Event name"
-                            autofocus="true"></form:input>
+                            autofocus="true" required="true"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="eventType">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:select  path="eventType" class="form-control" >
+                <form:select  path="eventType" class="form-control" required="true" >
 
                     <option value="">Select Event Type</option>
                     <option value="MEETING">Meeting</option>
@@ -64,36 +65,36 @@
         <spring:bind path="location">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="location" class="form-control" placeholder="Location of the event"
-                            autofocus="true"></form:input>
+                            autofocus="true" required="true"></form:input>
             </div>
         </spring:bind>
 
 
         <spring:bind path="startTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="startTime" class="form-control" placeholder="Start time"
-                    value="${startTime}"></form:input>
+                <form:input id="eventStarts" type="datetime-local" path="startTime" class="form-control" placeholder="Start time"
+                    value="${startTime}"  onchange="eventEndsValidation()" required="true"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="endTime">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="datetime-local" path="endTime" name="endTime" class="form-control"
-                            placeholder="End time" value="${endTime}"></form:input>
+                <form:input id="eventEnds" type="datetime-local" path="endTime" name="endTime" class="form-control"
+                            placeholder="End time"  value="${endTime}" onclick="eventEndsValidation()" required="true"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
-                               autofocus="true"></form:textarea>
+                               autofocus="true" required="true"></form:textarea>
             </div>
         </spring:bind>
 
         <spring:bind path="participants">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select path = "participants" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                             multiple="true" />
+                             multiple="true" required="true" />
             </div>
         </spring:bind>
 

@@ -104,9 +104,11 @@ public class UserController {
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
         user = securityService.findLoggedInUsername();
-        List<Event> eventsByUser = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
         model.addAttribute("userAuthor", userService.getUser(user.getId()) );
-        model.addAttribute("events", eventsByUser);
+        model.addAttribute("eventsByAuthor", eventsByAuthor);
+        model.addAttribute("eventsByUser", eventsByUser);
 
         return "userPage";
     }

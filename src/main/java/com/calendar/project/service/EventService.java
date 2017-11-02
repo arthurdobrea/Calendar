@@ -1,6 +1,8 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
+
 import java.util.List;
 
 public interface EventService {
@@ -18,5 +20,6 @@ public interface EventService {
     void updateEvent(Event editedEvent);
 
     List<Event> getEventsByAuthor(long authorId);
+
 
 }

@@ -27,16 +27,13 @@
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/createEvent" class="btn">Create new event</a>
+<a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType}
-       <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
-        <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
-
-    </p>
+    <p>Name: ${event.eventName} | Type of event: ${event.eventType}</p>
 </c:forEach>
 </body>
 </html>

@@ -60,7 +60,7 @@ public class EventController {
         model.addAttribute("eventForm", eventForm );
         eventService.updateEvent(eventForm);
 
-        return "events";   // redirect to all events
+        return "redirect:/userPage";
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
