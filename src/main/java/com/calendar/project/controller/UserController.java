@@ -1,7 +1,5 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.mail.EmailSender;
-import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
@@ -70,12 +68,24 @@ public class UserController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String mainPage(){
-        if(getPrincipal().equals("anonymousUser")){
+    public String mainPage() {
+        if (getPrincipal().equals("anonymousUser")) {
             return "redirect:/login";
         } else {
             return "/index";
         }
+    }
+
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -120,17 +130,5 @@ public class UserController {
         userService.update(userForm);
 
         return "redirect:/index";
-    }
-
-    private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
     }
 }
