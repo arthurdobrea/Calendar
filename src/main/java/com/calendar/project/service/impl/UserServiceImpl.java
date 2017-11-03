@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        Set<Role> roles = new HashSet<>();
+        List<Role> roles = new ArrayList<>();
         roles.add(roleDao.getRole(1L));
         user.setRoles(roles);
 
@@ -46,7 +50,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        User user = userDao.findByUsername(username);
+        return user;
     }
 
     @Override
@@ -62,24 +67,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(User user) {
         User entity = userDao.findById(user.getId());
-        if(entity!=null){
-            entity.setUsername(entity.getUsername());
-            if(!user.getPassword().equals(entity.getPassword())){
-                entity.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            }
-            entity.setFirstname(user.getFirstname());
-            entity.setLastname(user.getLastname());
-            entity.setEmail(user.getEmail());
-            for(Role r: user.getRoles()){
-                userDao.updateRole(user.getId(), roleDao.findRoleIdByValue(r.getName()));
-            }
-            userDao.update(entity);
-        }
+        userDao.update(user);
+
     }
     public User findById(Long id) {
         User user = userDao.findById(id);
         return user;
     }
+
+
 
     @Override
     @Transactional
@@ -87,12 +83,9 @@ public class UserServiceImpl implements UserService {
         userDao.deleteByUsername(userDao.findByUsername(username));
     }
 
-
-
     @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
-
         for (User user : users) {
             if (user != null) {
                 Hibernate.initialize(user.getRoles());
@@ -107,4 +100,6 @@ public class UserServiceImpl implements UserService {
     public void update(User editedUser) {
         userDao.update(editedUser);
     }
+
+
 }

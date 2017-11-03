@@ -24,7 +24,7 @@ public class Role implements Serializable {
 
     @JsonBackReference(value = "child")
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
     public Role() {
     }
@@ -67,9 +67,18 @@ public class Role implements Serializable {
         return name.equals(role.name);
     }
 
+//    @Override
+//    public int hashCode() {
+//        return name.hashCode();
+//  }
+
+
     @Override
     public int hashCode() {
-        return name.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (users != null ? users.hashCode() : 0);
+        return result;
     }
 
     @Override

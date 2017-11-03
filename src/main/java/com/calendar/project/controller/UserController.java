@@ -10,6 +10,7 @@ import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
+import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,6 +49,9 @@ public class UserController {
     private UserValidator userValidator;
 
     @Autowired
+    private EditFormValidator editFormValidator;
+
+    @Autowired
     private RoleService roleService;
     UserDao userDao;
 
@@ -70,7 +74,27 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/index";
+        return "redirect:/welcome";
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    public String addUser(Model model) {
+        model.addAttribute("userForm", new User());
+
+        return "addUser";
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "addUser";
+        }
+
+        userService.save(userForm);
+
+        return "registrationsuccess";
     }
 
     @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
@@ -152,10 +176,15 @@ public class UserController {
 
         return "userPage";
     }
+    @ModelAttribute("list_of_roles")
+    public List<Role> initializeProfiles() {
+        return roleService.findAll();
+    }
 
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         User user = userService.findByUsername(username);
+//        model.addAttribute("list_of_roles", roleService.findAll());
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getPrincipal());
@@ -164,7 +193,11 @@ public class UserController {
 
     @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
-//        userValidator.validate(user, bindingResult);
+        editFormValidator.validate(user, bindingResult);
+
+        for(Role r : user.getRoles()){
+            r.setId(roleService.findRoleIdByValue(r.getName()));
+        }
 
         if (bindingResult.hasErrors()) {
             return "userEdit";
@@ -172,11 +205,6 @@ public class UserController {
         userService.updateUser(user);
 
         return "redirect:/admin";
-    }
-
-    @ModelAttribute("list_of_roles")
-    public List<Role> initializeProfiles() {
-        return roleService.findAll();
     }
 
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)

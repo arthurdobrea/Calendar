@@ -21,8 +21,6 @@ public interface UserService {
 
     void deleteUserByUsername(String username);
 
-
-
     List<User> getAllUsers();
 
     void update(User editedUser);

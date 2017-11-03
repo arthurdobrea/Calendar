@@ -17,7 +17,7 @@
     <%--<%@include file="authheader.jsp" %>--%>
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading"><span class="lead">List of Users </span></div>
+        <div class="panel-heading"><span class="lead">User Administration</span></div>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -25,16 +25,16 @@
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>Email</th>
-                <th>Password</th>
+                <th>Role</th>
                 <sec:authorize access="hasRole('ADMIN')">
                     <th width="100"></th>
                 </sec:authorize>
                 <sec:authorize access="hasRole('ADMIN')">
                     <th width="100"></th>
                 </sec:authorize>
-
             </tr>
             </thead>
+
             <tbody>
             <c:forEach items="${users}" var="user">
                 <tr>
@@ -42,7 +42,7 @@
                     <td>${user.firstname}</td>
                     <td>${user.lastname}</td>
                     <td>${user.email}</td>
-                    <td>${user.password}</td>
+                    <td>${user.roles}</td>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <td><a href="<c:url value='/edit-user-${user.username}' />" class="btn btn-success custom-width">edit</a></td>
                     </sec:authorize>
@@ -56,7 +56,7 @@
     </div>
     <sec:authorize access="hasRole('ADMIN')">
         <div class="well">
-            <a href="<c:url value='/registration' />">Add New User</a>
+            <a href="<c:url value='/addUser' />">Add New User</a>
         </div>
     </sec:authorize>
 </div>

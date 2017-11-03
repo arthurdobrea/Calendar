@@ -29,7 +29,9 @@
 <div class="container">
 
     <form:form method="POST" modelAttribute="user" class="form-signin">
+        <form:input type="hidden" path="id" id="id"/>
         <h2 class="form-signin-heading">Edit user </h2>
+
 
         <spring:bind path="id">
             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -41,7 +43,7 @@
 
         <spring:bind path="username">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="username" path="username" class="form-control" placeholder="Username"
+                <form:input type="username" path="username" class="form-control" placeholder="Username" readonly="true"
                             autofocus="true"></form:input>
                 <form:errors path="username"></form:errors>
             </div>
@@ -79,18 +81,32 @@
             </div>
         </spring:bind>
 
-
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="roles">Roles</label>
-                <div class="col-md-7">
-                    <form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm" />
-                    <div class="has-error">
-                        <form:errors path="roles" class="help-inline"/>
-                    </div>
-                </div>
+        <spring:bind path="roles">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm"
+                            autofocus="true"></form:select>
+                <form:errors path="roles"></form:errors>
             </div>
-        </div>
+        </spring:bind>
+
+        <%--<div class="row">--%>
+            <%--<div class="form-group col-md-12">--%>
+                <%--<label class="col-md-3 control-lable" for="roles">Roles</label>--%>
+                <%--<div class="col-md-7">--%>
+                    <%--<form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm" />--%>
+                    <%--<div class="has-error">--%>
+                        <%--<form:errors path="roles" class="help-inline"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<c:forEach items="${list_of_roles}" var="roles">--%>
+            <%--<p>Name: ${roles.name}--%>
+                <%--<a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>--%>
+                <%--<a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>--%>
+
+            <%--</p>--%>
+        <%--</c:forEach>--%>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>

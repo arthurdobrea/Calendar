@@ -14,15 +14,11 @@ public interface UserDao {
 
     void save(User user);
 
-    void update(User user);
-
     List<User> getAll();
-
 
     List<User> findAllUsers();
     User findById(long id);
     void update(User user);
-    void updateRole(Long userId,  Long role_id);
 
     void deleteByUsername(User user);
 }
