@@ -33,40 +33,37 @@ public class EventServiceImpl implements EventService {
         return eventDao.getEventsByUser(userId);
     }
 
-    @Override
-    public List<Event> getEventsByAuthor(long authorId){
-        return eventDao.getEventsByAuthor(authorId);
+
+    public List<Event> getEventsByAuthor(long authorId) {
+        return eventDao.getEventsByAuthor(authorId);}
+
+
+        @Override
+        public Event getEvent ( int id){
+            return eventDao.getEvent(id);
+        }
+
+        @Override
+        @Transactional
+        public void deleteEvent (Event eventToDelete){
+            Event event = eventDao.getEvent(eventToDelete.getId());
+            eventDao.deleteEvent(event);
+        }
+
+
+        @Override
+        @Transactional
+        public void updateEvent(Event editedEvent){
+            Event event = eventDao.getEvent(editedEvent.getId());
+            event.setTitle(editedEvent.getTitle());
+            event.setEventType(editedEvent.getEventType());
+            event.setParticipants(editedEvent.getParticipants());
+            event.setDescription(editedEvent.getDescription());
+            event.setLocation(editedEvent.getLocation());
+            event.setStart(editedEvent.getStart());
+            event.setEnd(editedEvent.getEnd());
+        }
+
+
     }
-
-    @Override
-    public Event getEvent(Long id) {
-        return eventDao.getEvent(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteEvent(Event eventToDelete){
-        Event event = eventDao.getEvent(eventToDelete.getId());
-        eventDao.deleteEvent(event);
-    }
-
-
-    @Override
-    @Transactional
-    public void updateEvent(Event editedEvent){
-        Event event = eventDao.getEvent(editedEvent.getId());
-        event.setEventName(editedEvent.getEventName());
-        event.setEventType(editedEvent.getEventType());
-        event.setParticipants(editedEvent.getParticipants());
-        event.setDescription(editedEvent.getDescription());
-        event.setLocation(editedEvent.getLocation());
-        event.setStartTime(editedEvent.getStartTime());
-        event.setEndTime(editedEvent.getEndTime());
-    }
-
-
-
-
-
-
 }

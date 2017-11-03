@@ -58,5 +58,4 @@ public class EventDaoImpl implements EventDao {
 
         return events;
     }
-
 }

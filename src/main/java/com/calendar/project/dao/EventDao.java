@@ -11,7 +11,7 @@ public interface EventDao {
 
     List<Event> getAllEvents();
 
-    Event getEvent(long eventId);
+    Event getEvent(int eventId);
 
     List<Event> getEventsByUser(long userId);
 

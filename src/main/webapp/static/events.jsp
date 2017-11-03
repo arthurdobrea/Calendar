@@ -26,14 +26,13 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
-
+<p><p>
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType}</p>
+    <p>Name: ${event.title} | Type of event: ${event.eventType}</p>
 </c:forEach>
 </body>
 </html>

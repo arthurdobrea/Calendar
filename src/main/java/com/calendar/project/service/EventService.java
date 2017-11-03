@@ -11,7 +11,7 @@ public interface EventService {
 
     List<Event> getAllEvents();
 
-    Event getEvent(Long eventId);
+    Event getEvent(int eventId);
 
     List<Event> getEventsByUser(long id);
 

@@ -59,7 +59,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -68,8 +68,7 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        //EmailSender.send();
+
         return "login";
     }
 
@@ -78,9 +77,20 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
+    @RequestMapping(value = {"/index" ,"/"}, method = RequestMethod.GET)
+    public String index(Model model){
+        model.addAttribute("eventForm", new Event());
+        return "index";}
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+        eventService.saveEvent(eventForm);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
