@@ -2,7 +2,11 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.User;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -23,7 +27,6 @@ public class UserDaoImpl implements UserDao {
                 .findFirst()
                 .orElse(null);
     }
-
     @Override
     public void save(User user) {
         entityManager.persist(user);
@@ -32,6 +35,21 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<User> findAllUsers() {
+        List<User> users = entityManager.createQuery("from User u", User.class)
+                .getResultList();
+        return users;
+    }
+
+    @Override
+    public User findById(long id) {
+        User user = entityManager.createQuery("from User u where u.id=:id", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return user;
     }
 
     @Override
@@ -46,4 +64,10 @@ public class UserDaoImpl implements UserDao {
 
         return user;
     }
+
+    @Override
+    public void deleteByUsername(User user) {
+        entityManager.remove(user);
+    }
+
 }

@@ -4,11 +4,10 @@ CREATE TABLE users (
   password VARCHAR(255) NOT NULL,
   firstname VARCHAR(255),
   lastname  VARCHAR(255),
-  email     VARCHAR(255),
-  password  VARCHAR(255)
+  email     VARCHAR(255)
 )
 
- ENGINE = InnoDB;
+ENGINE = InnoDB;
 
 CREATE TABLE  roles(
   id int NOT NULL  AUTO_INCREMENT PRIMARY KEY,
@@ -16,24 +15,19 @@ CREATE TABLE  roles(
 )
   ENGINE = InnoDB;
 
-CREATE TABLE  user_roles(
-  user_id int not NULL,
-  role_id int not null,
-
-
+CREATE TABLE user_roles (
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (role_id) REFERENCES roles(id),
-
   UNIQUE (user_id,role_id)
 )
 
-  ENGINE = InnoDB;
+ENGINE = InnoDB;
 
-INSERT INTO users VALUES (1, 'admin','312r821747f19f1830ue984f57910fj');
-
-INSERT roles VALUES (1,'ROLE_USER');
-INSERT roles VALUES (2,'ROLE_ADMIN');
-
+INSERT INTO roles values (1, 'USER');
+INSERT INTO roles values (2, 'ADMIN');
+INSERT INTO users (id, username, password) VALUES (1, 'admin','312r821747f19f1830ue984f57910fj');
 INSERT INTO user_roles VALUES(1,2);
 
 CREATE TABLE events
@@ -63,4 +57,4 @@ CREATE TABLE events_users
   ENGINE = InnoDB;
 
 ALTER TABLE `spring_security_app`.`users`
-ADD COLUMN `labels` VARCHAR(255) NULL AFTER `lastName`;
+ADD COLUMN `labels` VARCHAR(255);
