@@ -2,7 +2,6 @@ package com.calendar.project.controller;
 
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
@@ -11,6 +10,7 @@ import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 import java.util.Set;
 
@@ -59,7 +58,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -70,6 +69,27 @@ public class UserController {
         }
 
         return "login";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String mainPage() {
+        if (getPrincipal().equals("anonymousUser")) {
+            return "redirect:/login";
+        } else {
+            return "/index";
+        }
+    }
+
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -83,7 +103,7 @@ public class UserController {
         return "index";}
 
     @RequestMapping(value = "/index", method = RequestMethod.POST)
-    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
+    public String index(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "index";
@@ -111,20 +131,6 @@ public class UserController {
         return "userControlPanel";
     }
 
-    @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(  Model model, User user){
-        user = securityService.findLoggedInUsername();
-        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
-        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
-        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
-        model.addAttribute("eventsByAuthor", eventsByAuthor);
-        model.addAttribute("eventsByUser", eventsByUser);
-
-        return "userPage";
-    }
-
-
-
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
         User user = userService.findByUsername(userForm.getUsername());
@@ -136,6 +142,18 @@ public class UserController {
         userService.update(user);
 
         return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/userPage", method = RequestMethod.GET)
+    public String showMyEvents(  Model model, User user){
+        user = securityService.findLoggedInUsername();
+        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("eventsByAuthor", eventsByAuthor);
+        model.addAttribute("eventsByUser", eventsByUser);
+
+        return "userPage";
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
