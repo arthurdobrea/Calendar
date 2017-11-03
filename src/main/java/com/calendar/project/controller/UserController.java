@@ -75,10 +75,20 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/index" ,"/"}, method = RequestMethod.GET)
-    public String index(){return "index";}
+    public String index(Model model){
+        model.addAttribute("eventForm", new Event());
+        return "index";}
 
-    @RequestMapping(value = {"/ssss"}, method = RequestMethod.GET)
-    public String ssss(){return "ssss";}
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+        eventServiceImpl.saveEvent(eventForm);
+
+        return "redirect:/index";
+    }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin() {

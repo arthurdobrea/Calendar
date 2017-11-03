@@ -26,23 +26,23 @@ public class EventController {
         return "events";
     }
 
-    @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
-    public String createEvent(Model model) {
-        model.addAttribute("eventForm", new Event());
-
-        return "createEvent";
-    }
-
-    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
-    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "createEvent";
-        }
-        eventServiceImpl.saveEvent(eventForm);
-
-        return "redirect:/index";
-    }
+//    @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
+//    public String createEvent(Model model) {
+//        model.addAttribute("eventForm", new Event());
+//
+//        return "createEvent";
+//    }
+//
+//    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
+//    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "createEvent";
+//        }
+//        eventServiceImpl.saveEvent(eventForm);
+//
+//        return "redirect:/index";
+//    }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
     public String showAllEvents(Model model, @ModelAttribute("user") User user) {
