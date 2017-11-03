@@ -57,7 +57,7 @@ public class User implements Serializable {
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    private Set<Role> roles;
 
     //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
@@ -132,11 +132,11 @@ public class User implements Serializable {
         this.confirmPassword = confirmPassword;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
