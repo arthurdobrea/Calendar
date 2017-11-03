@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -39,9 +40,41 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+        <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
     </c:if>
+
+        <h2>Events created by me: ${eventsByAuthor.size()}</h2>
+
+        <c:forEach items="${eventsByAuthor}" var="event">
+        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+            <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
+            <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
+
+        </p>
+        </c:forEach>
+
+
+
+    <h2>Events where I am invited: ${eventsByUser.size()}</h2>
+
+    <c:forEach items="${eventsByUser}" var="event">
+        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
+        </p>
+    </c:forEach>
+
+
+
+
+    <form action="eventTypeLink" method="post">
+        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
+        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
+        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
+        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+        <input type="submit">
+    </form>
+
 </div>
 </body>
 </html>

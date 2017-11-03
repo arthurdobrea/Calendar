@@ -1,14 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<html>
+
+<html lang="en">
 <head>
-    <meta charset='utf-8' />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description">
+    <meta name="author">
+
+    <title>Main Page</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
-    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet'/>
+    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print'/>
+
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.min.js'></script>
@@ -17,8 +28,8 @@
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/gcal.min.js"></script>
 
-<script>
-        $(document).ready(function() {
+    <script>
+        $(document).ready(function () {
 
             $('#calendar').fullCalendar({
                 header: {
@@ -101,7 +112,6 @@
 
         }
 
-
         #calendar {
             max-width: 900px;
             margin: 0 auto;
@@ -110,21 +120,14 @@
     </style>
 </head>
 <body>
-
-<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
+<a href="/userPage" class="btn">User Page</a>
 <a href="/logout" class="btn">Logout</a>
 
-<p>
-<p>
-
 <div id='calendar'></div>
-
-
 </body>
 </html>

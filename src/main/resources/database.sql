@@ -1,7 +1,11 @@
 CREATE TABLE users (
   id       INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL,
+  firstname VARCHAR(255),
+  lastname  VARCHAR(255),
+  email     VARCHAR(255),
+  password  VARCHAR(255)
 )
 
  ENGINE = InnoDB;
@@ -32,9 +36,31 @@ INSERT roles VALUES (2,'ROLE_ADMIN');
 
 INSERT INTO user_roles VALUES(1,2);
 
---Inserts for testing
--- if there are some problems with inserts - correct them
-INSERT INTO users
-    VALUES (99, 'UserTest', 'Qawsed', 'Qawsed', 'adamaa14@gmail.com', '$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG');
+CREATE TABLE events
+(
+  id             BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  event_name     VARCHAR(255) NOT NULL,
+  event_type     VARCHAR(255),
+  author_user_id INT,
+  event_location VARCHAR(255),
+  timebegin      DATETIME,
+  timeend        DATETIME,
+  createdata     DATETIME,
+  description    VARCHAR(1000),
 
-INSERT INTO user_roles VALUES(99,1);
+  FOREIGN KEY (author_user_id) REFERENCES users (id)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE events_users
+(
+  event_id BIGINT NOT NULL,
+  user_id INT,
+
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (event_id) REFERENCES events(id)
+)
+  ENGINE = InnoDB;
+
+ALTER TABLE `spring_security_app`.`users`
+ADD COLUMN `labels` VARCHAR(255) NULL AFTER `lastName`;

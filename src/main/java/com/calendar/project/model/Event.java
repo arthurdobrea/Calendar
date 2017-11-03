@@ -1,19 +1,14 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.annotation.Reference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 @Entity
 @Table(name = "events")
 public class Event implements Serializable {
@@ -30,9 +25,8 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @JsonBackReference(value = "child")
-//    @Reference(value = "child")
-    @ManyToOne(fetch = FetchType.EAGER)
+   @JsonBackReference(value = "child")
+    @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
@@ -40,8 +34,10 @@ public class Event implements Serializable {
     private String location;
 
     @JsonBackReference(value = "child")
-    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    private Set<User> participants;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> participants;
 
     @Column(name = "timebegin")
     private String startTime;
@@ -50,12 +46,13 @@ public class Event implements Serializable {
     private String endTime;
 
     @Column(name = "createdata")
-    private LocalDateTime eventCreated;
+    private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
-    public Event(){}
+    public Event() {
+    }
 
     public Long getId() {
         return id;
@@ -89,11 +86,11 @@ public class Event implements Serializable {
         this.location = location;
     }
 
-    public Set<User> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<User> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
 
@@ -125,8 +122,8 @@ public class Event implements Serializable {
         return eventType;
     }
 
-    public void setEventType(EventType event_type) {
-        this.eventType = event_type;
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public String getDescription() {
@@ -169,21 +166,5 @@ public class Event implements Serializable {
         result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", eventName='" + eventName + '\'' +
-                ", eventType=" + eventType +
-                //", author=" + author +
-                ", location='" + location + '\'' +
-                //", participants=" + participants +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", eventCreated=" + eventCreated +
-                ", description='" + description + '\'' +
-                '}';
     }
 }

@@ -1,9 +1,10 @@
 package com.calendar.project.dao;
-import java.util.List;
 
 import com.calendar.project.model.User;
+import java.util.List;
 
-public interface UserDao{
+public interface UserDao {
+
     User findByUsername(String username);
 
     void save(User user);
@@ -11,4 +12,8 @@ public interface UserDao{
     void update(User user);
 
     List<User> getAll();
+
+    User getUser(long id);
+
+
 }

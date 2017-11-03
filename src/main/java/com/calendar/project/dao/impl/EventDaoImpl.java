@@ -4,24 +4,13 @@ import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Set;
 
-
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 @Repository
-public class EventDaoImpl implements EventDao{
-
+public class EventDaoImpl implements EventDao {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -32,8 +21,8 @@ public class EventDaoImpl implements EventDao{
     }
 
     public Event getEvent(long eventId) {
-        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id=:idOfEvent")
-        .setParameter("idOfEvent", eventId).getSingleResult();
+        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id = :idOfEvent")
+                .setParameter("idOfEvent", eventId).getSingleResult();
 
         Hibernate.initialize(event.getParticipants());  // TODO need to test
         return event;
@@ -48,10 +37,26 @@ public class EventDaoImpl implements EventDao{
         return user.getEvents();
     }
 
-    public List<Event> getAllEvents(){
-        List<Event> result;
-        result = entityManager.createQuery("FROM Event e").getResultList();
-        return result;
+    public List<Event> getAllEvents() {
+        return entityManager.createQuery("FROM Event e").getResultList();
+    }
+
+    public void deleteEvent(Event event){
+        entityManager.remove(event);
+    }
+
+    public void updateEvent(Event event){
+        entityManager.merge(event);
+    }
+
+    @Override
+    public List<Event> getEventsByAuthor(long authorId) {
+
+        List<Event> events = entityManager
+                .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
+                .setParameter("idOfAuthor", authorId).getResultList();
+
+        return events;
     }
 
 }
