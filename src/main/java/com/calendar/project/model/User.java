@@ -14,6 +14,13 @@ import java.util.Set;
 
 
 
+import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -52,12 +59,14 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
+    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events; //events in which user participates
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {
@@ -155,6 +164,10 @@ public class User implements Serializable {
         this.events = events;
     }
 
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -186,11 +199,10 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                //", events=" + events +
-                //", eventsOfAuthor=" + eventsOfAuthor +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", confirmPassword='" + confirmPassword + '\'' +
+//                ", roles=" + roles +
                 '}';
     }
 }

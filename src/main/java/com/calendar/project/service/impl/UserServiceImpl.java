@@ -28,8 +28,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
-
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getRole(1L));
         user.setRoles(roles);
 
@@ -102,4 +100,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+    @Override
+    public User getUser(long userId){
+       return userDao.getUser(userId);
+    }
 }

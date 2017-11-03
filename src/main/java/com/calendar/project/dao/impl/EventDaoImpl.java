@@ -20,17 +20,17 @@ public class EventDaoImpl implements EventDao {
         entityManager.persist(event);
     }
 
-    public Event getEvent(Long eventId) {
-        Event event = (Event) entityManager.createQuery("from Event e where id = :idOfEvent")
+    public Event getEvent(long eventId) {
+        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id = :idOfEvent")
                 .setParameter("idOfEvent", eventId).getSingleResult();
 
         Hibernate.initialize(event.getParticipants());  // TODO need to test
         return event;
     }
 
-    public List<Event> getEventsByUser(Long userId) {
+    public List<Event> getEventsByUser(long userId) {
 
-        User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
+        User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
                 .setParameter("idOfUser", userId).getSingleResult();
 
         Hibernate.initialize(user.getEvents()); // TODO don't forget testing
@@ -38,6 +38,25 @@ public class EventDaoImpl implements EventDao {
     }
 
     public List<Event> getAllEvents() {
-        return entityManager.createQuery("from Event e").getResultList();
+        return entityManager.createQuery("FROM Event e").getResultList();
     }
+
+    public void deleteEvent(Event event){
+        entityManager.remove(event);
+    }
+
+    public void updateEvent(Event event){
+        entityManager.merge(event);
+    }
+
+    @Override
+    public List<Event> getEventsByAuthor(long authorId) {
+
+        List<Event> events = entityManager
+                .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
+                .setParameter("idOfAuthor", authorId).getResultList();
+
+        return events;
+    }
+
 }

@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,8 +27,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    EventService eventServiceImpl;
+    EventService eventService;
 
     @Autowired
     private UserService userService;
@@ -156,8 +155,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String userPage() {
-
+    public String showMyEvents(  Model model, User user){
+        user = securityService.findLoggedInUsername();
+        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("eventsByAuthor", eventsByAuthor);
+        model.addAttribute("eventsByUser", eventsByUser);
 
         return "userPage";
     }
