@@ -5,8 +5,6 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -15,22 +13,19 @@ import java.util.List;
 public class EventDaoImpl implements EventDao {
 
     @PersistenceContext
-    EntityManager entityManager;
-
-    @Override
-    public void saveEvent(Event event) {
-        entityManager.persist(event);
-    }
+    private EntityManager entityManager;
 
     @Override
     public Event getEvent(Long eventId) {
-        List<Event> events = (List<Event>) entityManager.createQuery("FROM Event e WHERE id =:idOfEvent")
-                .setParameter("idOfEvent", eventId).getResultList();
+        List<Event> events = (List<Event>) entityManager.createQuery("from Event e where id = :idOfEvent")
+                .setParameter("idOfEvent", eventId)
+                .getResultList();
 
-        if(events.size() > 0)
-        {
+        if (events.size() > 0) {
             Event event = events.get(0);
+
             Hibernate.initialize(event.getParticipants());// TODO need to test
+
             return event;
         }
 
@@ -38,40 +33,44 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getEventsByUser(long userId) {
+    public List<Event> getEventsByUser(Long userId) {
 
-        User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
-                .setParameter("idOfUser", userId).getSingleResult();
+        User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
+                .setParameter("idOfUser", userId)
+                .getSingleResult();
 
         Hibernate.initialize(user.getEvents()); // TODO don't forget testing
+
         return user.getEvents();
     }
 
     @Override
+    public List<Event> getEventsByAuthor(Long authorId) {
+        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor")
+                .setParameter("idOfAuthor", authorId)
+                .getResultList();
+    }
+
+    @Override
     public List<Event> getAllEvents() {
-        return entityManager.createQuery("FROM Event e").getResultList();
+        return entityManager.createQuery("from Event e")
+                .getResultList();
     }
 
     @Override
-    public void deleteEvent(Event event){
-        entityManager.remove(event);
-        entityManager.flush();
-        entityManager.clear();
+    public void saveEvent(Event event) {
+        entityManager.persist(event);
     }
 
     @Override
-    public void updateEvent(Event event){
+    public void updateEvent(Event event) {
         entityManager.merge(event);
     }
 
     @Override
-    public List<Event> getEventsByAuthor(long authorId) {
-
-        List<Event> events = entityManager
-                .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
-                .setParameter("idOfAuthor", authorId).getResultList();
-
-        return events;
+    public void deleteEvent(Event event) {
+        entityManager.remove(event);
+        entityManager.flush();
+        entityManager.clear();
     }
-
 }

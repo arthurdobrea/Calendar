@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
@@ -32,14 +30,12 @@ public class EventController {
     @Autowired
     private UserService userService;
 
-
     @RequestMapping(value = "/events", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
         model.addAttribute("events", eventService.getAllEvents());
 
         return "events";
     }
-
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
     public String updateEvent(Long eventId, Model model) {
@@ -51,6 +47,7 @@ public class EventController {
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
         List<User> participans = new LinkedList<>();
+
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participans.add(userDao.getUser(u.getId()));
@@ -58,6 +55,7 @@ public class EventController {
 
         eventForm.setParticipants(participans);
         model.addAttribute("eventForm", eventForm);
+
         eventService.updateEvent(eventForm);
 
         return "redirect:/userPage";
@@ -77,11 +75,11 @@ public class EventController {
         return "redirect:/userPage";
     }
 
-
     @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
         Event event = new Event();
-        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        List<User> participants = new ArrayList<>(userService.getAllUsers());
+
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
 
@@ -91,6 +89,7 @@ public class EventController {
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         List<User> participants = new LinkedList<>();
+
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
@@ -100,6 +99,7 @@ public class EventController {
         User user = securityService.findLoggedInUsername();
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
+
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         return "redirect:/showEvent";
@@ -108,6 +108,7 @@ public class EventController {
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
     public String showEvent(Model model, Long eventId) {
         Event event = eventService.getEvent(eventId);
+
         model.addAttribute("eventForm", event);
 
         return "showEvent";
