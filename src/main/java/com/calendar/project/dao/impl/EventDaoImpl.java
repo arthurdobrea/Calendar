@@ -5,6 +5,8 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -20,14 +22,22 @@ public class EventDaoImpl implements EventDao {
         entityManager.persist(event);
     }
 
-    public Event getEvent(long eventId) {
-        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id = :idOfEvent")
-                .setParameter("idOfEvent", eventId).getSingleResult();
+    @Override
+    public Event getEvent(Long eventId) {
+        List<Event> events = (List<Event>) entityManager.createQuery("FROM Event e WHERE id =:idOfEvent")
+                .setParameter("idOfEvent", eventId).getResultList();
 
-        Hibernate.initialize(event.getParticipants());  // TODO need to test
-        return event;
+        if(events.size() > 0)
+        {
+            Event event = events.get(0);
+            Hibernate.initialize(event.getParticipants());// TODO need to test
+            return event;
+        }
+
+        return null;
     }
 
+    @Override
     public List<Event> getEventsByUser(long userId) {
 
         User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
@@ -37,14 +47,19 @@ public class EventDaoImpl implements EventDao {
         return user.getEvents();
     }
 
+    @Override
     public List<Event> getAllEvents() {
         return entityManager.createQuery("FROM Event e").getResultList();
     }
 
+    @Override
     public void deleteEvent(Event event){
         entityManager.remove(event);
+        entityManager.flush();
+        entityManager.clear();
     }
 
+    @Override
     public void updateEvent(Event event){
         entityManager.merge(event);
     }

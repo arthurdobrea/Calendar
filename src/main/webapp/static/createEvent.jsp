@@ -94,7 +94,7 @@
         <spring:bind path="participants">
         <div class="form-group ${status.error ? 'has-error' : ''}">
             <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                          multiple="true" required="true"/>
+                          multiple="true"/>
             </div>
         </spring:bind>
 

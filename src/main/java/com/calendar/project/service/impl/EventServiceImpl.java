@@ -44,7 +44,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public void deleteEvent(Event eventToDelete){
         Event event = eventDao.getEvent(eventToDelete.getId());
         eventDao.deleteEvent(event);

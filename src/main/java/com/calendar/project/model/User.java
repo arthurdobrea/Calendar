@@ -49,14 +49,12 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
+
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events; //events in which user participates
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {

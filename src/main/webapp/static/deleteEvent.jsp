@@ -29,7 +29,7 @@
 <div class="container">
 
 
-    <form:form method="POST" modelAttribute="event" class="form-signin">
+    <form:form method="POST" modelAttribute="eventForm" class="form-signin">
         <h2 class="form-signin-heading">Do you want to delete this event?</h2>
 
         <spring:bind path="id">
