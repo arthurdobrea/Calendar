@@ -1,8 +1,18 @@
 package com.calendar.project.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 import java.util.List;
 import java.util.HashSet;
@@ -32,7 +42,6 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
-
     @Column(name = "password")
     private String password;
 
@@ -44,10 +53,11 @@ public class User implements Serializable {
     @Column(name = "labels")
     private String labels;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
 
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)

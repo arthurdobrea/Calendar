@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        User user = userDao.findByUsername(username);
+        return user;
     }
 
     @Override
@@ -55,9 +58,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllUsers() {
+        return userDao.findAllUsers();
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        User entity = userDao.findById(user.getId());
+        userDao.update(user);
+
+    }
+    public User findById(Long id) {
+        User user = userDao.findById(id);
+        return user;
+    }
+
+
+
+    @Override
+    @Transactional
+    public void deleteUserByUsername(String username) {
+        userDao.deleteByUsername(userDao.findByUsername(username));
+    }
+
+    @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
-
         for (User user : users) {
             if (user != null) {
                 Hibernate.initialize(user.getRoles());
@@ -72,6 +98,8 @@ public class UserServiceImpl implements UserService {
     public void update(User editedUser) {
         userDao.update(editedUser);
     }
+
+
 
     @Override
     public User getUser(long userId){
