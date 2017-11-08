@@ -10,8 +10,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description">
+    <meta name="author">
 
     <title>Welcome</title>
 
@@ -53,8 +53,6 @@
         </p>
         </c:forEach>
 
-
-
     <h2>Events where I am invited: ${eventsByUser.size()}</h2>
 
     <c:forEach items="${eventsByUser}" var="event">
@@ -63,17 +61,27 @@
         </p>
     </c:forEach>
 
-
-
-
     <form action="eventTypeLink" method="post">
-        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
-        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
-        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
-        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+       <c:forEach items="${eventsList}" var="eventType">
+           <p>${eventType.view()}
+               <c:set var="checked" value="0"/>
+               <c:forEach items="${userLabels}" var="labels">
+                    <c:if test = "${labels==eventType}">
+                         <c:set var="checked" value="1"/>
+                     </c:if>
+               </c:forEach>
+               <c:if test = "${checked==1}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" checked/><br>
+               </c:if>
+               <c:if test = "${checked==0}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" /><br>
+               </c:if>
+        </c:forEach>
+           <p>
+
+           <input type="checkbox" name="checkboxName" value="" checked hidden/><br>
         <input type="submit">
     </form>
-
 </div>
 </body>
 </html>

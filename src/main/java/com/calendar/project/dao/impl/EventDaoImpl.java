@@ -2,6 +2,7 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -26,50 +27,84 @@ import java.util.List;
 public class EventDaoImpl implements EventDao {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
+
+    @Override
+    public Event getEvent(int eventId) {
+        List<Event> events = (List<Event>) entityManager.createQuery("from Event e where id = :idOfEvent")
+                .setParameter("idOfEvent", eventId)
+                .getResultList();
+
+        if (events.size() > 0) {
+            Event event = events.get(0);
+            Hibernate.initialize(event.getParticipants());// TODO need to test
+
+            return event;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Event> getEventsByUser(Long userId) {
+
+        User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
+                .setParameter("idOfUser", userId)
+                .getSingleResult();
+
+        Hibernate.initialize(user.getEvents()); // TODO don't forget testing
+
+        return user.getEvents();
+    }
+
+    @Override
+    public List<Event> getEventsByAuthor(Long authorId) {
+        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor")
+                .setParameter("idOfAuthor", authorId)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByLocation(String location) {
+        return entityManager.createQuery("from Event e where e.location = :location")
+                .setParameter("location", location)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByType(EventType type) {
+        return entityManager.createQuery("from Event e where e.eventType = :type")
+                .setParameter("type", type)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getAllEvents() {
+        return entityManager.createQuery("from Event e")
+                .getResultList();
+    }
+
+    // doesn't work
+    @Override
+    public List<Event> getEventsByTag(String tag) {
+        return null;
+    }
 
     @Override
     public void saveEvent(Event event) {
         entityManager.persist(event);
     }
 
-    public Event getEvent(int eventId) {
-        Event event = (Event) entityManager.createQuery("FROM Event e WHERE id = :idOfEvent")
-                .setParameter("idOfEvent", eventId).getSingleResult();
-
-        Hibernate.initialize(event.getParticipants());  // TODO need to test
-        return event;
-    }
-
-    public List<Event> getEventsByUser(long userId) {
-
-        User user = (User) entityManager.createQuery("FROM User u WHERE id=:idOfUser")
-                .setParameter("idOfUser", userId).getSingleResult();
-
-        Hibernate.initialize(user.getEvents()); // TODO don't forget testing
-        return user.getEvents();
-    }
-
-    public List<Event> getAllEvents() {
-        return entityManager.createQuery("FROM Event e").getResultList();
-    }
-
-    public void deleteEvent(Event event){
-        entityManager.remove(event);
-    }
-
-    public void updateEvent(Event event){
+    @Override
+    public void updateEvent(Event event) {
         entityManager.merge(event);
     }
 
     @Override
-    public List<Event> getEventsByAuthor(long authorId) {
-
-        List<Event> events = entityManager
-                .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
-                .setParameter("idOfAuthor", authorId).getResultList();
-
-        return events;
+    public void deleteEvent(Event event) {
+        entityManager.remove(event);
+        entityManager.flush();
+        entityManager.clear();
     }
 
     @Override

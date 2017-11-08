@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -12,7 +13,8 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Welcome</title>
+    <title>mailing</title>
+
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -27,28 +29,14 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/userPage" class="btn">User Page</a>
+<a href="/create-event" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
 <div class="container">
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
-        </h2>
-    </c:if>
-
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id = "adminForm" method="GET" action="${contextPath}/admin">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <h2>
-            As admin u can enter <a onclick="document.forms['adminForm'].submit()">Admin page</a>
-        </h2>
-    </c:if>
+    <form:form method="POST" action="/mailing">
+        <button class="btn" type="submit">Mail to All</button>
+    </form:form>
 </div>
 </body>
 </html>

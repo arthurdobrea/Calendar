@@ -22,9 +22,60 @@ public class EventServiceImpl implements EventService {
     private EventDao eventDao;
 
     @Override
-    @Transactional(readOnly = false)
-    public void saveEvent(Event event){
-        eventDao.saveEvent(event);
+    public List<Event> getEventsByUser(long userId) {
+        return eventDao.getEventsByUser(userId);
+    }
+
+    @Override
+    public List<Event> getEventsByAuthor(long authorId){
+        return eventDao.getEventsByAuthor(authorId);
+    }
+
+    @Override
+    public Event getEvent (int id){
+            return eventDao.getEvent(id);
+        }
+
+    @Override
+    public List<EventType> getEventTypeList(){
+        List<EventType> EventTypeList = new ArrayList<>();
+
+        for(EventType eventType : EventType.values()) {
+            EventTypeList.add(eventType);
+        }
+
+        return EventTypeList;
+    }
+
+    @Override
+    public List<Event> getFutureEventsByType(EventType eventType) {
+        List<Event> eventList = new ArrayList<>();
+
+        for (Event event : getAllEvents()) {
+            String startDate = event.getStart().toString(); // convert to ISO DateTime
+            LocalDateTime ldt = LocalDateTime.parse(startDate);
+
+            if (event.getEventType().equals(eventType)&& ldt.isAfter( LocalDateTime.now())) {
+                eventList.add(event);
+            }
+        }
+
+        return eventList;
+    }
+
+    @Override
+    public List<Event> getEventsByTag(String tag){
+        return eventDao.getEventsByTag(tag);
+    }
+
+    @Override
+    public List<Event> getEventsByLocation(String location) {
+        return eventDao.getEventsByLocation(location);
+    }
+
+    @Override
+    public List<Event> getEventsByType(EventType type) {
+        return eventDao.getEventsByType(type);
     }
 
     @Override
@@ -33,27 +84,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByUser(long userId) {
-        return eventDao.getEventsByUser(userId);
+    @Transactional(readOnly = false)
+    public void saveEvent(Event event){
+        eventDao.saveEvent(event);
     }
-
-
-    public List<Event> getEventsByAuthor(long authorId) {
-        return eventDao.getEventsByAuthor(authorId);}
-
-
-        @Override
-        public Event getEvent (int id){
-            return eventDao.getEvent(id);
-        }
-
-        @Override
-        @Transactional
-        public void deleteEvent (Event eventToDelete){
-            Event event = eventDao.getEvent(eventToDelete.getId());
-            eventDao.deleteEvent(event);
-        }
-
 
         @Override
         @Transactional
@@ -67,6 +101,12 @@ public class EventServiceImpl implements EventService {
             event.setStart(editedEvent.getStart());
             event.setEnd(editedEvent.getEnd());
         }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteEvent(Event eventToDelete) {
+        Event event = eventDao.getEvent(eventToDelete.getId());
+        eventDao.deleteEvent(event);}
 
     @Override
     public List<Event> getEventsByDate(String date) {

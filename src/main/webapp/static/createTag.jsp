@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -12,7 +13,8 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Welcome</title>
+    <title>Create a tag</title>
+
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -27,28 +29,29 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/userPage" class="btn">User Page</a>
+<a href="/create-event" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
 <div class="container">
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
+    <form:form method="POST" modelAttribute="tagForm" class="form-signin">
+        <h2 class="form-signin-heading">Create your tag</h2>
+        <spring:bind path="tag">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="tag" class="form-control" placeholder="Tag"
+                            autofocus="true"></form:input>
+            </div>
+        </spring:bind>
 
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
-        </h2>
-    </c:if>
+        <spring:bind path="color">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="color" class="form-control" placeholder="Color"
+                            autofocus="true"></form:input>
+            </div>
+        </spring:bind>
 
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id = "adminForm" method="GET" action="${contextPath}/admin">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <h2>
-            As admin u can enter <a onclick="document.forms['adminForm'].submit()">Admin page</a>
-        </h2>
-    </c:if>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">create tag</button>
+    </form:form>
 </div>
 </body>
 </html>

@@ -62,8 +62,13 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Event() {
-    }
+    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
+
+    public Event(){}
 
     public int getId() {
         return id;
@@ -98,7 +103,7 @@ public class Event implements Serializable {
     }
 
     public LocalDateTime getEventCreated() {
-        return eventCreated;
+        return eventCreated.now();
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {
@@ -119,6 +124,14 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public String getTitle() {

@@ -1,13 +1,8 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import com.calendar.project.service.impl.RoleProfile;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -66,20 +61,6 @@ public class Role implements Serializable {
 
         return name.equals(role.name);
     }
-
-//    @Override
-//    public int hashCode() {
-//        return name.hashCode();
-//  }
-
-
-//    @Override
-//    public int hashCode() {
-//        int result = id != null ? id.hashCode() : 0;
-//        result = 31 * result + (name != null ? name.hashCode() : 0);
-//        result = 31 * result + (users != null ? users.hashCode() : 0);
-//        return result;
-//    }
 
     @Override
     public String toString() {

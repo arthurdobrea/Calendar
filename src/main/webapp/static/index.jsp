@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -71,6 +72,8 @@
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/events" class="btn">All events</a>
+<a href="/tags" class="btn">Tags</a>
+<a href="/mailing" class="btn">Mail to all</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/logout" class="btn">Logout</a>
 <p>

@@ -10,6 +10,7 @@ import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
@@ -17,8 +18,6 @@ import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +35,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import java.util.List;
-
 @Controller
 public class UserController {
 
@@ -52,6 +49,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private EditFormValidator editFormValidator;
@@ -98,7 +98,7 @@ public class UserController {
 
         userService.save(userForm);
 
-        return "registrationsuccess";
+        return "registrationSuccess";
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -110,7 +110,8 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-
+        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
+        //EmailSender.send();
         return "login";
     }
 
@@ -155,6 +156,7 @@ public class UserController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(ModelMap modelMap) {
         List<User> users = userService.findAllUsers();
+
         modelMap.addAttribute("users", users);
         modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "admin";
@@ -178,9 +180,11 @@ public class UserController {
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
         model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
+        model.addAttribute("eventsList", eventService.getEventTypeList());
 
         return "userPage";
     }
@@ -203,25 +207,33 @@ public class UserController {
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
     public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
         User user = securityService.findLoggedInUsername();
+
         StringBuilder stringBuilder = new StringBuilder();
-        for(String ptr: checkboxValue){
-            stringBuilder.append(ptr + ',');
+        for(String ptr: checkboxValue) {
+            if (!ptr.equals("")) {
+                stringBuilder.append(ptr + ',');
+            }
         }
+
         String res = stringBuilder.toString();
-        user.setLabels(res);
-        user.setLastname("OLEG");
+        user.setSubscriptionByEventType(res);
+
         userService.update(user);
+        //is mailing all events to current user  by his labels and event types.
+        userService.mailToUser(user);
 
         return "userPage";
     }
+
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
         return roleService.findAll();
     }
 
-    @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         User user = userService.findByUsername(username);
+
 //        model.addAttribute("list_of_roles", roleService.findAll());
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
@@ -233,37 +245,59 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
         editFormValidator.validate(user, bindingResult);
 
-        for(Role r : user.getRoles()){
+        for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
         }
 
         if (bindingResult.hasErrors()) {
             return "userEdit";
         }
+
         userService.updateUser(user);
 
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
+
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.PUT)
-    public String removeUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
-        editFormValidator.validate(user, bindingResult);
+    // is mailing all events to all users when labels are equals to event types.
+    @RequestMapping(value = "/mailing", method = RequestMethod.GET)
+    public String mailing() {
+        return "mailing";
+    }
 
-        for(Role r : user.getRoles()){
-            r.setId(roleService.findRoleIdByValue(r.getName()));
+    @RequestMapping(value = "/mailing", method = RequestMethod.POST)
+    public String mailing(Model model) {
+        userService.mailToAllUsers();
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
+    public String setUsersTag(Model model) {
+        model.addAttribute("usersList", userService.getAllUsers());
+        model.addAttribute("tagsList", tagService.getTagsTypeList());
+
+        return "usersTags";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
+    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(String ptr: checkboxValue) {
+            stringBuilder.append(ptr + ',');
         }
+        String tagSet = stringBuilder.toString();
 
-        if (bindingResult.hasErrors()) {
-            return "userEdit";
-        }
-        userService.deleteUserByUsername(username);
+        user.setSubscriptionByTagType(tagSet);
 
-        return "redirect:/admin";
+        userService.update(user);
+
+        return "usersTags";
     }
 }

@@ -3,28 +3,34 @@ package com.calendar.project.service;
 import com.calendar.project.model.User;
 import java.util.List;
 
-import java.util.List;
-
 public interface UserService {
 
-    void save(User user);
-
-    User findByUsername(String username);
-
-    boolean exists(String username);
-
-    List<User> findAllUsers();
-
-    void updateUser(User user);
+    User getUser(long id);
 
     User findById(Long id);
 
-    void deleteUserByUsername(String username);
+    User findByUsername(String username);
+
+    List<User>  getUsersListBySubscriptionByEventType(String subscriptionByTagType);
+
+    List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType);
+
+    List<User> findAllUsers();
 
     List<User> getAllUsers();
 
+    boolean exists(String username);
+
+    void save(User user);
+
     void update(User editedUser);
 
-    User getUser(long id);
+    void updateUser(User user);
+
+    void deleteUserByUsername(String username);
+
+    void mailToAllUsers();
+
+    void mailToUser(User user);
 
 }

@@ -50,11 +50,14 @@ public class User implements Serializable {
 
     //@ElementCollection(targetClass = String.class)
     //@Enumerated(EnumType.STRING)
-    @Column(name = "labels")
-    private String labels;
+    @Column(name = "subscription_by_event_type")
+    private String subscriptionByEventType;
 
-    //@LazyCollection(LazyCollectionOption.FALSE)cascade=CascadeType.ALL,
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "subscription_by_tag_type")
+    private String subscriptionByTagType;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -65,7 +68,6 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events = new ArrayList<>();; //events in which user participates
 
-//cascade = CascadeType.ALL,
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
@@ -140,12 +142,12 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public String getLabels() {
-        return labels;
+    public String getSubscriptionByEventType() {
+        return subscriptionByEventType;
     }
 
-    public void setLabels(String labels) {
-        this.labels = labels;
+    public void setSubscriptionByEventType(String subscriptionByEventType) {
+        this.subscriptionByEventType = subscriptionByEventType;
     }
 
     public List<Event> getEventsOfAuthor() {
@@ -166,6 +168,46 @@ public class User implements Serializable {
 
     public String getFullName() {
         return getFirstname() + " " + getLastname();
+    }
+
+    public Set<EventType>getSubscriptionByEventTypeAsEnums(){
+        Set <EventType> subscriptionByEventTypeSet;
+        subscriptionByEventTypeSet=new HashSet();
+
+        String labelArray[] = null;
+        try{
+            labelArray = subscriptionByEventType.split(",");
+        } catch (Exception e){
+            return subscriptionByEventTypeSet;
+        }
+        for (String label:labelArray)
+            for (EventType eventType : EventType.values())
+                if (label.equals(eventType.toString()))
+                    subscriptionByEventTypeSet.add(eventType);
+        return subscriptionByEventTypeSet;
+    }
+
+    public String getSubscriptionByTagType() {
+        return subscriptionByTagType;
+    }
+
+    public void setSubscriptionByTagType(String subscriptionByTagType) {
+        this.subscriptionByTagType = subscriptionByTagType;
+    }
+
+    public Set<TagType> getSubscriptionByTagTypeAsEnums(){
+        Set <TagType> subscriptionByTagTypeSet=new HashSet();
+        String tagArray[];
+        try{
+            tagArray = subscriptionByTagType.split(",");
+        } catch (Exception e){
+            return subscriptionByTagTypeSet;
+        }
+        for (String tag:tagArray)
+            for (TagType tagType : TagType.values())
+                if (tag.equals(tagType.toString()))
+                    subscriptionByTagTypeSet.add(tagType);
+        return subscriptionByTagTypeSet;
     }
 
     @Override
@@ -199,10 +241,6 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-//                ", email='" + email + '\'' +
-//                ", password='" + password + '\'' +
-//                ", confirmPassword='" + confirmPassword + '\'' +
-//                ", roles=" + roles +
                 '}';
     }
 }

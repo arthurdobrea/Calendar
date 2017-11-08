@@ -2,6 +2,8 @@ package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
+import com.calendar.project.model.Tag;
+import com.calendar.project.model.TagType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +25,16 @@ public interface EventService {
     void updateEvent(Event editedEvent);
 
     List<Event> getEventsByAuthor(long authorId);
+
+    List<Event> getFutureEventsByType(EventType eventType);
+
+    List<EventType> getEventTypeList();
+
+    List<Event> getEventsByTag(String tag);
+
+    List<Event> getEventsByLocation(String location);
+
+    List<Event> getEventsByType(EventType type);
 
     List<Event> getEventsByDate(String date);
 

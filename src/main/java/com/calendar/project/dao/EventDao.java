@@ -1,6 +1,9 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
+import com.calendar.project.model.Tag;
+
 import com.calendar.project.model.User;
 
 import java.time.LocalDate;
@@ -10,19 +13,25 @@ import java.util.List;
 
 public interface EventDao {
 
-    void saveEvent(Event event);
+    Event getEvent(int eventId);
+
+    List<Event> getEventsByUser(Long userId);
+
+    List<Event> getEventsByAuthor(Long authorId);
+
+    List<Event> getEventsByLocation(String location);
+
+    List<Event> getEventsByType(EventType type);
 
     List<Event> getAllEvents();
 
-    Event getEvent(int eventId);
+    List<Event> getEventsByTag(String tag);
 
-    List<Event> getEventsByUser(long userId);
-
-    void deleteEvent(Event event);
+    void saveEvent(Event event);
 
     void updateEvent(Event event);
 
-    List<Event> getEventsByAuthor(long authorId);
+    void deleteEvent(Event event);
 
     List<Event> getEventsByDate(String localDate);
 
