@@ -2,6 +2,7 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -48,6 +49,20 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getEventsByAuthor(Long authorId) {
         return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor")
                 .setParameter("idOfAuthor", authorId)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByLocation(String location) {
+        return entityManager.createQuery("from Event e where e.location = :location")
+                .setParameter("location", location)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByType(EventType type) {
+        return entityManager.createQuery("from Event e where e.eventType = :type")
+                .setParameter("type", type)
                 .getResultList();
     }
 

@@ -1,6 +1,7 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
 
 import com.calendar.project.model.User;
@@ -14,6 +15,10 @@ public interface EventDao {
     List<Event> getEventsByUser(Long userId);
 
     List<Event> getEventsByAuthor(Long authorId);
+
+    List<Event> getEventsByLocation(String location);
+
+    List<Event> getEventsByType(EventType type);
 
     List<Event> getAllEvents();
 

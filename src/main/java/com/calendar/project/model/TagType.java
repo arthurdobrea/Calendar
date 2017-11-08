@@ -1,11 +1,8 @@
 package com.calendar.project.model;
 
-/**
- * Created by mhristiniuc on 10/25/2017.
- */
 public enum TagType {
 
-    AM_STREEM ("AM Stream", "ORANGE"),
+    AM_STREAM ("AM Stream", "ORANGE"),
     DEVELOPMENT ("Development", "RED"),
     TESTING ("Testing", "VIOLET"),
     TOWER ("Tower", "YELLOW"),

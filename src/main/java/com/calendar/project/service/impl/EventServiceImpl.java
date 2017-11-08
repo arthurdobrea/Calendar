@@ -65,6 +65,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getEventsByLocation(String location) {
+        return eventDao.getEventsByLocation(location);
+    }
+
+    @Override
+    public List<Event> getEventsByType(EventType type) {
+        return eventDao.getEventsByType(type);
+    }
+
+    @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }

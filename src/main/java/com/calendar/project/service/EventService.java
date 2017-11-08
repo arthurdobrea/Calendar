@@ -21,6 +21,10 @@ public interface EventService {
 
     List<Event> getEventsByTag(String tag);
 
+    List<Event> getEventsByLocation(String location);
+
+    List<Event> getEventsByType(EventType type);
+
     List<Event> getAllEvents();
 
     void saveEvent(Event event);
