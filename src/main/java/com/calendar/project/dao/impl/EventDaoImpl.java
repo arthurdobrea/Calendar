@@ -56,6 +56,12 @@ public class EventDaoImpl implements EventDao {
         return entityManager.createQuery("from Event e")
                 .getResultList();
     }
+    
+    // doesn't work
+    @Override
+    public List<Event> getEventsByTag(String tag) {
+        return null;
+    }
 
     @Override
     public void saveEvent(Event event) {
