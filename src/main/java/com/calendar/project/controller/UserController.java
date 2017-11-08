@@ -10,9 +10,12 @@ import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
+import com.calendar.project.service.impl.GreeterService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -227,5 +230,17 @@ public class UserController {
             userName = principal.toString();
         }
         return userName;
+    }
+
+    @RequestMapping(value = "/home")
+    public String home(){
+        return "home";
+    }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public GreeterService greeting(User message) throws Exception {
+        Thread.sleep(3000); // simulated delay
+        return new GreeterService("Hello, " + message.getUsername() + "!");
     }
 }
