@@ -38,6 +38,13 @@
         <p>${participant.username}</p>
     </p>
     </c:forEach>
+    <%-- Output tags of event--%>
+    <p>Tag:
+    <c:forEach items="${event.tags}" var="tag">
+        | ${tag.tag} ||
+
+    </c:forEach>
+
 </c:forEach>
 </body>
 </html>

@@ -12,7 +12,11 @@ public class Tag {
     private Long id;
 
     @Column(name = "tag_name")
-    private String tag;
+    @Enumerated(EnumType.STRING)
+    private TagType tag;
+
+    @Column(name = "tag_color")
+    private String color;
 
    @ManyToMany(fetch = FetchType.EAGER )
    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
@@ -23,7 +27,7 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(String tag) {
+    public Tag(TagType tag) {
         this.tag = tag;
     }
 
@@ -35,12 +39,24 @@ public class Tag {
         this.id = id;
     }
 
-    public String getTag() {
+    public TagType getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(TagType tag) {
         this.tag = tag;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setColorByDefault() {
+        this.color = tag.color();
     }
 
     public Set<Event> getEvents() {
@@ -56,18 +72,16 @@ public class Tag {
         if (this == o) return true;
         if (!(o instanceof Tag)) return false;
 
-        Tag tag = (Tag) o;
+        Tag tag1 = (Tag) o;
 
-        if (!id.equals(tag.id)) return false;
-        if (!this.tag.equals(tag.tag)) return false;
-        return events != null ? events.equals(tag.events) : tag.events == null;
+        if (!id.equals(tag1.id)) return false;
+        return tag == tag1.tag;
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + tag.hashCode();
-        result = 31 * result + (events != null ? events.hashCode() : 0);
         return result;
     }
 
@@ -75,8 +89,8 @@ public class Tag {
     public String toString() {
         return "Tag{" +
                 "id=" + id +
-                ", tag='" + tag + '\'' +
-                ", events=" + events +
+                ", tag=" + tag +
+                ", color='" + color + '\'' +
                 '}';
     }
 }

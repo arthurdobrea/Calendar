@@ -47,12 +47,17 @@
 
         <spring:bind path="eventType">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:select  path="eventType" class="form-control" >
+                <form:select  path="eventType" class="form-control" required="true" >
+
                     <option value="">Select Event Type</option>
-                    <c:forEach items="${eventsList}" var="eventType">
-                        <option value="${eventType}"> ${eventType.view()} </option>
-                    </c:forEach>
-        </form:select>
+                    <option value="MEETING">Meeting</option>
+                    <option value="TRAINING">Training</option>
+                    <option value="STANDUP">Stand up</option>
+                    <option value="OFFLINE">Offline</option>
+                    <option value="TEAM_BUILDING">Team building</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="OTHER">Other</option>
+                </form:select>
             </div>
         </spring:bind>
 
@@ -87,9 +92,9 @@
         </spring:bind>
 
         <spring:bind path="participants">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                          multiple="true" required="true"/>
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+                             multiple="true" required="true"/>
             </div>
         </spring:bind>
 

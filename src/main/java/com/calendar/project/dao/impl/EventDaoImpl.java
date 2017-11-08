@@ -65,7 +65,14 @@ public class EventDaoImpl implements EventDao {
         List<Event> events = entityManager
                 .createQuery("FROM Event e WHERE e.author.id=:idOfAuthor")
                 .setParameter("idOfAuthor", authorId).getResultList();
-
+        return events;
+    }
+    //doestn't work
+    @Override
+    public List<Event> getEventsByTag(String tag) {
+        List<Event> events = entityManager.createQuery(" FROM Event as event JOIN Tag as etag  WHERE etag in (:event.tags) and tag.tag=:ptag")
+                .setParameter("ptag", tag)
+                .getResultList();
         return events;
     }
 

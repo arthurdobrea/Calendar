@@ -25,4 +25,6 @@ public interface EventDao {
 
     List<Event> getEventsByAuthor(long authorId);
 
+    public List<Event> getEventsByTag(String tag);
+
 }

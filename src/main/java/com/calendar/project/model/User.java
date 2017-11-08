@@ -41,8 +41,11 @@ public class User implements Serializable {
 
     //@ElementCollection(targetClass = String.class)
     //@Enumerated(EnumType.STRING)
-    @Column(name = "labels")
-    private String labels;
+    @Column(name = "subscription_by_event_type")
+    private String subscriptionByEventType;
+
+    @Column(name = "subscription_by_tag_type")
+    private String subscriptionByTagType;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -130,12 +133,12 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public String getLabels() {
-        return labels;
+    public String getSubscriptionByEventType() {
+        return subscriptionByEventType;
     }
 
-    public void setLabels(String labels) {
-        this.labels = labels;
+    public void setSubscriptionByEventType(String subscriptionByEventType) {
+        this.subscriptionByEventType = subscriptionByEventType;
     }
 
     public List<Event> getEventsOfAuthor() {
@@ -157,15 +160,62 @@ public class User implements Serializable {
     public String getFullName() {
         return getFirstname() + " " + getLastname();
     }
+/*
+    public Optional<Set<EventType>> getLabelsAsEnums(){
+       Set <EventType> labelSet;
+        labelSet=new HashSet();
 
-    public Set<EventType> getLabelsAsEnums(){
-        Set <EventType> labelSet=new HashSet();
-        String labelArray[] = labels.split(",");
+        String labelArray[] = null;
+        try{
+            labelArray = subscriptionByEventType.split(",");
+        } catch (Exception e){
+            return Optional.ofNullable(labelSet);
+        }
         for (String label:labelArray)
             for (EventType eventType : EventType.values())
                 if (label.equals(eventType.toString()))
                     labelSet.add(eventType);
-        return labelSet;
+        return Optional.ofNullable(labelSet);
+    }
+*/
+    public Set<EventType>getSubscriptionByEventTypeAsEnums(){
+        Set <EventType> subscriptionByEventTypeSet;
+        subscriptionByEventTypeSet=new HashSet();
+
+        String labelArray[] = null;
+        try{
+            labelArray = subscriptionByEventType.split(",");
+        } catch (Exception e){
+            return subscriptionByEventTypeSet;
+        }
+        for (String label:labelArray)
+            for (EventType eventType : EventType.values())
+                if (label.equals(eventType.toString()))
+                    subscriptionByEventTypeSet.add(eventType);
+        return subscriptionByEventTypeSet;
+    }
+
+    public String getSubscriptionByTagType() {
+        return subscriptionByTagType;
+    }
+
+    public void setSubscriptionByTagType(String subscriptionByTagType) {
+        this.subscriptionByTagType = subscriptionByTagType;
+    }
+
+    public Set<TagType> getSubscriptionByTagTypeAsEnums(){
+        Set <TagType> subscriptionByTagTypeSet=new HashSet();
+        String tagArray[];
+        try{
+            tagArray = subscriptionByTagType.split(",");
+        } catch (Exception e){
+            return subscriptionByTagTypeSet;
+        }
+        for (String tag:tagArray)
+            for (TagType tagType : TagType.values())
+                if (tag.equals(tagType.toString()))
+                    subscriptionByTagTypeSet.add(tagType);
+        return subscriptionByTagTypeSet;
     }
 
     @Override

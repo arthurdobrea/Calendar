@@ -24,12 +24,21 @@ public class UserDaoImpl implements UserDao {
                 .orElse(null);
     }
     @Override
-    public List<User> getUsersByLabel(String label) {
-        List<User> users = entityManager.createQuery("from User u where u.labels Like :label", User.class)
-                .setParameter("label", "%"+label+"%")
+    public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
+                .setParameter("eventtype", "%"+subscriptionByEventType+"%")
                 .getResultList();
         return users;
     }
+
+    @Override
+    public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
+                .setParameter("tagtype", "%"+subscriptionByTagType+"%")
+                .getResultList();
+        return users;
+    }
+
     @Override
     public void save(User user) {
         entityManager.persist(user);

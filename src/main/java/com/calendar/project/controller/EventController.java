@@ -9,9 +9,7 @@ import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -42,7 +40,46 @@ public class EventController {
         return "events";
     }
 
-    @RequestMapping(value = "/create-event", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
+    public String updateEvent(Long eventId, Model model){
+        model.addAttribute("eventForm", eventService.getEvent(eventId));
+
+        return "updateEvent";
+    }
+
+    @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
+    public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model){
+        List<User> participans = new LinkedList<>();
+        for (User u : eventForm.getParticipants()) {
+            u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
+            participans.add(userDao.getUser(u.getId()));
+        }
+
+        eventForm.setParticipants(participans);
+        model.addAttribute("eventForm", eventForm );
+        eventService.updateEvent(eventForm);
+
+        return "redirect:/userPage";
+    }
+
+    @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
+    public String deleteEvent(Long eventId, Model model){
+        model.addAttribute("event", eventService.getEvent(eventId));
+
+        return "deleteEvent";
+    }
+
+    @RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
+    public String deleteEvent(@ModelAttribute("event") Event event, Model model){
+        eventService.deleteEvent(event);
+        model.addAttribute("event",event);
+
+        return "redirect:/events";
+    }
+
+
+    @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
         Event event = new Event();
         List<User> participants = userDao.getAll().stream().collect(Collectors.toList());
@@ -78,7 +115,7 @@ public class EventController {
         model.addAttribute("eventForm", event);
 
         return "showEvent";
-  }
+    }
 
 //    @RequestMapping(value = "/myevents", method = RequestMethod.GET)
 //    public String showAllEvents(Model model, @ModelAttribute("user") User user) {
@@ -91,12 +128,4 @@ public class EventController {
         model.addAttribute("events", eventService.getEvent(event.getId()));
         return "usersByEvents";
     }
-
-    @RequestMapping(value = "/participants/{eventName}", method = RequestMethod.GET)
-    public String getparticipants (@PathVariable("eventName") String eventName, ModelMap model)  {
-        System.out.println("EventName "+eventName+ " "+eventServiceImpl.getEventByName(eventName).getParticipants());
-        model.addAttribute("participantsList", eventServiceImpl.getEventByName(eventName).getParticipants());
-        return "participants";
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.TagType;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface TagService {
 
     public Tag getTag(Long id);
 
-    List<Tag> getAllTags();
+    public List<Tag> getAllTags();
+
+    public List<TagType> getTagsTypeList();
 
 }

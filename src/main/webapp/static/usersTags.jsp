@@ -10,10 +10,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description">
-    <meta name="author">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <title>Create a tag</title>
+    <title>set user tag</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -29,29 +29,35 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
+<a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
-<div class="container">
-    <form:form method="POST" modelAttribute="tagForm" class="form-signin">
-        <h2 class="form-signin-heading">Create your tag</h2>
-        <spring:bind path="tag">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="tag" class="form-control" placeholder="Tag"
-                            autofocus="true"></form:input>
-            </div>
-        </spring:bind>
+    <form action="usersTag" method="post">
+       <c:forEach items="${usersList}" var="user">
+           <p>${user.username}||</p>
+            <c:forEach items="${tagsList}" var="tag">
+                ${tag.view()}
+                <c:set var="checked" value="0"/>
+                    <c:forEach items="${user.getTagsAsEnums()}" var="userTag">
+                       <c:if test = "${tag==userTag}">
+                           <c:set var="checked" value="1"/>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test = "${checked==1}">
+                        <input type="checkbox" name="checkboxName" value="${tag}" checked/>
+                    </c:if>
+                    <c:if test = "${checked==0}">
+                         <input type="checkbox" name="checkboxName" value="${tag}"/>
+                    </c:if>
+               </c:forEach>
+           </p>
+        </c:forEach>
+           <p>
+        <input type="submit">
+    </form>
 
-        <spring:bind path="color">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="color" class="form-control" placeholder="Color"
-                            autofocus="true"></form:input>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">create tag</button>
-    </form:form>
 </div>
 </body>
 </html>

@@ -13,7 +13,7 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Create a tag</title>
+    <title>Update tag</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -35,7 +35,15 @@
 
 <div class="container">
     <form:form method="POST" modelAttribute="tagForm" class="form-signin">
-        <h2 class="form-signin-heading">Create your tag</h2>
+        <h2 class="form-signin-heading">Update tag</h2>
+
+        <spring:bind path="id">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="hidden" path="id" class="form-control" placeholder="Id"
+                            autofocus="true" required="true"></form:input>
+            </div>
+        </spring:bind>
+
         <spring:bind path="tag">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="tag" class="form-control" placeholder="Tag"
@@ -43,14 +51,7 @@
             </div>
         </spring:bind>
 
-        <spring:bind path="color">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="color" class="form-control" placeholder="Color"
-                            autofocus="true"></form:input>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">create tag</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">update tag</button>
     </form:form>
 </div>
 </body>

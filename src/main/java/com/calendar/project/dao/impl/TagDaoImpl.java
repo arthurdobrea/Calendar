@@ -54,6 +54,5 @@ public class TagDaoImpl implements TagDao{
 
         Hibernate.initialize(tag.getEvents());  // TODO need to test
         return tag;
-
     }
 }

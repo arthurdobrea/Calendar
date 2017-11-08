@@ -1,5 +1,6 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.model.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
@@ -66,16 +67,6 @@ public class EventServiceImpl implements EventService {
         return eventList;
     }
 
-
-
-
-
-
-    @Override
-    public Event getEvent(Long id) {
-        return eventDao.getEvent(id);
-    }
-
     @Override
     @Transactional
     public void deleteEvent(Event eventToDelete){
@@ -97,9 +88,13 @@ public class EventServiceImpl implements EventService {
         event.setEndTime(editedEvent.getEndTime());
     }
 
+    @Override
+    public List<Event> getEventsByAuthor(long authorId){
+        return eventDao.getEventsByAuthor(authorId);
+    }
 
-
-
-
+    public List<Event> getEventsByTag(String tag){
+        return eventDao.getEventsByTag(tag);
+    }
 
 }

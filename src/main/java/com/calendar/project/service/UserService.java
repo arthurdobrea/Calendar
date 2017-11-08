@@ -21,4 +21,8 @@ public interface UserService {
 
     User getUser(long id);
 
+    List<User>  getUsersListBySubscriptionByEventType(String subscriptionByTagType);
+
+    List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType);
+
 }

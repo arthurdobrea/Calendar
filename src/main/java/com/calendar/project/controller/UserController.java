@@ -1,11 +1,10 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private TagService tagService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -102,20 +103,6 @@ public class UserController {
         return "userControlPanel";
     }
 
-    @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(  Model model, User user){
-        user = securityService.findLoggedInUsername();
-        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
-        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
-        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
-        model.addAttribute("eventsByAuthor", eventsByAuthor);
-        model.addAttribute("eventsByUser", eventsByUser);
-        model.addAttribute("eventsList", eventServiceImpl.getEventTypeList());
-        return "userPage";
-    }
-
-
-
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
         User user = userService.findByUsername(userForm.getUsername());
@@ -129,29 +116,37 @@ public class UserController {
         return "redirect:/index";
     }
 
+    @RequestMapping(value = "/userPage", method = RequestMethod.GET)
+    public String showMyEvents(  Model model, User user){
+        user = securityService.findLoggedInUsername();
+        List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
+        List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("eventsByAuthor", eventsByAuthor);
+        model.addAttribute("eventsByUser", eventsByUser);
+        model.addAttribute("eventsList", eventService.getEventTypeList());
+
+        return "userPage";
+    }
+
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
     public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
         User user = securityService.findLoggedInUsername();
+
         StringBuilder stringBuilder = new StringBuilder();
         for(String ptr: checkboxValue){
-            stringBuilder.append(ptr + ',');
+            if (!ptr.equals("")) stringBuilder.append(ptr + ',');
         }
         String res = stringBuilder.toString();
-        user.setLabels(res);
+        user.setSubscriptionByEventType(res);
         userService.update(user);
         //is mailing all events to current user  by his labels and event types.
         userService.mailToUser(user);
         return "userPage";
     }
 
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        model.addAttribute("userForm", new User());
 
-        userService.update(userForm);
-
-        return "redirect:/index";
-    }
 
     // is mailing all events to all users when labels are equals to event types.
     @RequestMapping(value = "/mailing", method = RequestMethod.GET)
@@ -163,5 +158,24 @@ public class UserController {
     public String mailing(Model model) {
         userService.mailToAllUsers();
         return "mailing";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
+    public String setUsersTag(Model model) {
+        model.addAttribute("usersList", userService.getAllUsers());
+        model.addAttribute("tagsList", tagService.getTagsTypeList());
+        return "usersTags";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
+    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String ptr: checkboxValue){
+            stringBuilder.append(ptr + ',');
+        }
+        String tagSet = stringBuilder.toString();
+        user.setSubscriptionByTagType(tagSet);
+        userService.update(user);
+        return "usersTags";
     }
 }

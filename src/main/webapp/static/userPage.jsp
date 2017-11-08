@@ -70,9 +70,22 @@
     <form action="eventTypeLink" method="post">
        <c:forEach items="${eventsList}" var="eventType">
            <p>${eventType.view()}
-           <input type="checkbox" name="checkboxName" value="${eventType}"/><br>
+               <c:set var="checked" value="0"/>
+               <c:forEach items="${userLabels}" var="labels">
+                    <c:if test = "${labels==eventType}">
+                         <c:set var="checked" value="1"/>
+                     </c:if>
+               </c:forEach>
+               <c:if test = "${checked==1}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" checked/><br>
+               </c:if>
+               <c:if test = "${checked==0}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" /><br>
+               </c:if>
         </c:forEach>
            <p>
+
+           <input type="checkbox" name="checkboxName" value="" checked hidden/><br>
         <input type="submit">
     </form>
 

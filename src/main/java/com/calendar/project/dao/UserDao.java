@@ -13,9 +13,12 @@ public interface UserDao {
 
     List<User> getAll();
 
-    List<User> getUsersByLabel(String label);
 
     User getUser(long id);
+
+    List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType);
+
+    List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType);
 
 
 }
