@@ -57,7 +57,7 @@
                     <option value="TEAM_BUILDING">Team building</option>
                     <option value="WORKSHOP">Workshop</option>
                     <option value="OTHER">Other</option>
-        </form:select>
+                </form:select>
             </div>
         </spring:bind>
 
@@ -90,11 +90,11 @@
                                autofocus="true"></form:textarea>
             </div>
         </spring:bind>
-        
+
         <spring:bind path="participants">
-        <div class="form-group ${status.error ? 'has-error' : ''}">
-            <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                          multiple="true"/>
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+                             multiple="true" required="true"/>
             </div>
         </spring:bind>
 

@@ -1,11 +1,13 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +32,7 @@ import java.util.Set;
 public class UserController {
 
     @Autowired
-    private EventService eventService;
+    EventService eventService;
 
     @Autowired
     private UserService userService;
@@ -39,6 +42,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private EditFormValidator editFormValidator;
@@ -149,32 +155,36 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(Model model, User user) {
+    public String showMyEvents(  Model model, User user){
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
-
-        model.addAttribute("userAuthor", userService.getUser(user.getId()));
+        model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
+        model.addAttribute("eventsList", eventService.getEventTypeList());
 
         return "userPage";
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
-    public String userPage(Model model, @RequestParam("checkboxName") Set<String> checkboxValue) {
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
         User user = securityService.findLoggedInUsername();
+
         StringBuilder stringBuilder = new StringBuilder();
-
-        for (String ptr : checkboxValue) {
-            stringBuilder.append(ptr + ',');
+        for(String ptr: checkboxValue) {
+            if (!ptr.equals("")) {
+                stringBuilder.append(ptr + ',');
+            }
         }
-        String res = stringBuilder.toString();
 
-        user.setLabels(res);
-        user.setLastname("OLEG");
+        String res = stringBuilder.toString();
+        user.setSubscriptionByEventType(res);
 
         userService.update(user);
+        //is mailing all events to current user  by his labels and event types.
+        userService.mailToUser(user);
 
         return "userPage";
     }
@@ -231,5 +241,41 @@ public class UserController {
         }
 
         return userName;
+    }
+
+    // is mailing all events to all users when labels are equals to event types.
+    @RequestMapping(value = "/mailing", method = RequestMethod.GET)
+    public String mailing() {
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/mailing", method = RequestMethod.POST)
+    public String mailing(Model model) {
+        userService.mailToAllUsers();
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
+    public String setUsersTag(Model model) {
+        model.addAttribute("usersList", userService.getAllUsers());
+        model.addAttribute("tagsList", tagService.getTagsTypeList());
+
+        return "usersTags";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
+    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(String ptr: checkboxValue) {
+            stringBuilder.append(ptr + ',');
+        }
+        String tagSet = stringBuilder.toString();
+
+        user.setSubscriptionByTagType(tagSet);
+
+        userService.update(user);
+
+        return "usersTags";
     }
 }

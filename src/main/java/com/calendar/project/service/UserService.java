@@ -11,6 +11,10 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    List<User>  getUsersListBySubscriptionByEventType(String subscriptionByTagType);
+
+    List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType);
+
     List<User> findAllUsers();
 
     List<User> getAllUsers();
@@ -24,5 +28,9 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUserByUsername(String username);
+
+    void mailToAllUsers();
+
+    void mailToUser(User user);
 
 }

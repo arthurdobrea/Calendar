@@ -2,8 +2,12 @@ package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
+import com.calendar.project.mail.EmailSender;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private EventService eventService;
 
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
@@ -98,5 +105,37 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUserByUsername(String username) {
         userDao.deleteByUsername(userDao.findByUsername(username));
+    }
+
+    public List<User> getUsersListBySubscriptionByEventType(String subscriptionByEventType){
+        return userDao.getUsersBySubscriptionByEventType(subscriptionByEventType);
+    }
+
+    @Override
+    public List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType){
+        return userDao.getUsersBySubscriptionByTagType(subscriptionByTagType);
+    }
+
+    @Override
+    public void mailToAllUsers(){
+          for (User user:getAllUsers())
+              mailToUser(user);
+    }
+
+    @Override
+    public void mailToUser(User user){
+        System.out.println(" enums _ "+user.getSubscriptionByEventTypeAsEnums());
+        StringBuilder mailText = new StringBuilder();
+        for (EventType eventType: (user.getSubscriptionByEventTypeAsEnums())){
+            for (Event event:eventService.getFutureEventsByType(eventType)) {
+                if (eventType.equals(event.getEventType())) {
+                    mailText.append("Event name: " + event.getEventName());
+                    mailText.append("Event description: " + event.getDescription());
+                    mailText.append("Event start time: " + event.getStartTime()+"\n");
+                    System.out.println("will send to " + user.getFirstname() + " this " + mailText + "");
+                }
+            }
+        }
+        EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
     }
 }

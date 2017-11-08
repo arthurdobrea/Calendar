@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -23,7 +26,7 @@ public class Event implements Serializable {
     private EventType eventType;
 
     @JsonBackReference(value = "child")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
@@ -48,8 +51,13 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Event() {
-    }
+    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
+
+    public Event(){}
 
     public Long getId() {
         return id;
@@ -131,6 +139,14 @@ public class Event implements Serializable {
         this.description = description;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -163,5 +179,21 @@ public class Event implements Serializable {
         result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName='" + eventName + '\'' +
+                ", eventType=" + eventType +
+                //", author=" + author +
+                ", location='" + location + '\'' +
+                //", participants=" + participants +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", eventCreated=" + eventCreated +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -11,6 +11,10 @@ public interface UserDao {
 
     User findByUsername(String username);
 
+    List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType);
+
+    List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType);
+
     List<User> getAll();
 
     List<User> findAllUsers();
