@@ -45,7 +45,7 @@ public class EventController {
 
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-    public String updateEvent(Long eventId, Model model){
+    public String updateEvent(int eventId, Model model){
         model.addAttribute("eventForm", eventService.getEvent(eventId));
 
         return "updateEvent";
@@ -67,7 +67,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
-    public String deleteEvent(Long eventId, Model model){
+    public String deleteEvent(int eventId, Model model){
         model.addAttribute("event", eventService.getEvent(eventId));
 
         return "deleteEvent";
@@ -130,7 +130,7 @@ public class EventController {
 //    }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, Long eventId){
+    public String showEvent(Model model, int eventId){
         Event event = eventService.getEvent(eventId);
         model.addAttribute("eventForm", event);
 

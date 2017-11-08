@@ -78,3 +78,11 @@ CREATE TABLE events_users(
 
 insert into events values(1, 'MEETING', 'NBC','2017-11-11 10:23:54', '2017-11-11 10:24:54',
                           now(), 'description', '1', 'example');
+
+create table persistent_logins(
+  username character varying (255),
+  series character varying (255),
+  token character varying (255),
+  last_used timestamp without time zone,
+  constraint persistent_logins_pk primary key (series)
+);

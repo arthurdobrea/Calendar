@@ -46,13 +46,17 @@
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
                 defaultDate: $('#calendar').fullCalendar('today'),
+                weekNumbers: "ISO",
                 navLinks: true,
-                eventLimit: true,
-                events: {url:'/json/allEvents'},
+                eventLimit: false,
+                timeFormat: 'h:mma',
+                events:
+                    {url:'/json/allEvents'},
                 eventClick:  function(event, jsEvent, view) {
                     $('#eventPage').modal();
                 }
         });
+         // $('#calendar').fullCalendar( 'gotoDate', currentDate);
         });
     </script>
     <style>
@@ -141,6 +145,12 @@
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
                                                autofocus="true"></form:textarea>
+                            </div>
+                        </spring:bind>
+                        <spring:bind path="participants">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+                                             multiple="true" required="true"/>
                             </div>
                         </spring:bind>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>

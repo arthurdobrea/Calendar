@@ -1,6 +1,7 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -10,10 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -43,14 +42,19 @@ public class Event implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> participants;
+    private List<User> participants = new ArrayList<>();;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
-    private String start;
+    private LocalDateTime start;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
-    private String end;
+    private LocalDateTime end;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();
@@ -125,19 +129,19 @@ public class Event implements Serializable {
         this.title = title;
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
@@ -179,15 +183,15 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", eventName='" + title + '\'' +
-                ", eventType=" + eventType +
+                ", eventName= " + title + '\'' +
+                ", eventType= " + eventType +
                 //", author=" + author +
-                ", location='" + location + '\'' +
+                ", location=" + location + '\'' +
                 //", participants=" + participants +
-                ", startTime=" + start +
-                ", endTime=" + end +
-                ", eventCreated=" + eventCreated +
-                ", description='" + description + '\'' +
+                ", startTime= "  + start.toString() +
+                ", endTime= " + end.toString() +
+                ", eventCreated= " + eventCreated +
+                ", description= " + description + '\'' +
                 '}';
     }
 }
