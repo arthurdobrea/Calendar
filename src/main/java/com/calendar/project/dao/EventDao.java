@@ -17,12 +17,15 @@ public interface EventDao {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByTag(Long tagId);
+
+
 
     void saveEvent(Event event);
 
     void updateEvent(Event event);
 
     void deleteEvent(Event event);
+
 
 }

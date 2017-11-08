@@ -16,4 +16,6 @@ public interface TagDao {
     public Tag getTagById(long EventTagId);
 
     public Tag getTagByName(String tag);
+
+    List<Tag> getTagsByEvent(Long EventId);
 }

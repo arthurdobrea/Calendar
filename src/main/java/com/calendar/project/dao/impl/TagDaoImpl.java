@@ -1,6 +1,7 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.TagDao;
+import com.calendar.project.model.Event;
 import com.calendar.project.model.Tag;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -55,4 +56,13 @@ public class TagDaoImpl implements TagDao{
         Hibernate.initialize(tag.getEvents());  // TODO need to test
         return tag;
     }
+
+    @Override
+    public List<Tag> getTagsByEvent(Long EventId) {
+        return entityManager.createQuery("SELECT t FROM Tag t JOIN t.events e WHERE e.id = :EventId", Tag.class)
+                .setParameter("EventId", EventId)
+                .getResultList();
+    }
+
+
 }

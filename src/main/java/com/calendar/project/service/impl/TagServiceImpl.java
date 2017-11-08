@@ -65,5 +65,9 @@ public class TagServiceImpl implements TagService {
         return tagsTypeList;
     }
 
+    @Override
+    public List<Tag> getTagsByEvent(Long EventId){
+        return tagDao.getTagsByEvent(EventId);
+    };
 
 }

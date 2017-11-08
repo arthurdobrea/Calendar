@@ -56,11 +56,12 @@ public class EventDaoImpl implements EventDao {
         return entityManager.createQuery("from Event e")
                 .getResultList();
     }
-    
-    // doesn't work
+
     @Override
-    public List<Event> getEventsByTag(String tag) {
-        return null;
+    public List<Event> getEventsByTag(Long tagId) {
+        return entityManager.createQuery("SELECT e FROM Event e JOIN e.tags t WHERE t.id = :tagId", Event.class)
+                .setParameter("tagId", tagId)
+                .getResultList();
     }
 
     @Override

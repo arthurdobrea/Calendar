@@ -5,7 +5,7 @@ package com.calendar.project.model;
  */
 public enum TagType {
 
-    AM_STREEM ("AM Stream", "ORANGE"),
+    AM_STREAM ("AM Stream", "ORANGE"),
     DEVELOPMENT ("Development", "RED"),
     TESTING ("Testing", "VIOLET"),
     TOWER ("Tower", "YELLOW"),

@@ -19,7 +19,7 @@ public interface EventService {
 
     List<EventType> getEventTypeList();
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByTag(Long tagId);
 
     List<Event> getAllEvents();
 

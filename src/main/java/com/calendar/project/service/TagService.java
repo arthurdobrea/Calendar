@@ -23,4 +23,6 @@ public interface TagService {
 
     public List<TagType> getTagsTypeList();
 
+    List<Tag> getTagsByEvent(Long EventId);
+
 }

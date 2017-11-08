@@ -41,6 +41,16 @@
 <c:forEach items="${UserTags}" var="user">
     ${user.username}<br>
 </c:forEach>
+
+<h2>tagsByEvent:</h2>
+<c:forEach items="${tagsByEvent}" var="tag">
+    ${tag.tag} --<br>
+</c:forEach>
+
+<h2>evensByTag:</h2>
+<c:forEach items="${evensByTag}" var="event">
+    ${event.eventName}<br>
+</c:forEach>
 <a href="/create-tag" class="btn">Create new tag</a>
 </body>
 </html>

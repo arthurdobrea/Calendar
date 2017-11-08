@@ -60,8 +60,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByTag(String tag){
-        return eventDao.getEventsByTag(tag);
+    public List<Event> getEventsByTag(Long tagId){
+        return eventDao.getEventsByTag(tagId);
     }
 
     @Override

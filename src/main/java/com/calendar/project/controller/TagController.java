@@ -32,7 +32,8 @@ public class TagController {
         model.addAttribute("tags", tagService.getAllTags());
         model.addAttribute("UserEvents", userService.getUsersListBySubscriptionByEventType("MEETING"));
         model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("AM_STREEM"));
-        model.addAttribute("evensByTag", eventService.getEventsByTag("AM_STREEM"));
+        model.addAttribute("evensByTag", eventService.getEventsByTag(1l));
+        model.addAttribute("tagsByEvent", tagService.getTagsByEvent(1l));
         return "tags";
     }
 
