@@ -2,24 +2,12 @@ package com.calendar.project.model;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
-
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-
 
 @Entity
 @Table(name = "users")
@@ -48,8 +36,6 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
-    //@ElementCollection(targetClass = String.class)
-    //@Enumerated(EnumType.STRING)
     @Column(name = "labels")
     private String labels;
 
@@ -59,14 +45,10 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events; //events in which user participates
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {
@@ -199,10 +181,6 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-//                ", email='" + email + '\'' +
-//                ", password='" + password + '\'' +
-//                ", confirmPassword='" + confirmPassword + '\'' +
-//                ", roles=" + roles +
                 '}';
     }
 }

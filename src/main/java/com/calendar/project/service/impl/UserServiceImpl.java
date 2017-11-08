@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,50 +33,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public User getUser(long userId){
+        return userDao.getUser(userId);
+    }
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getRole(1L));
-        user.setRoles(roles);
-
-        userDao.save(user);
+    @Override
+    public User findById(Long id) {
+        return userDao.findById(id);
     }
 
     @Override
     public User findByUsername(String username) {
-        User user = userDao.findByUsername(username);
-        return user;
-    }
-
-    @Override
-    public boolean exists(String username) {
-        return userDao.findByUsername(username) != null;
+        return userDao.findByUsername(username);
     }
 
     @Override
     public List<User> findAllUsers() {
         return userDao.findAllUsers();
-    }
-
-    @Transactional
-    public void updateUser(User user) {
-        User entity = userDao.findById(user.getId());
-        userDao.update(user);
-
-    }
-    public User findById(Long id) {
-        User user = userDao.findById(id);
-        return user;
-    }
-
-
-
-    @Override
-    @Transactional
-    public void deleteUserByUsername(String username) {
-        userDao.deleteByUsername(userDao.findByUsername(username));
     }
 
     @Override
@@ -94,15 +65,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean exists(String username) {
+        return userDao.findByUsername(username) != null;
+    }
+
+    @Override
+    @Transactional
+    public void save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleDao.getRole(1L));
+        user.setRoles(roles);
+
+        userDao.save(user);
+    }
+
+    @Override
     @Transactional
     public void update(User editedUser) {
         userDao.update(editedUser);
     }
 
-
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        User entity = userDao.findById(user.getId());
+        userDao.update(user);
+    }
 
     @Override
-    public User getUser(long userId){
-       return userDao.getUser(userId);
+    @Transactional
+    public void deleteUserByUsername(String username) {
+        userDao.deleteByUsername(userDao.findByUsername(username));
     }
 }

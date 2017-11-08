@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -25,7 +22,7 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-   @JsonBackReference(value = "child")
+    @JsonBackReference(value = "child")
     @ManyToOne
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;

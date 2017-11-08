@@ -10,8 +10,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description">
+    <meta name="author">
 
     <title>Edit account</title>
 
@@ -29,7 +29,7 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
+<a href="/createEvent" class="btn">Create new event</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>

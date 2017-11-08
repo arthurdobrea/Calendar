@@ -1,26 +1,24 @@
 package com.calendar.project.dao;
 
-
-import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import java.util.List;
 
-import java.util.List;
-import java.util.Set;
-
 public interface UserDao {
 
-    User findByUsername(String username);
+    User getUser(Long id);
 
-    void save(User user);
+    User findById(Long id);
+
+    User findByUsername(String username);
 
     List<User> getAll();
 
     List<User> findAllUsers();
-    User findById(long id);
-    void update(User user);
-    User getUser(long id);
 
+    void save(User user);
+
+    void update(User user);
 
     void deleteByUsername(User user);
+
 }
