@@ -11,7 +11,7 @@ public interface RoleService {
 
     List<Role> findAll();
 
-    public Role findById(Long id);
+    Role findById(Long id);
 
     Long findRoleIdByValue(String value);
 }

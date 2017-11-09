@@ -21,4 +21,6 @@ public interface EventDao {
 
     List<Event> getEventsByAuthor(long authorId);
 
+    List<User> getParticipantsByEvent(long eventId);
+
 }

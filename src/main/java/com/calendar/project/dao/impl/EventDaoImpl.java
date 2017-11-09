@@ -30,7 +30,7 @@ public class EventDaoImpl implements EventDao {
         if(events.size() > 0)
         {
             Event event = events.get(0);
-            Hibernate.initialize(event.getParticipants());// TODO need to test
+           // Hibernate.initialize(event.getParticipants());// TODO need to test
             return event;
         }
 
@@ -72,6 +72,16 @@ public class EventDaoImpl implements EventDao {
                 .setParameter("idOfAuthor", authorId).getResultList();
 
         return events;
+    }
+
+    @Override
+    public List<User> getParticipantsByEvent(long eventId){
+        List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
+                "JOIN u.events e WHERE e.id=:idOfUser").setParameter("idOfUser", eventId)
+                .getResultList();
+
+        return participantsAtEvent;
+
     }
 
 }

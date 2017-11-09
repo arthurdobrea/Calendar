@@ -3,15 +3,15 @@ package com.calendar.project.controller;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
@@ -39,7 +39,6 @@ public class EventController {
 
         return "events";
     }
-
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
     public String updateEvent(Long eventId, Model model) {
@@ -77,7 +76,6 @@ public class EventController {
         return "redirect:/userPage";
     }
 
-
     @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
         Event event = new Event();
@@ -111,6 +109,15 @@ public class EventController {
         model.addAttribute("eventForm", event);
 
         return "showEvent";
+    }
+
+    @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<User> getEventInJSON(long eventId){
+        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
+
+        return participantsByEvent;
     }
 }
 

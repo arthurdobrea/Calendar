@@ -50,6 +50,7 @@
         <p>Name: ${event.eventName} | Type of event: ${event.eventType}
             <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
             <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
+            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
 
         </p>
         </c:forEach>
