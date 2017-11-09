@@ -10,8 +10,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description">
+    <meta name="author">
 
     <title>Welcome</title>
 
@@ -29,10 +29,15 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -47,7 +52,7 @@
         <h2>Events created by me: ${eventsByAuthor.size()}</h2>
 
         <c:forEach items="${eventsByAuthor}" var="event">
-        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+        <p>Name: ${event.title} | Type of event: ${event.eventType}
             <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
             <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
             <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
@@ -55,27 +60,35 @@
         </p>
         </c:forEach>
 
-
-
     <h2>Events where I am invited: ${eventsByUser.size()}</h2>
 
     <c:forEach items="${eventsByUser}" var="event">
-        <p>Name: ${event.eventName} | Type of event: ${event.eventType}
+        <p>Name: ${event.title} | Type of event: ${event.eventType}
             <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
         </p>
     </c:forEach>
 
-
-
-
     <form action="eventTypeLink" method="post">
-        <input type="checkbox" name="checkboxName" value="OTHER"/>OTHER
-        <input type="checkbox" name="checkboxName" value="MEETING"/>MEETING
-        <input type="checkbox" name="checkboxName" value="CARDGAMES"/>CARDGAMES
-        <input type="checkbox" name="checkboxName" value="VACATION"/>VACATION
+       <c:forEach items="${eventsList}" var="eventType">
+           <p>${eventType.view()}
+               <c:set var="checked" value="0"/>
+               <c:forEach items="${userLabels}" var="labels">
+                    <c:if test = "${labels==eventType}">
+                         <c:set var="checked" value="1"/>
+                     </c:if>
+               </c:forEach>
+               <c:if test = "${checked==1}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" checked/><br>
+               </c:if>
+               <c:if test = "${checked==0}">
+                    <input type="checkbox" name="checkboxName" value="${eventType}" /><br>
+               </c:if>
+        </c:forEach>
+           <p>
+
+           <input type="checkbox" name="checkboxName" value="" checked hidden/><br>
         <input type="submit">
     </form>
-
 </div>
 </body>
 </html>

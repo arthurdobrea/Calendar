@@ -13,7 +13,7 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Log in with your account</title>
+    <title>Create a tag</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -26,24 +26,32 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-<input type="image" src="${contextPath}/resources/preview-image.png"/>
+<a href="/welcome" class="btn">Home</a>
+<a href="/index" class="btn">Calendar</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
+<a href="/create-event" class="btn">Create new event</a>
+<a href="/events" class="btn">All events</a>
+<a href="/logout" class="btn">Logout</a>
 
 <div class="container">
-    <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Log in</h2>
+    <form:form method="POST" modelAttribute="tagForm" class="form-signin">
+        <h2 class="form-signin-heading">Create your tag</h2>
+        <spring:bind path="tag">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="tag" class="form-control" placeholder="Tag"
+                            autofocus="true"></form:input>
+            </div>
+        </spring:bind>
 
-        <div class="form-group ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="Username"
-                   autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
-            <span>${error}</span>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <label><input type="checkbox" id="remember-me" name="remember-me"> Remember Me</label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
-        </div>
-    </form>
+        <spring:bind path="color">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="color" class="form-control" placeholder="Color"
+                            autofocus="true"></form:input>
+            </div>
+        </spring:bind>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">create tag</button>
+    </form:form>
 </div>
 </body>
 </html>

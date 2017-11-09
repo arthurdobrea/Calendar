@@ -10,28 +10,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description">
+    <meta name="author">
 
     <title>Create an account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 
-
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-
 <div class="container">
-
     <form:form method="POST" modelAttribute="user" class="form-signin">
         <form:input type="hidden" path="id" id="id"/>
         <h2 class="form-signin-heading">Edit user </h2>
-
 
         <spring:bind path="id">
             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -89,31 +85,9 @@
             </div>
         </spring:bind>
 
-        <%--<div class="row">--%>
-            <%--<div class="form-group col-md-12">--%>
-                <%--<label class="col-md-3 control-lable" for="roles">Roles</label>--%>
-                <%--<div class="col-md-7">--%>
-                    <%--<form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm" />--%>
-                    <%--<div class="has-error">--%>
-                        <%--<form:errors path="roles" class="help-inline"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<c:forEach items="${list_of_roles}" var="roles">--%>
-            <%--<p>Name: ${roles.name}--%>
-                <%--<a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>--%>
-                <%--<a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>--%>
-
-            <%--</p>--%>
-        <%--</c:forEach>--%>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
-
 </div>
-<!-- /container -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

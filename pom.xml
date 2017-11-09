@@ -20,11 +20,11 @@
         <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
         <java.version>1.8</java.version>
         <mysql.version>5.1.42</mysql.version>
-        <postgress.version>9.1-901.jdbc4</postgress.version>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <junit.version>4.12</junit.version>
         <java-mail.version>1.4.7</java-mail.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <build>
@@ -54,9 +54,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgress.version}</version>
+            <version>9.4.1208</version>
         </dependency>
 
         <dependency>
@@ -186,6 +186,34 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>moment</artifactId>
+            <version>2.19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>fullcalendar</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
         <!-- Java email sender jar's -->
         <dependency>
             <groupId>javax.mail</groupId>
@@ -204,6 +232,14 @@
             <artifactId>activation</artifactId>
             <version>1.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
 
     </dependencies>
 

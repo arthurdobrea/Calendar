@@ -10,8 +10,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description">
+    <meta name="author">
 
     <title>Create an account</title>
 
@@ -71,7 +71,7 @@
 
         <spring:bind path="confirmPassword">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="confirmPassword" path="confirmPassword" class="form-control" placeholder="Confirm_Password"
+                <form:input type="password" path="confirmPassword" class="form-control" placeholder="Confirm Password"
                             autofocus="true"></form:input>
                 <form:errors path="confirmPassword"></form:errors>
             </div>

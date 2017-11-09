@@ -1,5 +1,6 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
@@ -8,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,17 +21,6 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventDao eventDao;
-
-    @Override
-    @Transactional(readOnly = false)
-    public void saveEvent(Event event){
-        eventDao.saveEvent(event);
-    }
-
-    @Override
-    public List<Event> getAllEvents() {
-        return eventDao.getAllEvents();
-    }
 
     @Override
     public List<Event> getEventsByUser(long userId) {
@@ -38,35 +33,95 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(Long id) {
-        return eventDao.getEvent(id);
+    public Event getEvent (int id){
+            return eventDao.getEvent(id);
+        }
+
+    @Override
+    public List<EventType> getEventTypeList(){
+        List<EventType> EventTypeList = new ArrayList<>();
+
+        for(EventType eventType : EventType.values()) {
+            EventTypeList.add(eventType);
+        }
+
+        return EventTypeList;
+    }
+
+    @Override
+    public List<Event> getFutureEventsByType(EventType eventType) {
+        List<Event> eventList = new ArrayList<>();
+
+        for (Event event : getAllEvents()) {
+            String startDate = event.getStart().toString(); // convert to ISO DateTime
+            LocalDateTime ldt = LocalDateTime.parse(startDate);
+
+            if (event.getEventType().equals(eventType)&& ldt.isAfter( LocalDateTime.now())) {
+                eventList.add(event);
+            }
+        }
+
+        return eventList;
+    }
+
+    @Override
+    public List<Event> getEventsByTag(String tag){
+        return eventDao.getEventsByTag(tag);
+    }
+
+    @Override
+    public List<Event> getEventsByLocation(String location) {
+        return eventDao.getEventsByLocation(location);
+    }
+
+    @Override
+    public List<Event> getEventsByType(EventType type) {
+        return eventDao.getEventsByType(type);
+    }
+
+    @Override
+    public List<Event> getAllEvents() {
+        return eventDao.getAllEvents();
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteEvent(Event eventToDelete){
-        Event event = eventDao.getEvent(eventToDelete.getId());
-        eventDao.deleteEvent(event);
+    public void saveEvent(Event event){
+        eventDao.saveEvent(event);
     }
 
 
     @Override
     @Transactional
-    public void updateEvent(Event eventToEdit){
-        Event editedEvent = eventDao.getEvent(eventToEdit.getId());
-        editedEvent.setEventName(editedEvent.getEventName());
-        editedEvent.setEventType(editedEvent.getEventType());
-        editedEvent.setParticipants(editedEvent.getParticipants());
-        editedEvent.setDescription(editedEvent.getDescription());
-        editedEvent.setLocation(editedEvent.getLocation());
-        editedEvent.setStartTime(editedEvent.getStartTime());
-        editedEvent.setEndTime(editedEvent.getEndTime());
-        eventDao.updateEvent(editedEvent);
+    public void updateEvent(Event editedEvent){
+        Event event = eventDao.getEvent(editedEvent.getId());
+        event.setTitle(editedEvent.getTitle());
+        event.setEventType(editedEvent.getEventType());
+        event.setParticipants(editedEvent.getParticipants());
+        event.setDescription(editedEvent.getDescription());
+        event.setLocation(editedEvent.getLocation());
+        event.setStart(editedEvent.getStart());
+        event.setEnd(editedEvent.getEnd());
+        eventDao.updateEvent(event);
     }
 
     @Override
     public List<User> getParticipantsByEvent(long eventId){
         return eventDao.getParticipantsByEvent(eventId);
     }
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteEvent(Event eventToDelete) {
+        Event event = eventDao.getEvent(eventToDelete.getId());
+        eventDao.deleteEvent(event);}
 
-}
+    @Override
+    public List<Event> getEventsByDate(String date) {
+        return eventDao.getEventsByDate(date);}
+
+    @Override
+    public List<Event> getEventsByPeriod(String firstDate, String secondDate){
+            return eventDao.getEventsByPeriod(firstDate, secondDate);
+    }
+
+    }

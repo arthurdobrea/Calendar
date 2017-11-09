@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,14 +94,14 @@ public class EventServiceImplTest {
 
     private Event constructEvent() {
         event = new Event();
-        event.setId(1l);
-        event.setEventName("Introduction to Spring MVC");
+        event.setId(1);
+        event.setTitle("Introduction to Spring MVC");
         event.setEventType(EventType.TRAINING);
         event.setParticipants(constructListOfUsers());
         event.setDescription("First course on Spring MVC");
         event.setLocation("Endava Tower, 2nd floor");
-        event.setStartTime("11/7/2017 11:00 AM");
-        event.setEndTime("11/7/2017 12:00 PM");
+        event.setStart(LocalDateTime.of(2020,12,1,11,00));
+        event.setEnd(LocalDateTime.of(2020,12,1,12,00));
 
         return event;
     }
@@ -135,23 +136,23 @@ public class EventServiceImplTest {
         List<Event> allEvents = new ArrayList<>();
 
         Event event1 = new Event();
-        event1.setEventName("Introduction to Spring MVC");
+        event1.setTitle("Introduction to Spring MVC");
         event1.setEventType(EventType.TRAINING);
         event1.setParticipants(null);
         event1.setDescription("First course on Spring MVC");
         event1.setLocation("Endava Tower, 2nd floor");
-        event1.setStartTime("11/7/2017 11:00 AM");
-        event1.setEndTime("11/7/2017 12:00 PM");
+        event1.setStart(LocalDateTime.of(2020,12,1,11,00));
+        event1.setEnd(LocalDateTime.of(2020,12,1,12,00));
         allEvents.add(event1);
 
         Event event2 = new Event();
-        event2.setEventName("Introduction to Hibernate");
+        event2.setTitle("Introduction to Hibernate");
         event2.setEventType(EventType.MEETING);
         event2.setParticipants(null);
         event2.setDescription("First course on Hibernate");
         event2.setLocation("NBC, 4th floor");
-        event2.setStartTime("11/7/2017 01:00 PM");
-        event2.setEndTime("11/7/2017 02:00 PM");
+        event2.setStart(LocalDateTime.of(2020,12,1,11,00));
+        event2.setEnd(LocalDateTime.of(2020,12,1,12,00));
         allEvents.add(event2);
 
         return allEvents;

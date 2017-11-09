@@ -49,11 +49,11 @@ public class EventDaoTest {
         userTest.setFirstname("John");
         userTest.setLastname("Lennon");
         event = new Event();
-        event.setEventName("Java Presentation");
+        event.setTitle("Java Presentation");
         event.setEventType(EventType.TRAINING);
         event.setAuthor(userTest);
-        event.setStartTime("2017-10-31 10:00:00");
-        event.setEndTime("2017-10-31 11:00:00");
+        event.setStart(LocalDateTime.of(2017,10,31, 10,00,00));
+        event.setEnd(LocalDateTime.of(2017,10,31, 11,00,00));
         event.setLocation("NBC, 3rd floor");
         event.setEventCreated(LocalDateTime.of(2017, 10, 30, 10, 30, 01));
         event.setDescription("Java Collections");
@@ -88,11 +88,11 @@ public class EventDaoTest {
     @Test
     public void testGetEventsByUser() throws Exception {
         Event event1 = new Event();
-        event1.setEventName("Java Presentation 2");
+        event1.setTitle("Java Presentation 2");
         event1.setEventType(EventType.TRAINING);
         event1.setAuthor(userTest);
-        event1.setStartTime("2017-10-31 10:00:00");
-        event1.setEndTime("2017-10-31 11:00:00");
+        event1.setStart(LocalDateTime.of(2017,10,31, 10,00,00));
+        event1.setEnd(LocalDateTime.of(2017,10,31, 11,00,00));
         event1.setLocation("NBC, 3rd floor");
         event1.setEventCreated(LocalDateTime.of(2017, 10, 30, 10, 30, 01));
         event1.setDescription("Java Collections 2");

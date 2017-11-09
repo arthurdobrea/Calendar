@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>ShowEvent</title>
@@ -21,11 +22,11 @@
     </spring:bind>
 </form:form>
 
-    <p>Name: ${eventForm.eventName} <br>
+    <p>Name: ${eventForm.title} <br>
         Type: ${eventForm.eventType}<br>
         Location: ${eventForm.location}<br>
-        Start time: ${eventForm.startTime}<br>
-        End time: ${eventForm.endTime}<br>
+        Start time: ${eventForm.start}<br>
+        End time: ${eventForm.end}<br>
         Description:${eventForm.description}<br>
         Created at: ${eventForm.eventCreated}<br>
         Created by: ${eventForm.author.fullName}<br>
