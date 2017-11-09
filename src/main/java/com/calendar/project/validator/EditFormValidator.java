@@ -1,24 +1,14 @@
 package com.calendar.project.validator;
 
 import com.calendar.project.model.User;
-import com.calendar.project.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
 import java.util.regex.Pattern;
 
-/**
- * Created by icebotari on 11/3/2017.
- */
 @Component
 public class EditFormValidator  implements Validator {
-
-    @Autowired
-    private UserService userService;
 
     @Override
     public boolean supports(Class<?> aClass) {

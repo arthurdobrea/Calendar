@@ -13,15 +13,15 @@ import java.io.Serializable;
         ADMIN("ADMIN"),
         SUPREME_ADMIN("SUPREME_ADMIN");
 
-        String roleProfile;
+    String roleProfile;
 
-        private RoleProfile(String roleProfile){
-            this.roleProfile = roleProfile;
-        }
-
-        public String getRoleProfile(){
-            return roleProfile;
-        }
-
+    private RoleProfile(String roleProfile) {
+        this.roleProfile = roleProfile;
     }
+
+    public String getRoleProfile() {
+        return roleProfile;
+    }
+
+}
 

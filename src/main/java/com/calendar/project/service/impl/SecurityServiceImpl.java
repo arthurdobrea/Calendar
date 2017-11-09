@@ -36,9 +36,8 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public User findLoggedInUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByUsername(auth.getName());
 
-        return user;
+        return userService.findByUsername(auth.getName());
     }
 
     @Override

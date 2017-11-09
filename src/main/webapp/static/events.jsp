@@ -39,7 +39,19 @@
 
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType}</p>
+    <p>Name: ${event.title} | Type of event: ${event.eventType.view()} |
+        <a href="/participants/${event.title}"> participants</a></p>
+    <p> <c:forEach items="${event.getParticipants()}" var="participant">
+        <p>${participant.username}</p>
+    </p>
+    </c:forEach>
+    <%-- Output tags of event--%>
+    <p>Tag:
+    <c:forEach items="${event.tags}" var="tag">
+        | ${tag.tag} ||
+
+    </c:forEach>
+
 </c:forEach>
 </body>
 </html>

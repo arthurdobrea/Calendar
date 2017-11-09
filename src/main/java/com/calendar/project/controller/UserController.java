@@ -1,23 +1,24 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
-import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
+import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
+import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import java.util.List;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -52,11 +59,13 @@ public class UserController {
     private UserValidator userValidator;
 
     @Autowired
+    private TagService tagService;
+
+    @Autowired
     private EditFormValidator editFormValidator;
 
     @Autowired
     private RoleService roleService;
-    UserDao userDao;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -77,7 +86,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
     @RequestMapping(value = {"/addUser"}, method = RequestMethod.GET)
     public String addUser(Model model) {
@@ -95,10 +104,10 @@ public class UserController {
 
         userService.save(userForm);
 
-        return "registrationsuccess";
+        return "registrationSuccess";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -117,17 +126,47 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
+    @RequestMapping(value = {"/index" ,"/"}, method = RequestMethod.GET)
+    public String index(Model model){
+        Event event = new Event();
+        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        event.setParticipants(participants);
+        model.addAttribute("eventForm", event);
+        if (securityService.findLoggedInUsername().equals("anonymousUser")) {
+            return "redirect:/login";
+        } else
+        return "index";}
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+        List<User> participants = new LinkedList<>();
+        for (User u : eventForm.getParticipants()) {
+            u.setId(Long.parseLong(u.getUsername()));
+            participants.add(userService.getUser(u.getId()));
+        }
+
+        eventForm.setParticipants(participants);
+        User user = securityService.findLoggedInUsername();
+        eventForm.setAuthor(userService.findByUsername(user.getUsername()));
+        eventService.saveEvent(eventForm);
+        redirectAttributes.addAttribute("eventId", eventForm.getId());
+
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(ModelMap modelMap, HttpServletRequest request) {
         List<User> users = userService.findAllUsers();
+
         modelMap.addAttribute("users", users);
         modelMap.addAttribute("loggedinuser", getPrincipal());
         modelMap.addAttribute("request", request);
+        modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "admin";
     }
 
@@ -162,24 +201,47 @@ public class UserController {
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
         model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
+        model.addAttribute("eventsList", eventService.getEventTypeList());
 
         return "userPage";
+    }
+
+
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
     public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
         User user = securityService.findLoggedInUsername();
+
         StringBuilder stringBuilder = new StringBuilder();
-        for(String ptr: checkboxValue){
-            stringBuilder.append(ptr + ',');
+        for(String ptr: checkboxValue) {
+            if (!ptr.equals("")) {
+                stringBuilder.append(ptr + ',');
+            }
         }
+
         String res = stringBuilder.toString();
-        user.setLabels(res);
-        user.setLastname("OLEG");
+        user.setSubscriptionByEventType(res);
+
         userService.update(user);
+        //is mailing all events to current user  by his labels and event types.
+        userService.mailToUser(user);
 
         return "userPage";
     }
@@ -191,12 +253,12 @@ public class UserController {
         return list;
     }
 
-    @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getPrincipal());
+        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "userEdit";
     }
 
@@ -204,13 +266,14 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
         editFormValidator.validate(user, bindingResult);
 
-        for(Role r : user.getRoles()){
+        for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
         }
 
         if (bindingResult.hasErrors()) {
             return "userEdit";
         }
+
         userService.updateUser(user);
 
         return "redirect:/admin";
@@ -219,18 +282,43 @@ public class UserController {
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
+
         return "redirect:/admin";
     }
 
-    private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    // is mailing all events to all users when labels are equals to event types.
+    @RequestMapping(value = "/mailing", method = RequestMethod.GET)
+    public String mailing() {
+        return "mailing";
+    }
 
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
+    @RequestMapping(value = "/mailing", method = RequestMethod.POST)
+    public String mailing(Model model) {
+        userService.mailToAllUsers();
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
+    public String setUsersTag(Model model) {
+        model.addAttribute("usersList", userService.getAllUsers());
+        model.addAttribute("tagsList", tagService.getTagsTypeList());
+
+        return "usersTags";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
+    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(String ptr: checkboxValue) {
+            stringBuilder.append(ptr + ',');
         }
-        return userName;
+        String tagSet = stringBuilder.toString();
+
+        user.setSubscriptionByTagType(tagSet);
+
+        userService.update(user);
+
+        return "usersTags";
     }
 }
