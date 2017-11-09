@@ -236,15 +236,4 @@ public class UserController {
         return userName;
     }
 
-    @RequestMapping(value = "/home")
-    public String home(){
-        return "home";
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public GreeterService greeting(User message) throws Exception {
-        Thread.sleep(3000); // simulated delay
-        return new GreeterService("Hello, " + message.getUsername() + "!");
-    }
 }

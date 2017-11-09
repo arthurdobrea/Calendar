@@ -25,6 +25,7 @@
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <junit.version>4.12</junit.version>
         <java-mail.version>1.4.7</java-mail.version>
+        <logback.version>1.0.13</logback.version>
     </properties>
 
     <build>
@@ -209,25 +210,20 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>4.2.4.RELEASE</version>
+            <version>5.0.1.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
-            <version>4.2.4.RELEASE</version>
+            <version>5.0.0.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
         <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring5</artifactId>
-            <version>3.0.8.RELEASE</version>
+            <groupId>org.projectreactor</groupId>
+            <artifactId>reactor-tcp</artifactId>
+            <version>1.0.0.RELEASE</version>
         </dependency>
-
-
-
-
 
     </dependencies>
 
