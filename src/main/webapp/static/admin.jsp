@@ -99,13 +99,6 @@
             </tbody>
         </table>
     </div>
-
-    <sec:authorize access="hasRole('ADMIN')">
-        <div class="well">
-            <a href="<c:url value='/addUser'/>" class="btn custom-width">Add New User</a>
-        </div>
-    </sec:authorize>
-
 </div>
 </body>
 </html>

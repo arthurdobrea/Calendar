@@ -107,7 +107,7 @@ public class UserController {
         return "registrationSuccess";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -126,7 +126,7 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = {"/index" ,"/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public String index(Model model){
         Event event = new Event();
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
@@ -164,10 +164,22 @@ public class UserController {
         List<User> users = userService.findAllUsers();
 
         modelMap.addAttribute("users", users);
-        modelMap.addAttribute("loggedinuser", getPrincipal());
         modelMap.addAttribute("request", request);
         modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "admin";
+    }
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
@@ -183,18 +195,7 @@ public class UserController {
         return "userControlPanel";
     }
 
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        User user = userService.findByUsername(userForm.getUsername());
 
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
-
-        return "redirect:/index";
-    }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
@@ -212,18 +213,7 @@ public class UserController {
 
 
 
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        User user = userService.findByUsername(userForm.getUsername());
 
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
-
-        return "redirect:/index";
-    }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
     public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
