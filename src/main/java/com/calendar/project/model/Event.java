@@ -1,13 +1,18 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.annotation.Reference;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -16,17 +21,17 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "event_name")
-    private String eventName;
+    private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
     private EventType eventType;
 
-   @JsonBackReference(value = "child")
-    @ManyToOne
+    @JsonBackReference(value = "child")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
@@ -37,37 +42,40 @@ public class Event implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> participants;
+    private List<User> participants = new ArrayList<>();;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
-    private String startTime;
+    private LocalDateTime start;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
-    private String endTime;
+    private LocalDateTime end;
 
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
-    public Event() {
-    }
+    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
-    public Long getId() {
+    public Event(){}
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
     }
 
     public User getAuthor() {
@@ -94,22 +102,6 @@ public class Event implements Serializable {
         this.participants = participants;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
     public LocalDateTime getEventCreated() {
         return eventCreated.now();
     }
@@ -134,6 +126,38 @@ public class Event implements Serializable {
         this.description = description;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,30 +165,46 @@ public class Event implements Serializable {
 
         Event event = (Event) o;
 
-        if (id != null ? !id.equals(event.id) : event.id != null) return false;
-        if (eventName != null ? !eventName.equals(event.eventName) : event.eventName != null) return false;
+        if (id != event.id) return false;
+        if (!title.equals(event.title)) return false;
         if (eventType != event.eventType) return false;
-        if (author != null ? !author.equals(event.author) : event.author != null) return false;
-        if (location != null ? !location.equals(event.location) : event.location != null) return false;
-        if (participants != null ? !participants.equals(event.participants) : event.participants != null) return false;
-        if (startTime != null ? !startTime.equals(event.startTime) : event.startTime != null) return false;
-        if (endTime != null ? !endTime.equals(event.endTime) : event.endTime != null) return false;
-        if (eventCreated != null ? !eventCreated.equals(event.eventCreated) : event.eventCreated != null) return false;
-        if (description != null ? !description.equals(event.description) : event.description != null) return false;
-
-        return true;
+        if (!author.equals(event.author)) return false;
+        if (!location.equals(event.location)) return false;
+        if (!participants.equals(event.participants)) return false;
+        if (!start.equals(event.start)) return false;
+        if (!end.equals(event.end)) return false;
+        if (!eventCreated.equals(event.eventCreated)) return false;
+        return description.equals(event.description);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (eventName != null ? eventName.hashCode() : 0);
-        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = id;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + eventType.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + location.hashCode();
+        result = 31 * result + participants.hashCode();
+        result = 31 * result + start.hashCode();
+        result = 31 * result + end.hashCode();
+        result = 31 * result + eventCreated.hashCode();
+        result = 31 * result + description.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", eventName= " + title + '\'' +
+                ", eventType= " + eventType +
+                //", author=" + author +
+                ", location=" + location + '\'' +
+                //", participants=" + participants +
+                ", startTime= "  + start.toString() +
+                ", endTime= " + end.toString() +
+                ", eventCreated= " + eventCreated +
+                ", description= " + description + '\'' +
+                '}';
     }
 }

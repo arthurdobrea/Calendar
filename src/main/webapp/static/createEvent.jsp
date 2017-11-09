@@ -13,21 +13,37 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create an account</title>
+    <title>Create an event</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </head>
+<body onload="eventStartValidation()">
+<a href="/welcome" class="btn">Home</a>
+<a href="/index" class="btn">Calendar</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
+<a href="/createEvent" class="btn">Create new event</a>
+<a href="/userPage" class="btn">User Page</a>
+<a href="/events" class="btn">All events</a>
+<a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <body>
 
 <div class="container">
-
     <form:form method="POST" modelAttribute="eventForm" class="form-signin">
         <h2 class="form-signin-heading">Create your event</h2>
         <spring:bind path="eventName">
@@ -73,6 +89,7 @@
                             placeholder="End time"></form:input>
             </div>
         </spring:bind>
+
 
         <spring:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">

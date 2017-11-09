@@ -1,8 +1,18 @@
 package com.calendar.project.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 import java.util.List;
 import java.util.HashSet;
@@ -32,7 +42,6 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
-
     @Column(name = "password")
     private String password;
 
@@ -41,22 +50,25 @@ public class User implements Serializable {
 
     //@ElementCollection(targetClass = String.class)
     //@Enumerated(EnumType.STRING)
-    @Column(name = "labels")
-    private String labels;
+    @Column(name = "subscription_by_event_type")
+    private String subscriptionByEventType;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "subscription_by_tag_type")
+    private String subscriptionByTagType;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
     /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))*/
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
-    private List<Event> events; //events in which user participates
+    private List<Event> events = new ArrayList<>();; //events in which user participates
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {
@@ -130,12 +142,12 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public String getLabels() {
-        return labels;
+    public String getSubscriptionByEventType() {
+        return subscriptionByEventType;
     }
 
-    public void setLabels(String labels) {
-        this.labels = labels;
+    public void setSubscriptionByEventType(String subscriptionByEventType) {
+        this.subscriptionByEventType = subscriptionByEventType;
     }
 
     public List<Event> getEventsOfAuthor() {
@@ -156,6 +168,46 @@ public class User implements Serializable {
 
     public String getFullName() {
         return getFirstname() + " " + getLastname();
+    }
+
+    public Set<EventType>getSubscriptionByEventTypeAsEnums(){
+        Set <EventType> subscriptionByEventTypeSet;
+        subscriptionByEventTypeSet=new HashSet();
+
+        String labelArray[] = null;
+        try{
+            labelArray = subscriptionByEventType.split(",");
+        } catch (Exception e){
+            return subscriptionByEventTypeSet;
+        }
+        for (String label:labelArray)
+            for (EventType eventType : EventType.values())
+                if (label.equals(eventType.toString()))
+                    subscriptionByEventTypeSet.add(eventType);
+        return subscriptionByEventTypeSet;
+    }
+
+    public String getSubscriptionByTagType() {
+        return subscriptionByTagType;
+    }
+
+    public void setSubscriptionByTagType(String subscriptionByTagType) {
+        this.subscriptionByTagType = subscriptionByTagType;
+    }
+
+    public Set<TagType> getSubscriptionByTagTypeAsEnums(){
+        Set <TagType> subscriptionByTagTypeSet=new HashSet();
+        String tagArray[];
+        try{
+            tagArray = subscriptionByTagType.split(",");
+        } catch (Exception e){
+            return subscriptionByTagTypeSet;
+        }
+        for (String tag:tagArray)
+            for (TagType tagType : TagType.values())
+                if (tag.equals(tagType.toString()))
+                    subscriptionByTagTypeSet.add(tagType);
+        return subscriptionByTagTypeSet;
     }
 
     @Override
@@ -189,10 +241,6 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-//                ", email='" + email + '\'' +
-//                ", password='" + password + '\'' +
-//                ", confirmPassword='" + confirmPassword + '\'' +
-//                ", roles=" + roles +
                 '}';
     }
 }

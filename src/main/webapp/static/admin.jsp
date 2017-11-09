@@ -1,5 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -12,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin</title>
+    <title>Edit account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -25,13 +29,76 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-   <c:if test="${pageContext.request.userPrincipal.name != null}">
-       <form id="logoutForm" method= post action="${contextPath}/logout">
-           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-       </form>
-       <h2>Admin Page ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()"></a></h2>
-   </c:if>
+    <a href="/welcome" class="btn">Home</a>
+    <a href="/index" class="btn">Calendar</a>
+    <a href="/userControlPanel" class="btn">User Panel</a>
+    <a href="/createEvent" class="btn">Create new event</a>
+    <a href="/userPage" class="btn">User Page</a>
+    <a href="/events" class="btn">All events</a>
+    <a href="/logout" class="btn">Logout</a>
+    <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+        <a href="/admin" class="btn">Admin page</a>
+    </c:if>
+    <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+        <a href="/admin" class="btn">Admin page</a>
+    </c:if>
+
+<div class="generic-container">
+    <%--<%@include file="authheader.jsp" %>--%>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><span class="lead">User Administration</span></div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Role</th>
+                <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+                    <th width="100"></th>
+                </c:if>
+                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                    <th width="100"></th>
+                </c:if>
+                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                    <th width="100"></th>
+                </c:if>
+            </tr>
+            </thead>
+
+            <tbody>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                    <th>${user.username}</th>
+                    <th>${user.firstname}</th>
+                    <th>${user.lastname}</th>
+                    <th>${user.email}</th>
+                        <c:set var="roles" value="${user.roles}"/>
+                        <c:set var="role" value="${fn:substringAfter(roles, 'ROLE_')}"/>
+                        <th>${fn:substringBefore(role, "\'")}</th>
+
+                        <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+                            <th><a href="<c:url value='/edit-user-${user.username}' />" class="btn custom-width">edit</a></th>
+                        </c:if>
+                        <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                            <th><a href="<c:url value='/edit-user-${user.username}' />" class="btn custom-width">edit</a></th>
+                        </c:if>
+
+                        <c:choose>
+                            <c:when test="${pageContext.request.remoteUser.equals(user.username)}"></c:when>
+                            <c:otherwise>
+                                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                                    <th><a href="<c:url value='/delete-user-${user.username}' />" class="btn custom-width">delete</a></th>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

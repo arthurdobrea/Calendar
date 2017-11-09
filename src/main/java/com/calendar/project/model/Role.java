@@ -3,7 +3,6 @@ package com.calendar.project.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,9 +17,10 @@ public class Role implements Serializable {
     @Column(name = "name")
     private String name;
 
+
     @JsonBackReference(value = "child")
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
     public Role() {
     }
@@ -61,11 +61,6 @@ public class Role implements Serializable {
         Role role = (Role) o;
 
         return name.equals(role.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
     }
 
     @Override

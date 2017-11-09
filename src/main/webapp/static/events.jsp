@@ -26,14 +26,31 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType}</p>
+    <p>Name: ${event.title} | Type of event: ${event.eventType.view()} |
+        <a href="/participants/${event.title}"> participants</a></p>
+    <p> <c:forEach items="${event.getParticipants()}" var="participant">
+        <p>${participant.username}</p>
+    </p>
+    </c:forEach>
+    <%-- Output tags of event--%>
+    <p>Tag:
+    <c:forEach items="${event.tags}" var="tag">
+        | ${tag.tag} ||
+
+    </c:forEach>
+
 </c:forEach>
 </body>
 </html>

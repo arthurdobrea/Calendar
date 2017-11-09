@@ -14,6 +14,20 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
+    public User getUser(Long id){
+        return entityManager.createQuery("from User u where u.id = :idOfUser", User.class)
+                .setParameter("idOfUser", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public User findById(Long id) {
+        return entityManager.createQuery("from User u where u.id = :id", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
     public User findByUsername(String username) {
         List<User> users = entityManager.createQuery("from User u where u.username=:username", User.class)
                 .setParameter("username", username)
@@ -23,15 +37,37 @@ public class UserDaoImpl implements UserDao {
                 .findFirst()
                 .orElse(null);
     }
+    @Override
+    public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
+                .setParameter("eventtype", "%"+subscriptionByEventType+"%")
+                .getResultList();
+        return users;
+    }
 
     @Override
-    public void save(User user) {
-        entityManager.persist(user);
+    public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
+                .setParameter("tagtype", "%"+subscriptionByTagType+"%")
+                .getResultList();
+        return users;
     }
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select u from User u", User.class).getResultList();
+        return entityManager.createQuery("select u from User u", User.class)
+                .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<User> findAllUsers() {
+        return entityManager.createQuery("from User u", User.class)
+                .getResultList();
+    }
+
+    @Override
+    public void save(User user) {
+        entityManager.persist(user);
     }
 
     @Override
@@ -40,10 +76,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(long id){
-        User user = entityManager.createQuery("FROM User u WHERE u.id=:idOfUser", User.class)
-                .setParameter("idOfUser", id).getSingleResult();
-
-        return user;
+    public void deleteByUsername(User user) {
+        entityManager.remove(user);
     }
+
+
 }

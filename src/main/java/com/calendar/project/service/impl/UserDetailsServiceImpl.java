@@ -21,6 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
+    public UserDetailsServiceImpl(){
+
+    }
+
     public UserDetailsServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
