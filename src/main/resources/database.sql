@@ -25,11 +25,6 @@ CREATE TABLE user_roles (
 
 ENGINE = InnoDB;
 
-INSERT INTO roles values (1, 'USER');
-INSERT INTO roles values (2, 'ADMIN');
-INSERT INTO users (id, username, password) VALUES (1, 'admin','312r821747f19f1830ue984f57910fj');
-INSERT INTO user_roles VALUES(1,2);
-
 CREATE TABLE events
 (
   id             BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -42,7 +37,7 @@ CREATE TABLE events
   createdata     DATETIME,
   description    VARCHAR(1000),
 
-  FOREIGN KEY (author_user_id) REFERENCES users (id)
+  FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
@@ -51,10 +46,15 @@ CREATE TABLE events_users
   event_id BIGINT NOT NULL,
   user_id INT,
 
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (event_id) REFERENCES events(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
 ALTER TABLE `spring_security_app`.`users`
 ADD COLUMN `labels` VARCHAR(255);
+
+INSERT INTO roles values (1, 'SUPREME_ADMIN');
+INSERT INTO roles values (2, 'ADMIN');
+INSERT INTO roles values (3, 'USER');
+INSERT INTO roles values (4, 'GUEST');

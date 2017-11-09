@@ -23,4 +23,6 @@ public interface UserDao {
 
 
     void deleteByUsername(User user);
+
+
 }

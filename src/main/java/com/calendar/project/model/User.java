@@ -54,7 +54,7 @@ public class User implements Serializable {
     private String labels;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -66,7 +66,7 @@ public class User implements Serializable {
     private List<Event> events; //events in which user participates
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
     public User() {

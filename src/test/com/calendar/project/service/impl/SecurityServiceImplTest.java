@@ -70,19 +70,6 @@ public class SecurityServiceImplTest { //TODO complete the test.
 
     }
 
-    @Test
-    public void autoLoginTest() throws Exception {
-        Mockito.when(userDao.findByUsername(user.getUsername())).thenReturn(user);
-        Mockito.when(userDetailsService.loadUserByUsername(user.getUsername())).thenReturn(springUser);
-        springUser = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),grantedAuthorities);
-
-        securityService.autoLogin(springUser.getUsername(),springUser.getPassword());
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userFromContext = authentication.getName();
-
-        Assert.assertEquals(userFromContext,user.getUsername());
-    }
 
 
 }

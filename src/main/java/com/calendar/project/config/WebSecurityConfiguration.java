@@ -3,6 +3,8 @@ package com.calendar.project.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -20,8 +22,11 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String GUEST = "GUEST";
     private static final String USER = "USER";
     private static final String ADMIN = "ADMIN";
+    private static final String SUPREME_ADMIN ="SUPREME_ADMIN";
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -55,8 +60,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
-                    .antMatchers("/index").hasAnyRole(USER, ADMIN)
-                    .antMatchers("/admin").hasRole(ADMIN)
+                    .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
                 .and()
                     .formLogin()
                     .loginPage("/login")

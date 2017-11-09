@@ -127,6 +127,12 @@
 <a href="/events" class="btn">All events</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <div id='calendar'></div>
 </body>

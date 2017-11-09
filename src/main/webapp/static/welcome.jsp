@@ -32,6 +32,12 @@
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -43,14 +49,6 @@
         </h2>
     </c:if>
 
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id = "adminForm" method="GET" action="${contextPath}/admin">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <h2>
-            As admin u can enter <a onclick="document.forms['adminForm'].submit()">Admin page</a>
-        </h2>
-    </c:if>
 </div>
 </body>
 </html>

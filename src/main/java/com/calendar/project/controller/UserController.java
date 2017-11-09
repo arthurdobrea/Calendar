@@ -13,6 +13,7 @@ import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,8 +28,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.List;
-import java.util.Set;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import java.util.List;
 
@@ -75,16 +79,14 @@ public class UserController {
 
         return "redirect:/welcome";
     }
-
-    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    @RequestMapping(value = {"/addUser"}, method = RequestMethod.GET)
     public String addUser(Model model) {
         model.addAttribute("userForm", new User());
-
         return "addUser";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, @PathVariable String id) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -121,10 +123,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(ModelMap modelMap) {
+    public String admin(ModelMap modelMap, HttpServletRequest request) {
         List<User> users = userService.findAllUsers();
         modelMap.addAttribute("users", users);
         modelMap.addAttribute("loggedinuser", getPrincipal());
+        modelMap.addAttribute("request", request);
         return "admin";
     }
 
@@ -180,15 +183,17 @@ public class UserController {
 
         return "userPage";
     }
+
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
-        return roleService.findAll();
+        List<Role> list = roleService.findAll();
+        list.remove(3);
+        return list;
     }
 
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         User user = userService.findByUsername(username);
-//        model.addAttribute("list_of_roles", roleService.findAll());
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", getPrincipal());

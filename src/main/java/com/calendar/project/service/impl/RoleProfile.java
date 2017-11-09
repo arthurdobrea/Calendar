@@ -7,9 +7,11 @@ import java.io.Serializable;
  */
 
     public enum RoleProfile implements Serializable {
+        GUEST("GUEST"),
         USER("USER"),
         DBA("DBA"),
-        ADMIN("ADMIN");
+        ADMIN("ADMIN"),
+        SUPREME_ADMIN("SUPREME_ADMIN");
 
         String roleProfile;
 

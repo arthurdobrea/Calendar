@@ -70,4 +70,5 @@ public class UserDaoImpl implements UserDao {
         entityManager.remove(user);
     }
 
+
 }
