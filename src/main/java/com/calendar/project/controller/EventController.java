@@ -120,7 +120,7 @@ public class EventController {
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<User> getEventInJSON(long eventId){
+    public @ResponseBody List<User> getEventInJSON(int eventId){
         List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
 
         return participantsByEvent;

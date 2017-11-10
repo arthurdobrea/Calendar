@@ -106,7 +106,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<User> getParticipantsByEvent(long eventId){
+    public List<User> getParticipantsByEvent(int eventId){
         return eventDao.getParticipantsByEvent(eventId);
     }
     @Override

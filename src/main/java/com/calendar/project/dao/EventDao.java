@@ -38,6 +38,6 @@ public interface EventDao {
 
     List<Event> getEventsByPeriod(String firstDate, String secondDate);
 
-    List<User> getParticipantsByEvent(long eventId);
+    List<User> getParticipantsByEvent(int eventId);
 
 }

@@ -28,7 +28,7 @@ public interface EventService {
 
     List<Event> getEventsByAuthor(long authorId);
 
-    List<User> getParticipantsByEvent(long eventId);
+    List<User> getParticipantsByEvent(int eventId);
 
     List<Event> getFutureEventsByType(EventType eventType);
 

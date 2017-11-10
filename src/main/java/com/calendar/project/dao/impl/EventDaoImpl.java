@@ -131,7 +131,7 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<User> getParticipantsByEvent(long eventId){
+    public List<User> getParticipantsByEvent(int eventId){
         List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
                 "JOIN u.events e WHERE e.id=:idOfUser").setParameter("idOfUser", eventId)
                 .getResultList();
