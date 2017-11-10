@@ -156,13 +156,13 @@
                         <input type="text" id="datetimepicker1" class="form-control" required="true">
 
                         <spring:bind path="end">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
-                            </div>
-                        </spring:bind>
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
+                        </div>
+                    </spring:bind>
                         <input type="text" id="datetimepicker2" class="form-control" required="true">
 
-                        <label style="alignment: left;"><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
 
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
