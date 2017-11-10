@@ -96,7 +96,7 @@ public class EventDaoImpl implements EventDao {
         return entityManager.createQuery("select e from Event e " +
                                                 "join e.author a " +
                                                 "join e.tags t " +
-                                                    " where upper(e.eventName) like :keyword or" +
+                                                    " where upper(e.title) like :keyword or" +
                                                     " upper(e.description) like :keyword or" +
                                                     " upper(e.location) like :keyword or" +
                                                     " upper(a.username) like :keyword or" +
