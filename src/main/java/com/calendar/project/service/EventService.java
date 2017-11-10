@@ -14,17 +14,9 @@ import java.util.List;
 
 public interface EventService {
 
-    void saveEvent(Event event);
-
-    List<Event> getAllEvents();
-
     Event getEvent(int eventId);
 
     List<Event> getEventsByUser(long userId);
-
-    void deleteEvent(Event event);
-
-    void updateEvent(Event editedEvent);
 
     List<Event> getEventsByAuthor(long authorId);
 
@@ -34,14 +26,24 @@ public interface EventService {
 
     List<EventType> getEventTypeList();
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByTag(TagType tag);
 
     List<Event> getEventsByLocation(String location);
 
     List<Event> getEventsByType(EventType type);
 
-    List<Event> getEventsByDate(String date);
+    List<Event> getEventsByKeyword(String keyword);
 
     List<Event> getEventsByPeriod(String firstDate, String secondDate);
+
+    List<Event> getEventsByDate(String date);
+
+    List<Event> getAllEvents();
+
+    void saveEvent(Event event);
+
+    void deleteEvent(Event event);
+
+    void updateEvent(Event editedEvent);
 
 }
