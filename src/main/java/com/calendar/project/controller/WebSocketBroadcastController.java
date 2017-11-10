@@ -18,23 +18,23 @@ import java.security.Principal;
 @Controller
 public class WebSocketBroadcastController {
 
+//
+//    private static final Logger LOG = LoggerFactory
+//            .getLogger(WebSocketBroadcastController.class);
+//
+//      //@MessageMapping("/simplemessages")
+//      @SendTo("/topic/simplemessagesresponse")
+//    public MessageBroadcast processMessageFromClient(SimpleMessage message) throws Exception {
+//        return new MessageBroadcast("Server response: Did you send &lt;b&gt;'"
+//                + message.getMessage() + "'&lt;/b&gt;? (Server Response at: "
+//                + Util.getSimpleDate() + ")");
+//    }
+//
+//
+//    @MessageExceptionHandler
+//    @SendToUser("/queue/errors")
+//    public String handleException(Throwable exception) {
+//        return exception.getMessage();
+//    }
 
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(WebSocketBroadcastController.class);
-
-      //@MessageMapping("/simplemessages")
-      @SendTo("/topic/simplemessagesresponse")
-    public MessageBroadcast processMessageFromClient(SimpleMessage message) throws Exception {
-        return new MessageBroadcast("Server response: Did you send &lt;b&gt;'"
-                + message.getMessage() + "'&lt;/b&gt;? (Server Response at: "
-                + Util.getSimpleDate() + ")");
-    }
-
-
-    @MessageExceptionHandler
-    @SendToUser("/queue/errors")
-    public String handleException(Throwable exception) {
-        return exception.getMessage();
-    }
 }
