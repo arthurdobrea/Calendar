@@ -1,7 +1,6 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.TagDao;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.TagType;
 import com.calendar.project.service.TagService;
@@ -36,7 +35,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getTagByName(String tagName) {
+    public Tag getTagByName(TagType tagName) {
         return tagDao.getTagByName(tagName);
     }
 

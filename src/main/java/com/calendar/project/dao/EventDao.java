@@ -2,9 +2,7 @@ package com.calendar.project.dao;
 
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
-import com.calendar.project.model.Tag;
-
-import com.calendar.project.model.User;
+import com.calendar.project.model.TagType;
 
 import java.util.List;
 
@@ -22,7 +20,9 @@ public interface EventDao {
 
     List<Event> getAllEvents();
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByTag(TagType tag);
+
+    List<Event> getEventsByKeyword(String keyword);
 
     void saveEvent(Event event);
 

@@ -3,6 +3,7 @@ package com.calendar.project.dao.impl;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
+import com.calendar.project.model.TagType;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public Event getEvent(Long eventId) {
-        List<Event> events = (List<Event>) entityManager.createQuery("from Event e where id = :idOfEvent")
+        List<Event> events = entityManager.createQuery("from Event e where id = :idOfEvent", Event.class)
                 .setParameter("idOfEvent", eventId)
                 .getResultList();
 
@@ -36,7 +37,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByUser(Long userId) {
 
-        User user = (User) entityManager.createQuery("from User u where id = :idOfUser")
+        User user = entityManager.createQuery("from User u where id = :idOfUser", User.class)
                 .setParameter("idOfUser", userId)
                 .getSingleResult();
 
@@ -47,35 +48,51 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventsByAuthor(Long authorId) {
-        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor")
+        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor", Event.class)
                 .setParameter("idOfAuthor", authorId)
                 .getResultList();
     }
 
     @Override
     public List<Event> getEventsByLocation(String location) {
-        return entityManager.createQuery("from Event e where e.location = :location")
+        return entityManager.createQuery("from Event e where e.location = :location", Event.class)
                 .setParameter("location", location)
                 .getResultList();
     }
 
     @Override
     public List<Event> getEventsByType(EventType type) {
-        return entityManager.createQuery("from Event e where e.eventType = :type")
+        return entityManager.createQuery("from Event e where e.eventType = :type", Event.class)
                 .setParameter("type", type)
                 .getResultList();
     }
 
     @Override
     public List<Event> getAllEvents() {
-        return entityManager.createQuery("from Event e")
+        return entityManager.createQuery("from Event e", Event.class)
                 .getResultList();
     }
-    
-    // doesn't work
+
     @Override
-    public List<Event> getEventsByTag(String tag) {
-        return null;
+    public List<Event> getEventsByTag(TagType tag) {
+        return entityManager.createQuery("select e from Event e join e.tags t where t.tag = :tag", Event.class)
+                .setParameter("tag", tag)
+                .getResultList();
+    }
+
+    @Override
+    public List<Event> getEventsByKeyword(String keyword) {
+        return entityManager.createQuery("select e from Event e " +
+                                                "join e.author a " +
+                                                "join e.tags t " +
+                                                    " where upper(e.eventName) like :keyword or" +
+                                                    " upper(e.description) like :keyword or" +
+                                                    " upper(e.location) like :keyword or" +
+                                                    " upper(a.username) like :keyword or" +
+                                                    " upper(e.eventType) like :keyword or" +
+                                                    " upper(t.tag) like :keyword", Event.class)
+                .setParameter("keyword", "%" + keyword.toUpperCase() + "%")
+                .getResultList();
     }
 
     @Override

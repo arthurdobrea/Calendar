@@ -10,7 +10,7 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Evetnts</title>
+    <title>Events</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -30,10 +30,16 @@
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
 
+<form method="POST" action="${contextPath}" class="form-signin">
+    <input name="filterByKeyword" type="text" class="form-control" placeholder="Filter by keyword" autofocus="true"/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+</form>
+
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
     <p>Name: ${event.eventName} | Type of event: ${event.eventType.view()} |
-        <a href="/participants/${event.eventName}"> participants</a></p>
+        <a href="/participants/${event.eventName}"> participants</a>
+    </p>
     <p> <c:forEach items="${event.getParticipants()}" var="participant">
         <p>${participant.username}</p>
     </p>
@@ -41,10 +47,10 @@
     <%-- Output tags of event--%>
     <p>Tag:
     <c:forEach items="${event.tags}" var="tag">
-        | ${tag.tag} ||
-
+        | ${tag.tag} |
     </c:forEach>
-
+    </p>
+    <br>
 </c:forEach>
 </body>
 </html>

@@ -19,11 +19,13 @@ public interface EventService {
 
     List<EventType> getEventTypeList();
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByTag(TagType tag);
 
     List<Event> getEventsByLocation(String location);
 
     List<Event> getEventsByType(EventType type);
+
+    List<Event> getEventsByKeyword(String keyword);
 
     List<Event> getAllEvents();
 
