@@ -3,6 +3,8 @@ package com.calendar.project.controller;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.*;
+import com.calendar.project.model.EventType;
+import com.calendar.project.model.TagType;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -51,6 +53,15 @@ public class EventController {
     @RequestMapping(value = "/events", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
         model.addAttribute("events", eventService.getAllEvents());
+
+        return "events";
+    }
+
+    @RequestMapping(value = "/events", method = RequestMethod.POST)
+    public String showAllEvents(Model model, String filterByKeyword) {
+        model.addAttribute("filterByKeyword", filterByKeyword);
+
+        model.addAttribute("events", eventService.getEventsByKeyword(filterByKeyword));
 
         return "events";
     }

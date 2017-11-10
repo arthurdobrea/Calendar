@@ -1,19 +1,22 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.TagType;
 
 import java.util.List;
 
 public interface TagDao {
-    public void saveTag(Tag tag);
 
-    public void updateTag(Tag tag);
+    void saveTag(Tag tag);
 
-    public void deleteTag(Tag tag);
+    void updateTag(Tag tag);
 
-    public List<Tag> getAllTags();
+    void deleteTag(Tag tag);
 
-    public Tag getTagById(long EventTagId);
+    List<Tag> getAllTags();
 
-    public Tag getTagByName(String tag);
+    Tag getTagById(Long EventTagId);
+
+    Tag getTagByName(TagType tag);
+
 }

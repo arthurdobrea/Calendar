@@ -24,7 +24,6 @@ public class Tag {
    @JsonBackReference(value = "child")
    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
            inverseJoinColumns = @JoinColumn(name = "event_id"))
-//    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     private Set<Event> events;
 
     public Tag() {

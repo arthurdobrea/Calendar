@@ -3,6 +3,7 @@ package com.calendar.project.controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
@@ -31,8 +32,8 @@ public class TagController {
     public String showAllEvents(Model model) {
         model.addAttribute("tags", tagService.getAllTags());
         model.addAttribute("UserEvents", userService.getUsersListBySubscriptionByEventType("MEETING"));
-        model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("AM_STREEM"));
-        model.addAttribute("evensByTag", eventService.getEventsByTag("AM_STREEM"));
+        model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("AM_STREAM"));
+        model.addAttribute("evensByTag", eventService.getEventsByTag(TagType.AM_STREAM));
         return "tags";
     }
 
