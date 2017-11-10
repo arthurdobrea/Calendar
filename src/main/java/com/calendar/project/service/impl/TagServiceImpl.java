@@ -5,6 +5,7 @@ import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.TagType;
 import com.calendar.project.service.TagService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagDao tagDao;
+
+    private static final Logger LOGGER = Logger.getLogger(TagServiceImpl.class);
 
     @Override
     public void saveTag(Tag tag) {

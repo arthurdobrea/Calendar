@@ -3,6 +3,7 @@ package com.calendar.project.controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/json")
 public class JSONController {
+
+    private static final Logger LOGGER = Logger.getLogger(JSONController.class);
 
     @Autowired
     UserService userService;

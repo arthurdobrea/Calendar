@@ -4,6 +4,7 @@ import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -28,6 +29,8 @@ public class EventDaoImpl implements EventDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private static final Logger LOGGER = Logger.getLogger(EventDaoImpl.class);
 
     @Override
     public Event getEvent(int eventId) {

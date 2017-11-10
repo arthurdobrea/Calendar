@@ -2,6 +2,7 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.TagDao;
 import com.calendar.project.model.Tag;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ public class TagDaoImpl implements TagDao{
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private static final Logger LOGGER = Logger.getLogger(TagDaoImpl.class);
 
     @Override
     public void saveTag(Tag tag) {

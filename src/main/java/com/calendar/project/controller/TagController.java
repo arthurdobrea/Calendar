@@ -8,6 +8,7 @@ import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.UserValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class TagController {
     private UserService userService;
     @Autowired
     private EventService eventService;
+
+    private static final Logger LOGGER = Logger.getLogger(TagController.class);
 
     @RequestMapping(value = "/tags", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
