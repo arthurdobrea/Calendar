@@ -1,5 +1,7 @@
 package com.calendar.project.mail;
 
+import org.apache.log4j.Logger;
+
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Authenticator;
@@ -14,6 +16,8 @@ import javax.mail.internet.MimeMessage;
 public class EmailSender {
     final static String username = "mailEndavaSender@gmail.com";//
     final static String password = "mailEndavaSender2017";
+
+    private static final Logger LOGGER = Logger.getLogger(EmailSender.class);
 
 
 

@@ -1,5 +1,6 @@
 package com.calendar.project.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.EventType;
@@ -38,6 +39,8 @@ public class EventController {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger LOGGER = Logger.getLogger(EventController.class);
 
     @RequestMapping(value = "/events", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
