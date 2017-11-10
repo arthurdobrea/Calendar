@@ -2,6 +2,7 @@ package com.calendar.project.service.impl;
 
 import com.calendar.project.model.EventType;
 import com.calendar.project.model.User;
+import com.calendar.project.model.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
@@ -65,7 +66,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByTag(String tag){
+    public List<Event> getEventsByTag(TagType tag){
         return eventDao.getEventsByTag(tag);
     }
 
@@ -80,6 +81,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getEventsByKeyword(String keyword) {
+        return eventDao.getEventsByKeyword(keyword);
+    }
+
+    @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
@@ -89,7 +95,6 @@ public class EventServiceImpl implements EventService {
     public void saveEvent(Event event){
         eventDao.saveEvent(event);
     }
-
 
     @Override
     @Transactional
@@ -123,5 +128,4 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventsByPeriod(String firstDate, String secondDate){
             return eventDao.getEventsByPeriod(firstDate, secondDate);
     }
-
-    }
+}
