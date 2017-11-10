@@ -148,6 +148,7 @@ public class UserController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model){
         LOGGER.info("Request of \"/index\" page GET");
+
         Event event = new Event();
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
         event.setParticipants(participants);
