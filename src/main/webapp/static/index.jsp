@@ -116,12 +116,12 @@
                         <spring:bind path="title">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="title" class="form-control" placeholder="Event name"
-                                            autofocus="true"></form:input>
+                                            autofocus="true" required="true"></form:input>
                             </div>
                         </spring:bind>
                         <spring:bind path="eventType">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:select  path="eventType" class="form-control" >
+                                <form:select  path="eventType" class="form-control" required="true">
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
     <a href="/admin" class="btn">Admin page</a>
 </c:if>
@@ -144,7 +144,7 @@
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="location" class="form-control"
                                             placeholder="Location of the event"
-                                            autofocus="true"></form:input>
+                                            autofocus="true" required="true"></form:input>
                             </div>
                         </spring:bind>
                         <spring:bind path="start">
@@ -153,16 +153,16 @@
 
                             </div>
                         </spring:bind>
-                        <input type="text" id="datetimepicker1" class="form-control">
+                        <input type="text" id="datetimepicker1" class="form-control" required="true">
 
                         <spring:bind path="end">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
                             </div>
                         </spring:bind>
-                        <input type="text" id="datetimepicker2" class="form-control">
+                        <input type="text" id="datetimepicker2" class="form-control" required="true">
 
-                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+                        <label style="alignment: left;"><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
 
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -176,7 +176,7 @@
                                              multiple="true" required="true"/>
                             </div>
                         </spring:bind>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover="eventDateTime()">Submit</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>
                     </form:form>
             </div>
         </div>
