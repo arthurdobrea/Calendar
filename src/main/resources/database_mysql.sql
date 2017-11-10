@@ -1,42 +1,38 @@
 CREATE TABLE users (
-  id       INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username  VARCHAR(255) NOT NULL,
+  password  VARCHAR(255) NOT NULL,
+  firstname VARCHAR(255),
+  lastname  VARCHAR(255),
+  email     VARCHAR(255),
+  subscription_by_event_type VARCHAR(255),
+  subscription_by_tag_type VARCHAR(255)
 )
 
   ENGINE = InnoDB;
+
 
 CREATE TABLE  roles(
-  id int NOT NULL  AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
+  id    INT NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+  name  VARCHAR(100) NOT NULL
 )
   ENGINE = InnoDB;
 
-CREATE TABLE  user_roles(
-  user_id int not NULL,
-  role_id int not null,
 
+CREATE TABLE user_roles (
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (role_id) REFERENCES roles(id),
-
   UNIQUE (user_id,role_id)
 )
 
   ENGINE = InnoDB;
 
-INSERT INTO users VALUES (1, 'admin','312r821747f19f1830ue984f57910fj');
 
-INSERT roles VALUES (1,'ROLE_USER');
-INSERT roles VALUES (2,'ROLE_ADMIN');
-
-INSERT INTO user_roles VALUES(1,2);
-
-
-############### MY JOB ###########
-# creating table for the events
 CREATE TABLE events
 (
-  id             BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id             INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   event_name     VARCHAR(255) NOT NULL,
   event_type     VARCHAR(255),
   author_user_id INT,
@@ -46,35 +42,49 @@ CREATE TABLE events
   event_location VARCHAR(255),
   description    VARCHAR(1000),
 
-  FOREIGN KEY (author_user_id) REFERENCES users (id)
+  FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
 
-#create mapping table for the participants at the events
 CREATE TABLE events_users
 (
-  event_id BIGINT NOT NULL,
-  user_id INT,
+  event_id  INT NOT NULL,
+  user_id   INT,
 
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (event_id) REFERENCES events(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
+CREATE TABLE tags
+(
+  id        INT NOT NULL PRIMARY KEY,
+  tag_name  VARCHAR(255) NOT NULL,
+  tag_color VARCHAR(255) NOT NULL
+)
+  ENGINE = InnoDB;
 
-#adding some events to the events table
-INSERT INTO events(event_name, event_type, author_user_id, createdata, timebegin, timeend, event_location, description)
-VALUES ('pianka', 'standup', 1, now(), '2017-10-27 12:30:00', '2017-10-27 13:30:00',
-        'Moldova', 'ohohoh!!! ');
+CREATE TABLE events_tags (
+  event_id INT NOT NULL,
+  tag_id   INT,
 
-INSERT INTO events (event_name, event_type, author_user_id,
-                    timebegin, timeend, createdata, event_location, description)
-VALUES ('Im the boss', 'celebration', 2, '2017-10-25 11:30:00', '2017-10-28 15:30:00', now(),
-        'Restaurant', 'uraaaa');
+  FOREIGN KEY (tag_id) REFERENCES tags (id),
+  FOREIGN KEY (event_id) REFERENCES events (id)
+)
+  ENGINE = InnoDB;
 
+CREATE TABLE persistent_logins (
+  username  VARCHAR(255),
+  series    VARCHAR(255),
+  token     VARCHAR(255),
+  last_used DATETIME,
 
-INSERT into events_users VALUES (1,1);
-INSERT into events_users VALUES (1,2);
-INSERT into events_users VALUES (2,1);
-INSERT into events_users VALUES (2,2);
+  CONSTRAINT persistent_logins_pk PRIMARY KEY (series)
+)
+  ENGINE = InnoDB;
+
+INSERT INTO roles values (1, 'ROLE_SUPREME_ADMIN');
+INSERT INTO roles values (2, 'ROLE_ADMIN');
+INSERT INTO roles values (3, 'ROLE_USER');
+INSERT INTO roles values (4, 'ROLE_GUEST');

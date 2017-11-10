@@ -1,23 +1,20 @@
 package com.calendar.project.controller;
 
-import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.UserService;
-import org.springframework.stereotype.Controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
+import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.*;
-import java.util.stream.Collectors;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 public class EventController {
@@ -40,6 +37,21 @@ public class EventController {
 
         return "events";
     }
+//
+//    @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
+//    public String createEvent(Model model) {
+//        model.addAttribute("eventForm", new Event());
+//
+//        return "createEvent";
+//    }
+//
+//    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
+//    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult) {
+//
+//        eventService.saveEvent(eventForm);
+//
+//        return "redirect:/index";
+//    }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
     public String updateEvent(int eventId, Model model){

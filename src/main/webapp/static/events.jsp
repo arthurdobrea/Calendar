@@ -11,7 +11,7 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Evetnts</title>
+    <title>Events</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">

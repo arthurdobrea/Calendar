@@ -21,6 +21,9 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
@@ -146,16 +149,21 @@
                         </spring:bind>
                         <spring:bind path="start">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="datetime-local" path="start" class="form-control" autofocus="true"
-                                            placeholder="Start time"></form:input>
+                                <form:input id="datetimepicker1h" type="hidden" path="start"></form:input>
+
                             </div>
                         </spring:bind>
+                        <input type="text" id="datetimepicker1" class="form-control">
+
                         <spring:bind path="end">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="datetime-local" path="end" class="form-control" autofocus="true"
-                                            placeholder="End time"></form:input>
+                                <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
                             </div>
                         </spring:bind>
+                        <input type="text" id="datetimepicker2" class="form-control">
+
+                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
@@ -168,12 +176,15 @@
                                              multiple="true" required="true"/>
                             </div>
                         </spring:bind>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover="eventDateTime()">Submit</button>
                     </form:form>
             </div>
         </div>
     </div>
 </div>
 <div id='calendar'></div>
+
+<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>
