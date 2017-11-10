@@ -1,16 +1,23 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.dao.UserDao;
+import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
+import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.impl.GreeterService;
 import com.calendar.project.validator.EditFormValidator;
+import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -25,8 +32,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.*;
+
+import java.util.List;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -42,6 +60,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private TagService tagService;
 
     @Autowired
     private EditFormValidator editFormValidator;
@@ -68,10 +89,9 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
-
-    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    @RequestMapping(value = {"/addUser"}, method = RequestMethod.GET)
     public String addUser(Model model) {
         model.addAttribute("userForm", new User());
 
@@ -79,7 +99,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, @PathVariable String id) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -110,32 +130,47 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
+    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
+    public String index(Model model){
+        Event event = new Event();
+        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        event.setParticipants(participants);
+        model.addAttribute("eventForm", event);
+        if (securityService.findLoggedInUsername().equals("anonymousUser")) {
+            return "redirect:/login";
+        } else
+        return "index";}
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+        List<User> participants = new LinkedList<>();
+        for (User u : eventForm.getParticipants()) {
+            u.setId(Long.parseLong(u.getUsername()));
+            participants.add(userService.getUser(u.getId()));
+        }
+
+        eventForm.setParticipants(participants);
+        User user = securityService.findLoggedInUsername();
+        eventForm.setAuthor(userService.findByUsername(user.getUsername()));
+        eventService.saveEvent(eventForm);
+        redirectAttributes.addAttribute("eventId", eventForm.getId());
+
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(ModelMap modelMap) {
+    public String admin(ModelMap modelMap, HttpServletRequest request) {
         List<User> users = userService.findAllUsers();
 
         modelMap.addAttribute("users", users);
-        modelMap.addAttribute("loggedinuser", getPrincipal());
-
+        modelMap.addAttribute("request", request);
+        modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "admin";
-    }
-
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
-    public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userForm = userService.findByUsername(auth.getName());
-
-        model.addAttribute("username", userForm.getUsername());
-        model.addAttribute("firstname", userForm.getFirstname());
-        model.addAttribute("lastname", userForm.getLastname());
-        model.addAttribute("email", userForm.getEmail());
-
-        return "userControlPanel";
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
@@ -151,51 +186,73 @@ public class UserController {
         return "redirect:/index";
     }
 
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
+    public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        userForm = userService.findByUsername(auth.getName());
+
+        model.addAttribute("username", userForm.getUsername());
+        model.addAttribute("firstname", userForm.getFirstname());
+        model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("email", userForm.getEmail());
+
+        return "userControlPanel";
+    }
+
+
+
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(Model model, User user) {
+    public String showMyEvents(  Model model, User user){
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
-
-        model.addAttribute("userAuthor", userService.getUser(user.getId()));
+        model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
+        model.addAttribute("eventsList", eventService.getEventTypeList());
 
         return "userPage";
     }
 
+
+
+
+
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
-    public String userPage(Model model, @RequestParam("checkboxName") Set<String> checkboxValue) {
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
         User user = securityService.findLoggedInUsername();
+
         StringBuilder stringBuilder = new StringBuilder();
-
-        for (String ptr : checkboxValue) {
-            stringBuilder.append(ptr + ',');
+        for(String ptr: checkboxValue) {
+            if (!ptr.equals("")) {
+                stringBuilder.append(ptr + ',');
+            }
         }
-        String res = stringBuilder.toString();
 
-        user.setLabels(res);
-        user.setLastname("OLEG");
+        String res = stringBuilder.toString();
+        user.setSubscriptionByEventType(res);
 
         userService.update(user);
+        //is mailing all events to current user  by his labels and event types.
+        userService.mailToUser(user);
 
         return "userPage";
     }
 
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
-        return roleService.findAll();
+        List<Role> list = roleService.findAll();
+        list.remove(3);
+        return list;
     }
 
     @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         User user = userService.findByUsername(username);
-
-//        model.addAttribute("list_of_roles", roleService.findAll());
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getPrincipal());
-
+        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "userEdit";
     }
 
@@ -216,24 +273,46 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
+    @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
 
         return "redirect:/admin";
     }
 
-    private String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-
-        return userName;
+    // is mailing all events to all users when labels are equals to event types.
+    @RequestMapping(value = "/mailing", method = RequestMethod.GET)
+    public String mailing() {
+        return "mailing";
     }
 
+    @RequestMapping(value = "/mailing", method = RequestMethod.POST)
+    public String mailing(Model model) {
+        userService.mailToAllUsers();
+        return "mailing";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
+    public String setUsersTag(Model model) {
+        model.addAttribute("usersList", userService.getAllUsers());
+        model.addAttribute("tagsList", tagService.getTagsTypeList());
+
+        return "usersTags";
+    }
+
+    @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
+    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(String ptr: checkboxValue) {
+            stringBuilder.append(ptr + ',');
+        }
+        String tagSet = stringBuilder.toString();
+
+        user.setSubscriptionByTagType(tagSet);
+
+        userService.update(user);
+
+        return "usersTags";
+    }
 }

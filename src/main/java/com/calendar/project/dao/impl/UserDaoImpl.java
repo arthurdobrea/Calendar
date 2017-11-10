@@ -29,13 +29,28 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("from User u where u.username = :username", User.class)
+        List<User> users = entityManager.createQuery("from User u where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
 
         return users.stream()
                 .findFirst()
                 .orElse(null);
+    }
+    @Override
+    public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
+                .setParameter("eventtype", "%"+subscriptionByEventType+"%")
+                .getResultList();
+        return users;
+    }
+
+    @Override
+    public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
+                .setParameter("tagtype", "%"+subscriptionByTagType+"%")
+                .getResultList();
+        return users;
     }
 
     @Override
@@ -64,4 +79,6 @@ public class UserDaoImpl implements UserDao {
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
+
+
 }

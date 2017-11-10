@@ -1,22 +1,31 @@
 package com.calendar.project.controller;
 
+import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.*;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
@@ -47,7 +56,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-    public String updateEvent(Long eventId, Model model) {
+    public String updateEvent(int eventId, Model model){
         model.addAttribute("eventForm", eventService.getEvent(eventId));
 
         return "updateEvent";
@@ -56,7 +65,6 @@ public class EventController {
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
         List<User> participans = new LinkedList<>();
-
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participans.add(userDao.getUser(u.getId()));
@@ -64,14 +72,13 @@ public class EventController {
 
         eventForm.setParticipants(participans);
         model.addAttribute("eventForm", eventForm);
-
         eventService.updateEvent(eventForm);
 
         return "redirect:/userPage";
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
-    public String deleteEvent(Long eventId, Model model) {
+    public String deleteEvent(int eventId, Model model){
         model.addAttribute("eventForm", eventService.getEvent(eventId));
 
         return "deleteEvent";
@@ -84,11 +91,11 @@ public class EventController {
         return "redirect:/userPage";
     }
 
+
     @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
         Event event = new Event();
-        List<User> participants = new ArrayList<>(userService.getAllUsers());
-
+        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
 
@@ -100,7 +107,6 @@ public class EventController {
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         List<User> participants = new LinkedList<>();
-
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
@@ -110,7 +116,6 @@ public class EventController {
         User user = securityService.findLoggedInUsername();
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
-
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         SimpleMessage message = new SimpleMessage();
@@ -123,12 +128,20 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, Long eventId) {
+    public String showEvent(Model model, int eventId){
         Event event = eventService.getEvent(eventId);
 
         model.addAttribute("eventForm", event);
 
         return "showEvent";
     }
-}
 
+    @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<User> getEventInJSON(int eventId){
+        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
+
+        return participantsByEvent;
+    }
+}

@@ -71,7 +71,7 @@
 
         <spring:bind path="confirmPassword">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="confirmPassword" path="confirmPassword" class="form-control" placeholder="Confirm_Password"
+                <form:input type="password" path="confirmPassword" class="form-control" placeholder="Confirm Password"
                             autofocus="true"></form:input>
                 <form:errors path="confirmPassword"></form:errors>
             </div>

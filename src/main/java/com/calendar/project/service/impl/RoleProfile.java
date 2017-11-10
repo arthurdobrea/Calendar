@@ -2,10 +2,16 @@ package com.calendar.project.service.impl;
 
 import java.io.Serializable;
 
-public enum RoleProfile implements Serializable {
-    USER("USER"),
-    DBA("DBA"),
-    ADMIN("ADMIN");
+/**
+ * Created by icebotari on 10/31/2017.
+ */
+
+    public enum RoleProfile implements Serializable {
+        GUEST("GUEST"),
+        USER("USER"),
+        DBA("DBA"),
+        ADMIN("ADMIN"),
+        SUPREME_ADMIN("SUPREME_ADMIN");
 
     String roleProfile;
 

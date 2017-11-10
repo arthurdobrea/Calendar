@@ -38,9 +38,9 @@
             </div>
         </spring:bind>
 
-        <spring:bind path="eventName">
+        <spring:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="eventName" class="form-control" placeholder="Event name"
+                <form:input type="text" path="title" class="form-control" placeholder="Event name"
                             autofocus="true" required="true"></form:input>
             </div>
         </spring:bind>
@@ -69,16 +69,16 @@
         </spring:bind>
 
 
-        <spring:bind path="startTime">
+        <spring:bind path="start">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input id="eventStarts" type="datetime-local" path="startTime" class="form-control" placeholder="Start time"
+                <form:input id="eventStarts" type="datetime-local" path="start" class="form-control" placeholder="Start time"
                     value="${startTime}"  onchange="eventEndsValidation()" required="true"></form:input>
             </div>
         </spring:bind>
 
-        <spring:bind path="endTime">
+        <spring:bind path="end">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input id="eventEnds" type="datetime-local" path="endTime" name="endTime" class="form-control"
+                <form:input id="eventEnds" type="datetime-local" path="end" name="endTime" class="form-control"
                             placeholder="End time"  value="${endTime}" onclick="eventEndsValidation()" required="true"></form:input>
             </div>
         </spring:bind>
