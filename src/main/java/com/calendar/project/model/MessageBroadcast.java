@@ -3,6 +3,10 @@
  */
 package com.calendar.project.model;
 
+import org.springframework.messaging.handler.annotation.SendTo;
+
+import java.security.Principal;
+
 public class MessageBroadcast {
 
     private String messageContent;
@@ -37,5 +41,7 @@ public class MessageBroadcast {
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
     }
+
+
 
 }

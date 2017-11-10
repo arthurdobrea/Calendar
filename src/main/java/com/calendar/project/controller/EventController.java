@@ -1,11 +1,14 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.dao.UserDao;
+import com.calendar.project.model.*;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -17,6 +20,12 @@ import java.util.*;
 
 @Controller
 public class EventController {
+
+    @Autowired
+    WebSocketBroadcastController webSocketBroadcastController;
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @Autowired
     private SecurityService securityService;
@@ -86,6 +95,8 @@ public class EventController {
         return "createEvent";
     }
 
+
+    @MessageMapping("/simplemessages")
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         List<User> participants = new LinkedList<>();
@@ -101,6 +112,12 @@ public class EventController {
         eventService.saveEvent(eventForm);
 
         redirectAttributes.addAttribute("eventId", eventForm.getId());
+
+        SimpleMessage message = new SimpleMessage();
+        message.setMessage("hi");
+        template.convertAndSend("/topic/simplemessagesresponse", new MessageBroadcast("Server response: Did you send &lt;b&gt;'"
+                + message.getMessage() + "'&lt;/b&gt;? (Server Response at: "
+                + Util.getSimpleDate() + ")"));
 
         return "redirect:/showEvent";
     }
