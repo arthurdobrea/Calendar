@@ -26,12 +26,11 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-<input type="image" src="${contextPath}/resources/preview-image.png"/>
+
 
 <div class="container">
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Log in</h2>
-
+        <input type="image" src="${contextPath}/resources/Logo.png"/>
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input name="username" type="text" class="form-control" placeholder="Username"
