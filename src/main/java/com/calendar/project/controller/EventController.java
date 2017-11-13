@@ -1,33 +1,35 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.service.NotificationService;
+import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.model.*;
+import com.calendar.project.model.EventType;
+import com.calendar.project.model.TagType;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.net.MulticastSocket;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
-
-    @Autowired
-    private NotificationService notificationService;
 
     @Autowired
     private SecurityService securityService;
@@ -40,6 +42,11 @@ public class EventController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    private static final Logger LOGGER = Logger.getLogger(EventController.class);
 
     @RequestMapping(value = "/events", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
@@ -104,8 +111,6 @@ public class EventController {
         return "createEvent";
     }
 
-
-    @MessageMapping("/simplemessages")
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         List<User> participants = new LinkedList<>();
@@ -121,6 +126,7 @@ public class EventController {
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         notificationService.send("/topic/simplemessagesresponse",eventForm);
+
         return "redirect:/showEvent";
     }
 

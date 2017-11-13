@@ -117,6 +117,12 @@ public class EventDaoTest {
         Assert.assertNotNull(allEvents);
     }
 
+    @Test
+    public void testGetParticipantsByEvent() throws Exception{
+        List<User> participantsAtEvent = eventDao.getParticipantsByEvent(event.getId());
+        Assert.assertNotNull(participantsAtEvent);
+    }
+
 
     @Test
     public void testDeleteEvent() throws Exception {

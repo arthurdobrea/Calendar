@@ -6,6 +6,7 @@ import com.calendar.project.model.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventDao eventDao;
+
+    private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
 
     @Override
     public List<Event> getEventsByUser(long userId) {
