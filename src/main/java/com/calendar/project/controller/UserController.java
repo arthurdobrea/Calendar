@@ -269,7 +269,8 @@ public class UserController {
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
         List<Role> list = roleService.findAll();
-        list.remove(3);
+        list.remove(3);     // to clarify
+        LOGGER.info("Return list of roles");
         return list;
     }
 
