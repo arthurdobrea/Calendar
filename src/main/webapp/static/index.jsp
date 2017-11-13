@@ -73,7 +73,6 @@
 <body>
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/events" class="btn">All events</a>
 <a href="/tags" class="btn">Tags</a>
 <a href="/mailing" class="btn">Mail to all</a>
@@ -84,6 +83,7 @@
 <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
     <a href="/admin" class="btn">Admin page</a>
 </c:if>
+<a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/logout" class="btn">Logout</a>
 <p>
 <p>
@@ -98,6 +98,46 @@
             </div>
             <div class="modal-body">
 <h1> You will see event page right here </h1>
+                <form:form method="POST" modelAttribute="eventForm" class="form-signin">
+                <h2 class="form-signin-heading"></h2>
+
+                <spring:bind path="id">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
+                                autofocus="true"></form:input>
+                </div>
+                </spring:bind>
+                </form:form>
+
+<p>
+    Name: ${eventForm.title} <br>
+    Type: ${eventForm.eventType}<br>
+    Location: ${eventForm.location}<br>
+    Start time: ${eventForm.start}<br>
+    End time: ${eventForm.end}<br>
+    Description:${eventForm.description}<br>
+    Created at: ${eventForm.eventCreated}<br>
+    Created by: ${eventForm.author.fullName}<br>
+    Will be attended by:<br>
+<ul id="participantsList"></ul>
+</p>
+
+<script>
+    $(document).ready(function(){
+        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
+            console.log(data);
+
+            $.each(data, function(i, user) {
+                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+            });
+        });
+    });
+</script>
+
+<form>
+    <input type="button" value="Close"
+           onclick="window.location.href='/index'" />
+</form>
             </div>
         </div>
     </div>

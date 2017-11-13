@@ -31,7 +31,7 @@
 <body onload="allDayUnchecked()">
 <div class="container">
     <form:form method="POST" modelAttribute="eventForm" class="form-signin">
-        <h2 class="form-signin-heading">Update your event</h2>
+        <h2 class="form-signin-heading">Edit event</h2>
 
         <spring:bind path="id">
             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -41,13 +41,13 @@
 
         <spring:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="title" class="form-control" autofocus="true" required="true"></form:input>
+                <form:input type="text" path="title" class="form-control" autofocus="true" value="${title}" required="true"></form:input>
             </div>
         </spring:bind>
 
         <spring:bind path="eventType">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:select  path="eventType" class="form-control" required="true" >
+                <form:select  path="eventType" class="form-control" value="${eventType}" required="true" >
 
                     <option value="">Select Event Type</option>
                     <option value="MEETING">Meeting</option>
