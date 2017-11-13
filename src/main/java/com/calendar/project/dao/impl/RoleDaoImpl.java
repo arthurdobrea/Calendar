@@ -4,6 +4,7 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.model.Role;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;

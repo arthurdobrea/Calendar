@@ -4,28 +4,22 @@ import com.calendar.project.service.NotificationService;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.TagType;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
+import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.MulticastSocket;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -87,7 +81,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
-    public String deleteEvent(int eventId, Model model){
+    public String deleteEvent(int eventId, Model model) {
         model.addAttribute("eventForm", eventService.getEvent(eventId));
 
         return "deleteEvent";
@@ -131,7 +125,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, int eventId){
+    public String showEvent(Model model, int eventId) {
         Event event = eventService.getEvent(eventId);
 
         model.addAttribute("eventForm", event);
@@ -142,7 +136,8 @@ public class EventController {
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<User> getEventInJSON(int eventId){
+    public @ResponseBody
+    List<User> getEventInJSON(int eventId) {
         List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
 
         return participantsByEvent;
