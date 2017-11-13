@@ -1,17 +1,13 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.service.NotificationService;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.*;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.TagType;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.calendar.project.model.Event;
@@ -19,9 +15,7 @@ import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +27,7 @@ import java.util.stream.Collectors;
 public class EventController {
 
     @Autowired
-    WebSocketBroadcastController webSocketBroadcastController;
-
-    @Autowired
-    private SimpMessagingTemplate template;
+    private NotificationService notificationService;
 
     @Autowired
     private SecurityService securityService;
@@ -129,12 +120,7 @@ public class EventController {
         eventService.saveEvent(eventForm);
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
-        SimpleMessage message = new SimpleMessage();
-        message.setMessage("hi");
-        template.convertAndSend("/topic/simplemessagesresponse", new MessageBroadcast("Server response: Did you send &lt;b&gt;'"
-                + message.getMessage() + "'&lt;/b&gt;? (Server Response at: "
-                + Util.getSimpleDate() + ")"));
-
+        notificationService.send("/topic/simplemessagesresponse",eventForm);
         return "redirect:/showEvent";
     }
 
