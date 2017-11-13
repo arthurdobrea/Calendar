@@ -20,16 +20,16 @@
 <a href="/createEvent" class="btn">Create new event</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
-<p><p>
-<h2>Tags:</h2>
+
+<h2>Events by tag:</h2>
 <c:forEach items="${tags}" var="tag">
     <p>Tag: ${tag.tag} |
-        <a href="/updateTag?tagId=${tag.id}"> update</a></p>|
-        <a href="/delete/${tag.id}"> delete me!</a></p>
+        <a href="/updateTag?tagId=${tag.id}"> update</a>|
+        <a href="/delete/${tag.id}"> delete me!</a>
+    </p>
     <c:forEach items="${tag.events}" var="event">
         ${event.title}<br>
     </c:forEach>
-    <br>
 </c:forEach>
 
 <h2>User By Meeting:</h2>
@@ -37,7 +37,7 @@
         ${user.username}<br>
 </c:forEach>
 
-<h2>User By AM streeam:</h2>
+<h2>User By Tag:</h2>
 <c:forEach items="${UserTags}" var="user">
     ${user.username}<br>
 </c:forEach>

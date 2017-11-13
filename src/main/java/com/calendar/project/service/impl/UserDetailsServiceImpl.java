@@ -3,6 +3,7 @@ package com.calendar.project.service.impl;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
+
+    private static final Logger LOGGER = Logger.getLogger(UserDetailsServiceImpl.class);
 
     public UserDetailsServiceImpl(){
 

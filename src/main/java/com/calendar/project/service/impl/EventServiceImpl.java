@@ -1,9 +1,12 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.model.EventType;
+import com.calendar.project.model.User;
+import com.calendar.project.model.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventDao eventDao;
+
+    private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
 
     @Override
     public List<Event> getEventsByUser(long userId) {
@@ -64,7 +69,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByTag(String tag){
+    public List<Event> getEventsByTag(TagType tag){
         return eventDao.getEventsByTag(tag);
     }
 
@@ -79,6 +84,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getEventsByKeyword(String keyword) {
+        return eventDao.getEventsByKeyword(keyword);
+    }
+
+    @Override
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
@@ -89,19 +99,24 @@ public class EventServiceImpl implements EventService {
         eventDao.saveEvent(event);
     }
 
-        @Override
-        @Transactional
-        public void updateEvent(Event editedEvent){
-            Event event = eventDao.getEvent(editedEvent.getId());
-            event.setTitle(editedEvent.getTitle());
-            event.setEventType(editedEvent.getEventType());
-            event.setParticipants(editedEvent.getParticipants());
-            event.setDescription(editedEvent.getDescription());
-            event.setLocation(editedEvent.getLocation());
-            event.setStart(editedEvent.getStart());
-            event.setEnd(editedEvent.getEnd());
-        }
+    @Override
+    @Transactional
+    public void updateEvent(Event editedEvent){
+        Event event = eventDao.getEvent(editedEvent.getId());
+        event.setTitle(editedEvent.getTitle());
+        event.setEventType(editedEvent.getEventType());
+        event.setParticipants(editedEvent.getParticipants());
+        event.setDescription(editedEvent.getDescription());
+        event.setLocation(editedEvent.getLocation());
+        event.setStart(editedEvent.getStart());
+        event.setEnd(editedEvent.getEnd());
+        eventDao.updateEvent(event);
+    }
 
+    @Override
+    public List<User> getParticipantsByEvent(int eventId){
+        return eventDao.getParticipantsByEvent(eventId);
+    }
     @Override
     @Transactional(readOnly = false)
     public void deleteEvent(Event eventToDelete) {
@@ -116,5 +131,4 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventsByPeriod(String firstDate, String secondDate){
             return eventDao.getEventsByPeriod(firstDate, secondDate);
     }
-
-    }
+}

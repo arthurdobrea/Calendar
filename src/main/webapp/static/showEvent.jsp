@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>ShowEvent</title>
+    <script src="/resources/js/jquery.min.js"></script>
 </head>
 <body>
 <h2>Event details:</h2>
@@ -15,7 +16,7 @@
 
     <spring:bind path="id">
         <div class="form-group ${status.error ? 'has-error' : ''}">
-            <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
+            <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
                         autofocus="true"></form:input>
         </div>
     </spring:bind>
@@ -30,10 +31,25 @@
         Created at: ${eventForm.eventCreated}<br>
         Created by: ${eventForm.author.fullName}<br>
         Will be attended by:<br>
-        <c:forEach items="${eventForm.participants}" var="user">
-            <p>Name: ${user.fullName} </p>
-        </c:forEach>
+        <ul id="participantsList"></ul>
     </p>
+
+<script>
+    $(document).ready(function(){
+        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
+            console.log(data);
+
+            $.each(data, function(i, user) {
+                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+            });
+        });
+    });
+</script>
+
+<form>
+    <input type="button" value="Back to User Page"
+           onclick="window.location.href='/userPage'" />
+</form>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.model.Role;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,6 +14,8 @@ public class RoleDaoImpl implements RoleDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private static final Logger LOGGER = Logger.getLogger(RoleDaoImpl.class);
 
     @Override
     public Role getRole(Long id) {

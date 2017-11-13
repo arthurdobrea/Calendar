@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 

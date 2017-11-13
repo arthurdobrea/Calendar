@@ -19,8 +19,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
-
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -66,7 +64,7 @@ public class User implements Serializable {
     /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))*/
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
-    private List<Event> events = new ArrayList<>();; //events in which user participates
+    private List<Event> events = new ArrayList<>(); //events in which user participates
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
