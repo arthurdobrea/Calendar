@@ -3,7 +3,7 @@ package com.calendar.project.dao.impl;
 import com.calendar.project.dao.TagDao;
 import com.calendar.project.model.Tag;
 import org.apache.log4j.Logger;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;

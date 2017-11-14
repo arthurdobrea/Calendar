@@ -77,6 +77,12 @@
             </div>
         </spring:bind>
 
+        <%--<spring:bind path="image">--%>
+            <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+                    <%--<form:input type="file" path="image" name="fileUpload" enctype = "multipart/form-data" ACTION="upload.jsp" METHOD="POST" />--%>
+                <%--<form:errors path="image"></form:errors>--%>
+            <%--</div>--%>
+        <%--</spring:bind>--%>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
 </div>

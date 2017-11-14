@@ -1,7 +1,7 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 
 import java.util.List;
 

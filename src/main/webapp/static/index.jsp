@@ -152,7 +152,7 @@
                 <h4 class="modal-title">Add new event</h4>
             </div>
             <div class="modal-body">
-                    <form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin">
+                    <form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">
                         <spring:bind path="title">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="title" class="form-control" placeholder="Event name"

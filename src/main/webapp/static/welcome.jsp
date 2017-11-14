@@ -51,6 +51,21 @@
         </h2>
     </c:if>
 
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <form id = "adminForm" method="GET" action="${contextPath}/admin">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+        <h2>
+            As admin u can enter <a onclick="document.forms['adminForm'].submit()">Admin page</a>
+        </h2>
+    </c:if>
+
+    <%--<c:if test="${pageContext.request.userPrincipal.name != null}">--%>
+        <%--<form id="logoutForm" method="POST" action="${contextPath}/userPage">--%>
+            <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
+        <%--</form>--%>
+        <%--<h2>Welcome ${pageContext.request.userPrincipal.name} </h2>--%>
+    <%--</c:if>--%>
 </div>
 <div class="container">
     <div class="row">

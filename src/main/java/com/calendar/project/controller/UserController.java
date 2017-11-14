@@ -1,26 +1,20 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
-import com.calendar.project.service.RoleService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
-import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -30,17 +24,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.*;
-
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,10 +74,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
         LOGGER.info("Request of \"/registration\" page POST");
+
         userValidator.validate(userForm, bindingResult);
 
+//        if (bindingResult.hasErrors()) {
+//            return "registration";
+//        }
+//            for (CommonsMultipartFile aFile : fileUpload){
+//                userForm.setImage(aFile.getBytes());@RequestParam CommonsMultipartFile[] fileUpload, , HttpServletRequest request
+                userService.save(userForm);
+//            }
         if (bindingResult.hasErrors()) {
             LOGGER.info("Opening of \"/registration\" page");
             return "registration";
@@ -97,7 +99,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = {"/addUser"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(Model model) {
         LOGGER.info("Request of \"/addUser\" page GET");
         model.addAttribute("userForm", new User());
@@ -122,9 +124,14 @@ public class UserController {
         return "/registrationSuccess";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         LOGGER.info("Request of \"/login\" page GET");
+
+        if(securityService.findLoggedInUsername() != null) {
+            return "redirect:/index";
+        }
+
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
         }
@@ -145,7 +152,7 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.GET)
     public String index(Model model){
         LOGGER.info("Request of \"/index\" page GET");
 
@@ -153,16 +160,12 @@ public class UserController {
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
-        if (securityService.findLoggedInUsername().equals("anonymousUser")) {
-            LOGGER.info("Redirect to \"/login\" page");
-            return "redirect:/login";
-        } else {
-            LOGGER.info("Opening of \"/index\" page");
-            return "index";
-        }
+
+        LOGGER.info("Opening of \"/index\" page");
+        return "index";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/index\" page POST");
         if (bindingResult.hasErrors()) {
@@ -269,7 +272,8 @@ public class UserController {
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
         List<Role> list = roleService.findAll();
-        list.remove(3);
+        list.remove(3);     // to clarify
+        LOGGER.info("Return list of roles");
         return list;
     }
 
