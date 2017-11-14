@@ -19,6 +19,7 @@
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,14 +34,14 @@
         <input type="image" src="${contextPath}/resources/Logo.png"/>
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="Username"
+            <input name="username" type="text" class="form-control" placeholder="USERNAME"
                    autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
+            <input name="password" type="password" class="form-control" placeholder="PASSWORD"/>
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <label><input type="checkbox" id="remember-me" name="remember-me"> Remember Me</label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"></button>
+            <h4 class="text-center">Don't have an account?<a href="${contextPath}/registration">Register</a></h4>
         </div>
     </form>
 </div>
