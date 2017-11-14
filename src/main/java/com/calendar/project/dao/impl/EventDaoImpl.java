@@ -2,25 +2,16 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
-import javax.swing.text.DateFormatter;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -127,6 +118,24 @@ public class EventDaoImpl implements EventDao {
         LocalDateTime second = LocalDateTime.parse(secondDate, dateTimeFormatter);
         List<Event> events = entityManager
                 .createQuery("FROM Event e WHERE e.start >= :firstDate and e.start <= :secondDate")
+                .setParameter("firstDate", first)
+                .setParameter("secondDate", second)
+                .getResultList();
+        return events;
+    }
+
+    @Override
+    public List<Event> getEventCountByPeriod(String date1, String date2){
+        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().append(dateTimeFormatter1)
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                .toFormatter();
+        LocalDateTime first = LocalDateTime.parse(date1, dateTimeFormatter);
+        LocalDateTime second = LocalDateTime.parse(date2, dateTimeFormatter);
+        List<Event> events = entityManager
+                .createQuery("select to_char(e.start,'yyyy-MM-dd') AS date, count(e.start) AS number FROM Event e WHERE e.start >= :firstDate and e.start <= :secondDate GROUP BY 1")
                 .setParameter("firstDate", first)
                 .setParameter("secondDate", second)
                 .getResultList();

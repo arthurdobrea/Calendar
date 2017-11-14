@@ -1,24 +1,19 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
-import com.calendar.project.service.RoleService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
-import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -28,11 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -67,15 +63,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
         userValidator.validate(userForm, bindingResult);
 
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-
-        userService.save(userForm);
-
+//        if (bindingResult.hasErrors()) {
+//            return "registration";
+//        }
+//            for (CommonsMultipartFile aFile : fileUpload){
+//                userForm.setImage(aFile.getBytes());@RequestParam CommonsMultipartFile[] fileUpload, , HttpServletRequest request
+                userService.save(userForm);
+//            }
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
         return "redirect:/index";
@@ -176,7 +173,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(  Model model, User user){
+    public String showMyEvents(Model model, User user){
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
@@ -185,7 +182,6 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
-
         return "userPage";
     }
 

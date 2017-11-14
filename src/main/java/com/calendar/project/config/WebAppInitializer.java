@@ -1,7 +1,10 @@
 package com.calendar.project.config;
 
+import com.calendar.project.config.xssfilters.XSSFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,5 +25,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
+        servletContext.addFilter("XSSFilter", XSSFilter.class).addMappingForServletNames(null, false, "dispatcher");
     }
 }

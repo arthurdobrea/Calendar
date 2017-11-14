@@ -1,17 +1,12 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
 import com.calendar.project.service.EventService;
-import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
-import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

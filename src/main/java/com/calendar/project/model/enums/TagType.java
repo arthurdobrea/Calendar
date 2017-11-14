@@ -1,4 +1,4 @@
-package com.calendar.project.model;
+package com.calendar.project.model.enums;
 
 public enum TagType {
 

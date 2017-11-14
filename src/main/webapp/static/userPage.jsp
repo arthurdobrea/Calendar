@@ -41,7 +41,10 @@
 
         <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
+
     </c:if>
+
+    <%--<h2>Avatar</h2> <img src="${imageOfUser}" width="100" height="100" />--%>
 
         <h2>Events created by me: ${eventsByAuthor.size()}</h2>
 

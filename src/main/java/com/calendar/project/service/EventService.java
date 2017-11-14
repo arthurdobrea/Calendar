@@ -1,13 +1,8 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.EventType;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -40,4 +35,5 @@ public interface EventService {
 
     List<Event> getEventsByPeriod(String firstDate, String secondDate);
 
+    List<Event> getEventCountByPeriod(String date1, String date2);
 }

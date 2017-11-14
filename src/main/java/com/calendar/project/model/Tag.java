@@ -1,5 +1,6 @@
 package com.calendar.project.model;
 
+import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
