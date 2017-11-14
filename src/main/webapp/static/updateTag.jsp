@@ -51,6 +51,13 @@
             </div>
         </spring:bind>
 
+        <spring:bind path="color">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="color" class="form-control" placeholder="Color"
+                            autofocus="true"></form:input>
+            </div>
+        </spring:bind>
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">update tag</button>
     </form:form>
 </div>

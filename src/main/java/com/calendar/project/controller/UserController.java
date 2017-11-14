@@ -1,17 +1,15 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.Role;
-import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
+import com.calendar.project.model.*;
+import com.calendar.project.service.*;
 import com.calendar.project.service.RoleService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.TagService;
-import com.calendar.project.service.UserService;
+import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,9 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -52,6 +51,9 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private EmailService emailService;
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -71,7 +73,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/welcome";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
@@ -94,7 +96,7 @@ public class UserController {
         return "registrationSuccess";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -113,9 +115,47 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
+    @RequestMapping(value = {"/index" ,"/"}, method = RequestMethod.GET)
+    public String index(Model model){
+        Event event = new Event();
+        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        event.setParticipants(participants);
+        List<Tag> tags = tagService.getAllTags();
+        event.setTags(new HashSet<>(tags));
+        event.setParticipants(participants);
+        model.addAttribute("tags", tags);
+        model.addAttribute("eventForm", event);
+        //System.out.println("Event tag= "+event.getTags().toString());
+        //System.out.println("Event = "+event.toString());
+        if (securityService.findLoggedInUsername().equals("anonymousUser")) {
+            return  "redirect:/login";
+        } else{
+            return "index";}
+    }
+
+    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm,
+                              @ModelAttribute("checkSubscribe") String checkSubscribe,
+                              @ModelAttribute("checkParticipants") String checkParticipants,
+                              BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        System.out.println("Event Form = "+eventForm.toString());
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+        List<User> participants = new LinkedList<>();
+        for (User u : eventForm.getParticipants()) {
+            u.setId(Long.parseLong(u.getUsername()));
+            participants.add(userService.getUser(u.getId()));
+        }
+
+        eventForm.setParticipants(participants);
+        User user = securityService.findLoggedInUsername();
+        eventForm.setAuthor(userService.findByUsername(user.getUsername()));
+        eventService.saveEvent(eventForm);
+        if (!checkSubscribe.equals("0")) emailService.mailParticipantsNewEvent(eventForm);
+        if (!checkParticipants.equals("0")) emailService.mailSubscribersNewEvent((eventForm));
+        redirectAttributes.addAttribute("eventId", eventForm.getId());
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -123,8 +163,7 @@ public class UserController {
         List<User> users = userService.findAllUsers();
 
         modelMap.addAttribute("users", users);
-        modelMap.addAttribute("loggedinuser", getPrincipal());
-
+        modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "admin";
     }
 
@@ -141,19 +180,6 @@ public class UserController {
         return "userControlPanel";
     }
 
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        User user = userService.findByUsername(userForm.getUsername());
-
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
-
-        return "redirect:/index";
-    }
-
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
         user = securityService.findLoggedInUsername();
@@ -166,6 +192,21 @@ public class UserController {
         model.addAttribute("eventsList", eventService.getEventTypeList());
 
         return "userPage";
+    }
+
+
+
+    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
+    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+        User user = userService.findByUsername(userForm.getUsername());
+
+        user.setFirstname(userForm.getFirstname());
+        user.setLastname(userForm.getLastname());
+        user.setEmail(userForm.getEmail());
+
+        userService.update(user);
+
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
@@ -183,9 +224,8 @@ public class UserController {
         user.setSubscriptionByEventType(res);
 
         userService.update(user);
-        //is mailing all events to current user  by his labels and event types.
-        userService.mailToUser(user);
 
+        emailService.mailToUserFutureEvents(user);
         return "userPage";
     }
 
@@ -201,8 +241,7 @@ public class UserController {
 //        model.addAttribute("list_of_roles", roleService.findAll());
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", getPrincipal());
-
+        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
         return "userEdit";
     }
 
@@ -230,19 +269,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    private String getPrincipal() {
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-
-        return userName;
-    }
-
     // is mailing all events to all users when labels are equals to event types.
     @RequestMapping(value = "/mailing", method = RequestMethod.GET)
     public String mailing() {
@@ -251,7 +277,7 @@ public class UserController {
 
     @RequestMapping(value = "/mailing", method = RequestMethod.POST)
     public String mailing(Model model) {
-        userService.mailToAllUsers();
+        emailService.mailSubscribersAllFutureEvents();
         return "mailing";
     }
 

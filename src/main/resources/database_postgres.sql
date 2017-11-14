@@ -1,13 +1,13 @@
 -- User creating
 CREATE TABLE users (
-  id                      BIGSERIAL    NOT NULL PRIMARY KEY,
-  username                VARCHAR(255) NOT NULL,
-  password                VARCHAR(255) NOT NULL,
-  email                   VARCHAR(255),
-  lastname                VARCHAR(255),
-  firstname               VARCHAR(255),
-  subscription_event_type VARCHAR(255),
-  tags                    VARCHAR(255)
+  id                         BIGSERIAL    NOT NULL PRIMARY KEY,
+  username                   VARCHAR(255) NOT NULL,
+  password                   VARCHAR(255) NOT NULL,
+  email                      VARCHAR(255),
+  lastname                   VARCHAR(255),
+  firstname                  VARCHAR(255),
+  subscription_by_event_type VARCHAR(255),
+  subscription_by_tag_type      VARCHAR(255)
 );
 
 -- Roles creating
@@ -71,15 +71,15 @@ CREATE TABLE events_tags (
 INSERT INTO users (username, password)
 VALUES ('admin', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_event_type, tags)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('Kuzea', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'kuzea.k96@gmail.com', 'Kuznetski', 'Dmitry', 'TRAINING,OTHER', 'TOWER');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_event_type, tags)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('Vasea', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'dmitruk.vasilii@gmail.com', 'Dmitruk', 'Vasilii', 'OFFLINE,TRAINING', 'NBC');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_event_type, tags)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('ArturAD', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'adamaa14@gmail.com', 'Dobrya', 'Artur', 'MEETING', 'DEVELOPMENT');
 
@@ -244,10 +244,12 @@ INSERT INTO events_tags VALUES (12, 5);
 
 --Persistent logins
 CREATE TABLE persistent_logins (
-  username VARCHAR(255),
-  series VARCHAR(255),
-  token VARCHAR(255),
+  username  VARCHAR(255),
+  series    VARCHAR(255),
+  token     VARCHAR(255),
   last_used TIMESTAMP WITHOUT TIME ZONE,
 
   CONSTRAINT persistent_logins_pk PRIMARY KEY (series)
 );
+
+drop table users, roles, user_roles, tags, events, events_tags, events_users, persistent_logins;

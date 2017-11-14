@@ -27,7 +27,7 @@
         <a href="/updateTag?tagId=${tag.id}"> update</a></p>|
         <a href="/delete/${tag.id}"> delete me!</a></p>
     <c:forEach items="${tag.events}" var="event">
-        ${event.eventName}<br>
+        ${event.title}<br>
     </c:forEach>
     <br>
 </c:forEach>
@@ -49,7 +49,7 @@
 
 <h2>evensByTag:</h2>
 <c:forEach items="${evensByTag}" var="event">
-    ${event.eventName}<br>
+    ${event.title}<br>
 </c:forEach>
 <a href="/create-tag" class="btn">Create new tag</a>
 </body>

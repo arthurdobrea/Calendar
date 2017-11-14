@@ -25,15 +25,14 @@
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
-
+<p><p>
 <h2>Events:</h2>
 <c:forEach items="${events}" var="event">
-    <p>Name: ${event.eventName} | Type of event: ${event.eventType.view()} |
-        <a href="/participants/${event.eventName}"> participants</a></p>
+    <p>Name: ${event.title} | Type of event: ${event.eventType.view()} |
+         participants:</p>
     <p> <c:forEach items="${event.getParticipants()}" var="participant">
         <p>${participant.username}</p>
     </p>

@@ -67,9 +67,8 @@ public class UserServiceImpl implements UserService {
                 Hibernate.initialize(user.getRoles());
             }
         }
-
         return users;
-    }
+    };
 
     @Override
     public boolean exists(String username) {
@@ -107,6 +106,7 @@ public class UserServiceImpl implements UserService {
         userDao.deleteByUsername(userDao.findByUsername(username));
     }
 
+    @Override
     public List<User> getUsersListBySubscriptionByEventType(String subscriptionByEventType){
         return userDao.getUsersBySubscriptionByEventType(subscriptionByEventType);
     }
@@ -116,26 +116,5 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsersBySubscriptionByTagType(subscriptionByTagType);
     }
 
-    @Override
-    public void mailToAllUsers(){
-          for (User user:getAllUsers())
-              mailToUser(user);
-    }
 
-    @Override
-    public void mailToUser(User user){
-        System.out.println(" enums _ "+user.getSubscriptionByEventTypeAsEnums());
-        StringBuilder mailText = new StringBuilder();
-        for (EventType eventType: (user.getSubscriptionByEventTypeAsEnums())){
-            for (Event event:eventService.getFutureEventsByType(eventType)) {
-                if (eventType.equals(event.getEventType())) {
-                    mailText.append("Event name: " + event.getEventName());
-                    mailText.append("Event description: " + event.getDescription());
-                    mailText.append("Event start time: " + event.getStartTime()+"\n");
-                    System.out.println("will send to " + user.getFirstname() + " this " + mailText + "");
-                }
-            }
-        }
-        EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
-    }
 }

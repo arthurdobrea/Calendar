@@ -29,8 +29,4 @@ public interface UserService {
 
     void deleteUserByUsername(String username);
 
-    void mailToAllUsers();
-
-    void mailToUser(User user);
-
 }

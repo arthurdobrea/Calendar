@@ -19,6 +19,7 @@ public class TagDaoImpl implements TagDao{
     private EntityManager entityManager;
 
     @Override
+
     public void saveTag(Tag tag) {
         entityManager.persist(tag);
     }
@@ -49,16 +50,16 @@ public class TagDaoImpl implements TagDao{
     }
 
     @Override
-    public Tag getTagById(long tagId) {
+    public Tag getTagById(Long tagId) {
         Tag tag = (Tag) entityManager.createQuery("FROM Tag e WHERE id=:tag_id")
-                .setParameter("ag_id", tagId).getSingleResult();
+                .setParameter("tag_id", tagId).getSingleResult();
 
         Hibernate.initialize(tag.getEvents());  // TODO need to test
         return tag;
     }
 
     @Override
-    public List<Tag> getTagsByEvent(Long EventId) {
+    public List<Tag> getTagsByEvent(int EventId) {
         return entityManager.createQuery("SELECT t FROM Tag t JOIN t.events e WHERE e.id = :EventId", Tag.class)
                 .setParameter("EventId", EventId)
                 .getResultList();

@@ -20,11 +20,13 @@ public class TagServiceImpl implements TagService {
     private TagDao tagDao;
 
     @Override
+    @Transactional
     public void saveTag(Tag tag) {
         tagDao.saveTag(tag);
     }
 
     @Override
+    @Transactional
     public void updateTag(Tag tag) {
         tagDao.updateTag(tag);
     }
@@ -66,7 +68,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> getTagsByEvent(Long EventId){
+    public List<Tag> getTagsByEvent(int EventId){
         return tagDao.getTagsByEvent(EventId);
     };
 

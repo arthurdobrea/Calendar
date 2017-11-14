@@ -5,13 +5,24 @@ import com.calendar.project.model.EventType;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.TagType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public interface EventService {
 
-    Event getEvent(Long eventId);
+    void saveEvent(Event event);
+
+    List<Event> getAllEvents();
+
+    Event getEvent(int eventId);
 
     List<Event> getEventsByUser(long id);
+
+    void deleteEvent(Event event);
+
+    void updateEvent(Event editedEvent);
 
     List<Event> getEventsByAuthor(long authorId);
 
@@ -21,12 +32,12 @@ public interface EventService {
 
     List<Event> getEventsByTag(Long tagId);
 
-    List<Event> getAllEvents();
+    List<Event> getEventsByLocation(String location);
 
-    void saveEvent(Event event);
+    List<Event> getEventsByType(EventType type);
 
-    void updateEvent(Event editedEvent);
+    List<Event> getEventsByDate(String date);
 
-    void deleteEvent(Event event);
+    List<Event> getEventsByPeriod(String firstDate, String secondDate);
 
 }

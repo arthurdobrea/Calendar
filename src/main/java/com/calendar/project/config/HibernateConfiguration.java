@@ -54,7 +54,7 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
 
         properties.put("hibernate.dialect", environment.getProperty("jdbc.dialect"));
-        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.show_sql", "false");
         properties.put("hibernate.format_sql", "true");
 
         return properties;

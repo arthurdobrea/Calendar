@@ -1,11 +1,13 @@
 package com.calendar.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "tags")
-public class Tag {
+public class Tag implements Comparable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,10 +20,11 @@ public class Tag {
     @Column(name = "tag_color")
     private String color;
 
-   @ManyToMany(fetch = FetchType.EAGER )
-   @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
-           inverseJoinColumns = @JoinColumn(name = "event_id"))
-//    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
+
+   @JsonBackReference(value = "child")
+   //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
+   //      inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     private Set<Event> events;
 
     public Tag() {
@@ -85,6 +88,13 @@ public class Tag {
         return result;
     }
 
+    public int compareTo(Object c) {
+        Tag tag = (Tag) c;
+        if (this.getTag().compareTo(tag.getTag())==0) return 0;
+        if (this.getTag().compareTo(tag.getTag())>0) return 1;
+        if (this.getTag().compareTo(tag.getTag())<0) return -1;
+        return -1;
+    }
     @Override
     public String toString() {
         return "Tag{" +
