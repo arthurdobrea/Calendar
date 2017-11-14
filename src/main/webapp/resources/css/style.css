@@ -7,9 +7,45 @@
   font-family: 'Roboto', sans-serif;
   font-size: 21px;
 }
+.container{
+  width: 1484px;
+}
 #remember-me{
   width: 42px;
   height: 30px;
+}
+.first-last-div{
+  width: 626px;
+  float: left;
+}
+#email{
+    float: right;
+  height: 68px;
+}
+
+#ass-name{
+  height: 70px;
+  float: right;
+}
+
+#confirm-pass{
+  float: right;
+}
+
+#lastname{
+
+    width: 265px;
+    float: right;
+  margin-right: 38px;
+    margin-bottom: -3px;
+  margin-top: 2px;
+}
+
+#firstname{
+  width: 250px;
+}
+.form-group-reg{
+  width: 535px;
 }
 
 label{
@@ -30,7 +66,11 @@ body{
   padding:75px;
   text-align:center;
 }
+.image{
+  width: 1000px;
+  margin-left: 94px;
 
+}
 .form-signin {
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   background-color: #ffffff;
@@ -81,11 +121,18 @@ h1{
 }
 
 .form-signin input {
+
   margin-left: 0;
   margin-top: 0;
   margin-bottom: 50px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+
+
+}
+.form-signin-reg {
+  max-width: 1345px;
+  margin: 17px auto;
 }
 
 .form-signin button {
