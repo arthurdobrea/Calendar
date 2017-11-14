@@ -1,9 +1,9 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;

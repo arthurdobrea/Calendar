@@ -2,7 +2,7 @@ package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.junit.Before;

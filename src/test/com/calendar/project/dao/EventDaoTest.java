@@ -2,7 +2,7 @@ package com.calendar.project.dao;
 
 import com.calendar.project.config.HibernateConfiguration;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import org.junit.Assert;
 import org.junit.Before;
