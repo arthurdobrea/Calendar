@@ -13,7 +13,7 @@ public interface TagService {
 
     public void deleteTag(Tag tag);
 
-    public Tag getTagByName(String tagName);
+    public Tag getTagByName(TagType tagName);
 
     public Tag getTagById(Long tagId);
 

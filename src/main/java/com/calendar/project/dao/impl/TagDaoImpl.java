@@ -2,25 +2,27 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.TagDao;
 import com.calendar.project.model.Tag;
+import org.apache.log4j.Logger;
+import com.calendar.project.model.TagType;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-
 @Repository
-public class TagDaoImpl implements TagDao{
+public class TagDaoImpl implements TagDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private static final Logger LOGGER = Logger.getLogger(TagDaoImpl.class);
 
     @Override
     public void saveTag(Tag tag) {
         entityManager.persist(tag);
     }
+
     @Override
     public void updateTag(Tag tag) {
         entityManager.merge(tag);
@@ -28,31 +30,34 @@ public class TagDaoImpl implements TagDao{
 
     @Override
     public void deleteTag(Tag tag) {
-            entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
+        entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
     }
 
     @Override
     public List<Tag> getAllTags() {
-        List<Tag> tags = entityManager.createQuery("select e from Tag e", Tag.class)
+        return entityManager.createQuery("select t from Tag t", Tag.class)
                 .getResultList();
-        return tags;
     }
 
     @Override
-    public Tag getTagByName(String tag) {
-        Tag eventTag = entityManager.createQuery("from Tag e where e.tag=:tag_name", Tag.class)
+    public Tag getTagByName(TagType tag) {
+        Tag eventTag = entityManager.createQuery("from Tag t where t.tag = :tag_name", Tag.class)
                 .setParameter("tag_name", tag)
                 .getSingleResult();
+
         Hibernate.initialize(eventTag.getEvents());  // TODO need to test
+
         return eventTag;
     }
 
     @Override
-    public Tag getTagById(long tagId) {
-        Tag tag = (Tag) entityManager.createQuery("FROM Tag e WHERE id=:tag_id")
-                .setParameter("ag_id", tagId).getSingleResult();
+    public Tag getTagById(Long tagId) {
+        Tag tag = entityManager.createQuery("from Tag where id = :tag_id", Tag.class)
+                .setParameter("ag_id", tagId)
+                .getSingleResult();
 
         Hibernate.initialize(tag.getEvents());  // TODO need to test
+
         return tag;
     }
 }

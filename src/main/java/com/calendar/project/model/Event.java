@@ -99,7 +99,7 @@ public class Event implements Serializable {
     }
 
     public LocalDateTime getEventCreated() {
-        return eventCreated.now();
+        return eventCreated;
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {

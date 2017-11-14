@@ -1,15 +1,48 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<html>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Users List</title>
-    <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet"></link>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+    <title>Edit account</title>
+
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <a href="/welcome" class="btn">Home</a>
+    <a href="/index" class="btn">Calendar</a>
+    <a href="/userControlPanel" class="btn">User Panel</a>
+    <a href="/createEvent" class="btn">Create new event</a>
+    <a href="/userPage" class="btn">User Page</a>
+    <a href="/events" class="btn">All events</a>
+    <a href="/logout" class="btn">Logout</a>
+    <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+        <a href="/admin" class="btn">Admin page</a>
+    </c:if>
+    <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+        <a href="/admin" class="btn">Admin page</a>
+    </c:if>
+
 <div class="generic-container">
     <%--<%@include file="authheader.jsp" %>--%>
     <div class="panel panel-default">
@@ -23,41 +56,49 @@
                 <th>Lastname</th>
                 <th>Email</th>
                 <th>Role</th>
-                <sec:authorize access="hasRole('ADMIN')">
+                <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
                     <th width="100"></th>
-                </sec:authorize>
-                <sec:authorize access="hasRole('ADMIN')">
+                </c:if>
+                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
                     <th width="100"></th>
-                </sec:authorize>
+                </c:if>
+                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                    <th width="100"></th>
+                </c:if>
             </tr>
             </thead>
 
             <tbody>
-            <c:forEach items="${users}" var="user">
-                <tr>
-                    <td>${user.username}</td>
-                    <td>${user.firstname}</td>
-                    <td>${user.lastname}</td>
-                    <td>${user.email}</td>
-                    <td>${user.roles}</td>
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="<c:url value='/edit-user-${user.username}' />"
-                               class="btn btn-success custom-width">edit</a></td>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="<c:url value='/delete-user-${user.username}' />"
-                               class="btn btn-danger custom-width">delete</a></td>
-                    </sec:authorize>
-                </tr>
-            </c:forEach>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                    <th>${user.username}</th>
+                    <th>${user.firstname}</th>
+                    <th>${user.lastname}</th>
+                    <th>${user.email}</th>
+                        <c:set var="roles" value="${user.roles}"/>
+                        <c:set var="role" value="${fn:substringAfter(roles, 'ROLE_')}"/>
+                        <th>${fn:substringBefore(role, "\'")}</th>
+
+                        <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+                            <th><a href="<c:url value='/edit-user-${user.username}' />" class="btn custom-width">edit</a></th>
+                        </c:if>
+                        <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                            <th><a href="<c:url value='/edit-user-${user.username}' />" class="btn custom-width">edit</a></th>
+                        </c:if>
+
+                        <c:choose>
+                            <c:when test="${pageContext.request.remoteUser.equals(user.username)}"></c:when>
+                            <c:otherwise>
+                                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                                    <th><a href="<c:url value='/delete-user-${user.username}' />" class="btn custom-width">delete</a></th>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                    </tr>
+                </c:forEach>
             </tbody>
         </table>
     </div>
-    <sec:authorize access="hasRole('ADMIN')">
-        <div class="well">
-            <a href="<c:url value='/addUser' />">Add New User</a>
-        </div>
-    </sec:authorize>
 </div>
 </body>
 </html>

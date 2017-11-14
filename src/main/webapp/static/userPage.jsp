@@ -32,6 +32,12 @@
 <a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/logout" class="btn">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -48,43 +54,56 @@
 
         <h2>Events created by me: ${eventsByAuthor.size()}</h2>
 
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
         <c:forEach items="${eventsByAuthor}" var="event">
-        <p>Name: ${event.title} | Type of event: ${event.eventType}
-            <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
-            <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
-
-        </p>
+            <tr>
+                <td>${event.title}</td>
+                <td>${event.eventType}</td>
+                <td><a href="/updateEvent?eventId=${event.id}" class="btn">Update</a></td>
+                <td><a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a></td>
+                <td><a href="/showEvent?eventId=${event.id}" class="btn">Details</a></td>
+            </tr>
         </c:forEach>
+    </table>
 
     <h2>Events where I am invited: ${eventsByUser.size()}</h2>
-
-    <c:forEach items="${eventsByUser}" var="event">
-        <p>Name: ${event.title} | Type of event: ${event.eventType}
-            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
-        </p>
-    </c:forEach>
-
     <form action="eventTypeLink" method="post">
-       <c:forEach items="${eventsList}" var="eventType">
-           <p>${eventType.view()}
-               <c:set var="checked" value="0"/>
-               <c:forEach items="${userLabels}" var="labels">
-                    <c:if test = "${labels==eventType}">
-                         <c:set var="checked" value="1"/>
-                     </c:if>
-               </c:forEach>
-               <c:if test = "${checked==1}">
-                    <input type="checkbox" name="checkboxName" value="${eventType}" checked/><br>
-               </c:if>
-               <c:if test = "${checked==0}">
-                    <input type="checkbox" name="checkboxName" value="${eventType}" /><br>
-               </c:if>
-        </c:forEach>
-           <p>
+        <c:forEach items="${eventsList}" var="eventType">
+            ${eventType.view()}
+                <c:set var="checked" value="0"/>
+            <c:forEach items="${userLabels}" var="labels">
+            <c:if test = "${labels==eventType}">
+                <c:set var="checked" value="1"/>
+            </c:if>
+            </c:forEach>
+            <c:if test = "${checked==1}">
+            <input type="checkbox" name="checkboxName" value="${eventType}" checked/>
+            </c:if>
+            <c:if test = "${checked==0}">
+            <input type="checkbox" name="checkboxName" value="${eventType}" />
+            </c:if>
+            </c:forEach>
 
-           <input type="checkbox" name="checkboxName" value="" checked hidden/><br>
-        <input type="submit">
+            <input type="checkbox" name="checkboxName" value="" checked hidden/>
+            <input type="submit">
     </form>
+
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
+        <c:forEach items="${eventsByUser}" var="event">
+            <tr>
+                <td>${event.title}</td>
+                <td>${event.eventType}</td>
+                <td><a href="/showEvent?eventId=${event.id}" class="btn">Details</a></td>
+        </c:forEach>
+    </table>
 </div>
 </body>
 </html>

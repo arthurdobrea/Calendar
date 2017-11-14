@@ -21,6 +21,9 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
@@ -70,11 +73,17 @@
 <body>
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/events" class="btn">All events</a>
 <a href="/tags" class="btn">Tags</a>
 <a href="/mailing" class="btn">Mail to all</a>
 <a href="/userPage" class="btn">User Page</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<a href="/userControlPanel" class="btn">User Panel</a>
 <a href="/logout" class="btn">Logout</a>
 <p>
 <p>
@@ -89,6 +98,46 @@
             </div>
             <div class="modal-body">
 <h1> You will see event page right here </h1>
+                <form:form method="POST" modelAttribute="eventForm" class="form-signin">
+                <h2 class="form-signin-heading"></h2>
+
+                <spring:bind path="id">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
+                                autofocus="true"></form:input>
+                </div>
+                </spring:bind>
+                </form:form>
+
+<p>
+    Name: ${eventForm.title} <br>
+    Type: ${eventForm.eventType}<br>
+    Location: ${eventForm.location}<br>
+    Start time: ${eventForm.start}<br>
+    End time: ${eventForm.end}<br>
+    Description:${eventForm.description}<br>
+    Created at: ${eventForm.eventCreated}<br>
+    Created by: ${eventForm.author.fullName}<br>
+    Will be attended by:<br>
+<ul id="participantsList"></ul>
+</p>
+
+<script>
+    $(document).ready(function(){
+        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
+            console.log(data);
+
+            $.each(data, function(i, user) {
+                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+            });
+        });
+    });
+</script>
+
+<form>
+    <input type="button" value="Close"
+           onclick="window.location.href='/index'" />
+</form>
             </div>
         </div>
     </div>
@@ -107,12 +156,18 @@
                         <spring:bind path="title">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="title" class="form-control" placeholder="Event name"
-                                            autofocus="true"></form:input>
+                                            autofocus="true" required="true"></form:input>
                             </div>
                         </spring:bind>
                         <spring:bind path="eventType">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:select  path="eventType" class="form-control" >
+                                <form:select  path="eventType" class="form-control" required="true">
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn">Admin page</a>
+</c:if>
 
                                     <option value="">Select Event Type</option>
                                     <option value="MEETING">Meeting</option>
@@ -129,21 +184,26 @@
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:input type="text" path="location" class="form-control"
                                             placeholder="Location of the event"
-                                            autofocus="true"></form:input>
+                                            autofocus="true" required="true"></form:input>
                             </div>
                         </spring:bind>
                         <spring:bind path="start">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="datetime-local" path="start" class="form-control" autofocus="true"
-                                            placeholder="Start time"></form:input>
+                                <form:input id="datetimepicker1h" type="hidden" path="start"></form:input>
+
                             </div>
                         </spring:bind>
+                        <input type="text" id="datetimepicker1" class="form-control" required="true">
+
                         <spring:bind path="end">
-                            <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="datetime-local" path="end" class="form-control" autofocus="true"
-                                            placeholder="End time"></form:input>
-                            </div>
-                        </spring:bind>
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
+                        </div>
+                    </spring:bind>
+                        <input type="text" id="datetimepicker2" class="form-control" required="true">
+
+                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
@@ -156,12 +216,15 @@
                                              multiple="true" required="true"/>
                             </div>
                         </spring:bind>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>
                     </form:form>
             </div>
         </div>
     </div>
 </div>
 <div id='calendar'></div>
+
+<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ public class Role implements Serializable {
     @Column(name = "name")
     private String name;
 
+
     @JsonBackReference(value = "child")
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users;

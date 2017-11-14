@@ -1,8 +1,13 @@
 package com.calendar.project.dao;
 
+import com.calendar.project.model.*;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
+import com.calendar.project.model.Tag;
 
+import com.calendar.project.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EventDao {
@@ -17,9 +22,13 @@ public interface EventDao {
 
     List<Event> getEventsByType(EventType type);
 
-    List<Event> getAllEvents();
+    List<Event> getEventsByTag(TagType tag);
 
-    List<Event> getEventsByTag(String tag);
+    List<Event> getEventsByKeyword(String keyword);
+
+    List<User> getParticipantsByEvent(int eventId);
+
+    List<Event> getAllEvents();
 
     void saveEvent(Event event);
 

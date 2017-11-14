@@ -2,6 +2,7 @@ package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.User;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,8 @@ public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
     @Override
     public User getUser(Long id){
@@ -29,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("from User u where u.username = :username", User.class)
+        List<User> users = entityManager.createQuery("from User u where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
 
@@ -79,4 +82,6 @@ public class UserDaoImpl implements UserDao {
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
+
+
 }

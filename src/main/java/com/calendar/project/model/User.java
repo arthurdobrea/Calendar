@@ -16,7 +16,7 @@ import java.util.Set;
 
 import java.util.List;
 import java.util.Objects;
-
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -45,9 +45,9 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
-    @Column(name="image", columnDefinition = "BYTEA")
-    @Type(type="org.hibernate.type.BinaryType")
-    private byte[] image;
+//    @Column(name="image", columnDefinition = "BYTEA")
+//    @Type(type="org.hibernate.type.BinaryType")
+//    private byte[] image;
 
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
@@ -56,13 +56,13 @@ public class User implements Serializable {
     private String subscriptionByTagType;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
-    private List<Event> events = new ArrayList<>();
+    private List<Event> events = new ArrayList<>(); //events in which user participates
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>();
@@ -138,13 +138,13 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 
 
 

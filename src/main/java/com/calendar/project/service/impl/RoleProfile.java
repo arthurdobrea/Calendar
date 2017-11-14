@@ -1,13 +1,23 @@
 package com.calendar.project.service.impl;
 
+import org.apache.log4j.Logger;
+
 import java.io.Serializable;
 
-public enum RoleProfile implements Serializable {
-    USER("USER"),
-    DBA("DBA"),
-    ADMIN("ADMIN");
+/**
+ * Created by icebotari on 10/31/2017.
+ */
+
+    public enum RoleProfile implements Serializable {
+        GUEST("GUEST"),
+        USER("USER"),
+        DBA("DBA"),
+        ADMIN("ADMIN"),
+        SUPREME_ADMIN("SUPREME_ADMIN");
 
     String roleProfile;
+
+    private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
 
     private RoleProfile(String roleProfile) {
         this.roleProfile = roleProfile;

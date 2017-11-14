@@ -7,7 +7,7 @@ CREATE TABLE users (
   lastname                   VARCHAR(255),
   firstname                  VARCHAR(255),
   subscription_by_event_type VARCHAR(255),
-  subscription_by_tag_type      VARCHAR(255)
+  subscription_by_tag_type   VARCHAR(255)
 );
 
 -- Roles creating
@@ -39,7 +39,7 @@ CREATE TABLE events (
   event_location VARCHAR(255),
   description    VARCHAR(1000),
 
-  FOREIGN KEY (author_user_id) REFERENCES users (id)
+  FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 --Events-users
@@ -47,8 +47,8 @@ CREATE TABLE events_users (
   event_id INT NOT NULL,
   user_id  INT,
 
-  FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (event_id) REFERENCES events (id)
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
 --Tags
@@ -63,8 +63,8 @@ CREATE TABLE events_tags (
   event_id SERIAL NOT NULL,
   tag_id   SERIAL,
 
-  FOREIGN KEY (tag_id) REFERENCES tags (id),
-  FOREIGN KEY (event_id) REFERENCES events (id)
+  FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE,
+  FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
 -- Users inserting
@@ -83,13 +83,15 @@ INSERT INTO users (username, password, email, lastname, firstname, subscription_
 VALUES ('ArturAD', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'adamaa14@gmail.com', 'Dobrya', 'Artur', 'MEETING', 'DEVELOPMENT');
 
-INSERT INTO roles VALUES (1, 'ROLE_USER');
+INSERT INTO roles VALUES (1, 'ROLE_SUPREME_ADMIN');
 INSERT INTO roles VALUES (2, 'ROLE_ADMIN');
+INSERT INTO roles VALUES (3, 'ROLE_USER');
+INSERT INTO roles VALUES (4, 'ROLE_GUEST');
 
-INSERT INTO user_roles VALUES (1, 2);
-INSERT INTO user_roles VALUES (2, 1);
-INSERT INTO user_roles VALUES (3, 1);
-INSERT INTO user_roles VALUES (4, 1);
+INSERT INTO user_roles VALUES (1, 1);
+INSERT INTO user_roles VALUES (2, 3);
+INSERT INTO user_roles VALUES (3, 3);
+INSERT INTO user_roles VALUES (4, 3);
 
 --Events inserting with participants
 --1-st part

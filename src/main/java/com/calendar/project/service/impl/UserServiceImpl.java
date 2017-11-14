@@ -9,6 +9,7 @@ import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EventService eventService;
+
+    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getRole(1L));
+        roles.add(roleDao.getRole(4L));
         user.setRoles(roles);
 
         userDao.save(user);
