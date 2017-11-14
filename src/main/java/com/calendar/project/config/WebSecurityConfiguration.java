@@ -3,8 +3,6 @@ package com.calendar.project.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -59,7 +57,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/").authenticated()
                     .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
                     .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)

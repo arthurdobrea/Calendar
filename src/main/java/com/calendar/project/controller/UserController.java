@@ -13,7 +13,6 @@ import com.calendar.project.validator.UserValidator;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,14 +29,13 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.*;
-
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.LinkedList;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -101,7 +99,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = {"/addUser"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(Model model) {
         LOGGER.info("Request of \"/addUser\" page GET");
         model.addAttribute("userForm", new User());
@@ -126,9 +124,14 @@ public class UserController {
         return "/registrationSuccess";
     }
 
-    @RequestMapping(value = {"/login", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         LOGGER.info("Request of \"/login\" page GET");
+
+        if(securityService.findLoggedInUsername() != null) {
+            return "redirect:/index";
+        }
+
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
         }
@@ -149,7 +152,7 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.GET)
     public String index(Model model){
         LOGGER.info("Request of \"/index\" page GET");
 
@@ -157,16 +160,12 @@ public class UserController {
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
-        if (securityService.findLoggedInUsername().equals("anonymousUser")) {
-            LOGGER.info("Redirect to \"/login\" page");
-            return "redirect:/login";
-        } else {
-            LOGGER.info("Opening of \"/index\" page");
-            return "index";
-        }
+
+        LOGGER.info("Opening of \"/index\" page");
+        return "index";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.POST)
+    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/index\" page POST");
         if (bindingResult.hasErrors()) {
