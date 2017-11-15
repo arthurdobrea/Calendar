@@ -60,9 +60,6 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Event> events = new ArrayList<>(); //events in which user participates
 

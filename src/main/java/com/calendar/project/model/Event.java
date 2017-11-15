@@ -42,7 +42,7 @@ public class Event implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> participants = new ArrayList<>();;
+    private List<User> participants = new ArrayList<>();
 
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

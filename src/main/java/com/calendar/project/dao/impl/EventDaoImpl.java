@@ -1,10 +1,7 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.EventDao;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.TagType;
-import com.calendar.project.model.User;
+import com.calendar.project.model.*;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -152,9 +149,10 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<User> getParticipantsByEvent(int eventId){
         List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
-                "JOIN u.events e WHERE e.id=:idOfUser").setParameter("idOfUser", eventId)
+                "JOIN u.events e WHERE e.id=:idOfEvent").setParameter("idOfEvent", eventId)
                 .getResultList();
 
         return participantsAtEvent;
     }
+
 }
