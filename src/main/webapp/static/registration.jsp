@@ -39,7 +39,7 @@
         </spring:bind>
 
         <spring:bind path="username">
-            <div class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+            <div id="username" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="username" class="form-control" placeholder="USERNAME"
                             autofocus="true"></form:input>
                 <form:errors path="username"></form:errors>
@@ -87,7 +87,7 @@
             </div>
         </spring:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button id="btn-reg" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
     </form:form>
 </div>
 </body>

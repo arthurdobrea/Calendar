@@ -15,34 +15,57 @@
   height: 30px;
 }
 .first-last-div{
-  width: 626px;
+  width: 601px;
   float: left;
 }
 #email{
-    float: right;
+  margin-bottom: 50px;
+  margin-right: 4px;
+  width: 535px;
+  float: right;
   height: 68px;
+
 }
 
+#username{
+  margin-top: 8px;
+}
+#btn-reg{
+  font-size: 24px;
+  letter-spacing: 1px;
+      margin: 97px 316px;!important;
+
+}
 #ass-name{
+  margin-left: 11px;   
   height: 70px;
   float: right;
 }
-
+#ass-name input {
+  margin-left: -7px;
+}
 #confirm-pass{
   float: right;
+  margin-bottom: -1px;
+  margin-top: -2px;
+  margin-right: 17px;
+           margin-left: 11px;   
+
+}
+#confirm-pass input{
+      margin-left: 10px;
 }
 
 #lastname{
-
-    width: 265px;
-    float: right;
-  margin-right: 38px;
-    margin-bottom: -3px;
-  margin-top: 2px;
+  width: 253px;
+      float: right;
+      margin-right: 25px;
+      margin-bottom: 0px;
+      margin-top: 1px;
 }
 
 #firstname{
-  width: 250px;
+  width: 254px;
 }
 .form-group-reg{
   width: 535px;
@@ -69,6 +92,7 @@ body{
 .image{
   width: 1000px;
   margin-left: 94px;
+  height: 138px;
 
 }
 .form-signin {
@@ -113,7 +137,7 @@ h1{
   font-size: 20px;
   margin-left: 15px;
   height: 62px;
-  margin-top: 3px;
+      margin-top: 2px;
 }
 
 .form-signin .form-control:focus {
