@@ -1,6 +1,7 @@
 package com.calendar.project.validator;
 
 import com.calendar.project.model.User;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -9,6 +10,8 @@ import java.util.regex.Pattern;
 
 @Component
 public class EditFormValidator  implements Validator {
+
+    private static final Logger LOGGER = Logger.getLogger(EditFormValidator.class);
 
     @Override
     public boolean supports(Class<?> aClass) {

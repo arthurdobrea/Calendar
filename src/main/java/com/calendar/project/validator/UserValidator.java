@@ -2,6 +2,7 @@ package com.calendar.project.validator;
 
 import com.calendar.project.model.User;
 import com.calendar.project.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -14,6 +15,8 @@ public class UserValidator implements Validator {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger LOGGER = Logger.getLogger(UserValidator.class);
 
     @Override
     public boolean supports(Class<?> aClass) {

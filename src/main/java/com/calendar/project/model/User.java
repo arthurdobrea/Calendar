@@ -1,21 +1,20 @@
 package com.calendar.project.model;
 
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
 
 import java.util.List;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,8 +45,10 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
-    //@ElementCollection(targetClass = String.class)
-    //@Enumerated(EnumType.STRING)
+//    @Column(name="image", columnDefinition = "BYTEA")
+//    @Type(type="org.hibernate.type.BinaryType")
+//    private byte[] image;
+
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
 
@@ -64,7 +65,7 @@ public class User implements Serializable {
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-    private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
+    private List<Event> eventsOfAuthor = new ArrayList<>();
 
     public User() {
     }
@@ -136,6 +137,16 @@ public class User implements Serializable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
+
+
 
     public String getSubscriptionByEventType() {
         return subscriptionByEventType;
