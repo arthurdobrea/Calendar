@@ -50,6 +50,21 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>4.2.0</version>
+                <configuration>
+                    <sqlMigrationSeparator>__</sqlMigrationSeparator>
+                    <locations>
+                        <location>filesystem:/src/main/resources/db/migration</location>
+                    </locations>
+                    <url>jdbc:postgresql://13.59.145.165:5432/calendar_db</url>
+                    <user>postgres</user>
+                    <password>server..</password>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

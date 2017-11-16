@@ -40,4 +40,5 @@ public class RoleDaoImpl implements RoleDao {
         return entityManager.createQuery("from Role r", Role.class)
                 .getResultList();
     }
+
 }
