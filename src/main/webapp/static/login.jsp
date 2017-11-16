@@ -18,6 +18,11 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/bootstrap/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/knockout-3.0.0.js"/>"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
