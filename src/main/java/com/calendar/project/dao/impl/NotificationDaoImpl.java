@@ -18,7 +18,7 @@ public class NotificationDaoImpl implements NotificationDao {
 
     @Override
     public void save(EventsUsers eventsUsers){
-        entityManager.persist(eventsUsers);
+        entityManager.merge(eventsUsers);
     }
 
     @Override

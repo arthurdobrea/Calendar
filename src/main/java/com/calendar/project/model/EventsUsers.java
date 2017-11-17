@@ -20,7 +20,7 @@ public class EventsUsers {
     @JoinColumn(name = "id_event")
     private Event event;
 
-    @Column(name = "dateChecked")
+    @Column(name = "date_checked")
     private LocalDateTime dateChecked;
 
     public EventsUsers(User user, Event event, LocalDateTime dateChecked) {

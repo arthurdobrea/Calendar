@@ -75,9 +75,7 @@
     </div>
 </div>
 <script type="text/javascript">
-
     connectToServerFunc()
-
 </script>
 </body>
 </html>
