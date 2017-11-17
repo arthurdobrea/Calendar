@@ -3,7 +3,7 @@ package com.calendar.project.controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,12 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/json")
@@ -32,21 +28,11 @@ public class JSONController {
     @Autowired
     EventService eventService;
 
-        @RequestMapping(value = "/users",
-                method = RequestMethod.GET,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-        @ResponseStatus(HttpStatus.OK)
-        public @ResponseBody List<User> getAllUsers() {
-            return userService.getAllUsers();
-        }
-
-//        @RequestMapping(value = "/events",
-//                method = RequestMethod.GET,
-//                produces = MediaType.APPLICATION_JSON_VALUE)
-//        @ResponseStatus(HttpStatus.OK)
-//        public @ResponseBody List<Event> getEventInJSON() {
-//            return eventService.getAllEvents();
-//        }
+    @RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Event>> getAllEvents() {
@@ -72,6 +58,7 @@ public class JSONController {
                                                          @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern="yyyy-MM-dd") String date2)
      {
          List<Event> events = eventService.getEventCountByPeriod(date1, date2);
+
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 }

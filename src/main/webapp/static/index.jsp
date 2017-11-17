@@ -110,14 +110,16 @@
                 </form:form>
 
 <p>
-    Name: ${eventForm.title} <br>
-    Type: ${eventForm.eventType}<br>
-    Location: ${eventForm.location}<br>
-    Start time: ${eventForm.start}<br>
-    End time: ${eventForm.end}<br>
-    Description:${eventForm.description}<br>
-    Created at: ${eventForm.eventCreated}<br>
-    Created by: ${eventForm.author.fullName}<br>
+<c:forEach items="${events}" var="event">
+    Name: ${events.title} <br>
+    Type: ${events.eventType}<br>
+    Location: ${events.location}<br>
+    Start time: ${events.start}<br>
+    End time: ${events.end}<br>
+    Description:${events.description}<br>
+    Created at: ${events.eventCreated}<br>
+    Created by: ${events.author.fullName}<br>
+    </c:forEach>
     Will be attended by:<br>
 <ul id="participantsList"></ul>
 </p>
@@ -133,11 +135,6 @@
         });
     });
 </script>
-
-<form>
-    <input type="button" value="Close"
-           onclick="window.location.href='/index'" />
-</form>
             </div>
         </div>
     </div>

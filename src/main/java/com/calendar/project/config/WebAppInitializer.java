@@ -7,6 +7,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -24,6 +25,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         );
 
         servlet.setLoadOnStartup(1);
+        servlet.setMultipartConfig(new MultipartConfigElement("/tmp", 1024*1024*5, 1024*1024*5*5, 1024*1024));
         servlet.addMapping("/");
         servletContext.addFilter("XSSFilter", XSSFilter.class).addMappingForServletNames(null, false, "dispatcher");
     }

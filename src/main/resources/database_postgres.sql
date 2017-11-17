@@ -1,3 +1,13 @@
+drop table roles;
+drop table users;
+drop table user_roles;
+drop table events;
+drop table events_tags;
+drop table tags;
+drop table persistent_logins;
+drop table events_users;
+
+
 -- User creating
 CREATE TABLE users (
   id                         BIGSERIAL    NOT NULL PRIMARY KEY,
@@ -7,7 +17,8 @@ CREATE TABLE users (
   lastname                   VARCHAR(255),
   firstname                  VARCHAR(255),
   subscription_by_event_type VARCHAR(255),
-  subscription_by_tag_type   VARCHAR(255)
+  subscription_by_tag_type   VARCHAR(255),
+  image                      BYTEA
 );
 
 -- Roles creating

@@ -2,12 +2,19 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -38,30 +45,24 @@ public class Event implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> participants = new ArrayList<>();;
+    private List<User> participants = new ArrayList<>();
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
-     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER)
     private Set<Tag> tags;
 
     public Event(){}

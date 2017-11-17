@@ -1,9 +1,20 @@
 package com.calendar.project.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -18,6 +29,11 @@ import org.springframework.web.servlet.view.JstlView;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -53,13 +69,46 @@ public class WebAppConfiguration implements WebMvcConfigurer {
         return messageSource;
     }
 
+    @Bean(name="multipartResolver")
+    public MultipartResolver getResolver() throws IOException{
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver createMultipartResolver() {
-//        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-//        multipartResolver.setMaxUploadSize(20971520);   // 20MB
-//        multipartResolver.setMaxInMemorySize(1048576);  // 1MB
-//        //resolver.setDefaultEncoding("utf-8");
-//        return multipartResolver;
-//    }
+        //Set the maximum allowed size (in bytes) for each individual file.
+        resolver.setMaxUploadSizePerFile(5242880);//5MB
+
+        //You may also set other available properties.
+
+        return resolver;
+    }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
+        return mappingJackson2HttpMessageConverter;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objMapper = new ObjectMapper();
+        objMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTimeSerializer dateTimeSerializer = new LocalDateTimeSerializer(formatter);
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, dateTimeSerializer);
+        objMapper.registerModule(javaTimeModule);
+        return objMapper;
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.configureMessageConverters(converters);
+        converters.add(mappingJackson2HttpMessageConverter());
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
 }

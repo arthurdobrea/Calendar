@@ -97,7 +97,7 @@
             <th>Name</th>
             <th>Type</th>
         </tr>
-        <c:forEach items="${eventsByUser}" var="event">
+        <c:forEach items="${events}" var="event">
             <tr>
                 <td>${event.title}</td>
                 <td>${event.eventType}</td>
@@ -105,5 +105,6 @@
         </c:forEach>
     </table>
 </div>
+<img alt="img" src="data:image/jpeg;base64,${image}"/>
 </body>
 </html>

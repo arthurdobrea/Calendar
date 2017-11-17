@@ -22,8 +22,14 @@
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+
+
+    <script src="${contextPath}/resources/js/jquery.ui.widget.js"></script>
+    <script src="${contextPath}/resources/js/jquery.iframe-transport.js"></script>
+    <script src="${contextPath}/resources/js/jquery.fileupload.js"></script>
+    <script src="${contextPath}/resources/js/myuploadfunction.js"></script>
 </head>
 <body>
 <input type="image" src="${contextPath}/resources/preview-image.png"/>
@@ -45,5 +51,12 @@
         </div>
     </form>
 </div>
+<%--<h1>Spring MVC - jQuery File Upload</h1>--%>
+<%--<div style="width:500px;padding:20px">--%>
+
+    <%--<input id="fileupload" type="file" path = "nope" name="files[]" data-url="${contextPath}/upload" multiple>--%>
+
+
+<%--</div>--%>
 </body>
 </html>

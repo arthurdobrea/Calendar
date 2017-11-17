@@ -27,7 +27,7 @@
 </head>
 <body>
 <div class="container">
-    <form:form method="POST" modelAttribute="userForm" class="form-signin">
+    <form:form method="POST" modelAttribute="userForm" class="form-signin" enctype = "multipart/form-data">
         <h2 class="form-signin-heading">Create your account</h2>
         <spring:bind path="username">
             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -61,6 +61,14 @@
             </div>
         </spring:bind>
 
+        <spring:bind path="position">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="position" class="form-control" placeholder="position"
+                            autofocus="true"></form:input>
+                <form:errors path="position"></form:errors>
+            </div>
+        </spring:bind>
+
         <spring:bind path="password">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="password" path="password" class="form-control" placeholder="Password"
@@ -77,12 +85,16 @@
             </div>
         </spring:bind>
 
-        <%--<spring:bind path="image">--%>
-            <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                    <%--<form:input type="file" path="image" name="fileUpload" enctype = "multipart/form-data" ACTION="upload.jsp" METHOD="POST" />--%>
-                <%--<form:errors path="image"></form:errors>--%>
-            <%--</div>--%>
-        <%--</spring:bind>--%>
+        <spring:bind path="multipartFile">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="file" path="multipartFile" class="form-control"
+                            autofocus="true"></form:input>
+                <form:errors path="multipartFile"></form:errors>
+            </div>
+        </spring:bind>
+
+
+
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
 </div>

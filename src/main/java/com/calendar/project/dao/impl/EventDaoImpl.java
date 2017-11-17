@@ -78,7 +78,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getAllEvents() {
         LOGGER.info("Returns a list with all events");
-        return entityManager.createQuery("from Event e", Event.class)
+        return entityManager.createQuery("from Event e order by e.start", Event.class)
                 .getResultList();
     }
 
