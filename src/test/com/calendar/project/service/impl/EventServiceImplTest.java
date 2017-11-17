@@ -5,6 +5,7 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
+import com.calendar.project.service.SecurityService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +32,9 @@ public class EventServiceImplTest {
 
     @InjectMocks
     private EventService eventService = new EventServiceImpl();
+
+    private SecurityService securityService;
+
 
     @Mock
     private EventDao eventDao;

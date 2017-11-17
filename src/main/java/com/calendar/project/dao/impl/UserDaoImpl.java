@@ -1,6 +1,7 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.UserDao;
+import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -82,6 +83,8 @@ public class UserDaoImpl implements UserDao {
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
+
+
 
 
 }

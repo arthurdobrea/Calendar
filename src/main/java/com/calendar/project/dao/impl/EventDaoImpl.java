@@ -6,6 +6,7 @@ import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
+import com.calendar.project.model.*;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -157,7 +158,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<User> getParticipantsByEvent(int eventId){
         List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
-                "JOIN u.events e WHERE e.id=:idOfUser").setParameter("idOfUser", eventId)
+                "JOIN u.events e WHERE e.id=:idOfEvent").setParameter("idOfEvent", eventId)
                 .getResultList();
         LOGGER.info("Returns list of users participating at event with ID = " + eventId);
         return participantsAtEvent;
@@ -180,4 +181,5 @@ public class EventDaoImpl implements EventDao {
                 .getResultList();
         return events;
     }
+
 }
