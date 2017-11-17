@@ -21,6 +21,7 @@
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/knockout-3.0.0.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -73,48 +74,10 @@
         </div>
     </div>
 </div>
-<c:url value="/simplemessages" var="socketDest" />
 <script type="text/javascript">
-    var stompClient = null;
-    $(document).ready(function() {
-        $("#response").empty();
-        var socket = new SockJS('${socketDest}');
-        stompClient = Stomp.over(socket);
-        stompClient.connect('', '', function(frame) {
-            setConnected(true);
-            console.log("Connected: " + frame);
-            showServerBroadcast(false);
-            stompClient.subscribe("/topic/simplemessagesresponse", function(servermessage) {//Callback when server responds
-                showServerBroadcast(JSON.parse(servermessage.body).messageContent, false);
-                $("#formInfoAlert").slideUp(400);
-                $("#txtSendMessage").val("");
-                $("#txtSendMessage").focus();
-                $("#txtSendMessage").select();
-            });
-        });
-    });
 
-    function setConnected(connected) {
-        $("#connect").prop('disabled', connected);
-    }
+    connectToServerFunc()
 
-    function showServerBroadcast(servermessage, localMessage) {
-        var decoded = $("<div/>").html(servermessage).text();
-        tmp = "<span></span>";
-        var serverResponse = document.getElementById("response");
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-
-        if (localMessage) {
-            p.style.color = '#006600';
-            tmp = "<span ></span>";
-        } else {
-            p.style.color = '#8A0808';
-            tmp = "<span></span> " + decoded;
-        }
-        p.innerHTML = tmp;
-        serverResponse.appendChild(p);
-    }
 </script>
 </body>
 </html>

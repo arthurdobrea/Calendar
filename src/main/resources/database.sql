@@ -80,6 +80,15 @@ CREATE TABLE persistent_logins (
 )
   ENGINE = InnoDB;
 
+CREATE TABLE events_users_date
+(
+  id_user      INT      NOT NULL,
+  id_event     INT      NOT NULL,
+  date_checked DATETIME NULL,
+  id           INT      NOT NULL
+    PRIMARY KEY
+);
+
 INSERT INTO roles values (1, 'ROLE_SUPREME_ADMIN');
 INSERT INTO roles values (2, 'ROLE_ADMIN');
 INSERT INTO roles values (3, 'ROLE_USER');

@@ -69,7 +69,18 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
+    @OneToMany(mappedBy = "user")
+    private List <EventsUsers> eventsUsers = new ArrayList<>();
+
     public User() {
+    }
+
+    public List<EventsUsers> getEventsUsers() {
+        return eventsUsers;
+    }
+
+    public void setEventsUsers(List<EventsUsers> eventsUsers) {
+        this.eventsUsers = eventsUsers;
     }
 
     public User(String username) {

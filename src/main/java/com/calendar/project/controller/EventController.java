@@ -1,18 +1,15 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.model.*;
 import com.calendar.project.service.NotificationService;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.TagType;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -113,6 +110,8 @@ public class EventController {
 
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
+        EventsUsers eventsUsers = new EventsUsers();
+
         List<User> participants = new LinkedList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
@@ -123,8 +122,12 @@ public class EventController {
         User user = securityService.findLoggedInUsername();
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
+        eventsUsers.setEvent(eventForm);
+        eventsUsers.setUser(user);
+
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
+        notificationService.save(eventsUsers);
         notificationService.send("/topic/simplemessagesresponse",eventForm);
 
         return "redirect:/showEvent";

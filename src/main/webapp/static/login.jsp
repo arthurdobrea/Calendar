@@ -23,6 +23,7 @@
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/knockout-3.0.0.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,6 +50,9 @@
             <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
         </div>
     </form>
+    <script type="text/javascript">
+//        connectToServerFunc()
+    </script>
 </div>
 </body>
 </html>
