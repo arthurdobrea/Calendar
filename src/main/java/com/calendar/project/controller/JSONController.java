@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/json")
@@ -45,8 +46,9 @@ public class JSONController {
             eventAsJson.addProperty("start", e.getStart().toString());
             eventAsJson.addProperty("end", e.getEnd().toString());
             eventAsJson.addProperty("location", e.getLocation());
-            //eventAsJson.addProperty("author", e.getAuthor().getFullName().toString());
+            eventAsJson.addProperty("author", e.getAuthor().getFullName());
             eventAsJson.addProperty("eventCreated", e.getEventCreated().toString());
+            eventAsJson.addProperty("participants", e.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventsJsonArr.add(eventAsJson);
         }
         return new ResponseEntity<>(eventsJsonArr.toString(), HttpStatus.OK);

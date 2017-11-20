@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUser(Long id){
-        return entityManager.createQuery("from User u where u.id = :idOfUser", User.class)
+        return entityManager.createQuery("from User u join fetch u.roles r where u.id = :idOfUser", User.class)
                 .setParameter("idOfUser", id)
                 .getSingleResult();
     }
@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("from User u where u.username=:username", User.class)
+        List<User> users = entityManager.createQuery("from User u join fetch u.roles where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
 
@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
     }
     @Override
     public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
-        List<User> users = entityManager.createQuery("from User u join fetch u.events where u.subscriptionByEventType Like :eventtype", User.class)
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
                 .setParameter("eventtype", "%"+subscriptionByEventType+"%")
                 .getResultList();
         return users;
@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
-        List<User> users = entityManager.createQuery("from User u join fetch u.tags where u.subscriptionByTagType Like :tagtype", User.class)
+        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
                 .setParameter("tagtype", "%"+subscriptionByTagType+"%")
                 .getResultList();
         return users;
@@ -59,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select u from User u", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles r left join fetch u.events e join u.eventsOfAuthor a", User.class)
                 .getResultList();
     }
 

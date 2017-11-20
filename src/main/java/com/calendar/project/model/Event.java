@@ -1,7 +1,6 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -27,7 +26,6 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @JsonBackReference(value = "child")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
@@ -35,7 +33,6 @@ public class Event implements Serializable {
     @Column(name = "event_location")
     private String location;
 
-    @JsonBackReference(value = "child")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -202,16 +199,16 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", title='" + title +
                 ", eventType=" + eventType +
                 ", author=" + author +
-                ", location='" + location + '\'' +
+                ", location='" + location +
                 ", participants=" + participants +
                 ", start=" + start +
                 ", end=" + end +
                 ", allDay=" + allDay +
                 ", eventCreated=" + eventCreated +
-                ", description='" + description + '\'' +
+                ", description='" + description +
                 ", tags=" + tags +
                 '}';
     }

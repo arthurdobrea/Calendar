@@ -55,7 +55,7 @@ public class TagDaoImpl implements TagDao {
     @Override
     public List<Tag> getAllTags() {
         LOGGER.info("Return list of all tags");
-        return entityManager.createQuery("select t from Tag t", Tag.class)
+        return entityManager.createQuery("select t from Tag t JOIN FETCH t.events", Tag.class)
                 .getResultList();
     }
 

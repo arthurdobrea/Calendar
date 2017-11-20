@@ -50,7 +50,6 @@ public class User implements Serializable {
     @Column(name = "subscription_by_tag_type")
     private String subscriptionByTagType;
 
-    //@LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

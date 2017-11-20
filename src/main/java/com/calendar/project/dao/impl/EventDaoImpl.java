@@ -28,7 +28,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public Event getEvent(int eventId) {
         LOGGER.info("Returns an event based on its ID");
-        List<Event> events = entityManager.createQuery("from Event e where id = :idOfEvent", Event.class)
+        List<Event> events = entityManager.createQuery("select e from Event e join fetch e.author where e.id = :idOfEvent", Event.class)
                 .setParameter("idOfEvent", eventId)
                 .getResultList();
 
@@ -43,19 +43,21 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventsByUser(Long userId) {
-        User user = entityManager.createQuery("from User u join fetch u.events where id = :idOfUser", User.class)
+        List<Event> events = entityManager.createQuery("SELECT e FROM Event e " +
+                "JOIN e.participants p WHERE p.id=:idOfUser", Event.class)
                 .setParameter("idOfUser", userId)
-                .getSingleResult();
+                .getResultList();
 
-        Hibernate.initialize(user.getEvents()); // TODO don't forget testing
+//        Hibernate.initialize(user.getEvents()); // TODO don't forget testing
         LOGGER.info("Returns a list of events where user with ID = " + userId + " is invited");
-        return user.getEvents();
+//        return user.getEvents();
+        return events;
     }
 
     @Override
     public List<Event> getEventsByAuthor(Long authorId) {
         LOGGER.info("Returns a list of events created by user with id = " + authorId);
-        return entityManager.createQuery("from Event e join fetch e.author where e.author.id = :idOfAuthor", Event.class)
+        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor", Event.class)
                 .setParameter("idOfAuthor", authorId)
                 .getResultList();
     }
@@ -79,7 +81,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getAllEvents() {
         LOGGER.info("Returns a list with all events");
-        return entityManager.createQuery("from Event e order by e.start", Event.class)
+        return entityManager.createQuery("select distinct e from Event e left join fetch e.participants join e.author left join fetch e.tags order by e.start", Event.class)
                 .getResultList();
     }
 
@@ -95,14 +97,15 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getEventsByKeyword(String keyword) {
         LOGGER.info("Returns a list with events containing keyword = " + keyword);
         return entityManager.createQuery("select e from Event e " +
-                                                "join e.author a " +
-                                                "join e.tags t " +
-                                                    " where upper(e.title) like :keyword or" +
-                                                    " upper(e.description) like :keyword or" +
-                                                    " upper(e.location) like :keyword or" +
-                                                    " upper(a.username) like :keyword or" +
-                                                    " upper(e.eventType) like :keyword or" +
-                                                    " upper(t.tag) like :keyword", Event.class)
+                                                        "left join fetch e.author a " +
+                                                        "left join fetch e.participants p" +
+                                                        "left join fetch e.tags t " +
+                                                        " where upper(e.title) like :keyword or" +
+                                                        " upper(e.description) like :keyword or" +
+                                                        " upper(e.location) like :keyword or" +
+                                                        " upper(a.username) like :keyword or" +
+                                                        " upper(e.eventType) like :keyword or" +
+                                                        " upper(t.tag) like :keyword", Event.class)
                 .setParameter("keyword", "%" + keyword.toUpperCase() + "%")
                 .getResultList();
     }
