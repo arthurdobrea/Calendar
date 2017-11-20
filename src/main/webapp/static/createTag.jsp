@@ -26,12 +26,12 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-<a href="/welcome" class="btn">Home</a>
-<a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/create-event" class="btn">Create new event</a>
-<a href="/events" class="btn">All events</a>
-<a href="/logout" class="btn">Logout</a>
+<a href="/welcome" class="btn_calendar">Home</a>
+<a href="/index" class="btn_calendar">Calendar</a>
+<a href="/userControlPanel" class="btn_calendar">User Panel</a>
+<a href="/create-event" class="btn_calendar">Create new event</a>
+<a href="/events" class="btn_calendar">All events</a>
+<a href="/logout" class="btn_calendar">Logout</a>
 
 <div class="container">
     <form:form method="POST" modelAttribute="tagForm" class="form-signin">

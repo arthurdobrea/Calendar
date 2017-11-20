@@ -7,6 +7,7 @@ import com.calendar.project.model.Tag;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.model.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EventService {
@@ -44,4 +45,6 @@ public interface EventService {
     void updateEvent(Event editedEvent);
 
     List<Event> getEventCountByPeriod(String date1, String date2);
+
+    public String getEventJson(List<Event> events) throws IOException;
 }

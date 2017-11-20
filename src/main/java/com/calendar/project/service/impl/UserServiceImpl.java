@@ -9,15 +9,21 @@ import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -141,4 +147,27 @@ public class UserServiceImpl implements UserService {
         EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
     }
 
+    @Override
+    public String getUserJson(List<User> users) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray usersJsonArr = new JsonArray();
+        for (User user : users) {
+            JsonObject userAsJson = new JsonObject();
+            userAsJson.addProperty("id", user.getId());
+            userAsJson.addProperty("username", user.getUsername());
+            userAsJson.addProperty("firstname", user.getFirstname());
+            userAsJson.addProperty("lastname", user.getLastname());
+            userAsJson.addProperty("email", user.getEmail());
+            userAsJson.addProperty("position", user.getPosition());
+            userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
+            userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+            userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
+            userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitle).collect(Collectors.toList()).toString());
+            userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitle).collect(Collectors.toSet()).toString());
+            usersJsonArr.add(userAsJson);
+        }
+        String eventsString = usersJsonArr.toString();
+        Object json = mapper.readValue(eventsString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
 }

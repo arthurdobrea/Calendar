@@ -1,6 +1,7 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.UserDao;
+import com.calendar.project.dto.UserDto;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
@@ -18,7 +19,7 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public User getUser(Long id){
+    public User getUser(Long id) {
         return entityManager.createQuery("from User u where u.id = :idOfUser", User.class)
                 .setParameter("idOfUser", id)
                 .getSingleResult();
@@ -41,10 +42,11 @@ public class UserDaoImpl implements UserDao {
                 .findFirst()
                 .orElse(null);
     }
+
     @Override
     public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
         List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
-                .setParameter("eventtype", "%"+subscriptionByEventType+"%")
+                .setParameter("eventtype", "%" + subscriptionByEventType + "%")
                 .getResultList();
         return users;
     }
@@ -52,7 +54,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
         List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
-                .setParameter("tagtype", "%"+subscriptionByTagType+"%")
+                .setParameter("tagtype", "%" + subscriptionByTagType + "%")
                 .getResultList();
         return users;
     }
@@ -83,8 +85,5 @@ public class UserDaoImpl implements UserDao {
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
-
-
-
 
 }

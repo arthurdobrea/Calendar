@@ -1,5 +1,6 @@
 package com.calendar.project.dao;
 
+import com.calendar.project.dto.UserDto;
 import com.calendar.project.model.User;
 import java.util.List;
 

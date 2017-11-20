@@ -81,34 +81,34 @@ public class WebAppConfiguration implements WebMvcConfigurer {
         return resolver;
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
-        return mappingJackson2HttpMessageConverter;
-    }
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+//        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
+//        return mappingJackson2HttpMessageConverter;
+//    }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objMapper = new ObjectMapper();
-        objMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTimeSerializer dateTimeSerializer = new LocalDateTimeSerializer(formatter);
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class, dateTimeSerializer);
-        objMapper.registerModule(javaTimeModule);
-        return objMapper;
-    }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        WebMvcConfigurer.super.configureMessageConverters(converters);
-        converters.add(mappingJackson2HttpMessageConverter());
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+//    @Bean
+//    public ObjectMapper objectMapper() {
+//        ObjectMapper objMapper = new ObjectMapper();
+//        objMapper.enable(SerializationFeature.INDENT_OUTPUT);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        LocalDateTimeSerializer dateTimeSerializer = new LocalDateTimeSerializer(formatter);
+//        JavaTimeModule javaTimeModule = new JavaTimeModule();
+//        javaTimeModule.addSerializer(LocalDateTime.class, dateTimeSerializer);
+//        objMapper.registerModule(javaTimeModule);
+//        return objMapper;
+//    }
+//
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        WebMvcConfigurer.super.configureMessageConverters(converters);
+//        converters.add(mappingJackson2HttpMessageConverter());
+//    }
+//
+//    @Bean
+//    public ModelMapper modelMapper() {
+//        return new ModelMapper();
+//    }
 
 }

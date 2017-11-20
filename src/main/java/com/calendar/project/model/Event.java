@@ -1,9 +1,11 @@
 package com.calendar.project.model;
 
+import com.calendar.project.dto.UserDto;
 import com.calendar.project.model.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
@@ -48,14 +50,17 @@ public class Event implements Serializable {
     private List<User> participants = new ArrayList<>();
 
     @Column(name = "timebegin")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start;
 
     @Column(name = "timeend")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
     @Column(name = "createdata")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
@@ -75,8 +80,8 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthor() {
+        return author.getFullName();
     }
 
     public void setAuthor(User author) {
@@ -101,6 +106,11 @@ public class Event implements Serializable {
 
     public LocalDateTime getEventCreated() {
         return eventCreated;
+    }
+
+    public String getEventCreatedTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return eventCreated.format(formatter);
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {
@@ -137,6 +147,16 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getStartTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return start.format(formatter);
+    }
+
+    public String getEndTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return end.format(formatter);
     }
 
     public LocalDateTime getStart() {
@@ -198,8 +218,8 @@ public class Event implements Serializable {
                 //", author=" + author +
                 ", location=" + location + '\'' +
                 //", participants=" + participants +
-                ", startTime= "  + start.toString() +
-                ", endTime= " + end.toString() +
+                ", startTime= "  + start +
+                ", endTime= " + end +
                 ", eventCreated= " + eventCreated +
                 ", description= " + description + '\'' +
                 '}';

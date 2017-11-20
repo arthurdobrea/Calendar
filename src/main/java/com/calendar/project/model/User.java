@@ -2,6 +2,9 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.Type;
@@ -44,15 +47,18 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @Transient
     private String confirmPassword;
 
+    //@JsonIgnore
     @Column(name="image")
     private String image;
 
     @Column(name="position")
     private String position;
 
+    @JsonIgnore
     @Transient
     private MultipartFile multipartFile;
 
