@@ -20,17 +20,36 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public void saveTag(Tag tag) {
-        entityManager.persist(tag);
+        LOGGER.info("Atempt to save tag = \"" + tag + "\"");
+        try {
+            entityManager.persist(tag);
+            LOGGER.info("Tag = \"" + tag + "\" successfully saved" );
+        } catch (Exception ex){
+            LOGGER.error("Tag = \"" + tag + "\" was not saved. " + ex);
+        }
     }
 
     @Override
     public void updateTag(Tag tag) {
-        entityManager.merge(tag);
+        LOGGER.info("Atempt to update tag = \"" + tag + "\"");
+        try{
+            entityManager.merge(tag);
+            LOGGER.info("Tag = \"" + tag + "\" successfully updated" );
+        } catch(Exception ex){
+            LOGGER.error("Tag = \"" + tag + "\" was not updated. " + ex);
+        }
+
     }
 
     @Override
     public void deleteTag(Tag tag) {
-        entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
+        LOGGER.info("Atempt to delete tag = \"" + tag + "\"");
+        try {
+            entityManager.remove(entityManager.contains(tag) ? tag : entityManager.merge(tag));
+            LOGGER.info("Tag = \"" + tag + "\" successfully deleted" );
+        } catch(Exception ex){
+            LOGGER.error("Tag = \"" + tag + "\" was not deleted. " + ex);
+        }
     }
 
     @Override
@@ -47,6 +66,7 @@ public class TagDaoImpl implements TagDao {
 
 //        Hibernate.initialize(eventTag.getEvents());  // TODO need to test
 
+        LOGGER.info("Return tag = \"" + eventTag + "\" of type = " + tag);
         return eventTag;
     }
 
@@ -58,6 +78,7 @@ public class TagDaoImpl implements TagDao {
 
 //        Hibernate.initialize(tag.getEvents());  // TODO need to test
 
+        LOGGER.info("Return tag = \"" + tag + "\" with id = " + tagId);
         return tag;
     }
 }

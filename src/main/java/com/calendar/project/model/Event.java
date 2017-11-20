@@ -2,13 +2,20 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -49,12 +56,14 @@ public class Event implements Serializable {
 
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime start;
+
     @Column(name = "timeend")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")

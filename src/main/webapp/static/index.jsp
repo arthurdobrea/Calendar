@@ -151,11 +151,6 @@
     });
     }
 </script>
-
-<form>
-    <input type="button" value="Close"
-           onclick="window.location.href='/index'" />
-</form>
             </div>
         </div>
     </div>

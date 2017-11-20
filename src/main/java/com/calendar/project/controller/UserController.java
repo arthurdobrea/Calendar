@@ -10,7 +10,6 @@ import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,20 +18,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.*;
 import java.util.LinkedList;
 import java.util.Set;
@@ -62,6 +65,7 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -74,23 +78,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws Exception {
+    public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult) {
         LOGGER.info("Request of \"/registration\" page POST");
 
         userValidator.validate(userForm, bindingResult);
 
-//        if (bindingResult.hasErrors()) {
-//            return "registration";
-//        }
-//            for (CommonsMultipartFile aFile : fileUpload){
-//                userForm.setImage(aFile.getBytes());@RequestParam CommonsMultipartFile[] fileUpload, , HttpServletRequest request
-                userService.save(userForm);
-//            }
         if (bindingResult.hasErrors()) {
             LOGGER.info("Opening of \"/registration\" page");
             return "registration";
         }
-
+        MultipartFile userImage = userForm.getMultipartFile();
+        try{
+            userForm.setImage(Base64.encode(userImage.getBytes()));
+        } catch(IOException e){
+            e.printStackTrace();
+        }
         userService.save(userForm);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
@@ -160,6 +162,7 @@ public class UserController {
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
+        model.addAttribute("events", eventService.getEvent(event.getId()));
 
         LOGGER.info("Opening of \"/index\" page");
         return "index";
@@ -243,6 +246,7 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
+        model.addAttribute("image", userService.getUser(user.getId()).getImage());
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

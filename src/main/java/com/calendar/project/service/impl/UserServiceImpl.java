@@ -135,4 +135,5 @@ public class UserServiceImpl implements UserService {
         }
         EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
     }
+
 }

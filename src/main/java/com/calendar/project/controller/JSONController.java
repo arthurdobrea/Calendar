@@ -9,6 +9,7 @@ import com.calendar.project.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,12 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,7 +61,7 @@ public class JSONController {
 //        }
 
     @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllEventsForCalendar() {
+    public ResponseEntity<List<Event>> getAllEvents() {
         List<Event> events = eventService.getAllEvents();
 
         JsonArray eventsJsonArr = new JsonArray();
@@ -99,6 +96,7 @@ public class JSONController {
                                                          @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern="yyyy-MM-dd") String date2)
      {
          List<Event> events = eventService.getEventCountByPeriod(date1, date2);
+
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 

@@ -82,7 +82,7 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getAllEvents() {
         LOGGER.info("Returns a list with all events");
 
-        return entityManager.createQuery("select distinct e from Event e left join fetch e.participants join e.author left join fetch e.tags", Event.class)
+        return entityManager.createQuery("select distinct e from Event e left join fetch e.participants join e.author left join fetch e.tags order by e.start", Event.class)
                 .getResultList();
 
     }
