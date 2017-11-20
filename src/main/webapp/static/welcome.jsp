@@ -67,12 +67,29 @@
                 <div class="panel-body" id="conversationDiv">
                 </div>
                 <!-- .panel-body -->
-                <div class="panel-body" id="response"></div>
+                <div class="panel-body" id="response">
+
+                </div>
                 <!-- Div to show the server responses -->
             </div>
             <!-- .panel -->
         </div>
     </div>
+    <div> <c:forEach items="${notification}" var="notification">
+        <p>Name: ${notification.title} | Type of event: ${notification.eventType.view()} |
+            <a href="/participants/${notification.title}"> participants</a></p>
+        <p> <c:forEach items="${notification.getParticipants()}" var="participant">
+        <p>${participant.username}</p>
+        </p>
+    </c:forEach>
+        <%-- Output tags of event--%>
+        <p>Tag:
+            <c:forEach items="${notification.tags}" var="tag">
+                | ${tag.tag} |
+            </c:forEach>
+        </p>
+        <br>
+    </c:forEach></div>
 </div>
 <script type="text/javascript">
     connectToServerFunc()

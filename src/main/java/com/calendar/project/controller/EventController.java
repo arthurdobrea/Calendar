@@ -128,7 +128,7 @@ public class EventController {
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         notificationService.save(eventsUsers);
-        notificationService.send("/topic/simplemessagesresponse",eventForm);
+        notificationService.sendToAll("/topic/simplemessagesresponse",eventForm);
 
         return "redirect:/showEvent";
     }

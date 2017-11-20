@@ -2,16 +2,9 @@ package com.calendar.project.controller;
 
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.Role;
-import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
+import com.calendar.project.model.*;
+import com.calendar.project.service.*;
 import com.calendar.project.service.RoleService;
-import com.calendar.project.service.RoleService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.TagService;
-import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
@@ -67,6 +60,9 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
 
@@ -139,7 +135,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcome() {
+    public String welcome(Model model) {
+//        EventsUsers eventsUsers = new EventsUsers();
+//        User user = securityService.findLoggedInUsername();
+//        notificationService.getUnchekedEvents(user);
+
+        List<Event> events = eventService.getAllEvents();
+
+        model.addAttribute("notification",events);
+
+
         LOGGER.info("Request of \"/welcome\" page GET");
         LOGGER.info("Opening of \"/welcome\" page");
         return "welcome";

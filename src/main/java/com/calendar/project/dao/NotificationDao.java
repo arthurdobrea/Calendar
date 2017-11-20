@@ -10,11 +10,11 @@ public interface NotificationDao {
 
     void save(EventsUsers eventsUsers);
 
-    List<Event> getCheckedEvents(User user);
+    List<EventsUsers> getCheckedEvents(User user);
 
-    List<Event> getUnchekedEvents(User user);
+    List<EventsUsers> getUnchekedEvents(User user);
 
-    void changeState(User user, Event event);
+    void changeState(User user, EventsUsers event);
 
 
 }
