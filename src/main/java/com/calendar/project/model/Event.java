@@ -54,10 +54,6 @@ public class Event implements Serializable {
     @Column(name = "timebegin")
     private LocalDateTime start;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime start;
-
     @Column(name = "timeend")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;

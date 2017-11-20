@@ -61,7 +61,7 @@ public class JSONController {
 //        }
 
     @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getAllEvents() {
+    public ResponseEntity<String> getAllEvents() {
         List<Event> events = eventService.getAllEvents();
 
         JsonArray eventsJsonArr = new JsonArray();
