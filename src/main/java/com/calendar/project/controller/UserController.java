@@ -172,7 +172,7 @@ public class UserController {
             LOGGER.info("Opening of \"/index\" page");
             return "index";
         }
-        List<User> participants = new LinkedList<>();
+        List<User> participants = new ArrayList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));
             participants.add(userService.getUser(u.getId()));

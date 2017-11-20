@@ -35,28 +35,28 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public List<Tag> getAllTags() {
-        return entityManager.createQuery("select t from Tag t", Tag.class)
+        return entityManager.createQuery("select t from Tag t JOIN FETCH t.events", Tag.class)
                 .getResultList();
     }
 
     @Override
     public Tag getTagByName(TagType tag) {
-        Tag eventTag = entityManager.createQuery("from Tag t where t.tag = :tag_name", Tag.class)
+        Tag eventTag = entityManager.createQuery("from Tag t join fetch t.events where t.tag = :tag_name", Tag.class)
                 .setParameter("tag_name", tag)
                 .getSingleResult();
 
-        Hibernate.initialize(eventTag.getEvents());  // TODO need to test
+//        Hibernate.initialize(eventTag.getEvents());  // TODO need to test
 
         return eventTag;
     }
 
     @Override
     public Tag getTagById(Long tagId) {
-        Tag tag = entityManager.createQuery("from Tag where id = :tag_id", Tag.class)
+        Tag tag = entityManager.createQuery("from Tag t join fetch t.events where id = :tag_id", Tag.class)
                 .setParameter("ag_id", tagId)
                 .getSingleResult();
 
-        Hibernate.initialize(tag.getEvents());  // TODO need to test
+//        Hibernate.initialize(tag.getEvents());  // TODO need to test
 
         return tag;
     }

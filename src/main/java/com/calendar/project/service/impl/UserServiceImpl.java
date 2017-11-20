@@ -65,13 +65,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
-        for (User user : users) {
-            if (user != null) {
-                Hibernate.initialize(user.getRoles());
-            }
-        }
         return users;
-    };
+    }
 
     @Override
     public boolean exists(String username) {

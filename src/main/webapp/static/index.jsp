@@ -57,7 +57,13 @@
                 events:
                     {url:'/json/allEvents'},
                 eventClick:  function(event, jsEvent, view) {
+                    console.log(event);
+                    console.log(jsEvent);
+                    console.log(view);
+
+                    printEventDataInModal(event.id);
                     $('#eventPage').modal();
+
                 }
         });
          // $('#calendar').fullCalendar( 'gotoDate', currentDate);
@@ -97,8 +103,7 @@
                 <h4 class="modal-title">Event page</h4>
             </div>
             <div class="modal-body">
-<h1> You will see event page right here </h1>
-                <form:form method="POST" modelAttribute="eventForm" class="form-signin">
+                <form:form modelAttribute="eventForm" class="form-signin">
                 <h2 class="form-signin-heading"></h2>
 
                 <spring:bind path="id">
@@ -110,28 +115,41 @@
                 </form:form>
 
 <p>
-    Name: ${eventForm.title} <br>
-    Type: ${eventForm.eventType}<br>
-    Location: ${eventForm.location}<br>
-    Start time: ${eventForm.start}<br>
-    End time: ${eventForm.end}<br>
-    Description:${eventForm.description}<br>
-    Created at: ${eventForm.eventCreated}<br>
-    Created by: ${eventForm.author.fullName}<br>
+    Name: <span id="evName"></span> <br>
+    Type: <span id="evType"></span><br>
+    Location: <span id="evLocation"></span> <br>
+    Start time: <span id="evStart"></span> <br>
+    End time: <span id="evEnd"></span> <br>
+    Description:<span id="evDescription"></span> <br>
+    Created at: <span id="evCreated"></span> <br>
+    Created by: <span id="evAuthor"></span> <br>
     Will be attended by:<br>
-<ul id="participantsList"></ul>
+    <ul style = "list-style: none"; id="participantsList"></ul>
 </p>
 
 <script>
-    $(document).ready(function(){
-        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
-            console.log(data);
+    function printEventDataInModal(eventId)
+    {
+        $.get("/json/getEvent", {eventId: eventId}, function(data) {
+        console.log(data);
 
-            $.each(data, function(i, user) {
-                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
-            });
+        $("#evName").text(data.title);
+        $("#evType").text(data.eventType);
+        $("#evLocation").text(data.location);
+        $("#evStart").text(data.start);
+        $("#evEnd").text(data.end);
+        $("#evDescription").text(data.description);
+        $("#evCreated").text(data.eventCreated);
+        $("#evAuthor").text(data.author.firstname + data.author.lastname);
+    });
+        $.get("/getParticipantsByEvent", {eventId: eventId}, function(data) {
+        console.log(data);
+        $("#participantsList").text("");
+        $.each(data, function(i, user) {
+            $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
         });
     });
+    }
 </script>
 
 <form>

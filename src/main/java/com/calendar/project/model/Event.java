@@ -3,6 +3,7 @@ package com.calendar.project.model;
 import com.calendar.project.model.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -26,16 +27,17 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @JsonBackReference(value = "child")
-    @ManyToOne(fetch = FetchType.EAGER)
+    //@JsonBackReference(value = "child")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
     @Column(name = "event_location")
     private String location;
 
-    @JsonBackReference(value = "child")
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    //@JsonBackReference(value = "child")
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
@@ -58,7 +60,7 @@ public class Event implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY )
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
      //       inverseJoinColumns = @JoinColumn(name = "tag_id"))

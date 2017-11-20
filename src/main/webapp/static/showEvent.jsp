@@ -11,16 +11,6 @@
 <body>
 <h2>Event details:</h2>
 
-<!-- Modal -->
-<div class="modal fade" id="eventPage" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Event page</h4>
-            </div>
-            <div class="modal-body">
                 <form:form method="POST" modelAttribute="eventForm" class="form-signin">
                     <h2 class="form-signin-heading"></h2>
 
@@ -45,13 +35,13 @@
                 <ul id="participantsList"></ul>
 
                 <script>
-                    $(document).ready(function(){
                         $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
                             console.log(data);
 
                             $.each(data, function(i, user) {
                                 $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
                             });
+                            $(document).ready(function(){
                         });
                     });
                 </script>
@@ -60,27 +50,7 @@
                     <input type="button" value="Back to User Page"
                            onclick="window.location.href='/userPage'" />
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function(){
-        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
-            console.log(data);
-
-            $.each(data, function(i, user) {
-                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
-            });
-        });
-    });
-</script>
-
-<form>
-    <input type="button" value="Back to User Page"
-           onclick="window.location.href='/userPage'" />
-</form>
 
 </body>
 </html>
+

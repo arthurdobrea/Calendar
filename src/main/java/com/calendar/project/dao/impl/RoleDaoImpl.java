@@ -24,20 +24,20 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role findById(Long id) {
-        return entityManager.createQuery("from Role r where r.id: = id", Role.class)
+        return entityManager.createQuery("from Role r left join fetch r.users where r.id: = id", Role.class)
                 .getSingleResult();
     }
 
     @Override
     public Long findRoleIdByValue(String roleValue) {
-        return entityManager.createQuery("select r.id from Role r where r.name = :roleValue", Long.class)
+        return entityManager.createQuery("select r.id from Role r left join fetch r.users where r.name = :roleValue", Long.class)
                 .setParameter("roleValue", roleValue)
                 .getSingleResult();
     }
 
     @Override
     public List<Role> findAll() {
-        return entityManager.createQuery("from Role r", Role.class)
+        return entityManager.createQuery("from Role r left join fetch r.users", Role.class)
                 .getResultList();
     }
 
