@@ -87,7 +87,7 @@ public class WebAppConfiguration implements WebMvcConfigurer {
 //        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper());
 //        return mappingJackson2HttpMessageConverter;
 //    }
-
+//
 //    @Bean
 //    public ObjectMapper objectMapper() {
 //        ObjectMapper objMapper = new ObjectMapper();

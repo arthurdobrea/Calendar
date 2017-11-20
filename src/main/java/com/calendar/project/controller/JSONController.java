@@ -1,14 +1,16 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.config.DTO;
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.dto.UserDto;
+import com.calendar.project.controller.resources.Converter;
+import com.calendar.project.controller.resources.EventResource;
+import com.calendar.project.controller.resources.UserResource;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.Tag;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import com.calendar.project.validator.UserValidator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.stream.Collectors;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -45,18 +48,41 @@ public class JSONController {
     @Autowired
     EventService eventService;
 
-    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllUsers() throws IOException{
-        List<User> users = userService.getAllUsers();
-        String userString = userService.getUserJson(users);
-        return new ResponseEntity<>(userString, HttpStatus.OK);
-    }
+        @RequestMapping(value = "/users",
+                method = RequestMethod.GET,
+                produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseStatus(HttpStatus.OK)
+        public @ResponseBody List<UserResource> getAllUsers() {
+            List<User> users = userService.getAllUsers();
+
+            List<UserResource> userResources = new ArrayList<>();
+            for(User u : users) {
+                userResources.add(Converter.convert(u));
+            }
+
+            return userResources;}
+//    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> getAllUsers() throws IOException{
+//        List<User> users = userService.getAllUsers();
+//        String userString = userService.getUserJson(users);
+//        return new ResponseEntity<>(userString, HttpStatus.OK);
+//    }
+
+
+
+//        @RequestMapping(value = "/events",
+//                method = RequestMethod.GET,
+//                produces = MediaType.APPLICATION_JSON_VALUE)
+//        @ResponseStatus(HttpStatus.OK)
+//        public @ResponseBody List<Event> getEventInJSON() {
+//            return eventService.getAllEvents();
+//        }
 
     @GetMapping(value="/allEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllEvents() throws IOException{
         List<Event> events = eventService.getAllEvents();
         String eventString = eventService.getEventJson(events);
-        return new ResponseEntity<>(eventString, HttpStatus.OK);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);}
     }
 
     @GetMapping(value="/date", params = "date", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,4 +117,12 @@ public class JSONController {
     }
 
 
+
+    @RequestMapping(value = "/getEvent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EventResource> showEvent(int eventId){
+        Event event = eventService.getEvent(eventId);
+        EventResource er = Converter.convert(event);
+
+        return new ResponseEntity<>(er, HttpStatus.OK);
+    }
 }

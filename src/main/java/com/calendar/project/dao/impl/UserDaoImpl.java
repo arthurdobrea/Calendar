@@ -1,10 +1,10 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.dto.UserDto;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,8 +19,8 @@ public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public User getUser(Long id) {
-        return entityManager.createQuery("from User u where u.id = :idOfUser", User.class)
+    public User getUser(Long id){
+        return entityManager.createQuery("from User u join fetch u.roles r where u.id = :idOfUser", User.class)
                 .setParameter("idOfUser", id)
                 .getSingleResult();
     }
@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("from User u where u.username=:username", User.class)
+        List<User> users = entityManager.createQuery("from User u join fetch u.roles where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
 
@@ -61,8 +61,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select u from User u", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles r left join fetch u.events e join u.eventsOfAuthor a", User.class)
                 .getResultList();
+
     }
 
     @SuppressWarnings("unchecked")
