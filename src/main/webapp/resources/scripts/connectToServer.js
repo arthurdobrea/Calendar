@@ -1,17 +1,20 @@
-function showMessage() {
-}
+
 function connectToServerFunc() {
     var stompClient = null;
         $("#response").empty();
-        var socket = new SockJS("/simplemessages");
+        var socket = new SockJS('/notification');
         stompClient = Stomp.over(socket);
-        stompClient.connect('', '', function(frame) {
+        stompClient.connect('', '', function(frame){
             setConnected(true);
             console.log("Connected: " + frame);
-            stompClient.subscribe("/topic/simplemessagesresponse", function(servermessage) {//Callback when server responds
+            stompClient.subscribe('/user/queue/reply', function(servermessage) {//Callback when server responds
                 showServerBroadcast(JSON.parse(servermessage.body).messageContent, false);
 
             });
+            // stompClient.subscribe("/topic/simplemessagesresponse", function(servermessage) {//Callback when server responds
+            //     showServerBroadcast(JSON.parse(servermessage.body).messageContent, false);
+            //
+            // });
         });
 }
 

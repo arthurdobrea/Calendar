@@ -27,6 +27,21 @@ public class NotificationServiceImpl implements NotificationService {
         template.convertAndSend(destination,new MessageBroadcast("&lt;b&gt;"
                 +eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
     }
+    @Override
+    public void sendToAllParticipants(List<User> users,Event eventForm) {
+        for(User it: users){
+        template.convertAndSendToUser(it.getUsername(), "/queue/reply",new MessageBroadcast("&lt;b&gt;"
+                +eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+        }
+    }
+    @Override
+    public void sendToSpecificUser(String username,Event eventForm){
+            template.convertAndSendToUser(username, "/queue/reply",new MessageBroadcast("&lt;b&gt;"
+                    +eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+
+    }
+
+
     @Transactional
     public void save(EventsUsers eventsUsers){
         notificationDao.save(eventsUsers);

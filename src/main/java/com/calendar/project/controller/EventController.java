@@ -9,6 +9,7 @@ import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import com.calendar.project.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +109,7 @@ public class EventController {
         return "createEvent";
     }
 
+    @MessageMapping("/notification")
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         EventsUsers eventsUsers = new EventsUsers();
@@ -128,7 +130,8 @@ public class EventController {
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         notificationService.save(eventsUsers);
-        notificationService.sendToAll("/topic/simplemessagesresponse",eventForm);
+
+        notificationService.sendToAllParticipants(participants,eventForm);
 
         return "redirect:/showEvent";
     }

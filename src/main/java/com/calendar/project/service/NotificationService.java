@@ -13,6 +13,9 @@ public interface NotificationService {
 
     void sendToAll(String destination,Event eventForm);
 
+    void sendToAllParticipants(List<User> users,Event eventForm);
+    void sendToSpecificUser(String username,Event eventForm);
+
     void save(EventsUsers eventsUsers);
 
     List<EventsUsers> getUnchekedEvents(User User);
