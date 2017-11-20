@@ -53,20 +53,14 @@
                 weekNumbers: "ISO",
                 navLinks: true,
                 eventLimit: false,
+                allDaySlot: true,
+                timezone: 'local',
                 timeFormat: 'h:mma',
-                events:
-                    {url:'/json/allEvents'},
+                events: {url:'/json/allEvents'},
                 eventClick:  function(event, jsEvent, view) {
-                    console.log(event);
-                    console.log(jsEvent);
-                    console.log(view);
-
-                    printEventDataInModal(event.id);
                     $('#eventPage').modal();
-
-                }
+                },
         });
-         // $('#calendar').fullCalendar( 'gotoDate', currentDate);
         });
     </script>
     <style>
@@ -103,7 +97,8 @@
                 <h4 class="modal-title">Event page</h4>
             </div>
             <div class="modal-body">
-                <form:form modelAttribute="eventForm" class="form-signin">
+<h1> You will see event page right here </h1>
+                <form:form method="POST" modelAttribute="eventForm" class="form-signin">
                 <h2 class="form-signin-heading"></h2>
 
                 <spring:bind path="id">
@@ -115,41 +110,30 @@
                 </form:form>
 
 <p>
-    Name: <span id="evName"></span> <br>
-    Type: <span id="evType"></span><br>
-    Location: <span id="evLocation"></span> <br>
-    Start time: <span id="evStart"></span> <br>
-    End time: <span id="evEnd"></span> <br>
-    Description:<span id="evDescription"></span> <br>
-    Created at: <span id="evCreated"></span> <br>
-    Created by: <span id="evAuthor"></span> <br>
+<c:forEach items="${events}" var="event">
+    Name: ${events.title} <br>
+    Type: ${events.eventType}<br>
+    Location: ${events.location}<br>
+    Start time: ${events.start}<br>
+    End time: ${events.end}<br>
+    Description:${events.description}<br>
+    Created at: ${events.eventCreated}<br>
+    Created by: ${events.author.fullName}<br>
+    </c:forEach>
     Will be attended by:<br>
-    <ul style = "list-style: none"; id="participantsList"></ul>
+<ul id="participantsList"></ul>
 </p>
 
 <script>
-    function printEventDataInModal(eventId)
-    {
-        $.get("/json/getEvent", {eventId: eventId}, function(data) {
-        console.log(data);
+    $(document).ready(function(){
+        $.get("/getParticipantsByEvent", {eventId: $(".eventId").attr("value")}, function(data) {
+            console.log(data);
 
-        $("#evName").text(data.title);
-        $("#evType").text(data.eventType);
-        $("#evLocation").text(data.location);
-        $("#evStart").text(data.start);
-        $("#evEnd").text(data.end);
-        $("#evDescription").text(data.description);
-        $("#evCreated").text(data.eventCreated);
-        $("#evAuthor").text(data.author.firstname + data.author.lastname);
-    });
-        $.get("/getParticipantsByEvent", {eventId: eventId}, function(data) {
-        console.log(data);
-        $("#participantsList").text("");
-        $.each(data, function(i, user) {
-            $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+            $.each(data, function(i, user) {
+                $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+            });
         });
     });
-    }
 </script>
             </div>
         </div>
@@ -215,7 +199,15 @@
                     </spring:bind>
                         <input type="text" id="datetimepicker2" class="form-control" required="true">
 
-                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
+
+                        <spring:bind path="allDay">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <form:input id="all-dayh" type="hidden" path="allDay"></form:input>
+                            </div>
+                        </spring:bind>
+                        <label><input type="checkbox" id="all-day" path="allDay" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
 
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -229,6 +221,12 @@
                                              multiple="true" required="true"/>
                             </div>
                         </spring:bind>
+
+                        <div align="left">
+                            <label><input type="checkbox" name="checkParticipants" checked/>Send emails to participants</label><br>
+                            <label><input type="checkbox" name="checkSubscribe" checked/>Send emails to subscribers</label>
+                        </div>
+
                         <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>
                     </form:form>
             </div>

@@ -26,7 +26,7 @@
 <body>
 <div class="container">
     <form:form method="POST" modelAttribute="user" class="form-signin">
-        <form:input type="hidden" path="id" id="id"/>
+        <%--<form:input type="hidden" path="id" id="id"/>--%>
         <h2 class="form-signin-heading">Edit user </h2>
 
         <spring:bind path="id">
