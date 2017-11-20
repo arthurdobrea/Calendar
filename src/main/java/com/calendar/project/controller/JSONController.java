@@ -1,20 +1,20 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.Event;
-import com.calendar.project.service.UserService;
+import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.calendar.project.service.UserService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.calendar.project.model.User;
-import java.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/json")
@@ -35,9 +35,21 @@ public class JSONController {
     }
 
     @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getAllEvents() {
+    public ResponseEntity<String> getAllEvents() {
         List<Event> events = eventService.getAllEvents();
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        JsonArray eventsJsonArr = new JsonArray();
+        for (Event e : events) {
+            JsonObject eventAsJson = new JsonObject();
+            eventAsJson.addProperty("title", e.getTitle());
+            eventAsJson.addProperty("eventType", e.getEventType().toString());
+            eventAsJson.addProperty("start", e.getStart().toString());
+            eventAsJson.addProperty("end", e.getEnd().toString());
+            eventAsJson.addProperty("location", e.getLocation());
+            //eventAsJson.addProperty("author", e.getAuthor().getFullName().toString());
+            eventAsJson.addProperty("eventCreated", e.getEventCreated().toString());
+            eventsJsonArr.add(eventAsJson);
+        }
+        return new ResponseEntity<>(eventsJsonArr.toString(), HttpStatus.OK);
     }
 
     @RequestMapping(value="/date", params = "date", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)

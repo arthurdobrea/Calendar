@@ -43,7 +43,7 @@ public class UserDaoImpl implements UserDao {
     }
     @Override
     public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
-        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
+        List<User> users = entityManager.createQuery("from User u join fetch u.events where u.subscriptionByEventType Like :eventtype", User.class)
                 .setParameter("eventtype", "%"+subscriptionByEventType+"%")
                 .getResultList();
         return users;
@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
-        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
+        List<User> users = entityManager.createQuery("from User u join fetch u.tags where u.subscriptionByTagType Like :tagtype", User.class)
                 .setParameter("tagtype", "%"+subscriptionByTagType+"%")
                 .getResultList();
         return users;

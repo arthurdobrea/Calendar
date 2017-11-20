@@ -53,14 +53,14 @@
                 weekNumbers: "ISO",
                 navLinks: true,
                 eventLimit: false,
+                allDaySlot: true,
+                timezone: 'local',
                 timeFormat: 'h:mma',
-                events:
-                    {url:'/json/allEvents'},
+                events: {url:'/json/allEvents'},
                 eventClick:  function(event, jsEvent, view) {
                     $('#eventPage').modal();
-                }
+                },
         });
-         // $('#calendar').fullCalendar( 'gotoDate', currentDate);
         });
     </script>
     <style>
@@ -199,7 +199,15 @@
                     </spring:bind>
                         <input type="text" id="datetimepicker2" class="form-control" required="true">
 
-                        <label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
+
+                        <spring:bind path="allDay">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <form:input id="all-dayh" type="hidden" path="allDay"></form:input>
+                            </div>
+                        </spring:bind>
+                        <label><input type="checkbox" id="all-day" path="allDay" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
+
 
                         <spring:bind path="description">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -213,6 +221,12 @@
                                              multiple="true" required="true"/>
                             </div>
                         </spring:bind>
+
+                        <div align="left">
+                            <label><input type="checkbox" name="checkParticipants" checked/>Send emails to participants</label><br>
+                            <label><input type="checkbox" name="checkSubscribe" checked/>Send emails to subscribers</label>
+                        </div>
+
                         <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>
                     </form:form>
             </div>

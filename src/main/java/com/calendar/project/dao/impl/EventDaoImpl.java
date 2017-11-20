@@ -43,7 +43,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventsByUser(Long userId) {
-        User user = entityManager.createQuery("from User u where id = :idOfUser", User.class)
+        User user = entityManager.createQuery("from User u join fetch u.events where id = :idOfUser", User.class)
                 .setParameter("idOfUser", userId)
                 .getSingleResult();
 
@@ -55,7 +55,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByAuthor(Long authorId) {
         LOGGER.info("Returns a list of events created by user with id = " + authorId);
-        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor", Event.class)
+        return entityManager.createQuery("from Event e join fetch e.author where e.author.id = :idOfAuthor", Event.class)
                 .setParameter("idOfAuthor", authorId)
                 .getResultList();
     }

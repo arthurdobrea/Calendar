@@ -1,10 +1,8 @@
 $("#datetimepicker1").datetimepicker({
-    //format: 'm/d/Y H:i',
     dayOfWeekStart: 1,
     closeOnDateSelect:true,
 });
 $("#datetimepicker2").datetimepicker({
-    //format: 'm/d/Y H:i',
     dayOfWeekStart: 1,
     closeOnDateSelect:true,
 });
@@ -22,6 +20,7 @@ function allDayChecked() {
         dayOfWeekStart: 1,
         closeOnDateSelect:true,
     });
+    document.getElementById('all-dayh').setAttribute('value', 'true');
 }
 
 function allDayUnchecked() {
@@ -37,6 +36,7 @@ function allDayUnchecked() {
         dayOfWeekStart: 1,
         closeOnDateSelect:true,
     });
+    document.getElementById('all-dayh').setAttribute('value', 'false');
 }
 
 function eventDateTime() {
@@ -51,17 +51,10 @@ function eventDateTime() {
     var endMonth = ee.getMonth() + 1;
     var endDate = ee.getDate();
 
-    if(document.getElementById('all-day').checked) {
-        var startHour = 0;
-        var startMinute = 0;
-        var endHour = 23;
-        var endMinute = 59;
-    } else {
-        startHour = se.getHours();
-        startMinute = se.getMinutes();
-        endHour = ee.getHours();
-        endMinute = ee.getMinutes();
-    }
+    var startHour = se.getHours();
+    var startMinute = se.getMinutes();
+    var endHour = ee.getHours();
+    var endMinute = ee.getMinutes();
 
     if(startMonth < 10) {
         startMonth = "0" + startMonth;

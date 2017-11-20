@@ -26,7 +26,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public Role findById(Long id) {
         LOGGER.info("Return role with id = " + id);
-        return entityManager.createQuery("from Role r where r.id: = id", Role.class)
+        return entityManager.createQuery("from Role r join fetch r.users where r.id: = id", Role.class)
                 .getSingleResult();
     }
 

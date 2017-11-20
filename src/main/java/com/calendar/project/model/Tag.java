@@ -21,7 +21,7 @@ public class Tag {
     @Column(name = "tag_color")
     private String color;
 
-   @ManyToMany(fetch = FetchType.EAGER )
+   @ManyToMany(fetch = FetchType.LAZY)
    @JsonBackReference(value = "child")
    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
            inverseJoinColumns = @JoinColumn(name = "event_id"))

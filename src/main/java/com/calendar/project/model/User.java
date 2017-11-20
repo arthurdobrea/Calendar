@@ -2,23 +2,11 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
-import java.util.HashSet;
-import java.util.Set;
-
-
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -62,16 +50,16 @@ public class User implements Serializable {
     @Column(name = "subscription_by_tag_type")
     private String subscriptionByTagType;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+    //@LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
     public User() { }

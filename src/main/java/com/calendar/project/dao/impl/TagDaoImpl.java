@@ -61,7 +61,7 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Tag getTagByName(TagType tag) {
-        Tag eventTag = entityManager.createQuery("from Tag t where t.tag = :tag_name", Tag.class)
+        Tag eventTag = entityManager.createQuery("from Tag t join fetch t.events where t.tag = :tag_name", Tag.class)
                 .setParameter("tag_name", tag)
                 .getSingleResult();
 
@@ -73,7 +73,7 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Tag getTagById(Long tagId) {
-        Tag tag = entityManager.createQuery("from Tag where id = :tag_id", Tag.class)
+        Tag tag = entityManager.createQuery("from Tag t join fetch t.events where id = :tag_id", Tag.class)
                 .setParameter("ag_id", tagId)
                 .getSingleResult();
 
