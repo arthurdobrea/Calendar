@@ -1,6 +1,10 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.service.NotificationService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
@@ -17,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -134,6 +139,8 @@ public class EventController {
     public String showEvent(Model model, int eventId){
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
+//        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
+//        event.setParticipants(participantsByEvent);
 
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/showEvent\" page");
@@ -143,10 +150,21 @@ public class EventController {
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<User> getParticipantsInJSON(int eventId){
-        LOGGER.info("Receives ID of event");
+    public @ResponseBody String getParticipantsInJSON(@RequestParam("eventId") int eventId){
+        LOGGER.info("Receives ID of event " + eventId);
+
         List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
-        LOGGER.info("Returns list of participants at event");
-        return participantsByEvent;
+
+        JsonArray participantsArray = new JsonArray();
+        for (User u : participantsByEvent) {
+            JsonObject userAsJson = new JsonObject();
+            userAsJson.addProperty("id", u.getId());
+            userAsJson.addProperty("firstname", u.getFirstname());
+            userAsJson.addProperty("lastname", u.getLastname());
+            participantsArray.add(userAsJson);
+        }
+
+        LOGGER.info("Returns list of participants at event (Count = " + participantsByEvent.size() + ")");
+        return participantsArray.toString();
     }
 }

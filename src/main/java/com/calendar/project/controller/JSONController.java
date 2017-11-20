@@ -1,5 +1,8 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.controller.resources.Converter;
+import com.calendar.project.controller.resources.EventResource;
+import com.calendar.project.controller.resources.UserResource;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
@@ -14,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,28 +33,51 @@ public class JSONController {
     @Autowired
     EventService eventService;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        @RequestMapping(value = "/users",
+                method = RequestMethod.GET,
+                produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseStatus(HttpStatus.OK)
+        public @ResponseBody List<UserResource> getAllUsers() {
+            List<User> users = userService.getAllUsers();
+
+            List<UserResource> userResources = new ArrayList<>();
+            for(User u : users) {
+                userResources.add(Converter.convert(u));
+            }
+
+            return userResources;
     }
+
+
+
+//        @RequestMapping(value = "/events",
+//                method = RequestMethod.GET,
+//                produces = MediaType.APPLICATION_JSON_VALUE)
+//        @ResponseStatus(HttpStatus.OK)
+//        public @ResponseBody List<Event> getEventInJSON() {
+//            return eventService.getAllEvents();
+//        }
 
     @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllEvents() {
         List<Event> events = eventService.getAllEvents();
+
         JsonArray eventsJsonArr = new JsonArray();
         for (Event e : events) {
             JsonObject eventAsJson = new JsonObject();
+            eventAsJson.addProperty("id", e.getId());
             eventAsJson.addProperty("title", e.getTitle());
             eventAsJson.addProperty("eventType", e.getEventType().toString());
             eventAsJson.addProperty("start", e.getStart().toString());
             eventAsJson.addProperty("end", e.getEnd().toString());
-            eventAsJson.addProperty("location", e.getLocation());
             eventAsJson.addProperty("author", e.getAuthor().getFullName());
+            eventAsJson.addProperty("location", e.getLocation());
+            eventAsJson.addProperty("allDay", e.isAllDay());
             eventAsJson.addProperty("eventCreated", e.getEventCreated().toString());
             eventAsJson.addProperty("participants", e.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventsJsonArr.add(eventAsJson);
         }
+
         return new ResponseEntity<>(eventsJsonArr.toString(), HttpStatus.OK);
     }
 
@@ -74,5 +101,13 @@ public class JSONController {
          List<Event> events = eventService.getEventCountByPeriod(date1, date2);
 
         return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getEvent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EventResource> showEvent(int eventId){
+        Event event = eventService.getEvent(eventId);
+        EventResource er = Converter.convert(event);
+
+        return new ResponseEntity<>(er, HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,6 +62,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAll() {
         return entityManager.createQuery("select distinct u from User u left join fetch u.roles r left join fetch u.events e join u.eventsOfAuthor a", User.class)
                 .getResultList();
+
     }
 
     @SuppressWarnings("unchecked")

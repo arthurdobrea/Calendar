@@ -81,8 +81,10 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getAllEvents() {
         LOGGER.info("Returns a list with all events");
+
         return entityManager.createQuery("select distinct e from Event e left join fetch e.participants join e.author left join fetch e.tags order by e.start", Event.class)
                 .getResultList();
+
     }
 
     @Override
@@ -97,15 +99,15 @@ public class EventDaoImpl implements EventDao {
     public List<Event> getEventsByKeyword(String keyword) {
         LOGGER.info("Returns a list with events containing keyword = " + keyword);
         return entityManager.createQuery("select e from Event e " +
-                                                        "left join fetch e.author a " +
-                                                        "left join fetch e.participants p" +
-                                                        "left join fetch e.tags t " +
-                                                        " where upper(e.title) like :keyword or" +
-                                                        " upper(e.description) like :keyword or" +
-                                                        " upper(e.location) like :keyword or" +
-                                                        " upper(a.username) like :keyword or" +
-                                                        " upper(e.eventType) like :keyword or" +
-                                                        " upper(t.tag) like :keyword", Event.class)
+                                                "left join fetch e.author a " +
+                                                "left join fetch e.participants p" +
+                                                "left join fetch e.tags t " +
+                                                    " where upper(e.title) like :keyword or" +
+                                                    " upper(e.description) like :keyword or" +
+                                                    " upper(e.location) like :keyword or" +
+                                                    " upper(a.username) like :keyword or" +
+                                                    " upper(e.eventType) like :keyword or" +
+                                                    " upper(t.tag) like :keyword", Event.class)
                 .setParameter("keyword", "%" + keyword.toUpperCase() + "%")
                 .getResultList();
     }
@@ -161,7 +163,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<User> getParticipantsByEvent(int eventId){
         List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
-                "JOIN u.events e WHERE e.id=:idOfEvent").setParameter("idOfEvent", eventId)
+                "left JOIN fetch u.events e WHERE e.id=:idOfEvent", User.class).setParameter("idOfEvent", eventId)
                 .getResultList();
         LOGGER.info("Returns list of users participating at event with ID = " + eventId);
         return participantsAtEvent;

@@ -54,7 +54,6 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public List<Tag> getAllTags() {
-        LOGGER.info("Return list of all tags");
         return entityManager.createQuery("select t from Tag t JOIN FETCH t.events", Tag.class)
                 .getResultList();
     }
@@ -65,7 +64,7 @@ public class TagDaoImpl implements TagDao {
                 .setParameter("tag_name", tag)
                 .getSingleResult();
 
-        Hibernate.initialize(eventTag.getEvents());  // TODO need to test
+//        Hibernate.initialize(eventTag.getEvents());  // TODO need to test
 
         LOGGER.info("Return tag = \"" + eventTag + "\" of type = " + tag);
         return eventTag;
@@ -77,7 +76,7 @@ public class TagDaoImpl implements TagDao {
                 .setParameter("ag_id", tagId)
                 .getSingleResult();
 
-        Hibernate.initialize(tag.getEvents());  // TODO need to test
+//        Hibernate.initialize(tag.getEvents());  // TODO need to test
 
         LOGGER.info("Return tag = \"" + tag + "\" with id = " + tagId);
         return tag;
