@@ -4,23 +4,21 @@ import com.calendar.project.controller.resources.Converter;
 import com.calendar.project.controller.resources.EventResource;
 import com.calendar.project.controller.resources.UserResource;
 import com.calendar.project.model.Event;
-import com.calendar.project.service.UserService;
+import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.calendar.project.service.UserService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.calendar.project.model.User;
-import java.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -69,8 +67,13 @@ public class JSONController {
             JsonObject eventAsJson = new JsonObject();
             eventAsJson.addProperty("id", e.getId());
             eventAsJson.addProperty("title", e.getTitle());
+            eventAsJson.addProperty("eventType", e.getEventType().toString());
             eventAsJson.addProperty("start", e.getStart().toString());
             eventAsJson.addProperty("end", e.getEnd().toString());
+            eventAsJson.addProperty("author", e.getAuthor().getFullName());
+            eventAsJson.addProperty("location", e.getLocation());
+            eventAsJson.addProperty("allDay", e.isAllDay());
+            eventAsJson.addProperty("eventCreated", e.getEventCreated().toString());
             eventAsJson.addProperty("participants", e.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventsJsonArr.add(eventAsJson);
         }

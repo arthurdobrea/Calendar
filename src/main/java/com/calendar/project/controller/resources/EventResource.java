@@ -23,7 +23,7 @@ public class EventResource {
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime end;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    private LocalDateTime eventCreated = LocalDateTime.now();
+    private LocalDateTime eventCreated;
     private String description;
     private Set<TagResource> tags;
 

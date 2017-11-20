@@ -58,7 +58,14 @@
                 timeFormat: 'h:mma',
                 events: {url:'/json/allEvents'},
                 eventClick:  function(event, jsEvent, view) {
-                    $('#eventPage').modal();
+                    $('#modalTitle').html(event.title);
+                    $('#eventStart').html("Start: " + event.start.toLocaleString());
+                    $('#eventEnd').html("End: " + event.end.toLocaleString());
+                    $('#eventAuthor').html("Author: " + event.author);
+                    $('#eventLocation').html("Location: " + event.location);
+                    $('#eventCreated').html("Created on: " + event.eventCreated.toLocaleString());
+                    $('#eventType').html("Type: " + event.eventType);
+                    $('#fullCalModal').modal();
                 },
         });
         });
@@ -88,41 +95,49 @@
 <p>
 <p>
     <!-- Modal -->
-<div class="modal fade" id="eventPage" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Event page</h4>
-            </div>
-            <div class="modal-body">
-<h1> You will see event page right here </h1>
-                <form:form method="POST" modelAttribute="eventForm" class="form-signin">
-                <h2 class="form-signin-heading"></h2>
+<%--<div class="modal fade" id="eventPage" role="dialog">--%>
+    <%--<div class="modal-dialog">--%>
+        <%--<!-- Modal content-->--%>
+        <%--<div class="modal-content">--%>
+            <%--<div class="modal-header">--%>
+                <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
+                <%--<h4 class="modal-title">Event page</h4>--%>
+            <%--</div>--%>
+            <%--<div class="modal-body">--%>
+<%--<h1> You will see event page right here </h1>--%>
+                <%--<form:form method="POST" modelAttribute="eventForm" class="form-signin">--%>
+                <%--<h2 class="form-signin-heading"></h2>--%>
 
-                <spring:bind path="id">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
-                                autofocus="true"></form:input>
+                <%--<spring:bind path="id">--%>
+                <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+                    <%--<form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"--%>
+                                <%--autofocus="true"></form:input>--%>
+                <%--</div>--%>
+                <%--</spring:bind>--%>
+                <%--</form:form>--%>
+
+                <%--Show event details modal--%>
+                <div id="fullCalModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                                <h4 id="modalTitle" class="modal-title"></h4>
+                            </div>
+                            <div align="left" id="modalBody" class="modal-body">
+                                <div id="eventStart"></div>
+                                <div id="eventEnd"></div>
+                                <div id="eventLocation"></div>
+                                <div id="eventType"></div>
+                                <div id="eventAuthor"></div>
+                                <div id="eventCreated"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                </spring:bind>
-                </form:form>
-
-<p>
-<c:forEach items="${events}" var="event">
-    Name: ${events.title} <br>
-    Type: ${events.eventType}<br>
-    Location: ${events.location}<br>
-    Start time: ${events.start}<br>
-    End time: ${events.end}<br>
-    Description:${events.description}<br>
-    Created at: ${events.eventCreated}<br>
-    Created by: ${events.author.fullName}<br>
-    </c:forEach>
-    Will be attended by:<br>
-<ul id="participantsList"></ul>
-</p>
 
 <script>
     $(document).ready(function(){
@@ -218,7 +233,7 @@
                         <spring:bind path="participants">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                                             multiple="true" required="true"/>
+                                             multiple="true"/>
                             </div>
                         </spring:bind>
 

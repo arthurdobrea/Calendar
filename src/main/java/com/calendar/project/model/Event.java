@@ -47,15 +47,17 @@ public class Event implements Serializable {
     @Column(name = "timebegin")
     private LocalDateTime start;
 
-    @Column(name = "timeend")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Column(name = "timeend")
     private LocalDateTime end;
 
     @Column(name="all_day")
     private boolean allDay;
 
-    @Column(name = "createdata")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
