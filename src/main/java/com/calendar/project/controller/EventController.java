@@ -142,7 +142,6 @@ public class EventController {
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         notificationService.save(eventsUsers);
-
         notificationService.sendToAllParticipants(participants,eventForm);
 
         LOGGER.info("Redirect to \"/showEvent\" page");
