@@ -145,7 +145,6 @@ public class EventController {
 
         notificationService.sendToAllParticipants(participants,eventForm);
 
-        notificationService.send("/topic/simplemessagesresponse",eventForm);
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
     }
