@@ -2,7 +2,7 @@ package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.TagDao;
 import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.TagService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

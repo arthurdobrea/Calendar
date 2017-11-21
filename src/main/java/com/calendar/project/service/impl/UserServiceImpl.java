@@ -4,7 +4,7 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
@@ -65,13 +65,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers(){
         List<User> users = userDao.getAll();
-        for (User user : users) {
-            if (user != null) {
-                Hibernate.initialize(user.getRoles());
-            }
-        }
         return users;
-    };
+    }
 
     @Override
     public boolean exists(String username) {
@@ -140,4 +135,5 @@ public class UserServiceImpl implements UserService {
         }
         EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
     }
+
 }

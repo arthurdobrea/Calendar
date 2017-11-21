@@ -1,21 +1,24 @@
 package com.calendar.project.model;
 
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.transaction.annotation.Transactional;
+import org.hibernate.annotations.Type;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
 
 import java.util.List;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,42 +49,39 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
-    //@ElementCollection(targetClass = String.class)
-    //@Enumerated(EnumType.STRING)
+    @Column(name="image")
+    private String image;
+
+    @Column(name="position")
+    private String position;
+
+    @Transient
+    private MultipartFile multipartFile;
+
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
 
     @Column(name = "subscription_by_tag_type")
     private String subscriptionByTagType;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    //@ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
-    /*@JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))*/
-    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-    private List<Event> eventsOfAuthor = new ArrayList<>(); //events where user is the author
 
-    @OneToMany(mappedBy = "user")
-    private List <EventsUsers> eventsUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "author")
+    private List<Event> eventsOfAuthor = new ArrayList<>();
 
-    public User() {
-    }
+    public User() { }
 
-    public List<EventsUsers> getEventsUsers() {
-        return eventsUsers;
-    }
+    public String getPosition() { return position; }
 
-    public void setEventsUsers(List<EventsUsers> eventsUsers) {
-        this.eventsUsers = eventsUsers;
-    }
+    public void setPosition(String position) { this.position = position; }
 
     public User(String username) {
         this.username = username;
@@ -127,6 +127,10 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public String getImage() { return image; }
+
+    public void setImage(String image) { this.image = image; }
+
     public String getPassword() {
         return password;
     }
@@ -137,6 +141,14 @@ public class User implements Serializable {
 
     public String getConfirmPassword() {
         return confirmPassword;
+    }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
+
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
     }
 
     public void setConfirmPassword(String confirmPassword) {
@@ -155,9 +167,7 @@ public class User implements Serializable {
         return subscriptionByEventType;
     }
 
-    public void setSubscriptionByEventType(String subscriptionByEventType) {
-        this.subscriptionByEventType = subscriptionByEventType;
-    }
+    public void setSubscriptionByEventType(String subscriptionByEventType) { this.subscriptionByEventType = subscriptionByEventType; }
 
     public List<Event> getEventsOfAuthor() {
         return eventsOfAuthor;
@@ -234,6 +244,7 @@ public class User implements Serializable {
         if (!password.equals(user.password)) return false;
         if (!confirmPassword.equals(user.confirmPassword)) return false;
         if (!roles.equals(user.roles)) return false;
+      //  if (!image.equals(user.image)) return false;
         if (!events.equals(user.events)) return false;
         return eventsOfAuthor.equals(user.eventsOfAuthor);
     }

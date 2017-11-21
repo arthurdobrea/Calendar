@@ -1,12 +1,67 @@
-//validation for the beginning of the event. startEvent must be after the current date and time
-function eventStartValidation() {
+$("#datetimepicker1").datetimepicker({
+    //format: 'm/d/Y H:i',
+    dayOfWeekStart: 1,
+    closeOnDateSelect:true,
+});
+$("#datetimepicker2").datetimepicker({
+    //format: 'm/d/Y H:i',
+    dayOfWeekStart: 1,
+    closeOnDateSelect:true,
+});
 
-    var se = new Date();
+function allDayChecked() {
+    $("#datetimepicker1").datetimepicker({
+        timepicker: false,
+        format: 'Y/m/d',
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+    $("#datetimepicker2").datetimepicker({
+        timepicker: false,
+        format: 'Y/m/d',
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+}
+
+function allDayUnchecked() {
+    $("#datetimepicker1").datetimepicker({
+        timepicker: true,
+        format: 'Y/m/d H:i',
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+    $("#datetimepicker2").datetimepicker({
+        timepicker: true,
+        format: 'Y/m/d H:i',
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+}
+
+function eventDateTime() {
+    var se = new Date(document.getElementById('datetimepicker1').value);
+    var ee = new Date(document.getElementById('datetimepicker2').value);
+
     var startYear = se.getFullYear();
-    var startMonth = se.getMonth()+1;
+    var startMonth = se.getMonth() + 1;
     var startDate = se.getDate();
-    var startHour = se.getHours();
-    var startMinute = se.getMinutes();
+
+    var endYear = ee.getFullYear();
+    var endMonth = ee.getMonth() + 1;
+    var endDate = ee.getDate();
+
+    if(document.getElementById('all-day').checked) {
+        var startHour = 0;
+        var startMinute = 0;
+        var endHour = 23;
+        var endMinute = 59;
+    } else {
+        startHour = se.getHours();
+        startMinute = se.getMinutes();
+        endHour = ee.getHours();
+        endMinute = ee.getMinutes();
+    }
 
     if(startMonth < 10) {
         startMonth = "0" + startMonth;
@@ -24,21 +79,6 @@ function eventStartValidation() {
         startMinute = "0" + startMinute;
     }
 
-    var startEvent = startYear + "-" + startMonth + "-" + startDate + "T" + startHour + ":" + startMinute + ":00";
-    document.getElementById("eventStarts").setAttribute('min', startEvent);
-    //document.getElementById("eventStarts").setAttribute('value', startEvent);
-}
-
-//validation for the end of the event. endEvent must be at least 10 minutes after the start of the event
-function eventEndsValidation() {
-    var end = document.getElementById("eventStarts").value;
-    var ee = new Date(end);
-    var endYear = ee.getFullYear();
-    var endMonth = ee.getMonth()+1;
-    var endDate = ee.getDate();
-    var endHour = ee.getHours();
-    var endMinute = ee.getMinutes()+10;
-
     if(endMonth < 10) {
         endMonth = "0" + endMonth;
     }
@@ -55,10 +95,13 @@ function eventEndsValidation() {
         endMinute = "0" + endMinute;
     }
 
-    var endEvent = endYear + "-" + endMonth + "-" + endDate + "T" + endHour + ":" + endMinute + ":00";
-    document.getElementById("eventEnds").setAttribute('value', endEvent);
-    document.getElementById("eventEnds").setAttribute('min', endEvent);
+    var start = startYear + "-" + startMonth + "-" + startDate + "T" + startHour + ":" + startMinute + ":00.000";
+    var end = endYear + "-" + endMonth + "-" + endDate + "T" + endHour + ":" + endMinute + ":00.000";
+
+    document.getElementById('datetimepicker1h').setAttribute('value', start);
+    document.getElementById('datetimepicker2h').setAttribute('value', end);
 }
+
 
 
 

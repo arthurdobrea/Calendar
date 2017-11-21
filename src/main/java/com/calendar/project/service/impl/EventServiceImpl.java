@@ -1,8 +1,8 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -131,4 +128,10 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventsByPeriod(String firstDate, String secondDate){
             return eventDao.getEventsByPeriod(firstDate, secondDate);
     }
-}
+
+    @Override
+    public List<Event> getEventCountByPeriod(String date1, String date2){
+        return eventDao.getEventCountByPeriod(date1, date2);
+    }
+
+    }

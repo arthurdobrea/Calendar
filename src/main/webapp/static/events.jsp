@@ -25,17 +25,16 @@
 <body>
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
-<a href="/logout" class="btn">Logout</a>
-
+<a href="/userPage" class="btn">User Page</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
     <a href="/admin" class="btn">Admin page</a>
 </c:if>
 <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
     <a href="/admin" class="btn">Admin page</a>
 </c:if>
+<a href="/logout" class="btn">Logout</a>
 
 <form method="POST" action="${contextPath}" class="form-signin">
     <input name="filterByKeyword" type="text" class="form-control" placeholder="Filter by keyword" autofocus="true"/>
@@ -43,20 +42,27 @@
 </form>
 
 <h2>Events:</h2>
-<c:forEach items="${events}" var="event">
-    <p>Name: ${event.title} | Type of event: ${event.eventType.view()} |
-        <a href="/participants/${event.title}"> participants</a></p>
-    <p> <c:forEach items="${event.getParticipants()}" var="participant">
-        <p>${participant.username}</p>
-    </p>
-    </c:forEach>
-    <%-- Output tags of event--%>
-    <p>Tag:
-    <c:forEach items="${event.tags}" var="tag">
+<table class="table table-hover">
+    <tr>
+        <th>Event</th>
+        <th>Type</th>
+        <th>Author</th>
+        <th>Participants</th>
+        <th>Tags</th>
+    </tr>
+        <c:forEach items="${events}" var="event">
+    <tr>
+        <td>${event.title}</td>
+        <td>${event.eventType.view()}</td>
+        <td>${event.author.fullName}</td>
+        <td><c:forEach items="${event.getParticipants()}" var="participant">
+            <p>${participant.username}</p>
+            </c:forEach></td>
+    </tr>
+    <td><c:forEach items="${event.tags}" var="tag">
         | ${tag.tag} |
-    </c:forEach>
-    </p>
-    <br>
-</c:forEach>
+    </c:forEach></td>
+        </c:forEach>
+</table>
 </body>
 </html>

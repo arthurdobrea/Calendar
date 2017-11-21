@@ -1,12 +1,16 @@
 package com.calendar.project.model;
 
+import com.calendar.project.model.enums.EventType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.annotation.Reference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,16 +34,17 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    @JsonBackReference(value = "child")
-    @ManyToOne(fetch = FetchType.EAGER)
+    //@JsonBackReference(value = "child")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
     @Column(name = "event_location")
     private String location;
 
-    @JsonBackReference(value = "child")
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    //@JsonBackReference(value = "child")
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
@@ -49,31 +54,18 @@ public class Event implements Serializable {
     @Column(name = "timebegin")
     private LocalDateTime start;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
-
-    @OneToMany(mappedBy = "event")
-    private List <EventsUsers> eventsUsers = new ArrayList<>();
 
     @Column(name = "description")
     private String description;
 
-    public List<EventsUsers> getEventsUsers() {
-        return eventsUsers;
-    }
-
-    public void setEventsUsers(List<EventsUsers> eventsUsers) {
-        this.eventsUsers = eventsUsers;
-    }
-
-    @ManyToMany(mappedBy = "events",fetch = FetchType.EAGER )
+    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY )
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
      //       inverseJoinColumns = @JoinColumn(name = "tag_id"))

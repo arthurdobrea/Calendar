@@ -2,8 +2,8 @@ package com.calendar.project.dao;
 
 import com.calendar.project.model.*;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.model.Tag;
 
 import com.calendar.project.model.User;
@@ -26,10 +26,6 @@ public interface EventDao {
 
     List<Event> getEventsByKeyword(String keyword);
 
-    List<Event> getEventsByDate(String localDate);
-
-    List<Event> getEventsByPeriod(String firstDate, String secondDate);
-
     List<User> getParticipantsByEvent(int eventId);
 
     List<Event> getAllEvents();
@@ -40,4 +36,9 @@ public interface EventDao {
 
     void deleteEvent(Event event);
 
+    List<Event> getEventsByDate(String localDate);
+
+    List<Event> getEventsByPeriod(String firstDate, String secondDate);
+
+    List<Event> getEventCountByPeriod(String date1, String date2);
 }
