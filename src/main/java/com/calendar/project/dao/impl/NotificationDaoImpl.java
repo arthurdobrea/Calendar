@@ -43,7 +43,10 @@ public class NotificationDaoImpl implements NotificationDao {
 
     @Override
     public void changeState(User user, Notification Notification) {
-
+//        entityManager.createQuery("update Notification n set isviewed = :state where n.id =:idOfNotification and "+
+//                " user.id = :idOfuser",Notification.class)
+//                .setParameter("idOfuser", user.getId())
+//                .setParameter("state",true);
     }
 
 }
