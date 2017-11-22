@@ -48,6 +48,17 @@ public class JSONController {
 
     @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
     public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
+        Event event;
+        event = eventService.getEvent(1);
+
+        User user;
+        user = userService.getUser(1);
+
+        Notification notification = new Notification();
+        notification.setEvent(event);
+        notification.setUser(user);
+
+
         // get the base-url (ie: 'http://gamma.firebase.com/username')
         String firebase_baseUrl = "https://fir-tutorial-61989.firebaseio.com/";
 
@@ -56,7 +67,7 @@ public class JSONController {
 
         // "PUT" (test-map into the fb4jDemo-root)
         Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
-        dataMap.put( "event 1", notificationService. );
+        dataMap.put( "event 1", notification.toString());
         FirebaseResponse response = firebase.put( dataMap );
 
         return "welcome";
