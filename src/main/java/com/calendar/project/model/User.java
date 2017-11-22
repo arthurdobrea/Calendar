@@ -80,7 +80,8 @@ public class User implements Serializable {
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
 
-    @OneToMany(mappedBy = "author")
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
     public User() { }

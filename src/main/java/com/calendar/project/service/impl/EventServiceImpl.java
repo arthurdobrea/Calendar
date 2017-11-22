@@ -1,6 +1,7 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.model.enums.TagType;
@@ -11,12 +12,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,7 +144,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public String getEventJson(List<Event> events) throws IOException {
+    public String getEventsJson(List<Event> events) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonArray eventsJsonArr = new JsonArray();
         for (Event event : events) {
@@ -150,15 +153,48 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
             eventAsJson.addProperty("Event type", event.getEventType().toString());
-            eventAsJson.addProperty("start", event.getStartTime());
-            eventAsJson.addProperty("end", event.getEndTime());
-            eventAsJson.addProperty("Created time", event.getEventCreatedTime());
-            eventAsJson.addProperty("author", event.getAuthor());
+            eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("author", event.getAuthor().getFullName());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventAsJson.addProperty("description", event.getDescription());
             eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());
             eventsJsonArr.add(eventAsJson);
         }
+        String eventsString = eventsJsonArr.toString();
+        Object json = mapper.readValue(eventsString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public Event updateEventForRest(Event event, EventResource eventResource){
+        event.setTitle(eventResource.getTitle());
+        event.setStart(eventResource.getStart());
+        event.setEventType(eventResource.getEventType());
+        event.setEnd(eventResource.getEnd());
+        event.setLocation(eventResource.getLocation());
+        event.setDescription(eventResource.getDescription());
+        return event;
+    }
+
+    @Override
+    public String getEventJson(Event event) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray eventsJsonArr = new JsonArray();
+            JsonObject eventAsJson = new JsonObject();
+            eventAsJson.addProperty("id", event.getId());
+            eventAsJson.addProperty("title", event.getTitle());
+            eventAsJson.addProperty("location", event.getLocation());
+            eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("author", event.getAuthor().getFullName());
+            eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
+            eventAsJson.addProperty("description", event.getDescription());
+            eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());
+            eventsJsonArr.add(eventAsJson);
         String eventsString = eventsJsonArr.toString();
         Object json = mapper.readValue(eventsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);

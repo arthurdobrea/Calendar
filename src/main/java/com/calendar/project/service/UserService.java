@@ -1,6 +1,7 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserResource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,5 +37,9 @@ public interface UserService {
 
     void mailToUser(User user);
 
-    public String getUserJson(List<User> users) throws IOException;
+    String getUsersJson(List<User> users) throws IOException;
+
+    String getUserJson(User user) throws IOException;
+
+    User updateUserForRest(User firstUser, User secondUser);
 }
