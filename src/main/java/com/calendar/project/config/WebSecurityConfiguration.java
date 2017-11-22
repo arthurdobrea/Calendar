@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import javax.sql.DataSource;
 
 @Configuration
@@ -63,6 +65,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
+                    .antMatchers("/json/users").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/allEvents").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/date").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/period").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/countEventsByPeriod").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/createEventJson").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/updateEventJson").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/deleteEventJson").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/allTags").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/allTypes").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/getEvent").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/getUserById").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/getUserByUsername").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/editUserJson").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
                 .and()
                     .formLogin()
                     .loginPage("/login")

@@ -106,7 +106,7 @@ public class Converter {
         ev.setEventType(eventResource.getEventType());
         ev.setLocation(eventResource.getLocation());
         ev.setDescription(eventResource.getDescription());
-        //ev.setParticipants(eventResource.getParticipants());
+        ev.setParticipants(eventResource.getParticipants());
         return ev;
     }
 }

@@ -13,11 +13,13 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.*;
@@ -81,14 +83,7 @@ public class JSONController {
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
         Event event = Converter.convert(eventResource);
-        List <User> participantsAll = new ArrayList<>(userService.getAllUsers());
-        event.setParticipants(participantsAll);
-        List<User> participants = new LinkedList<>();
-        for (User u : event.getParticipants()) {
-            u.setId(Long.parseLong(u.getId().toString()));
-            participants.add(userService.getUser(u.getId()));
-        }
-        event.setParticipants(participants);
+        event.setAuthor(securityService.findLoggedInUsername());
         eventService.saveEvent(event);
     }
 
