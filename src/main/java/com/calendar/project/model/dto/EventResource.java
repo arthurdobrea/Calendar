@@ -20,7 +20,7 @@ public class EventResource {
     private int id;
     private String title;
     private EventType eventType;
-    private UserResource author;
+    private User author;
     private String location;
     private List<User> participants = new ArrayList<>();
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
@@ -30,7 +30,7 @@ public class EventResource {
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime eventCreated = LocalDateTime.now();
     private String description;
-    private Set<TagResource> tags;
+    private Set<Tag> tags;
 
 
     public int getId() {
@@ -57,11 +57,11 @@ public class EventResource {
         this.eventType = eventType;
     }
 
-    public UserResource getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserResource author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
@@ -113,11 +113,11 @@ public class EventResource {
         this.description = description;
     }
 
-    public Set<TagResource> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<TagResource> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 }

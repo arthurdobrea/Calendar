@@ -190,7 +190,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("author", event.getAuthor().getFullName());
+            eventAsJson.addProperty("author", event.getAuthor().getUsername());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventAsJson.addProperty("description", event.getDescription());
             eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());

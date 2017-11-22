@@ -1,4 +1,4 @@
-package com.calendar.project.model;
+package com.calendar.project.exception;
 
 import org.apache.log4j.Logger;
 

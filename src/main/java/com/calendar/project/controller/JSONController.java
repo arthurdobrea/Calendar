@@ -1,7 +1,8 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.exception.FirebaseException;
+import com.calendar.project.exception.JacksonUtilityException;
 import com.calendar.project.model.*;
-import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.calendar.project.model.dto.EventResource;
@@ -14,13 +15,11 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -49,32 +48,32 @@ public class JSONController {
     NotificationService notificationService;
 
 
-    @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
-    public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
-        Event event;
-        event = eventService.getEvent(1);
-
-        User user;
-        user = userService.getUser(1);
-
-        Notification notification = new Notification();
-        notification.setEvent(event);
-        notification.setUser(user);
-
-
-        // get the base-url (ie: 'http://gamma.firebase.com/username')
-        String firebase_baseUrl = "https://fir-tutorial-61989.firebaseio.com/";
-
-        // create the firebase
-        Firebase firebase = new Firebase( firebase_baseUrl );
-
-        // "PUT" (test-map into the fb4jDemo-root)
-        Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
-        dataMap.put( "event 1", notification.toString());
-        FirebaseResponse response = firebase.put( dataMap );
-
-        return "welcome";
-    }
+//    @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
+//    public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
+//        Event event;
+//        event = eventService.getEvent(1);
+//
+//        User user;
+//        user = userService.getUser(1);
+//
+//        Notification notification = new Notification();
+//        notification.setEvent(event);
+//        notification.setUser(user);
+//
+//
+//        // get the base-url (ie: 'http://gamma.firebase.com/username')
+//        String firebase_baseUrl = "https://fir-tutorial-61989.firebaseio.com/";
+//
+//        // create the firebase
+//        Firebase firebase = new Firebase( firebase_baseUrl );
+//
+//        // "PUT" (test-map into the fb4jDemo-root)
+//        Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
+//        dataMap.put( "event 1", notification.toString());
+//        FirebaseResponse response = firebase.put( dataMap );
+//
+//        return "welcome";
+//    }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllUsers() throws IOException {
@@ -115,6 +114,7 @@ public class JSONController {
     @RequestMapping(value = "/createEventJson", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
+
         Event event = Converter.convert(eventResource);
         event.setAuthor(securityService.findLoggedInUsername());
         eventService.saveEvent(event);
@@ -122,10 +122,15 @@ public class JSONController {
 
     @RequestMapping(value = "/updateEventJson", params = "id", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody void updateEvent(@PathVariable @RequestParam("id") int id, @RequestBody EventResource eventResource) {
+    public @ResponseBody ResponseEntity updateEvent(@PathVariable @RequestParam("id") int id, @RequestBody EventResource eventResource) {
+        User user = securityService.findLoggedInUsername();
         Event firstEvent = eventService.getEvent(id);
         Event event = eventService.updateEventForRest(firstEvent, eventResource);
+        if ((!user.getId().equals(event.getAuthor().getId()))&&
+                (!user.getId().equals(userService.findByUsername("admin").getId())))
+            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
         eventService.updateEvent(event);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deleteEventJson", params = {"id"}, method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")

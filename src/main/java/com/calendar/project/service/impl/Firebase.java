@@ -1,9 +1,8 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.model.FirebaseException;
-import com.calendar.project.model.JacksonUtilityException;
+import com.calendar.project.exception.FirebaseException;
+import com.calendar.project.exception.JacksonUtilityException;
 import com.calendar.project.model.FirebaseResponse;
-import com.calendar.project.service.impl.JacksonUtility;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

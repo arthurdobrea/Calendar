@@ -1,6 +1,6 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.model.JacksonUtilityException;
+import com.calendar.project.exception.JacksonUtilityException;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
