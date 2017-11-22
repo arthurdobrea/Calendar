@@ -1,6 +1,7 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
@@ -144,14 +145,11 @@ public class UserController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
-//        EventsUsers eventsUsers = new EventsUsers();
-//        User user = securityService.findLoggedInUsername();
-//        notificationService.getUnchekedEvents(user);
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
 
-        List<Event> events = eventService.getAllEvents();
-
-        model.addAttribute("notification",events);
-
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
 
         LOGGER.info("Request of \"/welcome\" page GET");
         LOGGER.info("Opening of \"/welcome\" page");

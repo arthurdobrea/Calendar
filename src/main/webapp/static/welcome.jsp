@@ -48,12 +48,13 @@
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a
+                onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
     </c:if>
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id = "adminForm" method="GET" action="${contextPath}/admin">
+        <form id="adminForm" method="GET" action="${contextPath}/admin">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
         <h2>
@@ -73,7 +74,7 @@
         <div class="col-sm-6">
             <p>&nbsp;</p>
             <!-- Connect and Disconnect buttons to establish/terminate a connection to the websocket service -->
-            <p />
+            <p/>
             <div class="panel panel-default">
                 <div class="panel-body" id="conversationDiv">
                 </div>
@@ -86,21 +87,24 @@
             <!-- .panel -->
         </div>
     </div>
-    <%--<div> <c:forEach items="${notification}" var="notification">--%>
-        <%--<p>Name: ${notification.title} | Type of event: ${notification.eventType.view()} |--%>
-            <%--<a href="/participants/${notification.title}"> participants</a></p>--%>
-        <%--<p> <c:forEach items="${notification.getParticipants()}" var="participant">--%>
-        <%--<p>${participant.username}</p>--%>
-        <%--</p>--%>
-    <%--</c:forEach>--%>
-        <%--&lt;%&ndash; Output tags of event&ndash;%&gt;--%>
+
+    <div><c:forEach items="${uncheckedNotifications}" var="notification">
+        <p style="color: #ff0000">Name:
+            <a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+            | Type of event: ${notification.event.eventType.view()}</p>
+        </c:forEach>
+        <c:forEach items="${checkedNotifications}" var="notification">
+            <p style="color: #00ff00">Name:
+                <a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+                | Type of event: ${notification.event.eventType.view()}</p>
+        </c:forEach>
+        <%-- Output tags of event--%>
         <%--<p>Tag:--%>
-            <%--<c:forEach items="${notification.tags}" var="tag">--%>
-                <%--| ${tag.tag} |--%>
-            <%--</c:forEach>--%>
+        <%--<c:forEach items="${notification.event.getTags()}" var="tag"> | ${tag.tag} |--%>
+        <%--</c:forEach>--%>
         <%--</p>--%>
         <%--<br>--%>
-    <%--</c:forEach></div>--%>
+    </div>
 </div>
 <script type="text/javascript">
     connectToServerFunc()
