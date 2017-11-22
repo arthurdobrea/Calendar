@@ -1,20 +1,20 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventsUsers;
+import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
 
 import java.util.List;
 
 public interface NotificationDao {
 
-    void save(EventsUsers eventsUsers);
+    void save(Notification notification);
 
-    List<EventsUsers> getCheckedEvents(User user);
+    void saveAll(List<Notification> notifications);
 
-    List<EventsUsers> getUnchekedEvents(User user);
+    List<Notification> getCheckedEvents(User user);
 
-    void changeState(User user, EventsUsers event);
+    List<Notification> getUnchekedEvents(User user);
 
-
+    void changeState(User user, Notification Notification);
 }

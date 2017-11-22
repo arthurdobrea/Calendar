@@ -1,21 +1,13 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -64,6 +56,9 @@ public class Event implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "event")
+    private List<Notification> notifications;
 
     @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY )
     //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

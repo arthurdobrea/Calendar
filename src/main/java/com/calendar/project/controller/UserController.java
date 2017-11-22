@@ -4,9 +4,6 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.mail.EmailSender;
-import com.calendar.project.model.*;
 import com.calendar.project.service.*;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
@@ -24,25 +21,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

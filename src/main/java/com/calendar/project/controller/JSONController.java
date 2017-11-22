@@ -6,21 +6,17 @@ import com.calendar.project.controller.resources.UserResource;
 import com.calendar.project.model.Event;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
 import java.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.stream.Collectors;
 
 @RestController
