@@ -43,18 +43,18 @@ function eventDateTime() {
     var se = new Date(document.getElementById('datetimepicker1').value);
     var ee = new Date(document.getElementById('datetimepicker2').value);
 
-    var startYear = se.getFullYear();
-    var startMonth = se.getMonth() + 1;
-    var startDate = se.getDate();
+    var startYear = se.getUTCFullYear();
+    var startMonth = se.getUTCMonth() + 1;
+    var startDate = se.getUTCDate();
 
-    var endYear = ee.getFullYear();
-    var endMonth = ee.getMonth() + 1;
-    var endDate = ee.getDate();
+    var endYear = ee.getUTCFullYear();
+    var endMonth = ee.getUTCMonth() + 1;
+    var endDate = ee.getUTCDate();
 
-    var startHour = se.getHours();
-    var startMinute = se.getMinutes();
-    var endHour = ee.getHours();
-    var endMinute = ee.getMinutes();
+    var startHour = se.getUTCHours();
+    var startMinute = se.getUTCMinutes();
+    var endHour = ee.getUTCHours();
+    var endMinute = ee.getUTCMinutes();
 
     if(startMonth < 10) {
         startMonth = "0" + startMonth;

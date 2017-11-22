@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description">
     <meta name="author">
 
@@ -35,7 +35,7 @@
 <body>
 
 
-<div class="container">
+<div class="container" style="height: 500px">
     <form method="POST" action="${contextPath}/login" class="form-signin">
         <input type="image" src="${contextPath}/resources/Logo.png"/>
         <div class="form-group ${error != null ? 'has-error' : ''}">

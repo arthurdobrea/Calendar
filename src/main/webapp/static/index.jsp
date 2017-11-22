@@ -24,7 +24,7 @@
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
 
-    <script src='${contextPath}/resources/js/moment.min.js'></script>
+    <script src='${contextPath}/resources/js/moment.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
@@ -54,18 +54,18 @@
                 navLinks: true,
                 eventLimit: false,
                 allDaySlot: true,
-                timezone: 'local',
                 timeFormat: 'h:mma',
                 events: {url:'/json/allEvents'},
+                timezone: 'local',
                 eventClick:  function(event, jsEvent, view) {
-                    $('#modalTitle').html(event.title);
-                    $('#eventStart').html("Start: " + event.start.toLocaleString());
-                    $('#eventEnd').html("End: " + event.end.toLocaleString());
-                    $('#eventAuthor').html("Author: " + event.author);
-                    $('#eventLocation').html("Location: " + event.location);
-                    $('#eventCreated').html("Created on: " + event.eventCreated.toLocaleString());
-                    $('#eventType').html("Type: " + event.eventType);
-                    $('#fullCalModal').modal();
+//                    $('#modalTitle').html(event.title);
+//                    $('#eventStart').html("Start: " + event.start.toLocaleString());
+//                    $('#eventEnd').html("End: " + event.end.toLocaleString());
+//                    $('#eventAuthor').html("Author: " + event.author);
+//                    $('#eventLocation').html("Location: " + event.location);
+////                    $('#eventCreated').html("Created on: " + event.eventCreated.toLocaleString());
+////                    $('#eventType').html("Type: " + event.eventType);
+//                    $('#fullCalModal').modal();
                 },
         });
         });

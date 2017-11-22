@@ -42,12 +42,12 @@ public class Event implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
     private LocalDateTime end;
@@ -55,7 +55,7 @@ public class Event implements Serializable {
     @Column(name="all_day")
     private boolean allDay;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
     private LocalDateTime eventCreated = LocalDateTime.now();
