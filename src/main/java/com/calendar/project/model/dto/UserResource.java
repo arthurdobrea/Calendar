@@ -1,9 +1,5 @@
-package com.calendar.project.controller.resources;
+package com.calendar.project.model.dto;
 
-import com.calendar.project.model.Event;
-import com.calendar.project.model.Role;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +33,8 @@ public class UserResource {
     public String getUsername() {
         return username;
     }
+
+    public String getFullName(){return firstname + " " + lastname;}
 
     public void setUsername(String username) {
         this.username = username;
@@ -90,6 +88,7 @@ public class UserResource {
         this.subscriptionByEventType = subscriptionByEventType;
     }
 
+
     public String getSubscriptionByTagType() {
         return subscriptionByTagType;
     }
@@ -121,4 +120,6 @@ public class UserResource {
     public void setEventsOfAuthor(List<EventResource> eventsOfAuthor) {
         this.eventsOfAuthor = eventsOfAuthor;
     }
+
+
 }

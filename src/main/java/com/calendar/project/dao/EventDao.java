@@ -2,6 +2,7 @@ package com.calendar.project.dao;
 
 import com.calendar.project.model.*;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.model.Tag;

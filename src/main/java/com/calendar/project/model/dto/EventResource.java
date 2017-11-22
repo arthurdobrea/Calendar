@@ -1,9 +1,14 @@
-package com.calendar.project.controller.resources;
+package com.calendar.project.model.dto;
 
+import com.calendar.project.model.Tag;
+import com.calendar.project.model.User;
 import com.calendar.project.model.enums.EventType;
+import com.calendar.project.service.UserService;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +31,7 @@ public class EventResource {
     private LocalDateTime eventCreated = LocalDateTime.now();
     private String description;
     private Set<TagResource> tags;
+
 
     public int getId() {
         return id;
@@ -77,18 +83,18 @@ public class EventResource {
 
     public LocalDateTime getStart() {
         return start;
-    }
+        }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public void setStart(String start) {
+        this.start = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public void setEnd(String end) {
+        this.end = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public LocalDateTime getEventCreated() {
