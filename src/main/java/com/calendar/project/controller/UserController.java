@@ -1,13 +1,12 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.Event;
-import com.calendar.project.model.Role;
-import com.calendar.project.model.User;
+import com.calendar.project.model.*;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
+import com.calendar.project.service.impl.Firebase;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
@@ -28,6 +27,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -67,6 +67,8 @@ public class UserController {
 
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
+
+
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {

@@ -1,12 +1,11 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.Role;
-import com.calendar.project.model.Tag;
+import com.calendar.project.model.*;
 import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.calendar.project.model.dto.EventResource;
-import com.calendar.project.model.Event;
+import com.calendar.project.service.impl.Firebase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -17,9 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.calendar.project.model.User;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +39,26 @@ public class JSONController {
 
     @Autowired
     SecurityService securityService;
+
+    @Autowired
+    NotificationService notificationService;
+
+
+    @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
+    public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
+        // get the base-url (ie: 'http://gamma.firebase.com/username')
+        String firebase_baseUrl = "https://fir-tutorial-61989.firebaseio.com/";
+
+        // create the firebase
+        Firebase firebase = new Firebase( firebase_baseUrl );
+
+        // "PUT" (test-map into the fb4jDemo-root)
+        Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
+        dataMap.put( "event 1", notificationService. );
+        FirebaseResponse response = firebase.put( dataMap );
+
+        return "welcome";
+    }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllUsers() throws IOException {
