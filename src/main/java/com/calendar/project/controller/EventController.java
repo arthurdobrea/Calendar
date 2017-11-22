@@ -108,7 +108,7 @@ public class EventController {
     public String createEvent(Model model) {
         LOGGER.info("Request of \"/createEvent\" page GET");
         Event event = new Event();
-        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        List<User> participants = userService.findAllUsers();
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/createEvent\" page");
@@ -151,6 +151,9 @@ public class EventController {
         Event event = eventService.getEvent(eventId);
 //        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
 //        event.setParticipants(participantsByEvent);
+
+        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+        notificationService.changeState(notification);
 
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/showEvent\" page");

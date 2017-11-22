@@ -24,6 +24,13 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationDao notificationDao;
 
     @Override
+    public void sendToSpecificUser(String username, Event eventForm) {
+        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast("&lt;b&gt;"
+                + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+
+    }
+
+    @Override
     public void sendToAll(String destination, Event eventForm) {
         template.convertAndSend(destination, new MessageBroadcast("&lt;b&gt;"
                 + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
@@ -38,13 +45,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendToSpecificUser(String username, Event eventForm) {
-        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast("&lt;b&gt;"
-                + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
-
-    }
-
-    @Override
     public void sendToAllParticipantsNotification(List<User> users, Notification notification) {
         for (User it : users) {
             template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast("&lt;b&gt;"
@@ -52,20 +52,42 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void save(Notification notification) {
         notificationDao.save(notification);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveAll(List<Notification> notifications) {
         notificationDao.saveAll(notifications);
     }
 
     @Override
+    public Notification getNotification(User user, Event event) {
+        return notificationDao.getNotification(user, event);
+    }
+
+    @Override
     public List<Notification> getUnchekedEvents(User user) {
         return notificationDao.getUnchekedEvents(user);
+    }
+
+    @Override
+    public List<Notification> getChekedEvents(User user) {
+        return notificationDao.getCheckedEvents(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeState(Notification notification) {
+        notificationDao.changeState(notification);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Notification notification) {
+        notificationDao.delete(notification);
     }
 }

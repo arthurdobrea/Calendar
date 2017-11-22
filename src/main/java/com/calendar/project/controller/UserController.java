@@ -1,8 +1,11 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.*;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
+import com.calendar.project.model.Role;
+import com.calendar.project.model.User;
+import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
-import com.calendar.project.service.impl.Firebase;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
@@ -15,24 +18,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,8 +57,6 @@ public class UserController {
 
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
-
-
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -148,7 +138,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcome() {
+    public String welcome(Model model) {
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
+
         LOGGER.info("Request of \"/welcome\" page GET");
         LOGGER.info("Opening of \"/welcome\" page");
         return "welcome";

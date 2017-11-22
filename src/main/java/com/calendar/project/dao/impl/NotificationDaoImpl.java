@@ -1,6 +1,7 @@
 package com.calendar.project.dao.impl;
 
 import com.calendar.project.dao.NotificationDao;
+import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
 import org.springframework.stereotype.Repository;
@@ -26,27 +27,38 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
+    public Notification getNotification(User user, Event event) {
+        return entityManager.createQuery("select n from Notification n where n.user.id = :idOfUser "
+                + "and n.event.id = :idOfEvent ", Notification.class)
+                .setParameter("idOfUser", user.getId())
+                .setParameter("idOfEvent", event.getId())
+                .getSingleResult();
+    }
+
+    @Override
     public List<Notification> getCheckedEvents(User user) {
-        return entityManager.createQuery("from Notification e where user.id  = :idOfuser "
-                + "and dateChecked != null ", Notification.class)
-                .setParameter("idOfuser", user.getId())
+        return entityManager.createQuery("select n from Notification n where n.user.id = :idOfUser "
+                + "and n.isViewed = true ", Notification.class)
+                .setParameter("idOfUser", user.getId())
                 .getResultList();
     }
 
     @Override
     public List<Notification> getUnchekedEvents(User user) {
-        return entityManager.createQuery("from Notification e where user.id  = :idOfuser "
-                + "and dateChecked == null ", Notification.class)
-                .setParameter("idOfuser", user.getId())
+        return entityManager.createQuery("select n from Notification n where n.user.id = :idOfUser "
+                + "and n.isViewed = false ", Notification.class)
+                .setParameter("idOfUser", user.getId())
                 .getResultList();
     }
 
     @Override
-    public void changeState(User user, Notification Notification) {
-//        entityManager.createQuery("update Notification n set isviewed = :state where n.id =:idOfNotification and "+
-//                " user.id = :idOfuser",Notification.class)
-//                .setParameter("idOfuser", user.getId())
-//                .setParameter("state",true);
+    public void changeState(Notification notification) {
+        notification.setViewed(true);
+        entityManager.merge(notification);
     }
 
+    @Override
+    public void delete(Notification notification) {
+        entityManager.remove(entityManager.contains(notification) ? notification : entityManager.merge(notification));
+    }
 }
