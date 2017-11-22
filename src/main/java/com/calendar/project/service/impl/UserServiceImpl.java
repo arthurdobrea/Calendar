@@ -4,20 +4,28 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,6 +52,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(long userId){
+        User user = new User();
+        Hibernate.initialize(user.getRoles());
+        Hibernate.initialize(user.getEvents());
         return userDao.getUser(userId);
     }
 
@@ -64,8 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers(){
-        List<User> users = userDao.getAll();
-        return users;
+        return userDao.getAll();
     }
 
     @Override
@@ -136,4 +146,60 @@ public class UserServiceImpl implements UserService {
         EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
     }
 
+    @Override
+    public String getUsersJson(List<User> users) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray usersJsonArr = new JsonArray();
+        for (User user : users) {
+            JsonObject userAsJson = new JsonObject();
+            userAsJson.addProperty("id", user.getId());
+            userAsJson.addProperty("username", user.getUsername());
+            userAsJson.addProperty("firstname", user.getFirstname());
+            userAsJson.addProperty("lastname", user.getLastname());
+            userAsJson.addProperty("email", user.getEmail());
+            userAsJson.addProperty("position", user.getPosition());
+            userAsJson.addProperty("image", user.getImage());
+            userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
+            userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+            userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
+            userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+            userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
+            usersJsonArr.add(userAsJson);
+        }
+        String usersString = usersJsonArr.toString();
+        Object json = mapper.readValue(usersString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public String getUserJson(User user) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonObject userAsJson = new JsonObject();
+        JsonArray userJsonArr = new JsonArray();
+        userAsJson.addProperty("id", user.getId());
+        userAsJson.addProperty("username", user.getUsername());
+        userAsJson.addProperty("firstname", user.getFirstname());
+        userAsJson.addProperty("lastname", user.getLastname());
+        userAsJson.addProperty("email", user.getEmail());
+        userAsJson.addProperty("position", user.getPosition());
+        userAsJson.addProperty("image", user.getImage());
+        userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
+        userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+        userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
+        userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+        userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
+        userJsonArr.add(userAsJson);
+        String userString = userJsonArr.toString();
+        Object json = mapper.readValue(userString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public User updateUserForRest(User firstUser, User secondUser){
+        firstUser.setFirstname(secondUser.getFirstname());
+        firstUser.setLastname(secondUser.getLastname());
+        //firstUser.setPassword(Base64.getEncoder().encodeToString(secondUser.getPassword().getBytes()));
+        firstUser.setEmail(secondUser.getEmail());
+        return firstUser;
+    }
 }

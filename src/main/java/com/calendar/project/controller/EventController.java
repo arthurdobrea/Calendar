@@ -75,13 +75,13 @@ public class EventController {
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
         LOGGER.info("Request of \"/updateEvent\" page POST");
-        List<User> participans = new LinkedList<>();
+        List<User> participants = new LinkedList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
-            participans.add(userDao.getUser(u.getId()));
+            participants.add(userDao.getUser(u.getId()));
         }
 
-        eventForm.setParticipants(participans);
+        eventForm.setParticipants(participants);
         model.addAttribute("eventForm", eventForm);
         eventService.updateEvent(eventForm);
         LOGGER.info("Redirect to \"/userPage\" page");

@@ -1,13 +1,12 @@
-package com.calendar.project.controller.resources;
+package com.calendar.project.service;
 
-import com.calendar.project.model.Event;
-import com.calendar.project.model.Role;
-import com.calendar.project.model.Tag;
-import com.calendar.project.model.User;
+import com.calendar.project.model.*;
+import com.calendar.project.model.dto.EventResource;
+import com.calendar.project.model.dto.RoleResource;
+import com.calendar.project.model.dto.TagResource;
+import com.calendar.project.model.dto.UserResource;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,8 +55,8 @@ public class Converter {
 //            participantsByEvent.add(convert(u));
 //        }
         er.setParticipants(null);
-        er.setStart(event.getStart());
-        er.setEnd(event.getEnd());
+        er.setStart(event.getStart().toString());
+        er.setEnd(event.getEnd().toString());
         er.setEventCreated(event.getEventCreated());
         er.setDescription(event.getDescription());
         Set<TagResource> tags = new HashSet<>();
@@ -96,5 +95,18 @@ public class Converter {
         tr.setEvents(null);
 
         return tr;
+    }
+
+    public static Event convert(EventResource eventResource){
+        Event ev = new Event();
+        ev.setId(eventResource.getId());
+        ev.setTitle(eventResource.getTitle());
+        ev.setStart(eventResource.getStart());
+        ev.setEnd(eventResource.getEnd());
+        ev.setEventType(eventResource.getEventType());
+        ev.setLocation(eventResource.getLocation());
+        ev.setDescription(eventResource.getDescription());
+        //ev.setParticipants(eventResource.getParticipants());
+        return ev;
     }
 }

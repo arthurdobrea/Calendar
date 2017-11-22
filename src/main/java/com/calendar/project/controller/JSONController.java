@@ -1,26 +1,26 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.controller.resources.Converter;
-import com.calendar.project.controller.resources.EventResource;
-import com.calendar.project.controller.resources.UserResource;
+import com.calendar.project.model.Role;
+import com.calendar.project.model.Tag;
+import com.calendar.project.model.dto.UserResource;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.service.*;
+import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.Event;
-import com.calendar.project.service.UserService;
-import com.calendar.project.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
+
+import java.io.IOException;
 import java.util.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,76 +35,136 @@ public class JSONController {
     @Autowired
     EventService eventService;
 
-        @RequestMapping(value = "/users",
-                method = RequestMethod.GET,
-                produces = MediaType.APPLICATION_JSON_VALUE)
-        @ResponseStatus(HttpStatus.OK)
-        public @ResponseBody List<UserResource> getAllUsers() {
-            List<User> users = userService.getAllUsers();
+    @Autowired
+    TagService tagService;
 
-            List<UserResource> userResources = new ArrayList<>();
-            for(User u : users) {
-                userResources.add(Converter.convert(u));
-            }
+    @Autowired
+    SecurityService securityService;
 
-            return userResources;
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAllUsers() throws IOException {
+        List<User> users = userService.getAllUsers();
+        String userString = userService.getUsersJson(users);
+        return new ResponseEntity<>(userString, HttpStatus.OK);
     }
 
-
-
-//        @RequestMapping(value = "/events",
-//                method = RequestMethod.GET,
-//                produces = MediaType.APPLICATION_JSON_VALUE)
-//        @ResponseStatus(HttpStatus.OK)
-//        public @ResponseBody List<Event> getEventInJSON() {
-//            return eventService.getAllEvents();
-//        }
-
-    @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllEvents() {
+    @GetMapping(value = "/allEvents", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAllEvents() throws IOException {
         List<Event> events = eventService.getAllEvents();
-
-        JsonArray eventsJsonArr = new JsonArray();
-        for (Event e : events) {
-            JsonObject eventAsJson = new JsonObject();
-            eventAsJson.addProperty("id", e.getId());
-            eventAsJson.addProperty("title", e.getTitle());
-            eventAsJson.addProperty("start", e.getStart().toString());
-            eventAsJson.addProperty("end", e.getEnd().toString());
-            eventAsJson.addProperty("participants", e.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
-            eventsJsonArr.add(eventAsJson);
-        }
-
-        return new ResponseEntity<>(eventsJsonArr.toString(), HttpStatus.OK);
+        String eventString = eventService.getEventsJson(events);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/date", params = "date", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getEventsByDate(@PathVariable @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") String start) {
+    @GetMapping(value = "/date", params = "date", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getEventsByDate(@PathVariable @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") String start) throws IOException {
         List<Event> events = eventService.getEventsByDate(start);
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        String eventString = eventService.getEventsJson(events);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/period", params = {"firstDate", "secondDate"}, method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getEventsByPeriod(@PathVariable @RequestParam("firstDate") @DateTimeFormat(pattern="yyyy-MM-dd") String firstDate,
-                                                         @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern="yyyy-MM-dd") String secondDate) {
+    @GetMapping(value = "/period", params = {"firstDate", "secondDate"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getEventsByPeriod(@PathVariable @RequestParam("firstDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String firstDate,
+                                                    @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String secondDate) throws IOException {
         List<Event> events = eventService.getEventsByPeriod(firstDate, secondDate);
+        String eventString = eventService.getEventsJson(events);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/countEventsByPeriod", params = {"firstDate", "secondDate"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Event>> getEventCountByPeriod(@PathVariable @RequestParam("firstDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String date1,
+                                                             @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern = "yyyy-MM-dd") String date2) {
+        List<Event> events = eventService.getEventCountByPeriod(date1, date2);
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/countEventsByPeriod", params = {"firstDate", "secondDate"}, method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Event>> getEventCountByPeriod(@PathVariable @RequestParam("firstDate") @DateTimeFormat(pattern="yyyy-MM-dd") String date1,
-                                                         @PathVariable @RequestParam("secondDate") @DateTimeFormat(pattern="yyyy-MM-dd") String date2)
-     {
-         List<Event> events = eventService.getEventCountByPeriod(date1, date2);
-
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    @RequestMapping(value = "/createEventJson", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
+        Event event = Converter.convert(eventResource);
+        List <User> participantsAll = new ArrayList<>(userService.getAllUsers());
+        event.setParticipants(participantsAll);
+        List<User> participants = new LinkedList<>();
+        for (User u : event.getParticipants()) {
+            u.setId(Long.parseLong(u.getId().toString()));
+            participants.add(userService.getUser(u.getId()));
+        }
+        event.setParticipants(participants);
+        eventService.saveEvent(event);
     }
 
-    @RequestMapping(value = "/getEvent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EventResource> showEvent(int eventId){
-        Event event = eventService.getEvent(eventId);
-        EventResource er = Converter.convert(event);
-
-        return new ResponseEntity<>(er, HttpStatus.OK);
+    @RequestMapping(value = "/updateEventJson", params = "id", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody void updateEvent(@PathVariable @RequestParam("id") int id, @RequestBody EventResource eventResource) {
+        Event firstEvent = eventService.getEvent(id);
+        Event event = eventService.updateEventForRest(firstEvent, eventResource);
+        eventService.updateEvent(event);
     }
+
+    @RequestMapping(value = "/deleteEventJson", params = {"id"}, method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody void deleteEvent(@PathVariable @RequestParam("id") int id) {
+        Event event = eventService.getEvent(id);
+//        Event event = Converter.convert(eventResource);
+        eventService.deleteEvent(event);
+    }
+
+    @GetMapping(value = "/allTags", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAllTags() throws IOException {
+        List<Tag> tags = tagService.getAllTags();
+        String tagString = tagService.getTagsJson(tags);
+        return new ResponseEntity<>(tagString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/allTypes", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAllTypes() throws IOException {
+        List<EventType> types = eventService.getEventTypeList();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray typesJsonArr = new JsonArray();
+        for (EventType type : types) {
+            JsonObject typesAsJson = new JsonObject();
+            typesAsJson.addProperty("type", type.toString());
+            typesAsJson.addProperty("events", eventService.getEventsByType(type).stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+            typesJsonArr.add(typesAsJson);
+        }
+        String eventsString = typesJsonArr.toString();
+        Object json = mapper.readValue(eventsString, Object.class);
+        return new ResponseEntity<>(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getEvent", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getEvent(@PathVariable @RequestParam("id") int id) throws IOException {
+        Event event = eventService.getEvent(id);
+        String eventString = eventService.getEventJson(event);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getUserById", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getUserById(@PathVariable @RequestParam("id") long id) throws IOException {
+        User user = userService.getUser(id);
+        String userString = userService.getUserJson(user);
+        return new ResponseEntity<>(userString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getUserByUsername", params = {"username"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getUser(@PathVariable @RequestParam("username") String username) throws IOException {
+        User user = userService.findByUsername(username);
+        String userString = userService.getUserJson(user);
+        return new ResponseEntity<>(userString, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/editUserJson", params = "username", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody void editUser(@PathVariable @RequestParam("username") String username, @RequestBody User user) {
+        User firstUser = userService.findByUsername(username);
+        User userFinal = userService.updateUserForRest(firstUser, user);
+        userService.update(userFinal);
+    }
+
+//    @RequestMapping(value = "/loginJson", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public @ResponseBody void loginJson(@RequestBody User user) {
+//
+//    }
+
+
 }
