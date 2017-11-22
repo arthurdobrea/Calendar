@@ -198,7 +198,7 @@ public class UserServiceImpl implements UserService {
     public User updateUserForRest(User firstUser, User secondUser){
         firstUser.setFirstname(secondUser.getFirstname());
         firstUser.setLastname(secondUser.getLastname());
-        //firstUser.setPassword(Base64.getEncoder().encodeToString(secondUser.getPassword().getBytes()));
+        firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
         firstUser.setEmail(secondUser.getEmail());
         return firstUser;
     }

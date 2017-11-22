@@ -45,7 +45,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByUser(Long userId) {
         List<Event> events = entityManager.createQuery("select DISTINCT e FROM Event e " +
-                "JOIN e.participants p WHERE p.id=:idOfUser", Event.class)
+                "join e.author left join fetch e.participants p left join fetch e.tags WHERE p.id=:idOfUser", Event.class)
                 .setParameter("idOfUser", userId)
                 .getResultList();
 
@@ -58,7 +58,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByAuthor(Long authorId) {
         LOGGER.info("Returns a list of events created by user with id = " + authorId);
-        return entityManager.createQuery("select DISTINCT e from Event e where e.author.id = :idOfAuthor", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.author.id = :idOfAuthor", Event.class)
                 .setParameter("idOfAuthor", authorId)
                 .getResultList();
     }
@@ -66,7 +66,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByLocation(String location) {
         LOGGER.info("Returns a list of events for location = " + location);
-        return entityManager.createQuery("select DISTINCT e from Event e where e.location = :location", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.location = :location", Event.class)
                 .setParameter("location", location)
                 .getResultList();
     }
@@ -74,7 +74,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByType(EventType type) {
         LOGGER.info("Returns list of events of type = " + type);
-        return entityManager.createQuery("select DISTINCT e from Event e where e.eventType = :type", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.eventType = :type", Event.class)
                 .setParameter("type", type)
                 .getResultList();
     }
@@ -91,7 +91,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByTag(TagType tag) {
         LOGGER.info("Returns a list with events with tag = " + tag);
-        return entityManager.createQuery("select DISTINCT e from Event e join e.tags t where t.tag = :tag", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e left join fetch e.participants join e.author left join fetch e.tags t where t.tag = :tag", Event.class)
                 .setParameter("tag", tag)
                 .getResultList();
     }
