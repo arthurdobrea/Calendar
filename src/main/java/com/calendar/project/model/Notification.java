@@ -3,7 +3,7 @@ package com.calendar.project.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "notification")
+@Table(name = "notifications")
 public class Notification {
 
     @Id

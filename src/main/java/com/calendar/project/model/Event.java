@@ -41,7 +41,6 @@ public class Event implements Serializable {
     @Column(name = "event_location")
     private String location;
 
-
     //@JsonBackReference(value = "child")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
