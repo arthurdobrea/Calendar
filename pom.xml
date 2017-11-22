@@ -59,7 +59,7 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://localhost:5432/Calendar_DB</url>
+                    <url>jdbc:postgresql://18.221.253.5:5432/calendar_db</url>
                     <user>postgres</user>
                     <password>server..</password>
                 </configuration>
@@ -297,6 +297,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.5.7.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.6</version>
         </dependency>
 
     </dependencies>

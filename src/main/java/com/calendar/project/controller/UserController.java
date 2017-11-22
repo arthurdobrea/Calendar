@@ -1,13 +1,8 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.Event;
-import com.calendar.project.model.Role;
-import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
-import com.calendar.project.service.RoleService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.TagService;
-import com.calendar.project.service.UserService;
+import com.calendar.project.model.*;
+import com.calendar.project.service.*;
+import com.calendar.project.service.impl.Firebase;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
@@ -23,11 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -65,8 +60,13 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private NotificationService notificationService;
+
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
+
+
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {

@@ -21,6 +21,7 @@
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/knockout-3.0.0.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -77,55 +78,32 @@
                 <div class="panel-body" id="conversationDiv">
                 </div>
                 <!-- .panel-body -->
-                <div class="panel-body" id="response"></div>
+                <div class="panel-body" id="response">
+
+                </div>
                 <!-- Div to show the server responses -->
             </div>
             <!-- .panel -->
         </div>
     </div>
+    <%--<div> <c:forEach items="${notification}" var="notification">--%>
+        <%--<p>Name: ${notification.title} | Type of event: ${notification.eventType.view()} |--%>
+            <%--<a href="/participants/${notification.title}"> participants</a></p>--%>
+        <%--<p> <c:forEach items="${notification.getParticipants()}" var="participant">--%>
+        <%--<p>${participant.username}</p>--%>
+        <%--</p>--%>
+    <%--</c:forEach>--%>
+        <%--&lt;%&ndash; Output tags of event&ndash;%&gt;--%>
+        <%--<p>Tag:--%>
+            <%--<c:forEach items="${notification.tags}" var="tag">--%>
+                <%--| ${tag.tag} |--%>
+            <%--</c:forEach>--%>
+        <%--</p>--%>
+        <%--<br>--%>
+    <%--</c:forEach></div>--%>
 </div>
-<c:url value="/simplemessages" var="socketDest" />
 <script type="text/javascript">
-    var stompClient = null;
-    $(document).ready(function() {
-        $("#response").empty();
-        var socket = new SockJS('${socketDest}');
-        stompClient = Stomp.over(socket);
-        stompClient.connect('', '', function(frame) {
-            setConnected(true);
-            console.log("Connected: " + frame);
-            showServerBroadcast(false);
-            stompClient.subscribe("/topic/simplemessagesresponse", function(servermessage) {//Callback when server responds
-                showServerBroadcast(JSON.parse(servermessage.body).messageContent, false);
-                $("#formInfoAlert").slideUp(400);
-                $("#txtSendMessage").val("");
-                $("#txtSendMessage").focus();
-                $("#txtSendMessage").select();
-            });
-        });
-    });
-
-    function setConnected(connected) {
-        $("#connect").prop('disabled', connected);
-    }
-
-    function showServerBroadcast(servermessage, localMessage) {
-        var decoded = $("<div/>").html(servermessage).text();
-        tmp = "<span></span>";
-        var serverResponse = document.getElementById("response");
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-
-        if (localMessage) {
-            p.style.color = '#006600';
-            tmp = "<span ></span>";
-        } else {
-            p.style.color = '#8A0808';
-            tmp = "<span></span> " + decoded;
-        }
-        p.innerHTML = tmp;
-        serverResponse.appendChild(p);
-    }
+    connectToServerFunc()
 </script>
 </body>
 </html>
