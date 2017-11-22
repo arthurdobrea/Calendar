@@ -84,6 +84,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
+
     public User() { }
 
     public String getPosition() { return position; }

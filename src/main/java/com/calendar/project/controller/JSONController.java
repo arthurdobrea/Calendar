@@ -7,6 +7,8 @@ import com.calendar.project.service.*;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.service.impl.Firebase;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.calendar.project.service.UserService;
+import com.calendar.project.service.EventService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;

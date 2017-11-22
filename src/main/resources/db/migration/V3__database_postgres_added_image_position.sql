@@ -1,2 +1,2 @@
-alter table users add column image text;
-alter table users add column position varchar(255);
+alter table user add column image text;
+alter table user add column position varchar(255);

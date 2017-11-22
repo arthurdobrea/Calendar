@@ -22,8 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -64,6 +63,9 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private NotificationService notificationService;
 
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
@@ -150,7 +152,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String welcome() {
+    public String welcome(Model model) {
+//        EventsUsers eventsUsers = new EventsUsers();
+//        User user = securityService.findLoggedInUsername();
+//        notificationService.getUnchekedEvents(user);
+
+        List<Event> events = eventService.getAllEvents();
+
+        model.addAttribute("notification",events);
+
+
         LOGGER.info("Request of \"/welcome\" page GET");
         LOGGER.info("Opening of \"/welcome\" page");
         return "welcome";
