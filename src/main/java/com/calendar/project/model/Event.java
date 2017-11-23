@@ -1,21 +1,20 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Entity
@@ -34,14 +33,13 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    //@JsonBackReference(value = "child")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
+
     @Column(name = "event_location")
     private String location;
-
 
     //@JsonBackReference(value = "child")
     @ManyToMany(fetch = FetchType.LAZY)
@@ -49,26 +47,31 @@ public class Event implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
     @Column(name = "timeend")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
     @Column(name = "createdata")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY )
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
-     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @OneToMany(mappedBy = "event")
+    private List<Notification> notifications;
+
+    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
     private Set<Tag> tags;
 
     public Event(){}
@@ -76,6 +79,8 @@ public class Event implements Serializable {
     public int getId() {
         return id;
     }
+
+    public String getTitleAndId(){return "{id: " + id + ", title: " + title + "}";}
 
     public void setId(int id) {
         this.id = id;
@@ -108,6 +113,11 @@ public class Event implements Serializable {
     public LocalDateTime getEventCreated() {
         return eventCreated;
     }
+
+//    public String getEventCreatedTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return eventCreated.format(formatter);
+//    }
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
@@ -145,11 +155,23 @@ public class Event implements Serializable {
         this.title = title;
     }
 
+
+//    public String getStartTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return start.format(formatter);
+//    }
+//
+//    public String getEndTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return end.format(formatter);
+//    }
+
     public LocalDateTime getStart() {
         return start;
     }
 
     public void setStart(LocalDateTime start) {
+
         this.start = start;
     }
 
@@ -158,6 +180,7 @@ public class Event implements Serializable {
     }
 
     public void setEnd(LocalDateTime end) {
+
         this.end = end;
     }
 
@@ -173,7 +196,7 @@ public class Event implements Serializable {
         if (eventType != event.eventType) return false;
         if (!author.equals(event.author)) return false;
         if (!location.equals(event.location)) return false;
-        if (!participants.equals(event.participants)) return false;
+        //if (!participants.equals(event.participants)) return false;
         if (!start.equals(event.start)) return false;
         if (!end.equals(event.end)) return false;
         if (!eventCreated.equals(event.eventCreated)) return false;
@@ -187,7 +210,7 @@ public class Event implements Serializable {
         result = 31 * result + eventType.hashCode();
         result = 31 * result + author.hashCode();
         result = 31 * result + location.hashCode();
-        result = 31 * result + participants.hashCode();
+        //result = 31 * result + participants.hashCode();
         result = 31 * result + start.hashCode();
         result = 31 * result + end.hashCode();
         result = 31 * result + eventCreated.hashCode();
@@ -204,8 +227,8 @@ public class Event implements Serializable {
                 //", author=" + author +
                 ", location=" + location + '\'' +
                 //", participants=" + participants +
-                ", startTime= "  + start.toString() +
-                ", endTime= " + end.toString() +
+                ", startTime= "  + start +
+                ", endTime= " + end +
                 ", eventCreated= " + eventCreated +
                 ", description= " + description + '\'' +
                 '}';

@@ -1,5 +1,5 @@
 -- User creating
-CREATE TABLE users (
+CREATE TABLE user (
   id                         BIGSERIAL    NOT NULL PRIMARY KEY,
   username                   VARCHAR(255) NOT NULL,
   password                   VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE user_roles (
   user_id INT NOT NULL,
   role_id INT NOT NULL,
 
-  FOREIGN KEY (user_id) REFERENCES users (id),
+  FOREIGN KEY (user_id) REFERENCES user (id),
   FOREIGN KEY (role_id) REFERENCES roles (id),
 
   UNIQUE (user_id, role_id)
@@ -39,15 +39,15 @@ CREATE TABLE events (
   event_location VARCHAR(255),
   description    VARCHAR(1000),
 
-  FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (author_user_id) REFERENCES user (id) ON DELETE CASCADE
 );
 
---Events-users
+--Events-user
 CREATE TABLE events_users (
   event_id INT NOT NULL,
   user_id  INT,
 
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
   FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );
 
@@ -68,18 +68,18 @@ CREATE TABLE events_tags (
 );
 
 -- Users inserting
-INSERT INTO users (username, password)
+INSERT INTO user (username, password)
 VALUES ('admin', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO user (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('Kuzea', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'kuzea.k96@gmail.com', 'Kuznetski', 'Dmitry', 'TRAINING,OTHER', 'TOWER');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO user (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('Vasea', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'dmitruk.vasilii@gmail.com', 'Dmitruk', 'Vasilii', 'OFFLINE,TRAINING', 'NBC');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO user (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
 VALUES ('ArturAD', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
         'adamaa14@gmail.com', 'Dobrya', 'Artur', 'MEETING', 'DEVELOPMENT');
 

@@ -28,7 +28,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public Event getEvent(int eventId) {
         LOGGER.info("Returns an event based on its ID");
-        List<Event> events = entityManager.createQuery("select e from Event e join fetch e.author join fetch e.participants where e.id = :idOfEvent", Event.class)
+        List<Event> events = entityManager.createQuery("select e from Event e left join fetch e.author left join fetch e.participants left join fetch e.tags where e.id = :idOfEvent", Event.class)
                 .setParameter("idOfEvent", eventId)
                 .getResultList();
 
@@ -41,10 +41,11 @@ public class EventDaoImpl implements EventDao {
         return null;
     }
 
+
     @Override
     public List<Event> getEventsByUser(Long userId) {
-        List<Event> events = entityManager.createQuery("SELECT e FROM Event e " +
-                "JOIN e.participants p WHERE p.id=:idOfUser", Event.class)
+        List<Event> events = entityManager.createQuery("select DISTINCT e FROM Event e " +
+                "join e.author left join fetch e.participants p left join fetch e.tags WHERE p.id=:idOfUser", Event.class)
                 .setParameter("idOfUser", userId)
                 .getResultList();
 
@@ -57,7 +58,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByAuthor(Long authorId) {
         LOGGER.info("Returns a list of events created by user with id = " + authorId);
-        return entityManager.createQuery("from Event e where e.author.id = :idOfAuthor", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.author.id = :idOfAuthor", Event.class)
                 .setParameter("idOfAuthor", authorId)
                 .getResultList();
     }
@@ -65,7 +66,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByLocation(String location) {
         LOGGER.info("Returns a list of events for location = " + location);
-        return entityManager.createQuery("from Event e where e.location = :location", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.location = :location", Event.class)
                 .setParameter("location", location)
                 .getResultList();
     }
@@ -73,7 +74,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByType(EventType type) {
         LOGGER.info("Returns list of events of type = " + type);
-        return entityManager.createQuery("from Event e where e.eventType = :type", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e join e.author left join fetch e.participants p left join fetch e.tags where e.eventType = :type", Event.class)
                 .setParameter("type", type)
                 .getResultList();
     }
@@ -90,7 +91,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByTag(TagType tag) {
         LOGGER.info("Returns a list with events with tag = " + tag);
-        return entityManager.createQuery("select e from Event e join e.tags t where t.tag = :tag", Event.class)
+        return entityManager.createQuery("select DISTINCT e from Event e left join fetch e.participants join e.author left join fetch e.tags t where t.tag = :tag", Event.class)
                 .setParameter("tag", tag)
                 .getResultList();
     }
@@ -98,7 +99,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByKeyword(String keyword) {
         LOGGER.info("Returns a list with events containing keyword = " + keyword);
-        return entityManager.createQuery("select e from Event e " +
+        return entityManager.createQuery("select DISTINCT e from Event e " +
                                                 "left join fetch e.author a " +
                                                 "left join fetch e.participants p" +
                                                 "left join fetch e.tags t " +
@@ -135,7 +136,7 @@ public class EventDaoImpl implements EventDao {
     @Override
     public List<Event> getEventsByDate(String localDate){
         List<Event> events = entityManager
-                .createQuery("FROM Event e WHERE to_char(e.start,'YYYY-MM-DD')=:dateOfEvent")
+                .createQuery("select DISTINCT e FROM Event e left join fetch e.participants join e.author left join fetch e.tags WHERE to_char(e.start,'YYYY-MM-DD')=:dateOfEvent", Event.class)
                 .setParameter("dateOfEvent", localDate).getResultList();
         LOGGER.info("Returns a list of events planned on " + localDate);
         return events;
@@ -152,7 +153,7 @@ public class EventDaoImpl implements EventDao {
         LocalDateTime first = LocalDateTime.parse(firstDate, dateTimeFormatter);
         LocalDateTime second = LocalDateTime.parse(secondDate, dateTimeFormatter);
         List<Event> events = entityManager
-                .createQuery("FROM Event e WHERE e.start >= :firstDate and e.start <= :secondDate")
+                .createQuery("select distinct e FROM Event e left join fetch e.participants join e.author left join fetch e.tags WHERE e.start >= :firstDate and e.start <= :secondDate", Event.class)
                 .setParameter("firstDate", first)
                 .setParameter("secondDate", second)
                 .getResultList();
@@ -162,7 +163,7 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<User> getParticipantsByEvent(int eventId){
-        List<User> participantsAtEvent = entityManager.createQuery("SELECT u FROM User u " +
+        List<User> participantsAtEvent = entityManager.createQuery("select DISTINCT u FROM User u " +
                 "left JOIN fetch u.events e WHERE e.id=:idOfEvent", User.class).setParameter("idOfEvent", eventId)
                 .getResultList();
         LOGGER.info("Returns list of users participating at event with ID = " + eventId);

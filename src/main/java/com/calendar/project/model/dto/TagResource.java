@@ -1,9 +1,7 @@
-package com.calendar.project.controller.resources;
+package com.calendar.project.model.dto;
 
-import com.calendar.project.model.Event;
 import com.calendar.project.model.enums.TagType;
 
-import javax.persistence.*;
 import java.util.Set;
 
 /**

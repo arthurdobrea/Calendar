@@ -1,10 +1,9 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.model.*;
 import com.calendar.project.service.NotificationService;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
@@ -15,13 +14,13 @@ import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,7 +64,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-    public String updateEvent(int eventId, Model model){
+    public String updateEvent(int eventId, Model model) {
         LOGGER.info("Request of \"/updateEvent\" page GET");
         model.addAttribute("eventForm", eventService.getEvent(eventId));
         LOGGER.info("Opening of \"/updateEvent\" page");
@@ -75,13 +74,13 @@ public class EventController {
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
         LOGGER.info("Request of \"/updateEvent\" page POST");
-        List<User> participans = new LinkedList<>();
+        List<User> participants = new LinkedList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
-            participans.add(userDao.getUser(u.getId()));
+            participants.add(userDao.getUser(u.getId()));
         }
 
-        eventForm.setParticipants(participans);
+        eventForm.setParticipants(participants);
         model.addAttribute("eventForm", eventForm);
         eventService.updateEvent(eventForm);
         LOGGER.info("Redirect to \"/userPage\" page");
@@ -89,7 +88,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
-    public String deleteEvent(int eventId, Model model){
+    public String deleteEvent(int eventId, Model model) {
         LOGGER.info("Request of \"/deleteEvent\" page GET");
         model.addAttribute("eventForm", eventService.getEvent(eventId));
         LOGGER.info("Opening of \"/deleteEvent\" page");
@@ -109,38 +108,52 @@ public class EventController {
     public String createEvent(Model model) {
         LOGGER.info("Request of \"/createEvent\" page GET");
         Event event = new Event();
-        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        List<User> participants = userService.findAllUsers();
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/createEvent\" page");
         return "createEvent";
     }
 
+    @MessageMapping("/notification")
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/createEvent\" page POST");
+        List<Notification> notifications = new ArrayList<>();
+
         List<User> participants = new LinkedList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
+
+            final Notification notification = new Notification(u, eventForm);
+            notifications.add(notification);
         }
 
         eventForm.setParticipants(participants);
         User user = securityService.findLoggedInUsername();
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
+
         redirectAttributes.addAttribute("eventId", eventForm.getId());
-        notificationService.send("/topic/simplemessagesresponse",eventForm);
+
+        notificationService.saveAll(notifications);
+        notificationService.sendToAllParticipants(participants, eventForm);
+        //notificationService.sendToSpecificUser();
+
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, int eventId){
+    public String showEvent(Model model, int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
 //        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
 //        event.setParticipants(participantsByEvent);
+
+        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+        notificationService.changeState(notification);
 
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/showEvent\" page");
@@ -150,7 +163,8 @@ public class EventController {
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody String getParticipantsInJSON(@RequestParam("eventId") int eventId){
+    public @ResponseBody
+    String getParticipantsInJSON(@RequestParam("eventId") int eventId) {
         LOGGER.info("Receives ID of event " + eventId);
 
         List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
