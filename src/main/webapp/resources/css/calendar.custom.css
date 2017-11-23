@@ -1,0 +1,29 @@
+.fc .fc-button-group > :first-child { /* same */
+    margin-left: 0;
+}
+.fc-prev-button {
+    color: #0a0a0a;
+
+}
+
+.fc-next-button {
+    color: #0a0a0a;
+}
+
+.fc-state-default.fc-corner-left {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-color: #b03e00;
+
+}
+
+.fc-state-default.fc-corner-right {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-color: #b03e00;
+}
+
+.fc td.fc-today {
+    border-style: solid; /* overcome neighboring borders */
+}
+

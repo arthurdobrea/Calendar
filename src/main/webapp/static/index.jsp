@@ -21,6 +21,7 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
 
@@ -45,7 +46,7 @@
                     }
                 },
                 header: {
-                    left: 'prev,next today',
+                    left: 'prev,today,next',
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
@@ -53,6 +54,7 @@
                 weekNumbers: "ISO",
                 navLinks: true,
                 eventLimit: false,
+//                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
                 events:
                     {url:'/json/allEvents'},
