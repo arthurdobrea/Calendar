@@ -322,10 +322,11 @@ h1{
   text-align: left;
 }
 
-.topnav li:hover .sub-menu{
+.topnav li:hover .sub-menu {
   z-index: 1;
   opacity:1;
 }
+
 li:hover .sub-menu-notification {
   z-index: 1;
   opacity:1!important;
@@ -414,6 +415,33 @@ li:hover .sub-menu-notification {
   left:0;
   cursor:pointer;
   display:none; /* в oбычнoм сoстoянии её нет) */
+}
+
+#notification li{
+    width: 320px ;
+}
+
+#notification li b{
+    font-size: 14px;
+    font-weight: 100;
+    border-bottom: 2px solid #E0E0E1;
+}
+
+#notification-word{
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #E0E0E1;
+    text-align: left;
+    border-bottom: 1px solid;
+
+}
+
+#go{
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #E0E0E1;
+    border-top: 1px solid;
+    width: 320px ;
 }
 
 

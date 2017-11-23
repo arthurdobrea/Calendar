@@ -34,6 +34,19 @@
             </script>
         </li>
         <li class="no-underline"><a href="#"><img src="/resources/ic_notifications.png" alt="notifications" height="24" width="24"></a></li>
+        <li class="no-underline">
+            <a href="#">
+                <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
+            </a>
+
+            <ul  class="sub-menu-notification sub-menu ">
+                <p id="notification-word">Notifications</p>
+                <div id="notification"></div>
+                <p><a href="#" id="go">Show all</a></p>
+            </ul>
+
+
+        </li>
         <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
     </ul>
 </div>
@@ -93,11 +106,7 @@
                 );
         });
     });
-</script>
 
-
-
-<script>
     function profileDropdownArrowOnMouseOver(){
         document.getElementById('down-arrow').innerHTML = 'PROFILE<img src="/resources/ic_arrow_down_active.png" id="down-arrow" alt="notifications" height="24" width="24">';
     }
