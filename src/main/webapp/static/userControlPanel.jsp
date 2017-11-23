@@ -28,49 +28,53 @@
 
 <body>
 <div class="modal fade" id="EditUser" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" align="center" style="margin-top: 100px">
         <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit your details</h4>
+        <div class="edit_profile_modal">
+            <div class="modal-header edit_profile_header capital_text">
+                <button type="button" class="close_modal" data-dismiss="modal"></button>
+                <h4 align="left">EDIT PROFILE</h4>
             </div>
-            <div class="modal-body">
-                <form:form method="POST" modelAttribute="userForm" class="form-signin">
-                    <h2 class="form-signin-heading">Edit account</h2>
-                    <input type="text" name="username" class="form-control" placeholder="Username"
-                           autofocus="true" value="${username}" readonly>
+            <div class="modal-body edit_profile_body">
+                <form:form method="POST" modelAttribute="userForm" id="user_edit_form">
+                    <input id="user_username" type="hidden" name="username" placeholder="Username" autofocus="true" value="${username}" readonly>
 
                     <spring:bind path="firstname">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="firstname" name="firstname" class="form-control" placeholder="First name"
+                        <div class="${status.error ? 'has-error' : ''} input_fields">
+                            <form:input autocomplete="false" id="user_firstname"  type="text" path="firstname" name="firstname" placeholder="FIRST NAME"
                                         autofocus="true" value="${firstname}"></form:input>
                             <form:errors path="firstname"></form:errors>
                         </div>
                     </spring:bind>
 
                     <spring:bind path="lastname">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="lastname" name="lastname" class="form-control" placeholder="Last name"
-                                        autofocus="true" value="${lastname}"></form:input>
+                        <div class="${status.error ? 'has-error' : ''} input_fields">
+                            <form:input autocomplete="false"   id="user_lastname"  type="text" path="lastname" name="lastname" placeholder="LAST NAME"
+                                         autofocus="true" value="${lastname}"></form:input>
                             <form:errors path="lastname"></form:errors>
                         </div>
                     </spring:bind>
 
+                    <%--<spring:bind path="lastname">--%>
+                    <%--<div class="input_fields ${status.error ? 'has-error' : ''}">--%>
+                    <input id="user_lastname" type="text" value="AM ENGINEER" />
+                    <%--<form:errors path="lastname"></form:errors>--%>
+                    <%--</div>--%>
+                    <%--</spring:bind>--%>
+
                     <spring:bind path="email">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="email" name="email" class="form-control" placeholder="Email"
+                            <form:input autocomplete="false"  id="user_email" type="text" path="email" name="email" placeholder="EMAIL"
                                         autofocus="true" value="${email}"></form:input>
                             <form:errors path="email"></form:errors>
                         </div>
                     </spring:bind>
 
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                    <button class="btn_edit_user_submit" type="submit">EDIT</button>
                 </form:form>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>

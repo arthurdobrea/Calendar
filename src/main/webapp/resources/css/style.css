@@ -385,8 +385,7 @@ input:checked + .slider:before {
   height: 20px;
   background-color: #DE411B;
   color: white;
-  border: 1px;
-  border-color: #DE411B;
+  border: 0;
   border-radius: 10px;
   padding: 0;
   margin: 0;
@@ -512,4 +511,75 @@ button:focus {
 .topnav .sub-menu li a {
   padding: 0px 10px 0px 10px;
   margin: 0px 0px 0px 0px;
+}
+
+.edit_profile_modal {
+  width: 550px;
+  background-color: white;
+  border-radius: 0;
+  height: 450px;
+  padding: 30px;
+}
+
+.edit_profile_header {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.edit_profile_body {
+  width: 450px;
+  background-color: white;
+  border-radius: 0;
+  height: 350px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn_edit_user_submit {
+  width: 430px;
+  height: 30px;
+  background-color: #DE411B;
+  color: white;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  border: 0;
+  border-radius: 15px;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.close_modal {
+  float: right;
+  width: 35px;
+  height: 35px;
+  border: none;
+  background-size: 35px 35px;
+  background-image: url(/resources/icons/ic_close.png);
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+
+#user_edit_form {
+  margin: 0;
+  padding-top: 10px;
+}
+
+#user_username, #user_firstname, #user_lastname, #user_assignment, #user_email  {
+  color: #48545B;
+  font-size: 15px;
+  text-underline: none;
+  font-family: Arial, sans-serif;
+  margin: auto;
+  width: 420px;
+  height: 60px;
+  padding-top: 35px;
+  border: none;
+  border-bottom: solid #939fa5;
+}
+
+#user_firstname, #user_lastname, #user_assignment, #user_email:focus {
+outline: 0;
 }
