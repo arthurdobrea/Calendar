@@ -48,7 +48,7 @@
                     <td id="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
                 </tr>
             </c:forEach>
-            <c:forEach items="${uncheckedNotifications}" var="notification">
+            <c:forEach items="${checkedNotifications}" var="notification">
                 <tr id="modal_line">
                     <td>
                         <ul style="list-style-type: none; float: left;">
