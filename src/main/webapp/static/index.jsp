@@ -77,6 +77,10 @@
     </style>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+    <%--<jsp:include page="header.jsp"/>--%>
+
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/events" class="btn">All events</a>
