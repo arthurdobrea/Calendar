@@ -432,16 +432,17 @@ li:hover .sub-menu-notification {
 
 #notification-word{
   font-family: 'Roboto', sans-serif;
-  font-size: 21px;
-  color: #E0E0E1;;
+  font-size: 18px;
+  color: #E0E0E1;
   text-align: left;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid;
+
 }
 
 #go{
   font-family: 'Roboto', sans-serif;
-  font-size: 21px;
+  font-size: 18px;
   color: #E0E0E1;
-  border-top: 2px solid;
+  border-top: 1px solid;
   width: 320px ;
 }
