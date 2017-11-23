@@ -55,14 +55,14 @@ public class User implements Serializable {
 
     @JsonIgnore
     @Column(name="image")
-    private String image;
+    private byte[] image;
 
     @Column(name="position")
     private String position;
 
-    @JsonIgnore
-    @Transient
-    private MultipartFile multipartFile;
+//    @JsonIgnore
+//    @Transient
+//    private MultipartFile multipartFile;
 
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
@@ -137,9 +137,9 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getImage() { return image; }
+    public byte[] getImage() { return image; }
 
-    public void setImage(String image) { this.image = image; }
+    public void setImage(byte[] image) { this.image = image; }
 
     public String getPassword() {
         return password;
@@ -153,13 +153,13 @@ public class User implements Serializable {
         return confirmPassword;
     }
 
-    public MultipartFile getMultipartFile() {
-        return multipartFile;
-    }
-
-    public void setMultipartFile(MultipartFile multipartFile) {
-        this.multipartFile = multipartFile;
-    }
+//    public MultipartFile getMultipartFile() {
+//        return multipartFile;
+//    }
+//
+//    public void setMultipartFile(MultipartFile multipartFile) {
+//        this.multipartFile = multipartFile;
+//    }
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
