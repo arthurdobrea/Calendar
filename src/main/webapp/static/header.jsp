@@ -4,36 +4,17 @@
 <div class="topnavContainer">
     <div class="appLogo"></div>
 
-    <ul class="topnav"  id="topnav">
-        <li><a href="/static/welcome.jsp">HOME</a></li>
+    <ul class="topnav" id="topnav">
+        <li><a href="/welcome">HOME</a></li>
         <li><a href="/">CALENDAR</a></li>
         <li><a id="down-arrow" onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" alt="notifications" height="24" width="24"></a>
             <ul class="sub-menu">
-                <li><a href="/static/userPage.jsp">My profile</a></li>
+                <li><a href="/userPage">My profile</a></li>
                 <li><a href="#">Admin panel</a></li>
                 <li><a href="#">Add event</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </li>
-        <li class="no-underline">
-            <a href="#">
-                <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
-            </a>
-
-            <ul id="notification" class="sub-menu-notification sub-menu ">
-                <li><a href="#">Admin panel</a></li>
-                <li><a href="#">Add event</a></li>
-                <li><a href="#">Logout</a></li>
-                <p><a href="#" id="go">show all</a></p>
-            </ul>
-            <script>
-                var i = document.getElementById("notification").childElementCount;
-                if (i > 0) {
-                    document.getElementById("bell").src = "/resources/ic_notifications_active.png";
-                }
-            </script>
-        </li>
-        <li class="no-underline"><a href="#"><img src="/resources/ic_notifications.png" alt="notifications" height="24" width="24"></a></li>
         <li class="no-underline">
             <a href="#">
                 <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
@@ -44,17 +25,17 @@
                 <div id="notification"></div>
                 <p><a href="#" id="go">Show all</a></p>
             </ul>
-
-
         </li>
         <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
     </ul>
 </div>
+
 <div id="modal_form"><!-- Сaмo oкнo -->
     <span id="modal_title">NOTIFICATIONS</span>
     <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
 
     <div id="modal_content">
+        <div id="notification-modal"></div>
         <table>
             <c:forEach items="${uncheckedNotifications}" var="notification">
                 <tr id="modal_line">
@@ -85,6 +66,8 @@
 <div id="overlay"></div>
 <!-- Пoдлoжкa -->
 <script>
+    connectToServerFunc();
+
     $(document).ready(function () { // вся мaгия пoсле зaгрузки стрaницы
         $('a#go').click(function (event) { // лoвим клик пo ссылки с id="go"
             event.preventDefault(); // выключaем стaндaртную рoль элементa
