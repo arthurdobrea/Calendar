@@ -25,38 +25,36 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="${contextPath}/resources/js/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
-
     <script src="${contextPath}/resources/js/jquery.ui.widget.js"></script>
     <script src="${contextPath}/resources/js/jquery.iframe-transport.js"></script>
     <script src="${contextPath}/resources/js/jquery.fileupload.js"></script>
     <script src="${contextPath}/resources/js/myuploadfunction.js"></script>
 </head>
 <body>
-
-
-<div class="container" style="height: 500px">
-    <form method="POST" action="${contextPath}/login" class="form-signin">
-        <input type="image" src="${contextPath}/resources/Logo.png"/>
-        <div class="form-group ${error != null ? 'has-error' : ''}">
+<div class="login_form for_shadow">
+    <form method="POST" action="${contextPath}/login">
+        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/Logo.png"/>
+        <div class=" ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="USERNAME"
-                   autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="PASSWORD"/>
+            <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
+                   autofocus="true" />
+            <input autocomplete="false" name="password" class="login_input" type="password" placeholder="PASSWORD" />
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <label><input type="checkbox" id="remember-me" name="remember-me"> Remember Me</label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"></button>
-            <h4 class="text-center">Don't have an account?<a href="${contextPath}/registration">Register</a></h4>
+
+            <div style="margin-top: 40px">
+                <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input type="checkbox" name="remember-me"/>
+                    <span class="capital_text"> Remember me</span></label></div>
+                    <div style="float: right; margin-right: 35px"><span class="capital_text">Forgot password?</span></div>
+            </div>
+            <button type="submit" class="btn_login_submit">LOG IN</button>
+            <p class="capital_text">Don't have an account?<a href="${contextPath}/registration"> Register</a></p>
         </div>
     </form>
 </div>
 <%--<h1>Spring MVC - jQuery File Upload</h1>--%>
 <%--<div style="width:500px;padding:20px">--%>
-
     <%--<input id="fileupload" type="file" path = "nope" name="files[]" data-url="${contextPath}/upload" multiple>--%>
-
-
 <%--</div>--%>
 </body>
 </html>

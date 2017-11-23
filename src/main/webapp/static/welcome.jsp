@@ -31,8 +31,6 @@
 <body>
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/userPage" class="btn">User Page</a>
 <a href="/events" class="btn">All events</a>
 <a href="/userPage" class="btn">User Page</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
@@ -47,8 +45,7 @@
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a onclick="document.forms['logoutForm'].submit()">Logout</a>
-        </h2>
+        <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
     </c:if>
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">

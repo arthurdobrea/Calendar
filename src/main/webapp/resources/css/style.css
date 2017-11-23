@@ -11,10 +11,7 @@
   width: 100%;
   height: 500px;
 }
-#remember-me{
-  width: 42px;
-  height: 30px;
-}
+
 .first-last-div{
   width: 601px;
   float: left;
@@ -513,6 +510,7 @@ button:focus {
   margin: 0px 0px 0px 0px;
 }
 
+ /*css for editing user modal view*/
 .edit_profile_modal {
   width: 550px;
   background-color: white;
@@ -523,6 +521,8 @@ button:focus {
 
 .edit_profile_header {
   margin: 0;
+  margin-left: 32px;
+  margin-right: 32px;
   padding: 0;
   border: none;
 }
@@ -582,4 +582,57 @@ button:focus {
 
 #user_firstname, #user_lastname, #user_assignment, #user_email:focus {
 outline: 0;
+}
+
+  /*css for login page*/
+.login_form {
+  width: 550px;
+  margin: auto;
+  /*margin-top: 30px;*/
+  background-color: white;
+  border-radius: 0;
+  height: 520px;
+  padding: 30px;
+}
+
+.login_input {
+  color: #48545B;
+  font-size: 15px;
+  text-underline: none;
+  font-family: Arial, sans-serif;
+  margin: auto;
+  width: 420px;
+  height: 80px;
+  padding-top: 35px;
+  border: none;
+  border-bottom: solid #939fa5;
+}
+
+.login_input:focus {
+  outline: 0;
+}
+
+.btn_login_submit {
+  width: 430px;
+  height: 30px;
+  background-color: #DE411B;
+  color: white;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  border: 0;
+  border-radius: 15px;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+.endava_logo {
+  margin-top: 0;
+}
+
+#remember_me {
+  width: 130px;
+  height: 15px;
+  font-family: Arial, sans-serif;
 }
