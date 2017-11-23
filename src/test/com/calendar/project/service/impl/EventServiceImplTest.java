@@ -2,9 +2,10 @@ package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.EventType;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
+import com.calendar.project.service.SecurityService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,9 @@ public class EventServiceImplTest {
 
     @InjectMocks
     private EventService eventService = new EventServiceImpl();
+
+    private SecurityService securityService;
+
 
     @Mock
     private EventDao eventDao;

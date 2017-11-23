@@ -1,4 +1,4 @@
-package com.calendar.project.model;
+package com.calendar.project.model.enums;
 
 /**
  * Created by mhristiniuc on 10/25/2017.

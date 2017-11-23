@@ -1,8 +1,9 @@
 package com.calendar.project.service;
 
 import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.enums.TagType;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TagService {
@@ -22,5 +23,7 @@ public interface TagService {
     public List<Tag> getAllTags();
 
     public List<TagType> getTagsTypeList();
+
+    String getTagsJson(List<Tag> tags) throws IOException;
 
 }

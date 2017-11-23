@@ -26,6 +26,10 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+    <%--<jsp:include page="header.jsp"/>--%>
+
 <a href="/welcome" class="btn">Home</a>
 <a href="/index" class="btn">Calendar</a>
 <a href="/userControlPanel" class="btn">User Panel</a>
@@ -47,48 +51,64 @@
 
         <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
+
     </c:if>
+
+    <%--<h2>Avatar</h2> <img src="${imageOfUser}" width="100" height="100" />--%>
 
         <h2>Events created by me: ${eventsByAuthor.size()}</h2>
 
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
         <c:forEach items="${eventsByAuthor}" var="event">
-        <p>Name: ${event.title} | Type of event: ${event.eventType}
-            <a href="/updateEvent?eventId=${event.id}" class="btn">Update</a>
-            <a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a>
-            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
-
-        </p>
+            <tr>
+                <td>${event.title}</td>
+                <td>${event.eventType}</td>
+                <td><a href="/updateEvent?eventId=${event.id}" class="btn">Update</a></td>
+                <td><a href="/deleteEvent?eventId=${event.id}" class="btn">Delete</a></td>
+                <td><a href="/showEvent?eventId=${event.id}" class="btn">Details</a></td>
+            </tr>
         </c:forEach>
+    </table>
 
     <h2>Events where I am invited: ${eventsByUser.size()}</h2>
-
-    <c:forEach items="${eventsByUser}" var="event">
-        <p>Name: ${event.title} | Type of event: ${event.eventType}
-            <a href="/showEvent?eventId=${event.id}" class="btn">Details</a>
-        </p>
-    </c:forEach>
-
     <form action="eventTypeLink" method="post">
-       <c:forEach items="${eventsList}" var="eventType">
-           <p>${eventType.view()}
-               <c:set var="checked" value="0"/>
-               <c:forEach items="${userLabels}" var="labels">
-                    <c:if test = "${labels==eventType}">
-                         <c:set var="checked" value="1"/>
-                     </c:if>
-               </c:forEach>
-               <c:if test = "${checked==1}">
-                    <input type="checkbox" name="checkboxName" value="${eventType}" checked/><br>
-               </c:if>
-               <c:if test = "${checked==0}">
-                    <input type="checkbox" name="checkboxName" value="${eventType}" /><br>
-               </c:if>
-        </c:forEach>
-           <p>
+        <c:forEach items="${eventsList}" var="eventType">
+            ${eventType.view()}
+                <c:set var="checked" value="0"/>
+            <c:forEach items="${userLabels}" var="labels">
+            <c:if test = "${labels==eventType}">
+                <c:set var="checked" value="1"/>
+            </c:if>
+            </c:forEach>
+            <c:if test = "${checked==1}">
+            <input type="checkbox" name="checkboxName" value="${eventType}" checked/>
+            </c:if>
+            <c:if test = "${checked==0}">
+            <input type="checkbox" name="checkboxName" value="${eventType}" />
+            </c:if>
+            </c:forEach>
 
-           <input type="checkbox" name="checkboxName" value="" checked hidden/><br>
-        <input type="submit">
+            <input type="checkbox" name="checkboxName" value="" checked hidden/>
+            <input type="submit">
     </form>
+
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+        </tr>
+        <c:forEach items="${events}" var="event">
+            <tr>
+                <td>${event.title}</td>
+                <td>${event.eventType}</td>
+                <td><a href="/showEvent?eventId=${event.id}" class="btn">Details</a></td>
+        </c:forEach>
+    </table>
 </div>
+<img alt="img" src="data:image/jpeg;base64,${image}"/>
 </body>
 </html>

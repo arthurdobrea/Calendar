@@ -3,8 +3,6 @@ package com.calendar.project.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -12,10 +10,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import javax.sql.DataSource;
 
 @Configuration
@@ -34,6 +35,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
 
     @Autowired
     public void setbCryptPasswordEncoder(final BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -59,12 +61,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/").authenticated()
                     .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
                     .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
+                    .and().httpBasic()
                 .and()
                     .formLogin()
                     .loginPage("/login")
@@ -82,7 +85,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                     .rememberMeParameter("remember-me")
                     .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(900);
+                    .tokenValiditySeconds(900)
+                .and()
+                    .headers()
+                    .xssProtection();
     }
 
     @Bean

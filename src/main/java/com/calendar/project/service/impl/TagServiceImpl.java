@@ -1,15 +1,24 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.dao.TagDao;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.Role;
 import com.calendar.project.model.Tag;
-import com.calendar.project.model.TagType;
+import com.calendar.project.model.User;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.TagService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -17,6 +26,8 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagDao tagDao;
+
+    private static final Logger LOGGER = Logger.getLogger(TagServiceImpl.class);
 
     @Override
     public void saveTag(Tag tag) {
@@ -62,6 +73,24 @@ public class TagServiceImpl implements TagService {
             tagsTypeList.add(tagType);
         }
         return tagsTypeList;
+    }
+
+    @Override
+    public String getTagsJson(List<Tag> tags) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray tagJsonArr = new JsonArray();
+
+        for (Tag tag : tags) {
+            JsonObject tagAsJson = new JsonObject();
+            tagAsJson.addProperty("id", tag.getId());
+            tagAsJson.addProperty("tag", tag.getTag().toString());
+            tagAsJson.addProperty("color", tag.getColor());
+            tagAsJson.addProperty("events", tag.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+            tagJsonArr.add(tagAsJson);
+        }
+        String tagsString = tagJsonArr.toString();
+        Object json = mapper.readValue(tagsString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 
 

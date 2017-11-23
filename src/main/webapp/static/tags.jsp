@@ -14,12 +14,12 @@
 <body>
 <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
-<a href="/welcome" class="btn">Home</a>
-<a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
-<a href="/events" class="btn">All events</a>
-<a href="/logout" class="btn">Logout</a>
+<a href="/welcome" class="btn_calendar">Home</a>
+<a href="/index" class="btn_calendar">Calendar</a>
+<a href="/userControlPanel" class="btn_calendar">User Panel</a>
+<a href="/createEvent" class="btn_calendar">Create new event</a>
+<a href="/events" class="btn_calendar">All events</a>
+<a href="/logout" class="btn_calendar">Logout</a>
 
 <h2>Events by tag:</h2>
 <c:forEach items="${tags}" var="tag">
