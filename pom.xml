@@ -59,7 +59,7 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://18.221.253.5:5432/calendar_db</url>
+                    <url>jdbc:postgresql://localhost:5432/Calendar_DB</url>
                     <user>postgres</user>
                     <password>server..</password>
                 </configuration>
@@ -303,6 +303,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.0.1</version>
         </dependency>
 
     </dependencies>
