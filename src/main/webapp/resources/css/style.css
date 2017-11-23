@@ -246,3 +246,75 @@ h1{
   letter-spacing:2px;
   text-transform:uppercase;
 }
+
+/* css for header */
+.topnavContainer{
+  display: table;
+  width: 100%;
+  /*border: solid 1px red;*/
+}
+
+.appLogo {
+  float: left;
+  width: 280px;
+  height: 50px;
+  background-image: url("/resources/appLogo.png");
+  background-size: 280px 50px;
+  background-repeat: no-repeat;
+}
+
+.topnav {
+  float: right;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.topnav li {
+  display: inline-block;
+  position: relative;
+  padding: 0px 10px 0px 10px;
+  margin: 12px 0px 0px 0px;
+}
+
+.topnav li a {
+  text-align: center;
+  color: #48545B;
+}
+
+.topnav .no-underline a:hover  {
+  border-bottom: 0px solid #DE411B;
+}
+
+.topnav li a:hover {
+  color: #DE411B;
+  text-decoration: none;
+  border-bottom: 1px solid #DE411B;
+}
+
+.topnav .sub-menu {
+  width: 100%;
+  padding: 0px 0px 0px 0px;
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  z-index: -1;
+  opacity: 0;
+  box-shadow: 2px 2px 5px #777777, -2px 2px 5px #777777;
+  background: #FFFFFF;
+}
+
+.topnav .sub-menu li{
+  display: block;
+}
+
+.topnav li:hover .sub-menu {
+  z-index: 1;
+  opacity:1;
+}
+
+.topnav .sub-menu li a {
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+  font-size: 14px;
+}

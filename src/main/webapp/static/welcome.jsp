@@ -30,6 +30,10 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+    <%--<jsp:include page="header.jsp"/>--%>
+
 <a href="/welcome" class="btn_calendar">Home</a>
 <a href="/index" class="btn_calendar">Calendar</a>
 <a href="/userControlPanel" class="btn_calendar">User Panel</a>
@@ -74,14 +78,11 @@
         <div class="col-sm-6">
             <p>&nbsp;</p>
             <!-- Connect and Disconnect buttons to establish/terminate a connection to the websocket service -->
-            <p/>
             <div class="panel panel-default">
                 <div class="panel-body" id="conversationDiv">
                 </div>
                 <!-- .panel-body -->
-                <div class="panel-body" id="response">
-
-                </div>
+                <div class="panel-body" id="response"></div>
                 <!-- Div to show the server responses -->
             </div>
             <!-- .panel -->
