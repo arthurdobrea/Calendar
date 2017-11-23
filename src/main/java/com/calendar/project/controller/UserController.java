@@ -12,6 +12,7 @@ import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
+import com.calendar.project.testDomain.Tag;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
@@ -24,11 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +33,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import java.util.List;
+
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedList;
@@ -66,6 +65,94 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+    //________________________________________________
+
+    @RequestMapping(value = "/getUsernames", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getUsernames(@RequestParam String userName) {
+        return simulateSearchResultForUsername(userName);
+    }
+
+    @RequestMapping(value = "/getFirstnames", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getFirstName(@RequestParam String firstName) {
+
+        return simulateSearchResultForFirstName(firstName);
+    }
+
+    @RequestMapping(value = "/getLastnames", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getLastName(@RequestParam String lastName) {
+
+        return simulateSearchResultForLastName(lastName);
+    }
+
+    @RequestMapping(value = "/getEmails", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getEmails(@RequestParam String email) {
+
+        return simulateSearchResultForEmail(email);
+    }
+    @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getRoles(@RequestParam String role) {
+        return simulateSearchResultForRoles(role);
+    }
+
+    private List<User> simulateSearchResultForUsername(String userName) {
+        List<User> listOfUsers = userService.findAllUsers();
+        List<User> result = new ArrayList<>();
+        for (User user : listOfUsers) {
+            if (user.getUsername().contains(userName)) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+    private List<User> simulateSearchResultForFirstName(String firstName) {
+        List<User> listOfUsers = userService.findAllUsers();
+        List<User> result = new ArrayList<>();
+        for (User user : listOfUsers) {
+            if (user.getFirstname().contains(firstName)) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+    private List<User> simulateSearchResultForLastName(String lastName) {
+        List<User> listOfUsers = userService.findAllUsers();
+        List<User> result = new ArrayList<>();
+        for (User user : listOfUsers) {
+            if (user.getLastname().contains(lastName)) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+    private List<User> simulateSearchResultForEmail(String email) {
+        List<User> listOfUsers = userService.findAllUsers();
+        List<User> result = new ArrayList<>();
+        for (User user : listOfUsers) {
+            if (user.getEmail().contains(email)) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+    private List<User> simulateSearchResultForRoles(String role) {
+        List<User> listOfUsers = userService.findAllUsers();
+        List<User> result = new ArrayList<>();
+        for (User user : listOfUsers) {
+            if (user.getRoles().contains(role)) {
+                result.add(user);
+            }
+        }
+        return result;
+    }
+
+
+    //________________________________________________
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -159,16 +246,36 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(ModelMap modelMap, HttpServletRequest request) {
-        List<User> users = userService.findAllUsers();
 
-        modelMap.addAttribute("users", users);
-        modelMap.addAttribute("request", request);
-        modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
-        return "admin";
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public void admin (Model model, HttpServletRequest request) {
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        model.addAttribute("request", request);
+        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
+
     }
 
+    @RequestMapping(value = "/editUser-{usernameFromController}", method = RequestMethod.GET)
+    public Model editUser (Model model2, @PathVariable String usernameFromController) {
+        User user = userService.findByUsername(usernameFromController);
+        model2.addAttribute("user", user);
+        model2.addAttribute("edit", true);
+        return model2;
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.POST)
+        public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
+            editFormValidator.validate(user, bindingResult);
+            for (Role r : user.getRoles()) {
+                r.setId(roleService.findRoleIdByValue(r.getName()));
+            }
+            if (bindingResult.hasErrors()) {
+                return "admin";
+            }
+            userService.updateUser(user);
+            return "redirect:/admin";
+    }
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
         User user = userService.findByUsername(userForm.getUsername());
@@ -195,8 +302,6 @@ public class UserController {
         return "userControlPanel";
     }
 
-
-
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
         user = securityService.findLoggedInUsername();
@@ -210,10 +315,6 @@ public class UserController {
 
         return "userPage";
     }
-
-
-
-
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
     public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
@@ -243,37 +344,32 @@ public class UserController {
         return list;
     }
 
-    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
-    public String editUser(@PathVariable String username, ModelMap model) {
-        User user = userService.findByUsername(username);
-        model.addAttribute("user", user);
-        model.addAttribute("edit", true);
-        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
-        return "userEdit";
-    }
-
-    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
-        editFormValidator.validate(user, bindingResult);
-
-        for (Role r : user.getRoles()) {
-            r.setId(roleService.findRoleIdByValue(r.getName()));
-        }
-
-        if (bindingResult.hasErrors()) {
-            return "userEdit";
-        }
-
-        userService.updateUser(user);
-
-        return "redirect:/admin";
-    }
+//    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
+//    public void editUser(@PathVariable String username, ModelMap model) {
+//        User user = userService.findByUsername(username);
+//        model.addAttribute("user", user);
+//        model.addAttribute("edit", true);
+//        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
+////        return "admin";
+//    }
+//
+//    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.POST)
+//    public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
+//        editFormValidator.validate(user, bindingResult);
+//        for (Role r : user.getRoles()) {
+//            r.setId(roleService.findRoleIdByValue(r.getName()));
+//        }
+//        if (bindingResult.hasErrors()) {
+//            return "admin";
+//        }
+//        userService.updateUser(user);
+//        return "redirect:/admin";
+//    }
 
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         userService.deleteUserByUsername(username);
-
-        return "redirect:/admin";
+        return "admin";
     }
 
     // is mailing all events to all users when labels are equals to event types.

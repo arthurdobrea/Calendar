@@ -1353,7 +1353,7 @@ html {
 
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.42857143;
     color: #333;
     background-color: #fff
@@ -2717,7 +2717,7 @@ caption {
 }
 
 th {
-    text-align: left
+    text-align: left;
 }
 
 .table {
@@ -2740,6 +2740,7 @@ th {
 
 .table > caption + thead > tr:first-child > td, .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th {
     border-top: 0
+    width = "10px"
 }
 
 .table > tbody + tbody {
@@ -2837,7 +2838,7 @@ table td[class*=col-], table th[class*=col-] {
         margin-bottom: 15px;
         overflow-y: hidden;
         -ms-overflow-style: -ms-autohiding-scrollbar;
-        border: 1px solid #ddd
+        border: 10px solid #ddd
     }
 
     .table-responsive > .table {
@@ -5852,7 +5853,8 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:focus, a.list-g
     border: 1px solid transparent;
     border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+
 }
 
 .panel-body {

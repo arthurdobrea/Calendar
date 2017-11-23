@@ -119,12 +119,6 @@
                         <spring:bind path="eventType">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:select  path="eventType" class="form-control" >
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
 
                                     <option value="">Select Event Type</option>
                                     <option value="MEETING">Meeting</option>
