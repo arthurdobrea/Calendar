@@ -3,6 +3,9 @@
 
 <div class="topnavContainer">
     <div class="appLogo"></div>
+    <script>
+        connectToServerFunc();
+    </script>
 
     <ul class="topnav" id="topnav">
         <li><a href="/welcome">HOME</a></li>
@@ -66,7 +69,7 @@
 <div id="overlay"></div>
 <!-- Пoдлoжкa -->
 <script>
-    connectToServerFunc();
+
 
     $(document).ready(function () { // вся мaгия пoсле зaгрузки стрaницы
         $('a#go').click(function (event) { // лoвим клик пo ссылки с id="go"

@@ -122,7 +122,7 @@ public class EventController {
         List<Notification> notifications = new ArrayList<>();
         User user = securityService.findLoggedInUsername();
         List<User> participants = new ArrayList<>();
-        participants.add(user);
+        //participants.add(user);
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
@@ -140,7 +140,6 @@ public class EventController {
 
         notificationService.saveAll(notifications);
         notificationService.sendToSpecificUser(participants,notifications.get(1));
-        //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
