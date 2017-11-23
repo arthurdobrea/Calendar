@@ -67,27 +67,7 @@
     </c:if>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-10">
-            <!-- WebSocket related Twitter Bootstrap 3.0 based UI elements -->
-            <div id="heading" class="masthead">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <p>&nbsp;</p>
-            <!-- Connect and Disconnect buttons to establish/terminate a connection to the websocket service -->
-            <div class="panel panel-default">
-                <div class="panel-body" id="conversationDiv">
-                </div>
-                <!-- .panel-body -->
-                <div class="panel-body" id="response"></div>
-                <!-- Div to show the server responses -->
-            </div>
-            <!-- .panel -->
-        </div>
-    </div>
+    <div class="panel-body" id="response"></div>
 
     <div><c:forEach items="${uncheckedNotifications}" var="notification">
         <p style="color: #ff0000">Name:
@@ -108,7 +88,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    connectToServerFunc()
+
 </script>
 </body>
 </html>
