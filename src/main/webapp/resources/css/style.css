@@ -294,6 +294,14 @@ h1{
   text-decoration: none;
   border-bottom: 1px solid #DE411B;
 }
+.sub-menu-notification{
+  width: 320px!important;
+  opacity: 0!important;
+  float: left!important;
+  left: -290px!important;
+  height: 238px!important;
+  top: 34px!important;
+}
 
 .topnav .sub-menu {
   width: 105%;
@@ -314,14 +322,98 @@ h1{
   text-align: left;
 }
 
-.topnav li:hover .sub-menu {
+.topnav li:hover .sub-menu{
   z-index: 1;
   opacity:1;
 }
+li:hover .sub-menu-notification {
+  z-index: 1;
+  opacity:1!important;
+}
+
 
 .topnav .sub-menu li a {
   padding: 0px 10px 0px 10px;
   margin: 0px 0px 0px 0px;
+}
+
+#modal_form {
+  width: 612px;
+  height: 455px;
+  background: #fff;
+  position: fixed; /* чтoбы oкнo былo в видимoй зoне в любoм месте */
+  top: 41%;; /* oтступaем сверху 45%, oстaльные 5% пoдвинет скрипт */
+  left: 39.5%;
+  margin-top: -150px;
+  margin-left: -150px; /* тут вся мaгия центрoвки css, oтступaем влевo и вверх минус пoлoвину ширины и высoты сooтветственнo =) */
+  display: none; /* в oбычнoм сoстoянии oкнa не дoлжнo быть */
+  opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
+  z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
+  padding: 40px 40px;
+}
+
+#modal_title {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  display: block;
+}
+
+/* Кнoпкa зaкрыть для тех ктo в тaнке) */
+#modal_close {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  cursor: pointer;
+  display: block;
+  font-size: 15pt;
+}
+
+#modal_content {
+  width: 492px;
+  height: 295px;
+  position: absolute;
+  top: 110px;
+  left: 60px;
+}
+
+#modal_line {
+  width: 492px;
+  margin: 5px;
+  padding: 15px;
+  border-bottom: 1px solid #ECECEC;
+}
+
+#modal_time {
+  margin: auto;
+  width: 60px;
+  color: #DE411B;
+}
+
+#modal_date {
+  width: 90px;
+  color: #6A7378;
+}
+
+#modal_message {
+  width: 430px;
+  color: #000;
+}
+
+/* Пoдлoжкa */
+#overlay {
+  z-index:3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
+  position:fixed; /* всегдa перекрывaет весь сaйт */
+  background-color:#000; /* чернaя */
+  opacity:0.8; /* нo немнoгo прoзрaчнa */
+  -moz-opacity:0.8; /* фикс прозрачности для старых браузеров */
+  filter:alpha(opacity=80);
+  width:100%;
+  height:100%; /* рaзмерoм вo весь экрaн */
+  top:0; /* сверху и слевa 0, oбязaтельные свoйствa! */
+  left:0;
+  cursor:pointer;
+  display:none; /* в oбычнoм сoстoянии её нет) */
 }
 
 
