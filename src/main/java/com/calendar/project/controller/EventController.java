@@ -122,7 +122,7 @@ public class EventController {
         List<Notification> notifications = new ArrayList<>();
         User user = securityService.findLoggedInUsername();
         List<User> participants = new ArrayList<>();
-        //participants.add(user);
+
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
@@ -152,8 +152,12 @@ public class EventController {
 //        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
 //        event.setParticipants(participantsByEvent);
 
-        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-        notificationService.changeState(notification);
+        User user = securityService.findLoggedInUsername();
+
+        if(event.getParticipants().contains(user)) {
+            Notification notification = notificationService.getNotification(user, event);
+            notificationService.changeState(notification);
+        }
 
         model.addAttribute("eventForm", event);
         LOGGER.info("Opening of \"/showEvent\" page");
