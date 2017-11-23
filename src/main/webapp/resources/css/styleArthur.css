@@ -1,0 +1,13 @@
+.sub-menu-notification{
+  width: 320px;
+  opacity: 1;
+  float: left;
+  left: -290px;
+  height: 238px;
+  top: 34px;
+}
+
+li:hover .sub-menu-notification{
+  z-index: 1;
+  opacity:1;
+}

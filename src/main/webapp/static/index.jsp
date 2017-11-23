@@ -21,6 +21,7 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
 
@@ -45,7 +46,7 @@
 //                    }
                 },
                 header: {
-                    left: 'prev,next today',
+                    left: 'prev,today,next',
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
@@ -53,6 +54,7 @@
                 weekNumbers: "ISO",
                 navLinks: true,
                 eventLimit: false,
+//                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
                 events:
                     {url:'/json/allEvents'},
@@ -77,20 +79,24 @@
     </style>
 </head>
 <body>
-<a href="/welcome" class="btn_calendar">Home</a>
-<a href="/index" class="btn_calendar">Calendar</a>
-<a href="/events" class="btn_calendar">All events</a>
-<a href="/tags" class="btn_calendar">Tags</a>
-<%--<a href="/mailing" class="btn_calendar">Mail to all</a>--%>
-<a href="/userPage" class="btn_calendar">User Page</a>
+
+    <c:import url="header.jsp" />
+    <%--<jsp:include page="header.jsp"/>--%>
+
+<a href="/welcome" class="btn">Home</a>
+<a href="/index" class="btn">Calendar</a>
+<a href="/events" class="btn">All events</a>
+<a href="/tags" class="btn">Tags</a>
+<a href="/mailing" class="btn">Mail to all</a>
+<a href="/userPage" class="btn">User Page</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
+    <a href="/admin" class="btn">Admin page</a>
 </c:if>
 <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
+    <a href="/admin" class="btn">Admin page</a>
 </c:if>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/logout" class="btn_calendar">Logout</a>
+<a href="/userControlPanel" class="btn">User Panel</a>
+<a href="/logout" class="btn">Logout</a>
 <p>
 <p>
     <!-- Modal -->

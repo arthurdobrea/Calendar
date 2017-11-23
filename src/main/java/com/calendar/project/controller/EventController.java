@@ -120,26 +120,26 @@ public class EventController {
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/createEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
-
-        List<User> participants = new LinkedList<>();
+        User user = securityService.findLoggedInUsername();
+        List<User> participants = new ArrayList<>();
+        //participants.add(user);
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
             participants.add(userService.getUser(u.getId()));
 
-            final Notification notification = new Notification(u, eventForm);
+            final Notification notification = new Notification(userService.getUser(u.getId()), eventForm);
             notifications.add(notification);
         }
 
         eventForm.setParticipants(participants);
-        User user = securityService.findLoggedInUsername();
+
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
         eventService.saveEvent(eventForm);
 
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         notificationService.saveAll(notifications);
-        notificationService.sendToAllParticipants(participants, eventForm);
-        //notificationService.sendToSpecificUser();
+        notificationService.sendToSpecificUser(participants,notifications.get(1));
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";

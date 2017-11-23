@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface NotificationService {
 
-    void sendToSpecificUser(String username, Event eventForm);
+    void sendToAllParticipantsNotification(String username, Event eventForm);
 
     void sendToAll(String destination, Event eventForm);
 
     void sendToAllParticipants(List<User> users, Event eventForm);
 
-    void sendToAllParticipantsNotification(List<User> users,Notification notification);
+    void sendToSpecificUser(List<User> users,Notification notification);
 
     void save(Notification notification);
 
