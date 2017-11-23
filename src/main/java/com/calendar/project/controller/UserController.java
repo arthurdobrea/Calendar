@@ -3,13 +3,10 @@ package com.calendar.project.controller;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
-import com.calendar.project.service.RoleService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.TagService;
-import com.calendar.project.service.UserService;
+import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,24 +17,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
-import java.util.LinkedList;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -175,6 +161,7 @@ public class UserController {
             LOGGER.info("Opening of \"/index\" page");
             return "index";
         }
+
         List<User> participants = new ArrayList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));
@@ -242,11 +229,13 @@ public class UserController {
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
         model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
-        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("userAuthor", userService.getUser(user.getId()));
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
         model.addAttribute("image", userService.getUser(user.getId()).getImage());
+        model.addAttribute("user", user);
+
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

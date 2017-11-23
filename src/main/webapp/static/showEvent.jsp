@@ -30,8 +30,8 @@
                     End time: ${eventForm.end}<br>
                     Description:${eventForm.description}<br>
                     Created at: ${eventForm.eventCreated}<br>
-                    Created by: ${eventForm.author.fullName}<br>
-                    Will be attended by:<br>
+                    <%--Created by: ${eventForm.author.fullName}<br>--%>
+                    <%--Will be attended by:<br>--%>
                 <ul id="participantsList"></ul>
 
                 <script>

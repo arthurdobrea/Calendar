@@ -58,7 +58,7 @@ public class JSONController {
 //            return eventService.getAllEvents();
 //        }
 
-    @RequestMapping(value="/allEvents", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/events", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllEvents() {
         List<Event> events = eventService.getAllEvents();
 
@@ -70,7 +70,7 @@ public class JSONController {
             eventAsJson.addProperty("eventType", e.getEventType().toString());
             eventAsJson.addProperty("start", e.getStart().toString());
             eventAsJson.addProperty("end", e.getEnd().toString());
-            eventAsJson.addProperty("author", e.getAuthor().getFullName());
+//            eventAsJson.addProperty("author", e.getAuthor().getFullName());
             eventAsJson.addProperty("location", e.getLocation());
             eventAsJson.addProperty("allDay", e.isAllDay());
             eventAsJson.addProperty("eventCreated", e.getEventCreated().toString());

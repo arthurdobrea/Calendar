@@ -25,53 +25,52 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-<a href="/welcome" class="btn">Home</a>
-<a href="/index" class="btn">Calendar</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/createEvent" class="btn">Create new event</a>
-<a href="/userPage" class="btn">User Page</a>
-<a href="/events" class="btn">All events</a>
-<a href="/logout" class="btn">Logout</a>
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-
-<div class="container">
-    <form:form method="POST" modelAttribute="userForm" class="form-signin">
-        <h2 class="form-signin-heading">Edit account</h2>
-        <input type="text" name="username" class="form-control" placeholder="Username"
-               autofocus="true" value="${username}" readonly>
-
-        <spring:bind path="firstname">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="firstname" name="firstname" class="form-control" placeholder="First name"
-                            autofocus="true" value="${firstname}"></form:input>
-                <form:errors path="firstname"></form:errors>
+<div class="modal fade" id="EditUser" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit your details</h4>
             </div>
-        </spring:bind>
+            <div class="modal-body">
+                <form:form method="POST" modelAttribute="userForm" class="form-signin">
+                    <h2 class="form-signin-heading">Edit account</h2>
+                    <input type="text" name="username" class="form-control" placeholder="Username"
+                           autofocus="true" value="${username}" readonly>
 
-        <spring:bind path="lastname">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="lastname" name="lastname" class="form-control" placeholder="Last name"
-                            autofocus="true" value="${lastname}"></form:input>
-                <form:errors path="lastname"></form:errors>
+                    <spring:bind path="firstname">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="firstname" name="firstname" class="form-control" placeholder="First name"
+                                        autofocus="true" value="${firstname}"></form:input>
+                            <form:errors path="firstname"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="lastname">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="lastname" name="lastname" class="form-control" placeholder="Last name"
+                                        autofocus="true" value="${lastname}"></form:input>
+                            <form:errors path="lastname"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="email">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="text" path="email" name="email" class="form-control" placeholder="Email"
+                                        autofocus="true" value="${email}"></form:input>
+                            <form:errors path="email"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form:form>
             </div>
-        </spring:bind>
-
-        <spring:bind path="email">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="email" name="email" class="form-control" placeholder="Email"
-                            autofocus="true" value="${email}"></form:input>
-                <form:errors path="email"></form:errors>
-            </div>
-        </spring:bind>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-    </form:form>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

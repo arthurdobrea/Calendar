@@ -46,7 +46,7 @@
     <tr>
         <th>Event</th>
         <th>Type</th>
-        <th>Author</th>
+        <%--<th>Author</th>--%>
         <th>Participants</th>
         <th>Tags</th>
     </tr>
@@ -54,7 +54,7 @@
     <tr>
         <td>${event.title}</td>
         <td>${event.eventType.view()}</td>
-        <td>${event.author.fullName}</td>
+        <%--<td>${event.author.fullName}</td>--%>
         <td><c:forEach items="${event.getParticipants()}" var="participant">
             <p>${participant.username}</p>
             </c:forEach></td>

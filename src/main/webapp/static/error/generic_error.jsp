@@ -17,7 +17,7 @@
     <%--<link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />--%>
 </head>
 <body>
-<input type="image" height="250" width="300" src="${contextPath}/resources/Octocat.png"/>
+<input type="image" height="250" width="300" src="${contextPath}/resources/images/Octocat.png"/>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
