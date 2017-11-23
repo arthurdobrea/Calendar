@@ -251,15 +251,16 @@ h1{
 .topnavContainer{
   display: table;
   width: 100%;
+  margin: auto;
   /*border: solid 1px red;*/
 }
 
 .appLogo {
   float: left;
-  width: 280px;
-  height: 50px;
+  width: 190px;
+  height: 34px;
   background-image: url("/resources/appLogo.png");
-  background-size: 280px 50px;
+  background-size: 190px 34px;
   background-repeat: no-repeat;
 }
 
@@ -273,11 +274,13 @@ h1{
 .topnav li {
   display: inline-block;
   position: relative;
-  padding: 0px 10px 0px 10px;
-  margin: 12px 0px 0px 0px;
+  padding: 1px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
 }
 
 .topnav li a {
+  padding: 0px 15px 0px 15px;
+  font-size: 15px;
   text-align: center;
   color: #48545B;
 }
@@ -293,19 +296,22 @@ h1{
 }
 
 .topnav .sub-menu {
-  width: 100%;
-  padding: 0px 0px 0px 0px;
+  width: 105%;
+  padding: 0px 0px 5px 0px;
   position: absolute;
   top: 100%;
   left: 0px;
   z-index: -1;
   opacity: 0;
-  box-shadow: 2px 2px 5px #777777, -2px 2px 5px #777777;
+  box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
   background: #FFFFFF;
 }
 
 .topnav .sub-menu li{
   display: block;
+  padding: 4px 10px 3px 10px;
+  margin: 0px 0px 0px 0px;
+  text-align: left;
 }
 
 .topnav li:hover .sub-menu {
@@ -314,7 +320,49 @@ h1{
 }
 
 .topnav .sub-menu li a {
-  padding: 0px 0px 0px 0px;
+  padding: 0px 10px 0px 10px;
   margin: 0px 0px 0px 0px;
-  font-size: 14px;
 }
+
+
+/*do not delete it's for adaptive design'*/
+
+/*.topnav .icon {*/
+  /*display: none;*/
+/*}*/
+
+/*@media screen and (max-width: 740px) {*/
+  /*.topnavContainer{*/
+    /*display: block;*/
+    /*margin: auto;*/
+  /*}*/
+
+  /*.topnav a {*/
+    /*display: none;*/
+  /*}*/
+
+  /*.topnav .icon {*/
+    /*float: right;*/
+    /*display: block;*/
+  /*}*/
+/*}*/
+
+/*@media screen and (max-width: 740px){*/
+  /*.topnav.responsive a {*/
+    /*float: left;*/
+    /*display: block;*/
+    /*text-align: left;*/
+  /*}*/
+
+  /*.topnav.responsive li {*/
+    /*display: block;*/
+  /*}*/
+
+  /*.topnav.responsive li a {*/
+    /*padding: 2px 5px 2px 5px;*/
+  /*}*/
+
+  /*.topnav.responsive .sub-menu {*/
+    /*width: 120%;*/
+  /*}*/
+/*}*/
