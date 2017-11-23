@@ -47,8 +47,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void sendToSpecificUser(List<User> users, Notification notification) {
         for (User it : users) {
-            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast("&lt;li&gt;"
-                    + notification.getEvent().getTitle()  + "&lt;/li&gt;"));
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(
+                     notification.getEvent().getTitle()));
         }
     }
 

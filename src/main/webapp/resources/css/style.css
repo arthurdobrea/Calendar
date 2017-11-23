@@ -419,6 +419,8 @@ li:hover .sub-menu-notification {
 
 #notification li{
     width: 320px ;
+  font-size: 14px;
+  font-weight: 100;
 }
 
 #notification li b{
@@ -434,6 +436,13 @@ li:hover .sub-menu-notification {
     text-align: left;
     border-bottom: 1px solid;
 
+}
+#notification-modal{
+  font-size: 14px;
+  list-style: none;
+}
+#notification-modal li{
+  font-size: 14px;
 }
 
 #go{
