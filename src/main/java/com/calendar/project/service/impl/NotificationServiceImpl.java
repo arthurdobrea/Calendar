@@ -24,7 +24,7 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationDao notificationDao;
 
     @Override
-    public void sendToSpecificUser(String username, Event eventForm) {
+    public void sendToAllParticipantsNotification(String username, Event eventForm) {
         template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast("&lt;b&gt;"
                 + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
 
@@ -45,10 +45,10 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendToAllParticipantsNotification(List<User> users, Notification notification) {
+    public void sendToSpecificUser(List<User> users, Notification notification) {
         for (User it : users) {
-            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast("&lt;b&gt;"
-                    + notification.getEvent().getTitle() + " " + notification.getEvent().getLocation() + "&lt;/b&gt;"));
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast("&lt;li&gt;"
+                    + notification.getEvent().getTitle()  + "&lt;/li&gt;"));
         }
     }
 
