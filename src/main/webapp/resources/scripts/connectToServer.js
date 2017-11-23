@@ -34,7 +34,7 @@ function showServerBroadcast(servermessage, localMessage) {
 
     if (localMessage) {
         p.style.color = '#006600';
-        tmp = "<span> hi </span>";
+        tmp = "<span></span>";
     } else {
         p.style.color = '#8A0808';
         tmp = "<span></span> " + decoded;

@@ -76,6 +76,14 @@ public class Event implements Serializable {
 
     public Event(){}
 
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
     public int getId() {
         return id;
     }

@@ -2,18 +2,9 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.HashSet;
@@ -23,7 +14,7 @@ import java.util.Set;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -88,6 +79,14 @@ public class User implements Serializable {
     private List<Notification> notifications;
 
     public User() { }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public String getPosition() { return position; }
 
