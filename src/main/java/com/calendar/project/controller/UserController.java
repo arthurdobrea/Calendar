@@ -4,12 +4,15 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
+import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -44,6 +47,9 @@ public class UserController {
     private UserValidator userValidator;
 
     @Autowired
+    private UserResourceValidator userResourceValidator;
+
+    @Autowired
     private TagService tagService;
 
     @Autowired
@@ -61,31 +67,28 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         LOGGER.info("Request of \"/registration\" page GET");
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserResource());
 
         LOGGER.info("Opening of \"/registration\" page");
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("userForm") @Valid UserResource userForm,
+                               BindingResult bindingResult)
+            {
         LOGGER.info("Request of \"/registration\" page POST");
 
-        userValidator.validate(userForm, bindingResult);
+        userResourceValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             LOGGER.info("Opening of \"/registration\" page");
             return "registration";
         }
-        MultipartFile userImage = userForm.getMultipartFile();
-        try{
-            userForm.setImage(Base64.encode(userImage.getBytes()));
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        userService.save(userForm);
+        User user = Converter.convert(userForm);
+        userService.save(user);
 
-        securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
+        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
 
         LOGGER.info("Redirect to \"/index\" page");
         return "redirect:/index";
@@ -207,7 +210,6 @@ public class UserController {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = userService.findByUsername(auth.getName());
-
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -231,6 +233,7 @@ public class UserController {
         return "redirect:/index";
     }
 
+
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
         LOGGER.info("Request of \"/userPage\" page GET");
@@ -242,7 +245,7 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
-        model.addAttribute("image", userService.getUser(user.getId()).getImage());
+        model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

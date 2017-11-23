@@ -1,5 +1,6 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
@@ -158,7 +159,10 @@ public class UserServiceImpl implements UserService {
             userAsJson.addProperty("lastname", user.getLastname());
             userAsJson.addProperty("email", user.getEmail());
             userAsJson.addProperty("position", user.getPosition());
-            userAsJson.addProperty("image", user.getImage());
+            if(user.getImage() == null) userAsJson.addProperty("image", "null");
+            else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                userAsJson.addProperty("image", base64Encoded);}
             userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
             userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
             userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
@@ -182,7 +186,10 @@ public class UserServiceImpl implements UserService {
         userAsJson.addProperty("lastname", user.getLastname());
         userAsJson.addProperty("email", user.getEmail());
         userAsJson.addProperty("position", user.getPosition());
-        userAsJson.addProperty("image", user.getImage());
+        if(user.getImage() == null) userAsJson.addProperty("image", "null");
+        else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        userAsJson.addProperty("image", base64Encoded);}
         userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
         userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
         userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
@@ -202,4 +209,38 @@ public class UserServiceImpl implements UserService {
         firstUser.setEmail(secondUser.getEmail());
         return firstUser;
     }
+
+    @Override
+    public User updateUser(User user, UserResource userResource){
+        user.setFirstname(userResource.getFirstname());
+        user.setLastname(userResource.getLastname());
+        user.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
+        user.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
+        user.setEmail(userResource.getEmail());
+        return user;
+    }
+
+    @Override
+    public UserResource updateUserResourceWithUser(UserResource userResource, User user){
+        userResource.setFirstname(user.getFirstname());
+        userResource.setLastname(user.getLastname());
+        userResource.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userResource.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
+        BASE64DecodedMultipartFile base64DecodedMultipartFile = new BASE64DecodedMultipartFile(user.getImage());
+        userResource.setMultipartFile(base64DecodedMultipartFile);
+        userResource.setEmail(user.getEmail());
+        return userResource;
+    }
+
+    @Override
+    public UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource){
+        userResourceToUpdate.setFirstname(userResource.getFirstname());
+        userResourceToUpdate.setLastname(userResource.getLastname());
+        userResourceToUpdate.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
+        userResourceToUpdate.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
+        userResourceToUpdate.setMultipartFile(userResource.getMultipartFile());
+        userResourceToUpdate.setEmail(userResource.getEmail());
+        return userResourceToUpdate;
+    }
+
 }

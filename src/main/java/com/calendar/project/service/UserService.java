@@ -42,4 +42,10 @@ public interface UserService {
     String getUserJson(User user) throws IOException;
 
     User updateUserForRest(User firstUser, User secondUser);
+
+    User updateUser(User user, UserResource userResource);
+
+    UserResource updateUserResourceWithUser(UserResource userResource, User user);
+
+    UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource);
 }

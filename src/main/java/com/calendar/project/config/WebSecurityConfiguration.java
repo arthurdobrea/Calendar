@@ -10,17 +10,23 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableResourceServer
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String GUEST = "GUEST";
@@ -32,6 +38,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private ClientDetailsService clientDetailsService;
 
     @Autowired
     private DataSource dataSource;
@@ -56,21 +65,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
+//            .antMatchers("/**").access("hasRole('ROLE_USER')")
+//            .and().formLogin().loginPage("/login").permitAll()
+//                .defaultSuccessUrl("/index").failureUrl("/loginError");
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/").authenticated()
-                    .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN, GUEST)
                     .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
                     .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
-                    .and().httpBasic()
+                    .antMatchers("/oauth/token").permitAll()
+                    //.and().httpBasic()
                 .and()
                     .formLogin()
-                    .loginPage("/login")
+                    .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/index")
                     .failureUrl("/login?error")
                     .usernameParameter("username")
@@ -108,4 +121,28 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(11);
     }
+
+    @Bean
+    public TokenStore tokenStore() {
+        return new InMemoryTokenStore();
+    }
+
+    @Bean
+    @Autowired
+    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore){
+        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
+        handler.setTokenStore(tokenStore);
+        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
+        handler.setClientDetailsService(clientDetailsService);
+        return handler;
+    }
+
+    @Bean
+    @Autowired
+    public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
+        TokenApprovalStore store = new TokenApprovalStore();
+        store.setTokenStore(tokenStore);
+        return store;
+    }
+
 }
