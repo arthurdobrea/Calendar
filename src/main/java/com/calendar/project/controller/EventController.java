@@ -154,9 +154,11 @@ public class EventController {
 
         User user = securityService.findLoggedInUsername();
 
-        if(event.getParticipants().contains(user)) {
-            Notification notification = notificationService.getNotification(user, event);
-            notificationService.changeState(notification);
+        for(User entity : event.getParticipants()) {
+            if(entity.getUsername().equals(user.getUsername())) {
+                Notification notification = notificationService.getNotification(user, event);
+                notificationService.changeState(notification);
+            }
         }
 
         model.addAttribute("eventForm", event);
