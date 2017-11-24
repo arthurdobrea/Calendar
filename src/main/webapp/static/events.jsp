@@ -23,18 +23,18 @@
     <title>All events</title>
 </head>
 <body>
-<a href="/welcome" class="btn">Home</a>
-<a href="/index" class="btn">Calendar</a>
-<a href="/events" class="btn">All events</a>
-<a href="/userPage" class="btn">User Page</a>
-<a href="/userControlPanel" class="btn">User Panel</a>
+<a href="/welcome" class="btn_calendar">Home</a>
+<a href="/index" class="btn_calendar">Calendar</a>
+<a href="/events" class="btn_calendar">All events</a>
+<a href="/userPage" class="btn_calendar">User Page</a>
+<a href="/userControlPanel" class="btn_calendar">User Panel</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
+    <a href="/admin" class="btn_calendar">Admin page</a>
 </c:if>
 <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
+    <a href="/admin" class="btn_calendar">Admin page</a>
 </c:if>
-<a href="/logout" class="btn">Logout</a>
+<a href="/logout" class="btn_calendar">Logout</a>
 
 <form method="POST" action="${contextPath}" class="form-signin">
     <input name="filterByKeyword" type="text" class="form-control" placeholder="Filter by keyword" autofocus="true"/>

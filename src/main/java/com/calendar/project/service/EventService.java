@@ -2,11 +2,13 @@ package com.calendar.project.service;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.model.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EventService {
@@ -44,4 +46,10 @@ public interface EventService {
     void updateEvent(Event editedEvent);
 
     List<Event> getEventCountByPeriod(String date1, String date2);
+
+    String getEventsJson(List<Event> events) throws IOException;
+
+    Event updateEventForRest(Event event, EventResource eventResource);
+
+    String getEventJson(Event event) throws IOException;
 }

@@ -20,21 +20,23 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUser(Long id){
-        return entityManager.createQuery("from User u join fetch u.roles r where u.id = :idOfUser", User.class)
+        return entityManager.createQuery("select DISTINCT u from User u left join fetch u.roles left join fetch u.events where u.id = :idOfUser", User.class)
                 .setParameter("idOfUser", id)
                 .getSingleResult();
     }
 
+
     @Override
     public User findById(Long id) {
-        return entityManager.createQuery("from User u where u.id = :id", User.class)
+        return entityManager.createQuery("select DISTINCT u from User u left join fetch u.roles left join fetch u.events where u.id = :id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
 
+
     @Override
     public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("from User u join fetch u.roles where u.username=:username", User.class)
+        List<User> users = entityManager.createQuery("select DISTINCT u from User u left join fetch u.roles left join fetch u.events where u.username=:username", User.class)
                 .setParameter("username", username)
                 .getResultList();
 
@@ -42,32 +44,33 @@ public class UserDaoImpl implements UserDao {
                 .findFirst()
                 .orElse(null);
     }
+
     @Override
     public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
-        List<User> users = entityManager.createQuery("from User u where u.subscriptionByEventType Like :eventtype", User.class)
-                .setParameter("eventtype", "%"+subscriptionByEventType+"%")
+        List<User> users = entityManager.createQuery("select DISTINCT u from User u where u.subscriptionByEventType Like :eventtype", User.class)
+                .setParameter("eventtype", "%" + subscriptionByEventType + "%")
                 .getResultList();
         return users;
     }
 
     @Override
     public List<User> getUsersBySubscriptionByTagType(String subscriptionByTagType) {
-        List<User> users = entityManager.createQuery("from User u where u.subscriptionByTagType Like :tagtype", User.class)
-                .setParameter("tagtype", "%"+subscriptionByTagType+"%")
+        List<User> users = entityManager.createQuery("select DISTINCT u from User u where u.subscriptionByTagType Like :tagtype", User.class)
+                .setParameter("tagtype", "%" + subscriptionByTagType + "%")
                 .getResultList();
         return users;
     }
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select distinct u from User u left join fetch u.roles r left join fetch u.events e join u.eventsOfAuthor a", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events join u.eventsOfAuthor", User.class)
                 .getResultList();
 
     }
 
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
-        return entityManager.createQuery("from User u", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events join u.eventsOfAuthor", User.class)
                 .getResultList();
     }
 
@@ -85,8 +88,5 @@ public class UserDaoImpl implements UserDao {
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
-
-
-
 
 }

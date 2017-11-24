@@ -42,7 +42,7 @@ CREATE TABLE events (
   FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
---Events-users
+--Events-user
 CREATE TABLE events_users (
   event_id INT NOT NULL,
   user_id  INT,

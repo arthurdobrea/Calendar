@@ -1,8 +1,5 @@
-package com.calendar.project.controller.resources;
+package com.calendar.project.model.dto;
 
-import com.calendar.project.model.User;
-
-import javax.persistence.*;
 import java.util.Set;
 
 /**

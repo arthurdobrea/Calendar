@@ -54,13 +54,13 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public List<Tag> getAllTags() {
-        return entityManager.createQuery("select t from Tag t JOIN FETCH t.events", Tag.class)
+        return entityManager.createQuery("select distinct t from Tag t left JOIN FETCH t.events", Tag.class)
                 .getResultList();
     }
 
     @Override
     public Tag getTagByName(TagType tag) {
-        Tag eventTag = entityManager.createQuery("from Tag t join fetch t.events where t.tag = :tag_name", Tag.class)
+        Tag eventTag = entityManager.createQuery("select distinct t from Tag t join fetch t.events where t.tag = :tag_name", Tag.class)
                 .setParameter("tag_name", tag)
                 .getSingleResult();
 
@@ -72,8 +72,8 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public Tag getTagById(Long tagId) {
-        Tag tag = entityManager.createQuery("from Tag t join fetch t.events where id = :tag_id", Tag.class)
-                .setParameter("ag_id", tagId)
+        Tag tag = entityManager.createQuery("select distinct t from Tag t join fetch t.events where t.id = :tag_id", Tag.class)
+                .setParameter("tag_id", tagId)
                 .getSingleResult();
 
 //        Hibernate.initialize(tag.getEvents());  // TODO need to test

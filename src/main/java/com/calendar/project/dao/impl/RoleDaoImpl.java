@@ -20,13 +20,16 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public Role getRole(Long id) {
         LOGGER.info("Return role with id = " + id);
-        return entityManager.find(Role.class, id);
+        return entityManager.createQuery("select DISTINCT r from Role r left join fetch r.users where r.id = :id", Role.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     @Override
     public Role findById(Long id) {
         LOGGER.info("Return role with id = " + id);
-        return entityManager.createQuery("from Role r left join fetch r.users where r.id: = id", Role.class)
+        return entityManager.createQuery("select DISTINCT r from Role r left join fetch r.users where r.id = :id", Role.class)
+                .setParameter("id", id)
                 .getSingleResult();
     }
 
@@ -41,7 +44,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public List<Role> findAll() {
         LOGGER.info("Return a list with all roles");
-        return entityManager.createQuery("from Role r left join fetch r.users", Role.class)
+        return entityManager.createQuery("select DISTINCT r from Role r left join fetch r.users", Role.class)
                 .getResultList();
     }
 

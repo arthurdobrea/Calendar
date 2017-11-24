@@ -1,15 +1,21 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -27,14 +33,13 @@ public class Event implements Serializable {
     @Column(name = "event_type")
     private EventType eventType;
 
-    //@JsonBackReference(value = "child")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
+
     @Column(name = "event_location")
     private String location;
-
 
     //@JsonBackReference(value = "child")
     @ManyToMany(fetch = FetchType.LAZY)
@@ -42,38 +47,51 @@ public class Event implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timeend")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
     @Column(name="all_day")
     private boolean allDay;
 
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:00")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "createdata")
+    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY )
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    //@JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
-     //       inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @OneToMany(mappedBy = "event")
+    private List<Notification> notifications;
+
+    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
     private Set<Tag> tags;
 
     public Event(){}
 
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
     public int getId() {
         return id;
     }
+
+    public String getTitleAndId(){return "{id: " + id + ", title: " + title + "}";}
 
     public void setId(int id) {
         this.id = id;
@@ -106,6 +124,11 @@ public class Event implements Serializable {
     public LocalDateTime getEventCreated() {
         return eventCreated;
     }
+
+//    public String getEventCreatedTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return eventCreated.format(formatter);
+//    }
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
@@ -143,6 +166,17 @@ public class Event implements Serializable {
         this.title = title;
     }
 
+
+//    public String getStartTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return start.format(formatter);
+//    }
+//
+//    public String getEndTime() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//        return end.format(formatter);
+//    }
+
     public LocalDateTime getStart() {
         return start;
     }
@@ -178,14 +212,13 @@ public class Event implements Serializable {
         if (allDay != event.allDay) return false;
         if (title != null ? !title.equals(event.title) : event.title != null) return false;
         if (eventType != event.eventType) return false;
-        if (author != null ? !author.equals(event.author) : event.author != null) return false;
-        if (location != null ? !location.equals(event.location) : event.location != null) return false;
-        if (participants != null ? !participants.equals(event.participants) : event.participants != null) return false;
-        if (start != null ? !start.equals(event.start) : event.start != null) return false;
-        if (end != null ? !end.equals(event.end) : event.end != null) return false;
-        if (eventCreated != null ? !eventCreated.equals(event.eventCreated) : event.eventCreated != null) return false;
-        if (description != null ? !description.equals(event.description) : event.description != null) return false;
-        return tags != null ? tags.equals(event.tags) : event.tags == null;
+        if (!author.equals(event.author)) return false;
+        if (!location.equals(event.location)) return false;
+//        if (!participants.equals(event.participants)) return false;
+        if (!start.equals(event.start)) return false;
+        if (!end.equals(event.end)) return false;
+        if (!eventCreated.equals(event.eventCreated)) return false;
+        return description.equals(event.description);
     }
 
     @Override
@@ -201,7 +234,6 @@ public class Event implements Serializable {
         result = 31 * result + (allDay ? 1 : 0);
         result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (tags != null ? tags.hashCode() : 0);
         return result;
     }
 
@@ -219,7 +251,6 @@ public class Event implements Serializable {
                 ", allDay=" + allDay +
                 ", eventCreated=" + eventCreated +
                 ", description='" + description +
-                ", tags=" + tags +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE user (
   id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username  VARCHAR(255) NOT NULL,
   password  VARCHAR(255) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE  roles(
 CREATE TABLE user_roles (
   user_id INT NOT NULL,
   role_id INT NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (user_id) REFERENCES user(id),
   FOREIGN KEY (role_id) REFERENCES roles(id),
   UNIQUE (user_id,role_id)
 )
@@ -42,7 +42,7 @@ CREATE TABLE events
   event_location VARCHAR(255),
   description    VARCHAR(1000),
 
-  FOREIGN KEY (author_user_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (author_user_id) REFERENCES user (id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
@@ -52,7 +52,7 @@ CREATE TABLE events_users
   event_id  INT NOT NULL,
   user_id   INT,
 
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
   FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 )
   ENGINE = InnoDB;
