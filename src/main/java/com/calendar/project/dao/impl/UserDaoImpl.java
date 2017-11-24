@@ -25,14 +25,12 @@ public class UserDaoImpl implements UserDao {
                 .getSingleResult();
     }
 
-
     @Override
     public User findById(Long id) {
         return entityManager.createQuery("select DISTINCT u from User u left join fetch u.roles left join fetch u.events where u.id = :id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
-
 
     @Override
     public User findByUsername(String username) {

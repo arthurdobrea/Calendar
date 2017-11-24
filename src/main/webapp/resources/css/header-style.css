@@ -1,0 +1,120 @@
+/* css for header */
+.topnavContainer{
+    display: table;
+    width: 100%;
+    margin: auto;
+    /*border: solid 1px red;*/
+}
+
+.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.appLogo {
+    float: left;
+    width: 190px;
+    height: 34px;
+    background-image: url("/resources/appLogo.png");
+    background-size: 190px 34px;
+    background-repeat: no-repeat;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-right-item, .no-underline{
+    display: inline-block;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+.topnav a{
+    padding: 0px 15px 0px 15px;
+    font-size: 15px;
+    text-align: center;
+    color: #48545B;
+}
+
+.topnav a:hover {
+    color: #DE411B;
+    text-decoration: none;
+    border-bottom: 1px solid #DE411B;
+}
+
+.no-underline a:hover {
+    border-bottom: 0px solid #DE411B;
+}
+
+.sub-menu {
+    display: none;
+    padding: 0px 0px 6px 0px;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
+    background: #FFFFFF;
+}
+
+.sub-menu-item{
+    display: block;
+    padding: 4px 10px 0px 10px;
+    margin: 0px 0px 0px 0px;
+    text-align: left;
+}
+
+.float-right-item:hover div:not(first-child) {
+    z-index: 1;
+    opacity: 1;
+    display: block;
+}
+
+.sub-menu-item a {
+    padding: 0px 10px 0px 10px;
+    margin: 0px 0px 0px 0px;
+}
+
+
+/*do not delete it's for adaptive design'*/
+
+.topnav .icon {
+    display: none;
+}
+
+@media screen and (max-width: 740px) {
+    /*.topnavContainer{*/
+        /*display: block;*/
+        /*margin: auto;*/
+    /*}*/
+
+    .topnav a {
+        display: none;
+    }
+
+    .topnav .icon {
+        float: right;
+        display: block;
+    }
+}
+
+/*@media screen and (max-width: 740px){*/
+/*.topnav.responsive a {*/
+/*float: left;*/
+/*display: block;*/
+/*text-align: left;*/
+/*}*/
+
+/*.topnav.responsive li {*/
+/*display: block;*/
+/*}*/
+
+/*.topnav.responsive li a {*/
+/*padding: 2px 5px 2px 5px;*/
+/*}*/
+
+/*.topnav.responsive .sub-menu {*/
+/*width: 120%;*/
+/*}*/
+/*}*/
