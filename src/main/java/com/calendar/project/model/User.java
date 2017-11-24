@@ -3,17 +3,10 @@ package com.calendar.project.model;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
-import java.util.HashSet;
-import java.util.Set;
-
-
-
-import java.util.List;
-import java.util.Objects;
 
 
 @Entity
@@ -155,7 +148,7 @@ public class User implements Serializable {
 //    public MultipartFile getMultipartFile() {
 //        return multipartFile;
 //    }
-//
+
 //    public void setMultipartFile(MultipartFile multipartFile) {
 //        this.multipartFile = multipartFile;
 //    }

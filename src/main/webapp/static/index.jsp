@@ -37,13 +37,13 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 customButtons: {
-//                    addNew: {
-//                        text: 'Add event',
-//                        click:
-//                            function(event, jsEvent, view) {
-//                                $('#AddEvent').modal();
-//                            }
-//                    }
+                    addNew: {
+                        text: 'Add event',
+                        click:
+                            function(event, jsEvent, view) {
+                                $('#AddEvent').modal();
+                            }
+                    }
                 },
                 header: {
                     left: 'prev,today,next',

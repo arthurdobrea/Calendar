@@ -849,7 +849,7 @@ button:focus {
   padding-top: 10px;
 }
 
-#user_username, #user_firstname, #user_lastname, #user_assignment, #user_email  {
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email  {
   color: #48545B;
   font-size: 15px;
   text-underline: none;
@@ -862,7 +862,7 @@ button:focus {
   border-bottom: solid #939fa5;
 }
 
-#user_firstname, #user_lastname, #user_assignment, #user_email:focus {
+#user_firstname, #user_lastname, #user_position, #user_email:focus {
 outline: 0;
 }
 

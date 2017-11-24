@@ -5,14 +5,13 @@ import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserResource;
-import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -226,11 +223,12 @@ public class UserController {
         User user = userService.findByUsername(userForm.getUsername());
         user.setFirstname(userForm.getFirstname());
         user.setLastname(userForm.getLastname());
+        user.setPosition(userForm.getPosition());
         user.setEmail(userForm.getEmail());
 
         userService.update(user);
-        LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        LOGGER.info("Redirect to \"/userPage\" page");
+        return "redirect:/userPage";
     }
 
 
@@ -246,6 +244,7 @@ public class UserController {
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
         model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
+        model.addAttribute("user", user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

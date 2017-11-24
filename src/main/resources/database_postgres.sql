@@ -1,5 +1,5 @@
 drop table roles;
-drop table user;
+drop table users;
 drop table user_roles;
 drop table events;
 drop table events_tags;
@@ -9,7 +9,7 @@ drop table events_users;
 
 
 -- User creating
-CREATE TABLE user (
+CREATE TABLE users (
   id                         BIGSERIAL    NOT NULL PRIMARY KEY,
   username                   VARCHAR(255) NOT NULL,
   password                   VARCHAR(255) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE user_roles (
   user_id INT NOT NULL,
   role_id INT NOT NULL,
 
-  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (role_id) REFERENCES roles (id),
 
   UNIQUE (user_id, role_id)

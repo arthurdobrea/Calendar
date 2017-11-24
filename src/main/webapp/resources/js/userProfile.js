@@ -9,6 +9,15 @@ $(document).ready(function(){
 function create_event() {
     $(".add_event_modal").load("/index #AddEvent", function () {
         $("#AddEvent").modal();
+
+        $("#datetimepicker1").datetimepicker({
+            dayOfWeekStart: 1,
+            closeOnDateSelect:true,
+        });
+        $("#datetimepicker2").datetimepicker({
+            dayOfWeekStart: 1,
+            closeOnDateSelect:true,
+        });
     });
 }
 
@@ -31,4 +40,5 @@ function showEventsInvited() {
     $('#total_events_created').hide();
     $('#total_events_invited').show();
 }
+
 

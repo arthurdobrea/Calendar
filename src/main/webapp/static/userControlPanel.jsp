@@ -55,12 +55,13 @@
                         </div>
                     </spring:bind>
 
-                    <%--<spring:bind path="lastname">--%>
-                    <%--<div class="input_fields ${status.error ? 'has-error' : ''}">--%>
-                    <input id="user_lastname" type="text" value="AM ENGINEER" />
-                    <%--<form:errors path="lastname"></form:errors>--%>
-                    <%--</div>--%>
-                    <%--</spring:bind>--%>
+                    <spring:bind path="position">
+                        <div class="${status.error ? 'has-error' : ''} input_fields">
+                            <form:input autocomplete="false"   id="user_position"  type="text" path="position" name="position" placeholder="POSITION"
+                                        autofocus="true" value="${position}"></form:input>
+                            <form:errors path="position"></form:errors>
+                        </div>
+                    </spring:bind>
 
                     <spring:bind path="email">
                         <div class="form-group ${status.error ? 'has-error' : ''}">

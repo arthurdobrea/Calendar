@@ -1,10 +1,12 @@
-$("#datetimepicker1").datetimepicker({
-    dayOfWeekStart: 1,
-    closeOnDateSelect:true,
-});
-$("#datetimepicker2").datetimepicker({
-    dayOfWeekStart: 1,
-    closeOnDateSelect:true,
+$(document).ready(function () {
+    $("#datetimepicker1").datetimepicker({
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+    $("#datetimepicker2").datetimepicker({
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
 });
 
 function allDayChecked() {
