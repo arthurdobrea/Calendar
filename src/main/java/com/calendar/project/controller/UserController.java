@@ -219,7 +219,7 @@ public class UserController {
 
         userService.update(user);
         LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        return "redirect:/userPage";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
