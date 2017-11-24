@@ -2,18 +2,9 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.HashSet;
@@ -23,7 +14,7 @@ import java.util.Set;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -55,14 +46,14 @@ public class User implements Serializable {
 
     @JsonIgnore
     @Column(name="image")
-    private String image;
+    private byte[] image;
 
     @Column(name="position")
     private String position;
 
-    @JsonIgnore
-    @Transient
-    private MultipartFile multipartFile;
+//    @JsonIgnore
+//    @Transient
+//    private MultipartFile multipartFile;
 
     @Column(name = "subscription_by_event_type")
     private String subscriptionByEventType;
@@ -88,6 +79,14 @@ public class User implements Serializable {
     private List<Notification> notifications;
 
     public User() { }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public String getPosition() { return position; }
 
@@ -137,9 +136,9 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getImage() { return image; }
+    public byte[] getImage() { return image; }
 
-    public void setImage(String image) { this.image = image; }
+    public void setImage(byte[] image) { this.image = image; }
 
     public String getPassword() {
         return password;
@@ -153,13 +152,13 @@ public class User implements Serializable {
         return confirmPassword;
     }
 
-    public MultipartFile getMultipartFile() {
-        return multipartFile;
-    }
-
-    public void setMultipartFile(MultipartFile multipartFile) {
-        this.multipartFile = multipartFile;
-    }
+//    public MultipartFile getMultipartFile() {
+//        return multipartFile;
+//    }
+//
+//    public void setMultipartFile(MultipartFile multipartFile) {
+//        this.multipartFile = multipartFile;
+//    }
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;

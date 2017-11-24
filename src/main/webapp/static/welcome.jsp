@@ -67,38 +67,6 @@
     </c:if>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-10">
-            <!-- WebSocket related Twitter Bootstrap 3.0 based UI elements -->
-            <div id="heading" class="masthead">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <p>&nbsp;</p>
-            <!-- Connect and Disconnect buttons to establish/terminate a connection to the websocket service -->
-            <div class="panel panel-default">
-                <div class="panel-body" id="conversationDiv">
-                </div>
-                <!-- .panel-body -->
-                <div class="panel-body" id="response"></div>
-                <!-- Div to show the server responses -->
-            </div>
-            <!-- .panel -->
-        </div>
-    </div>
-
-    <div><c:forEach items="${uncheckedNotifications}" var="notification">
-        <p style="color: #ff0000">Name:
-            <a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
-            | Type of event: ${notification.event.eventType.view()}</p>
-        </c:forEach>
-        <c:forEach items="${checkedNotifications}" var="notification">
-            <p style="color: #00ff00">Name:
-                <a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
-                | Type of event: ${notification.event.eventType.view()}</p>
-        </c:forEach>
         <%-- Output tags of event--%>
         <%--<p>Tag:--%>
         <%--<c:forEach items="${notification.event.getTags()}" var="tag"> | ${tag.tag} |--%>
@@ -107,8 +75,5 @@
         <%--<br>--%>
     </div>
 </div>
-<script type="text/javascript">
-    connectToServerFunc()
-</script>
 </body>
 </html>
