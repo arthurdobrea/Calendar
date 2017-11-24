@@ -612,6 +612,10 @@ outline: 0;
   outline: 0;
 }
 
+.login_input:empty {
+
+}
+
 .btn_login_submit {
   width: 430px;
   height: 30px;
@@ -635,4 +639,13 @@ outline: 0;
   width: 130px;
   height: 15px;
   font-family: Arial, sans-serif;
+}
+
+.error_text {
+  color: red;
+  font-size: 12px;
+  text-underline: none;
+  font-family: Arial, sans-serif;
+  float: left;
+  margin-left: 35px;
 }

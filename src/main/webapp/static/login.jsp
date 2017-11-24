@@ -33,13 +33,13 @@
 <body>
 <div class="login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/Logo.png"/>
+        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
         <div class=" ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
                    autofocus="true" />
             <input autocomplete="false" name="password" class="login_input" type="password" placeholder="PASSWORD" />
-            <span>${error}</span>
+            <span class="error_text">${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div style="margin-top: 40px">
