@@ -246,6 +246,7 @@ public class UserController {
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
         model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
+        model.addAttribute("user", user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

@@ -28,7 +28,7 @@
 <body>
 <div class="container">
     <form:form method="POST" modelAttribute="userForm" class="form-signin form-signin-reg" enctype = "multipart/form-data">
-        <div class="image"><input type="image" src="${contextPath}/resources/Logo.png"/></div>
+        <div class="image"><input type="image" src="${contextPath}/resources/logo.png"/></div>
 
         <spring:bind path="email">
             <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">

@@ -162,7 +162,7 @@ button:focus {
 }
 
 .fc-listWeek-button.fc-button.fc-state-default.fc-corner-right.fc-state-active{
-    color: #b03e00 ;
+    color: black ;
     background: none;
 }
 
@@ -186,5 +186,70 @@ button:focus {
 .fc-next-button.fc-button.fc-state-default.fc-corner-right{
     background: none;
 }
+
+.fc-addNew-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right{
+    background: none;
+}
+
+.select{
+    font-color: #ccc;
+    padding-left: 5px;
+    border: 2px solid #ccc;
+    width: 140px;
+    height: 30px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    -webkit-appearance: none;
+    background-image: url(/resources/ic_arrow_down.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+
+.appLogo {
+    float: left;
+    width: 190px;
+    height: 34px;
+    background-image: url(/resources/appLogo.png);
+    background-size: 190px 34px;
+    background-repeat: no-repeat;
+}
+
+.roles_button_style{
+    width: 150px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-right: 0;
+    border-left: 0;
+    border-top: 0;
+    font-size: 13px;
+    background-color: white;
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    padding: 5px 20px 5px 30px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    background-size: 20% 90%
+}
+
+.fc-more{
+    color: gray;
+}
+
+.fc-content{
+    height: 20px;
+    padding-bottom: 5px;
+}
+
+.fc-title{
+    font-size: medium;
+}
+
+.fc-time{
+    font-size: medium;
+}
+
+
+
 
 

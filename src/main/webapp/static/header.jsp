@@ -1,6 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
+
+<head>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
+</head>
+
 <div class="topnavContainer">
     <div class="appLogo"></div>
     <script>
@@ -13,9 +18,9 @@
         <li><a id="down-arrow" onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" alt="notifications" height="24" width="24"></a>
             <ul class="sub-menu">
                 <li><a href="/userPage">My profile</a></li>
-                <li><a href="#">Admin panel</a></li>
-                <li><a href="#">Add event</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="">Admin panel</a></li>
+                <li><a onclick="create_event()"> Add event</a></li>
+                <li><a href="/">Logout</a></li>
             </ul>
         </li>
         <li class="no-underline">
@@ -112,3 +117,5 @@
 //        }
 //    }
 </script>
+
+<div class="add_event_modal"></div>
