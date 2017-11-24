@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
+<head>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
+</head>
+
 <div class="topnavContainer">
     <div class="appLogo"></div>
     <script>
@@ -14,7 +18,7 @@
             <ul class="sub-menu">
                 <li><a href="/userPage">My profile</a></li>
                 <li><a href="#">Admin panel</a></li>
-                <li><a href="#">Add event</a></li>
+                <li><a onclick="create_event()">Add event</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </li>
@@ -22,6 +26,17 @@
             <a href="#">
                 <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
             </a>
+
+            <div class="add_event_modal"></div>
+
+            <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+            <script src="${contextPath}/resources/js/eventValidator.js"></script>
+
+
+
+
+
+
 
             <ul  class="sub-menu-notification sub-menu ">
                 <p id="notification-word">Notifications</p>

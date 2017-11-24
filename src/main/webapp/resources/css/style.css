@@ -9,6 +9,7 @@
 }
 .container{
   width: 100%;
+  max-width: 1400px;
   height: 500px;
 }
 
@@ -820,7 +821,7 @@ button:focus {
 }
 
 .btn_edit_user_submit {
-  width: 430px;
+  width: 400px;
   height: 30px;
   background-color: #DE411B;
   color: white;
@@ -834,6 +835,7 @@ button:focus {
 }
 
 .close_modal {
+  alignment-baseline: middle;
   float: right;
   width: 35px;
   height: 35px;
@@ -855,7 +857,7 @@ button:focus {
   text-underline: none;
   font-family: Arial, sans-serif;
   margin: auto;
-  width: 420px;
+  width: 400px;
   height: 60px;
   padding-top: 35px;
   border: none;
@@ -930,4 +932,88 @@ outline: 0;
   font-family: Arial, sans-serif;
   float: left;
   margin-left: 35px;
+}
+
+/*css for delete event modal*/
+.delete_event_modal {
+  width: 550px;
+  background-color: white;
+  border-radius: 0;
+  height: 300px;
+  padding: 30px;
+  justify-content: space-between;
+}
+
+.delete_event_header {
+  margin: auto;
+  margin-left: 32px;
+  margin-right: 32px;
+  padding: 0;
+  border: none;
+}
+
+.delete_event_body {
+  width: 450px;
+  height: 130px;
+  background-color: white;
+  border-radius: 0;
+  border: none;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.btn_delete_event_cancel {
+  width: 200px;
+  height: 30px;
+  background-color: white;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  border: solid thin #DE411B;
+  border-radius: 15px;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.btn_delete_event_cancel:hover {
+  background-color: #DE411B;
+  color: #939fa5;
+}
+
+.btn_delete_event_submit {
+  width: 200px;
+  height: 30px;
+  background-color: #DE411B;
+  color: white;
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  border: 0;
+  border-radius: 15px;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.btn_delete_event_submit:hover, .btn_login_submit:hover {
+  color: #939fa5;
+}
+
+.for_delete_event {
+  height: 60px;
+  color: #48545B;
+  font-size: 20px;
+  text-underline: none;
+  font-family: Arial, sans-serif;
+  margin-top: 60px;
+  margin-bottom: 0;
+  padding: 0;
+  padding-bottom: 40px;
+}
+
+.modal_topic {
+  vertical-align: middle;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 20px;
 }

@@ -2,10 +2,6 @@ package com.calendar.project.model.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Created by mhristiniuc on 11/18/2017.
  */
@@ -19,6 +15,7 @@ public class UserResource {
     private String confirmPassword;
     private String position;
     private MultipartFile multipartFile;
+    private byte[] image;
 
     public String getUsername() {
         return username;
@@ -84,5 +81,13 @@ public class UserResource {
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

@@ -210,6 +210,7 @@ public class UserController {
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("position", userForm.getPosition());
         model.addAttribute("email", userForm.getEmail());
 
         LOGGER.info("Opening of \"/userControlPanel\" page");
@@ -243,8 +244,8 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
-        model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
         model.addAttribute("user", user);
+        model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }
