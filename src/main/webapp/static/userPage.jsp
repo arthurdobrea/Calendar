@@ -31,7 +31,6 @@
     <script src="${contextPath}/resources/js/userProfile.js"></script>
     <script src='${contextPath}/resources/js/moment.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
-
 </head>
 
 <body>
@@ -43,7 +42,7 @@
                 <button id="edit_user" onclick="edit_user()">EDIT</button></p>
         </div>
         <div id="avatar" style="margin-top: 60px">
-            <img alt="img" src="data:image/jpeg;base64,${image}"/>
+            <img src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
         </div>
         <div style="margin-top: 50px">
             <p class="capital_text" style="line-height: 100%;"><span style="size: 25px">${user.fullName}</span><br>
@@ -75,12 +74,21 @@
     <table class="table table-hover for_table">
         <tbody>
         <c:forEach items="${eventsByAuthor}" var="event">
+
+            <script>
+                function delete_event() {
+                    $(".delete_event_modal").load("/deleteEvent?eventId=${event.id} #DeleteEvent", function () {
+                        $("#DeleteEvent").modal();
+                    });
+                }
+            </script>
+
             <a href="/showEvent?eventId=${event.id}">
                 <tr>
                     <td align="left" style="padding-left: 0"><span  class="inline_text" style="color: #48545B; line-height: 100%;">${event.title}<br></span>
                                      <span  class="inline_text">${event.eventType}</span></td>
                     <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><button class="btn_edit_event" onclick="window.location.href='/updateEvent?eventId=${event.id}' "></button></td>
-                <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><button class="btn_delete_event" onclick="window.location.href='/deleteEvent?eventId=${event.id}' "></button></td>
+                <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><button class="btn_delete_event" onclick="delete_event() "></button></td>
             </tr>
             </a>
         </c:forEach>
@@ -110,6 +118,7 @@
 
 <div class="add_event_modal"></div>
 <div class="edit_user_modal"></div>
+<div class="delete_event_modal"></div>
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>

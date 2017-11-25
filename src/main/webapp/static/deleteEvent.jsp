@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -15,31 +15,49 @@
 
     <title>Delete event</title>
 
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
+    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
 
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+    <script src='${contextPath}/resources/js/jquery.min.js'></script>
+    <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
+    <script src='${contextPath}/resources/js/fullcalendar.js'></script>
+    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="${contextPath}/resources/js/gcal.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
 </head>
 <body>
-<div class="container">
-    <form:form method="POST" modelAttribute="eventForm" class="form-signin">
-        <h2 class="form-signin-heading">Do you want to delete this event?</h2>
 
-        <spring:bind path="id">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
-                            autofocus="true"></form:input>
-                <input type="submit" value="delete"
-                       onClick="return confirm('This event will be deleted')"/>
+<!-- Modal for deleting an event-->
+<div class="modal fade" id="DeleteEvent" role="dialog">
+    <div class="modal-dialog" align="center" style="margin-top: 100px">
+        <!-- Modal content-->
+        <div class="delete_event_modal">
+            <div class="modal-header delete_event_header capital_text">
+                <p align="left" class="modal_topic">DELETE EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
             </div>
-        </spring:bind>
-
-
-    </form:form>
+            <div class="delete_event_body">
+                <form:form method="POST" modelAttribute="eventForm">
+                    <div class="for_delete_event">Are you sure you want to delete this event?</div>
+                    <spring:bind path="id">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
+                                        autofocus="true"></form:input>
+                            <button class="btn_delete_event_cancel" data-dismiss="modal">NOT TODAY</button>
+                            <button class="btn_delete_event_submit" type="submit">DELETE</button>
+                        </div>
+                    </spring:bind>
+                </form:form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+
+
+

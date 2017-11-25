@@ -1,38 +1,51 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
-
 <head>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
 </head>
 
 <div class="topnavContainer">
+    <div class="appLogo"></div>
     <script>
         connectToServerFunc();
     </script>
-    <div class="topnav">
-        <div class="appLogo"></div>
-        <div class="float-right">
-            <div class="float-right-item"><a href="/welcome">HOME</a></div>
-            <div class="float-right-item"><a href="/">CALENDAR</a></div>
-            <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
-                <div class="sub-menu">
-                    <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
-                    <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
-                    <div class="sub-menu-item"><a href="#" onclick="create_event()">Add event</a></div>
-                    <div class="sub-menu-item"><a href="/logout">Logout</a></div>
-                </div>
-            </div>
-            <div class="no-underline"><a href="#"><img id="bell" src="/resources/ic_notifications.png" alt="notifications" height="24" width="24"></a>
-                <ul  class="sub-menu-notification sub-menu ">
-                    <p id="notification-word">Notifications</p>
-                    <div id="notification"></div>
-                    <p><a href="#" id="go">Show all</a></p>
-                </ul>
-            </div>
-            <div class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></div>
-        </div>
-    </div>
+
+    <ul class="topnav" id="topnav">
+        <li><a href="/welcome">HOME</a></li>
+        <li><a href="/">CALENDAR</a></li>
+        <li><a id="down-arrow" onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" alt="notifications" height="24" width="24"></a>
+            <ul class="sub-menu">
+                <li><a href="/userPage">My profile</a></li>
+                <li><a href="#">Admin panel</a></li>
+                <li><a onclick="create_event()">Add event</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </li>
+        <li class="no-underline">
+            <a href="#">
+                <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
+            </a>
+
+            <div class="add_event_modal"></div>
+
+            <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+            <script src="${contextPath}/resources/js/eventValidator.js"></script>
+
+
+
+
+
+
+
+            <ul  class="sub-menu-notification sub-menu ">
+                <p id="notification-word">Notifications</p>
+                <div id="notification"></div>
+                <p><a href="#" id="go">Show all</a></p>
+            </ul>
+        </li>
+        <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
+    </ul>
 </div>
 
 <div id="modal_form"><!-- Сaмo oкнo -->
@@ -96,23 +109,21 @@
     });
 
     function profileDropdownArrowOnMouseOver(){
-        document.getElementById('down-arrow').src = "/resources/ic_arrow_down_active.png";
+        document.getElementById('down-arrow').innerHTML = 'PROFILE<img src="/resources/ic_arrow_down_active.png" id="down-arrow" alt="notifications" height="24" width="24">';
     }
 
     function profileDropdownArrowOnMouseOut() {
-        document.getElementById('down-arrow').src = "/resources/ic_arrow_down.png";
+        document.getElementById('down-arrow').innerHTML = 'PROFILE<img src="/resources/ic_arrow_down.png" id="down-arrow" alt="notifications" height="24" width="24">';
     }
 
     /*do not delete it's for adaptive design'*/
-    function hideShowNavbar(){
-        var tmp = document.getElementById('topnav');
-
-        if (tmp.className === "topnav") {
-            tmp.className += " responsive";
-        } else {
-            tmp.className = "topnav";
-        }
-    }
+//    function hideShowNavbar(){
+//        var tmp = document.getElementById('topnav');
+//
+//        if (tmp.className === "topnav") {
+//            tmp.className += " responsive";
+//        } else {
+//            tmp.className = "topnav";
+//        }
+//    }
 </script>
-
-<div class="add_event_modal"></div>

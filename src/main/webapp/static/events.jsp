@@ -28,7 +28,6 @@
 <a href="/index" class="btn_calendar">Calendar</a>
 <a href="/events" class="btn_calendar">All events</a>
 <a href="/userPage" class="btn_calendar">User Page</a>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
     <a href="/admin" class="btn_calendar">Admin page</a>
 </c:if>
