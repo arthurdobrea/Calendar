@@ -19,7 +19,7 @@
                 <li><a href="/userPage">My profile</a></li>
                 <li><a href="#">Admin panel</a></li>
                 <li><a onclick="create_event()">Add event</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="/logout">Logout</a></li>
             </ul>
         </li>
         <li class="no-underline">
@@ -70,11 +70,11 @@
                 <tr id="modal_line">
                     <td>
                         <ul style="list-style-type: none; float: left;">
-                            <li id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
-                            <li id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
+                            <li class="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
+                            <li class="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
                         </ul>
                     </td>
-                    <td id="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
+                    <td class="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
                 </tr>
             </c:forEach>
         </table>

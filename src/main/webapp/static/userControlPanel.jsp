@@ -56,7 +56,7 @@
 
                     <spring:bind path="position">
                         <div class="${status.error ? 'has-error' : ''} input_fields">
-                            <form:input autocomplete="false"   id="user_position"  type="text" path="position" name="position" placeholder="POSITION"
+                            <form:input autocomplete="false"   id="user_assignment"  type="text" path="position" name="position" placeholder="ASSIGNMENT"
                                         autofocus="true" value="${position}"></form:input>
                             <form:errors path="position"></form:errors>
                         </div>
