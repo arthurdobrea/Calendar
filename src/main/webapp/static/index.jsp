@@ -90,6 +90,7 @@
         $(document).ready(function() {
             calendarInit = true;
             $('#calendar').fullCalendar({
+                timezone: 'local',
                 customButtons: {
                     addNew: {
                         text: 'Add event',
@@ -238,7 +239,7 @@
                 });
 //                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
                 var container = $('#container');
-                var calen = $('#calendar')
+                var calen = $('#calendar');
                 container.append(calen);
             });
         }
