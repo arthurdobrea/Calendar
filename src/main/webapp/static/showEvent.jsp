@@ -6,6 +6,9 @@
 <html>
 <head>
     <title>ShowEvent</title>
+
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+
     <script src="/resources/js/jquery.min.js"></script>
 </head>
 <body>

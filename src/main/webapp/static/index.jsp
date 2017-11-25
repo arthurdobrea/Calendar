@@ -19,6 +19,7 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
     <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
@@ -27,14 +28,67 @@
 
     <script src='${contextPath}/resources/js/moment.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/gcal.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
 
-<script>
+    <c:import url="header.jsp" />
+
+    <div class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
+        <%--<div style="border: none">--%>
+            <%--<input type="text" id="key-word-search" onkeyup="" placeholder="Enter key word...">--%>
+        <%--</div>--%>
+
+        <div class="row">
+            <div class="col-md-4" style="border: none">
+                <select id="allEventsId" onchange="searchEvents()" class="roles_button_style select">
+                    <option value="">All Events</option>
+                    <option value="">Events created by me</option>
+                    <option value="">Events where I am Invited</option>
+                </select>
+            </div>
+
+            <div class="col-md-4" style="border: none">
+                <select id="searchByTagId" onchange="searchByTag()" class="roles_button_style select ">
+                        <option value="">Search by Tag</option>
+                        <option value="AM_STREAM">AM Stream</option>
+                        <option value="DEVELOPMENT">Development</option>
+                        <option value="TESTING">Testing</option>
+                        <option value="TOWER">Tower</option>
+                        <option value="NBC">NBC</option>
+                        <option value="ALL_STAFF">All Staff</option>
+                </select>
+            </div>
+
+            <div class="col-md-4" style="border: none">
+                <select id="searchByTypeId" onchange="searchByType()" class="roles_button_style select">
+                    <option value="">Search by Type</option>
+                    <option value="MEETING">Meeting</option>
+                    <option value="TRAINING">Training</option>
+                    <option value="STANDUP">Stand up</option>
+                    <option value="OFFLINE">Offline</option>
+                    <option value="TEAM_BUILDING">Team building</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="OTHER">Other</option>
+                </select>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div id="container" class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
+
+        <div id="calendar"></div>
+        <script>
+            var calendarInit = false;
         $(document).ready(function() {
+            calendarInit = true;
             $('#calendar').fullCalendar({
                 customButtons: {
                     addNew: {
@@ -53,159 +107,287 @@
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
                 navLinks: true,
-                eventLimit: false,
+                eventLimit: true,
+                views: {
+                    agenda: {
+                        eventLimit: 3,
+                    }
+                },
+                height:650,
+                fixedWeekCount:false,
+//                  themeSystem: 'bootstrap3',
+                    timeFormat: 'h:mma',
+                    events: {url:'/json/allEvents'},
+            eventClick:  function (event, jsEvent, view) {
+                console.log(event);
+                console.log(jsEvent);
+                console.log(view);
+
+                printEventDataInModal(event.id);
+                $('#eventPage').modal();
+            }
+        });
+//          $('#calendar').fullCalendar( 'gotoDate', currentDate);
+            var container=$('#container');
+            var calen = $('#calendar')
+            container.append(calen);
+        });
+        </script>
+
+    <script>
+        function searchEvents() {
+            var input = document.getElementById("allEventsId");
+//            var x = '/json/getEventsByTag?tag=' + $(input).val();
+//            console.log(x);
+//            var calendar = $('#calendar');
+
+            if (calendarInit == true)
+            {
+                $('#calendar').fullCalendar('destroy');
+            }
+
+            calendarInit = true;
+            $(document).ready(function () {
+                $('#calendar').fullCalendar({
+                    customButtons: {
+                    },
+                    header: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'addNew month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: $('#calendar').fullCalendar('today'),
+                    weekNumbers: "ISO",
+                    navLinks: true,
+                    eventLimit: true,
+                    views: {
+                        agenda: {
+                            eventLimit: 3,
+                        }
+                    },
+                    height:650,
+                    fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
-                allDaySlot: true,
-                timeFormat: 'h:mma',
-                events: {url:'/json/allEvents'},
-                timezone: 'local',
-                eventClick:  function(event, jsEvent, view) {
-                    console.log(event);
-                    console.log(jsEvent);
-                    console.log(view);
+                    timeFormat: 'h:mma',
+                    events: {url: '/json/getEventsByAuthor?id=' + $(input).val()},
+//                    paramName: "TOWER",
+                    eventClick: function (event, jsEvent, view) {
+                        console.log(event);
+                        console.log(jsEvent);
+                        console.log(view);
 
-                    printEventDataInModal(event.id);
-                    $('#eventPage').modal();
+                        printEventDataInModal(event.id);
+                        $('#eventPage').modal();
 
-                }
-        });
-         // $('#calendar').fullCalendar( 'gotoDate', currentDate);
-        });
+                    }
+                });
+//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
+                var container = $('#container');
+                var calen = $('#calendar')
+                container.append(calen);
+            });
+        }
     </script>
+
+
+        <script>
+        function searchByTag() {
+            var input = document.getElementById("searchByTagId");
+            var x = '/json/getEventsByTag?tag=' + $(input).val();
+            console.log(x);
+//            var calendar = $('#calendar');
+
+            if (calendarInit == true)
+            {
+                $('#calendar').fullCalendar('destroy');
+            }
+
+            calendarInit = true;
+            $(document).ready(function () {
+                $('#calendar').fullCalendar({
+                    customButtons: {
+                    },
+                    header: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'addNew month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: $('#calendar').fullCalendar('today'),
+                    weekNumbers: "ISO",
+                    navLinks: true,
+                    eventLimit: true,
+                    views: {
+                        agenda: {
+                            eventLimit: 3,
+                        }
+                    },
+                    height:650,
+                    fixedWeekCount:false,
+//                themeSystem: 'bootstrap3',
+                    timeFormat: 'h:mma',
+                    events: {url: '/json/getEventsByTag?tag=' + $(input).val()},
+                    eventClick: function (event, jsEvent, view) {
+                        console.log(event);
+                        console.log(jsEvent);
+                        console.log(view);
+
+                        printEventDataInModal(event.id);
+                        $('#eventPage').modal();
+
+                    }
+                });
+//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
+                var container = $('#container');
+                var calen = $('#calendar')
+                container.append(calen);
+            });
+        }
+        </script>
+
+    <script>
+        function searchByType() {
+            var input1 = document.getElementById("searchByTypeId");
+            var x = '/json/getEventsByType?type=' + $(input1).val();
+           console.log(x);
+//            var calendar = $('#calendar');
+
+                if (calendarInit == true)
+                {
+                    $('#calendar').fullCalendar('destroy');
+                }
+
+                calendarInit = true;
+                $('#calendar').fullCalendar({
+                    customButtons: {
+                    },
+                    header: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'addNew month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: $('#calendar').fullCalendar('today'),
+                    weekNumbers: "ISO",
+                    navLinks: true,
+                    eventLimit: true,
+                    views: {
+                        agenda: {
+                            eventLimit: 3,
+                        }
+                    },
+                    height:650,
+                    fixedWeekCount:false,
+//                themeSystem: 'bootstrap3',
+                    timeFormat: 'h:mma',
+                    events: {url: '/json/getEventsByType?type=' + $(input1).val()},
+                    eventClick: function (event, jsEvent, qview) {
+                        console.log(event);
+                        console.log(jsEvent);
+                        console.log(view);
+
+                        printEventDataInModal(event.id);
+                        $('#eventPage').modal();
+                    }
+                });
+//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
+                var container = $('#container');
+                var calen = $('#calendar')
+                container.append(calen);
+        }
+    </script>
+
+        </div>
+
     <style>
         #calendar {
-            max-width: 900px;
+            max-width: 1500px;
             margin: 0 auto;
         }
     </style>
 </head>
 <body>
 
-    <c:import url="header.jsp" />
-    <%--<jsp:include page="header.jsp"/>--%>
+    <%--<c:import url="header.jsp" />--%>
+    <%--&lt;%&ndash;<jsp:include page="header.jsp"/>&ndash;%&gt;--%>
 
-<a href="/welcome" class="btn">Home</a>
-<a href="/index" class="btn">Calendar</a>
-<a href="/events" class="btn">All events</a>
-<a href="/tags" class="btn">Tags</a>
-<a href="/mailing" class="btn">Mail to all</a>
-<a href="/userPage" class="btn">User Page</a>
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-<a href="/userControlPanel" class="btn">User Panel</a>
-<a href="/logout" class="btn">Logout</a>
+<%--<a href="/welcome" class="btn">Home</a>--%>
+<%--<a href="/index" class="btn">Calendar</a>--%>
+<%--<a href="/events" class="btn">All events</a>--%>
+<%--<a href="/tags" class="btn">Tags</a>--%>
+<%--<a href="/mailing" class="btn">Mail to all</a>--%>
+<%--<a href="/userPage" class="btn">User Page</a>--%>
+<%--<c:if test="${pageContext.request.isUserInRole('ADMIN')}">--%>
+    <%--<a href="/admin" class="btn">Admin page</a>--%>
+<%--</c:if>--%>
+<%--<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">--%>
+    <%--<a href="/admin" class="btn">Admin page</a>--%>
+<%--</c:if>--%>
+<%--<a href="/userControlPanel" class="btn">User Panel</a>--%>
+<%--<a href="/logout" class="btn">Logout</a>--%>
 <p>
 <p>
-    <!-- Modal -->
-<%--<div class="modal fade" id="eventPage" role="dialog">--%>
-    <%--<div class="modal-dialog">--%>
-        <%--<!-- Modal content-->--%>
-        <%--<div class="modal-content">--%>
-            <%--<div class="modal-header">--%>
-                <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-                <%--<h4 class="modal-title">Event page</h4>--%>
-            <%--</div>--%>
-            <%--<div class="modal-body">--%>
-<%--<h1> You will see event page right here </h1>--%>
-                <%--<form:form method="POST" modelAttribute="eventForm" class="form-signin">--%>
-                <%--<h2 class="form-signin-heading"></h2>--%>
-
-                <%--<spring:bind path="id">--%>
-                <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                    <%--<form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"--%>
-                                <%--autofocus="true"></form:input>--%>
-                <%--</div>--%>
-                <%--</spring:bind>--%>
-                <%--</form:form>--%>
-
-                <%--Show event details modal--%>
-                <div id="fullCalModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                                <h4 id="modalTitle" class="modal-title"></h4>
-                            </div>
-                            <div align="left" id="modalBody" class="modal-body">
-                                <div id="eventStart"></div>
-                                <div id="eventEnd"></div>
-                                <div id="eventLocation"></div>
-                                <div id="eventType"></div>
-                                <div id="eventAuthor"></div>
-                                <div id="eventCreated"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="eventPage" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Event page</h4>
                     </div>
-                </div>
-<%--<div class="modal fade" id="eventPage" role="dialog">--%>
-    <%--<div class="modal-dialog">--%>
-        <%--<!-- Modal content-->--%>
-        <%--<div class="modal-content">--%>
-            <%--<div class="modal-header">--%>
-                <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-                <%--<h4 class="modal-title">Event page</h4>--%>
-            <%--</div>--%>
-            <%--<div class="modal-body">--%>
-                <%--<form:form modelAttribute="eventForm" class="form-signin">--%>
-                <%--<h2 class="form-signin-heading"></h2>--%>
+                    <div class="modal-body">
+                        <form:form modelAttribute="eventForm" class="form-signin">
+                        <h2 class="form-signin-heading"></h2>
 
-                <%--<spring:bind path="id">--%>
-                <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                    <%--<form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"--%>
-                                <%--autofocus="true"></form:input>--%>
-                <%--</div>--%>
-                <%--</spring:bind>--%>
-                <%--</form:form>--%>
+                        <spring:bind path="id">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
+                                        autofocus="true"></form:input>
+                        </div>
+                        </spring:bind>
+                        </form:form>
 
-<%--<p>--%>
-    <%--Name: <span id="evName"></span> <br>--%>
-    <%--Type: <span id="evType"></span><br>--%>
-    <%--Location: <span id="evLocation"></span> <br>--%>
-    <%--Start time: <span id="evStart"></span> <br>--%>
-    <%--End time: <span id="evEnd"></span> <br>--%>
-    <%--Description:<span id="evDescription"></span> <br>--%>
-    <%--Created at: <span id="evCreated"></span> <br>--%>
-    <%--Created by: <span id="evAuthor"></span> <br>--%>
-    <%--Will be attended by:<br>--%>
-    <%--<ul style = "list-style: none"; id="participantsList"></ul>--%>
-<%--</p>--%>
+    <p>
+        Name: <span id="evName"></span> <br>
+        Type: <span id="evType"></span><br>
+        Location: <span id="evLocation"></span> <br>
+        Start time: <span id="evStart"></span> <br>
+        End time: <span id="evEnd"></span> <br>
+        Description:<span id="evDescription"></span> <br>
+        Created at: <span id="evCreated"></span> <br>
+        Created by: <span id="evAuthor"></span> <br>
+        Will be attended by:<br>
+    <ul style = "list-style: none"; id="participantsList"></ul>
+    </p>
 
-<%--<script>--%>
-    <%--function printEventDataInModal(eventId)--%>
-    <%--{--%>
-        <%--$.get("/json/getEvent", {eventId: eventId}, function(data) {--%>
-        <%--console.log(data);--%>
+    <script>
+        function printEventDataInModal(eventId)
+        {
+            $.get("/json/getEvent", {eventId: eventId}, function(data) {
+                console.log(data);
 
-        <%--$("#evName").text(data.title);--%>
-        <%--$("#evType").text(data.eventType);--%>
-        <%--$("#evLocation").text(data.location);--%>
-        <%--$("#evStart").text(data.start);--%>
-        <%--$("#evEnd").text(data.end);--%>
-        <%--$("#evDescription").text(data.description);--%>
-        <%--$("#evCreated").text(data.eventCreated);--%>
-        <%--$("#evAuthor").text(data.author.firstname + data.author.lastname);--%>
-    <%--});--%>
-        <%--$.get("/getParticipantsByEvent", {eventId: eventId}, function(data) {--%>
-        <%--console.log(data);--%>
-        <%--$("#participantsList").text("");--%>
-        <%--$.each(data, function(i, user) {--%>
-            <%--$("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");--%>
-        <%--});--%>
-    <%--});--%>
-    <%--}--%>
-<%--</script>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
+                $("#evName").text(data.title);
+                $("#evType").text(data.eventType);
+                $("#evLocation").text(data.location);
+                $("#evStart").text(data.start);
+                $("#evEnd").text(data.end);
+                $("#evDescription").text(data.description);
+                $("#evCreated").text(data.eventCreated);
+                $("#evAuthor").text(data.author.firstname + data.author.lastname);
+            });
+            $.get("/getParticipantsByEvent", {eventId: eventId}, function(data) {
+                console.log(data);
+                $("#participantsList").text("");
+                $.each(data, function(i, user) {
+                    $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
+                });
+            });
+        }
+    </script>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal -->
     <!-- Modal for adding a new event-->
     <div class="modal fade" id="AddEvent" role="dialog">
         <div class="modal-dialog">
@@ -300,9 +482,9 @@
             </div>
         </div>
     </div>
-<div id='calendar'></div>
+    <div id='calendar'></div>
 
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
-<script src="${contextPath}/resources/js/eventValidator.js"></script>
+    <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
 
