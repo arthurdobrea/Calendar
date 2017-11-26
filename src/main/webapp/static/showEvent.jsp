@@ -96,29 +96,24 @@
 
                             <div class="row" id="bottomblock">
                                 <div class="col-sm-12">
-                                    <label for="t-participants">PARTICIPANTS</label>
-                                    <div class="form-group participant-group" id="t-participants">
+                                    <label for="t-show-participants" id="label-show-participants">PARTICIPANTS ${event.participants.size()}</label>
+                                    <div class="form-group participant-group" id="t-show-participants">
                                         <%--<label for="t-participants">PARTICIPANTS</label>--%>
                                             <c:forEach items="${event.participants}" var="user">
                                                 <div>
-                                                     ${user.fullName} <br> ${user.position}
+                                                     ${user.fullName} ||  ${user.position}
                                                 </div>
-
                                             </c:forEach>
-
-
-                                        <%--<textarea class="form-control" name="participants" id="t-participants"--%>
-                                                  <%--rows="3" value="${event.getParticipantsToString()}">${event.getParticipantsToString()}</textarea>--%>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align: center">
-                                <input type="submit" id="sendButton" value="Edit">
-                            </div>
-                        </div>
+                        <%--<div class="row">--%>
+                            <%--<div class="col-sm-12" style="text-align: center">--%>
+                                <%--<input type="submit" id="sendButton" value="Edit">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
 
 
                 </form>

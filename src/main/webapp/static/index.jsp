@@ -77,14 +77,6 @@
 </head>
 <body>
 
-
-<!-- Button HTML (to Trigger Modal) -->
-
-<a href="remote.html" role="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#myModal">Launch Demo Modal</a>
-
-
-
-
 <c:import url="header.jsp" />
 
 <p>

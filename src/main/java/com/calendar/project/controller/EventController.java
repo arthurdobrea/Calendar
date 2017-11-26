@@ -1,7 +1,8 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.*;
-import com.calendar.project.service.NotificationService;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
@@ -9,9 +10,6 @@ import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -204,7 +202,6 @@ public class EventController {
             userAsJson.addProperty("lastname", u.getLastname());
             participantsArray.add(userAsJson);
         }
-
         LOGGER.info("Returns list of participants at event (Count = " + participantsByEvent.size() + ")");
         return participantsArray.toString();
     }
@@ -267,7 +264,7 @@ public class EventController {
         //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
-        return "redirect:/editEvent";
+        return "redirect:/showEvent";
     }
 
 

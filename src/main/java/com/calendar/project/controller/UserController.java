@@ -4,10 +4,12 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
+import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,8 +139,6 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        //EmailSender.send();
         LOGGER.info("Opening of \"/login\" page");
         return "login";
     }
@@ -163,7 +163,7 @@ public class UserController {
         LOGGER.info("Opening of \"/index\" page");
         return "index";
     }
-
+/*
     @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/index\" page POST");
@@ -177,6 +177,7 @@ public class UserController {
             participants.add(userService.getUser(u.getId()));
         }
     }
+    */
 
 //@RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
 //public String createEvent(Model model) {

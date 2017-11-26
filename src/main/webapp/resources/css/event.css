@@ -133,6 +133,21 @@
   margin-right: 5px;
 }
 
+#t-show-participants{
+  border-radius: 0;
+  border: 2px solid #eee;
+  padding-top: 10px;
+}
+#label-show-participants{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 5px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+}
 
 #rightblock{
 

@@ -9,8 +9,6 @@
 </head>
 
 <body>
-
-
 <div class="topnavContainer">
     <div class="appLogo"></div>
     <script>
@@ -38,19 +36,13 @@
             <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
             <script src="${contextPath}/resources/js/eventValidator.js"></script>
 
-
-
-
-
-
-
             <ul  class="sub-menu-notification sub-menu ">
                 <p id="notification-word">Notifications</p>
                 <div id="notification"></div>
                 <p><a href="#" id="go">Show all</a></p>
             </ul>
         </li>
-        <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
+        <li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>
     </ul>
 </div>
 

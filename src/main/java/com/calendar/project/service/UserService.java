@@ -33,10 +33,6 @@ public interface UserService {
 
     void deleteUserByUsername(String username);
 
-    void mailToAllUsers();
-
-    void mailToUser(User user);
-
     String getUsersJson(List<User> users) throws IOException;
 
     String getUserJson(User user) throws IOException;
