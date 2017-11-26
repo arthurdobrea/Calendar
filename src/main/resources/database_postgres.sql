@@ -1,5 +1,5 @@
 drop table roles;
-drop table user;
+drop table users;
 drop table user_roles;
 drop table events;
 drop table events_tags;

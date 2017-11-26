@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,28 +120,6 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsersBySubscriptionByTagType(subscriptionByTagType);
     }
 
-    @Override
-    public void mailToAllUsers(){
-          for (User user:getAllUsers())
-              mailToUser(user);
-    }
-
-    @Override
-    public void mailToUser(User user){
-        System.out.println(" enums _ "+user.getSubscriptionByEventTypeAsEnums());
-        StringBuilder mailText = new StringBuilder();
-        for (EventType eventType: (user.getSubscriptionByEventTypeAsEnums())){
-            for (Event event:eventService.getFutureEventsByType(eventType)) {
-                if (eventType.equals(event.getEventType())) {
-                    mailText.append("Event name: " + event.getTitle());
-                    mailText.append("Event description: " + event.getDescription());
-                    mailText.append("Event start time: " + event.getStart()+"\n");
-                    System.out.println("will send to " + user.getFirstname() + " this " + mailText + "");
-                }
-            }
-        }
-        EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
-    }
 
     @Override
     public String getUsersJson(List<User> users) throws IOException{
@@ -201,5 +176,60 @@ public class UserServiceImpl implements UserService {
         firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
         firstUser.setEmail(secondUser.getEmail());
         return firstUser;
+    }
+
+    @Override
+    public List<User> parseStringToUsersList(String participants){
+        if (participants==null||participants=="") return null;
+        String participantsArray[] = null;
+        String participantAttributesArray[] = null;
+        List <User> users=getAllUsers();
+        System.out.println("users="+users);
+        List <User> participantsList=new ArrayList<>();
+        participantsArray=parsePhraseByComma(participants);
+        if (!checkUserList(participants)||participantsArray==null)
+            return null;
+        for (String participant:participantsArray) {
+            participantAttributesArray=parsePhraseInto2Words(participant);
+            if (participantAttributesArray==null) break;
+            String participantFirstName = participantAttributesArray[0];
+            String participantLastName = participantAttributesArray[1];
+            for (User user : users) {
+                System.out.println("user.getFirstname()="+user.getFirstname()+"participantFirstName="+participantFirstName);
+                if (user.getFirstname().equals(participantFirstName) &&
+                        user.getLastname().equals(participantLastName)) {
+                    participantsList.add(user);
+                }
+            }
+        }
+        return participantsList;
+    }
+
+    private String[] parsePhraseInto2Words(String phrase){
+        String words[] = null;
+        try {
+            words = phrase.split(" ");
+        } catch (Exception e) {
+            System.out.println("Fail Parse phrase into 2 words");
+            return null;
+        }
+        if (words.length!=2) return null;
+        return words;
+    }
+    private String[] parsePhraseByComma(String phrase){
+        String names[] = null;
+        try{
+            names = phrase.split(",");
+        } catch (Exception e){
+            System.out.println("Fail Parse phrase into  names by comma");
+            return null;
+        }
+        return names;
+    }
+
+    private boolean checkUserList(String userList){
+        if (userList!=null||!userList.equals("")||userList.length()>6
+                ||userList.contains(",")||userList.contains(" ")) return true;
+        return false;
     }
 }

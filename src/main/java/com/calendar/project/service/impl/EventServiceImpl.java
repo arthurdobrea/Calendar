@@ -50,11 +50,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventType> getEventTypeList(){
         List<EventType> EventTypeList = new ArrayList<>();
-
         for(EventType eventType : EventType.values()) {
             EventTypeList.add(eventType);
         }
-
         return EventTypeList;
     }
 
@@ -63,14 +61,10 @@ public class EventServiceImpl implements EventService {
         List<Event> eventList = new ArrayList<>();
 
         for (Event event : getAllEvents()) {
-            String startDate = event.getStart().toString(); // convert to ISO DateTime
-            LocalDateTime ldt = LocalDateTime.parse(startDate);
-
-            if (event.getEventType().equals(eventType)&& ldt.isAfter( LocalDateTime.now())) {
+            if (event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now())) {
                 eventList.add(event);
             }
         }
-
         return eventList;
     }
 
@@ -200,4 +194,12 @@ public class EventServiceImpl implements EventService {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 
+    @Override
+    public EventType getEventTypeByString(String eventType){
+        for(EventType et : EventType.values()) {
+            if (et.toString().equals(eventType)) return et;
+        }
+        return null;
     }
+
+}

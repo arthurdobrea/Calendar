@@ -4,12 +4,14 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
@@ -54,6 +57,9 @@ public class UserController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private EmailService emailService;
 
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
@@ -154,38 +160,16 @@ public class UserController {
     public String index(Model model){
         LOGGER.info("Request of \"/index\" page GET");
 
-        Event event = new Event();
-        List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
-        event.setParticipants(participants);
-        model.addAttribute("eventForm", event);
-        model.addAttribute("events", eventService.getEvent(event.getId()));
-
         LOGGER.info("Opening of \"/index\" page");
         return "index";
     }
 
-    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
-    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        LOGGER.info("Request of \"/index\" page POST");
-        if (bindingResult.hasErrors()) {
-            LOGGER.info("Opening of \"/index\" page");
-            return "index";
-        }
-        List<User> participants = new ArrayList<>();
-        for (User u : eventForm.getParticipants()) {
-            u.setId(Long.parseLong(u.getUsername()));
-            participants.add(userService.getUser(u.getId()));
-        }
 
-        eventForm.setParticipants(participants);
-        User user = securityService.findLoggedInUsername();
-        eventForm.setAuthor(userService.findByUsername(user.getUsername()));
-        eventService.saveEvent(eventForm);
-        redirectAttributes.addAttribute("eventId", eventForm.getId());
-
-        LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
-    }
+//@RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
+//public String createEvent(Model model) {
+//    LOGGER.info("Request of \"/index\" page POST");
+//    return "redirect:/index";
+//}
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(ModelMap modelMap, HttpServletRequest request) {
@@ -263,8 +247,7 @@ public class UserController {
         user.setSubscriptionByEventType(res);
 
         userService.update(user);
-        //is mailing all events to current user  by his labels and event types.
-        userService.mailToUser(user);
+        emailService.mailToUserFutureEvents(user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }
@@ -326,7 +309,7 @@ public class UserController {
     @RequestMapping(value = "/mailing", method = RequestMethod.POST)
     public String mailing(Model model) {
         LOGGER.info("Request of \"/mailing\" page POST");
-        userService.mailToAllUsers();
+        emailService.mailSubscribersAllFutureEvents();
         LOGGER.info("Opening of \"/mailing\" page");
         return "mailing";
     }
@@ -355,5 +338,20 @@ public class UserController {
         userService.update(user);
         LOGGER.info("Opening of \"/usersTags\" page");
         return "usersTags";
+    }
+
+    @RequestMapping(value = "/getUserFullName", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> getUsersFromRequest(@RequestParam String userFullName) {
+        LOGGER.info("Request of \"/autocomplete\" page GET");
+        List<String> result = new ArrayList<>();
+        for (User user : userService.getAllUsers()) {
+            if (user.getFullName().toLowerCase().contains(userFullName.toLowerCase())) {
+                result.add(user.getFullName().toString());
+            }
+        }
+        LOGGER.info("Return response for \"/autocomplete\" " +userFullName);
+        System.out.println("result=="+result);
+        return result;
     }
 }

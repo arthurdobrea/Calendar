@@ -2,6 +2,7 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 
+import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -143,6 +144,17 @@ public class Event implements Serializable {
         return tags;
     }
 
+    public List<TagType> getEventTagsAsEnum() {
+        //if (tags.isEmpty()||tags==null) return null;
+        List<TagType> tagTypes=new ArrayList<>();
+        for (Tag tag:getTags()){
+            for (TagType tt:TagType.values()){
+                if(tag.getTag().equals(tt)){ tagTypes.add(tt); break;}
+            }
+        }
+        return tagTypes;
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -153,6 +165,14 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getParticipantsToString() {
+        if (participants.isEmpty()||participants==null) return null;
+        StringBuilder part=new StringBuilder();
+        for (User participant:getParticipants())
+            part.append(participant.getFullName().toString()+",");
+        return part.toString();
     }
 
 

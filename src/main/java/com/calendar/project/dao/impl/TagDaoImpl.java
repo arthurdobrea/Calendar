@@ -81,4 +81,11 @@ public class TagDaoImpl implements TagDao {
         LOGGER.info("Return tag = \"" + tag + "\" with id = " + tagId);
         return tag;
     }
+
+    @Override
+    public List<Tag> getTagsByEvent(int EventId) {
+        return entityManager.createQuery("SELECT t FROM Tag t JOIN t.events e WHERE e.id = :EventId", Tag.class)
+                .setParameter("EventId", EventId)
+                .getResultList();
+    }
 }

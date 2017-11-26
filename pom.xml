@@ -59,9 +59,9 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://localhost:5432/Calendar_DB</url>
+                    <url>jdbc:postgresql://localhost:5432/calendar</url>
                     <user>postgres</user>
-                    <password>server..</password>
+                    <password>dmitruk</password>
                 </configuration>
             </plugin>
 
