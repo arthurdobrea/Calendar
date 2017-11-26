@@ -88,7 +88,7 @@
                                 <div class="form-group">
                                     <label for="ev-type">EVENT TYPE</label>
                                     <select class="form-control" id="ev-type" name="eventType" required="true">
-                                        <%--<option value="">"${event.eventType.view()}"</option>--%>
+
                                         <c:forEach items="${eventTypes}" var="et">
                                             <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>>${et.view()}</option>
                                         </c:forEach>
@@ -132,7 +132,7 @@
                                     <div class="form-group textarea-group">
                                         <label for="ev-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3"
-                                                  id="ev-description" required="true" value="${event.description}">${event.description} ${event.getEventTagsAsEnum()}</textarea>
+                                                  id="ev-description" required="true" value="${event.description}">${event.description} </textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
