@@ -30,6 +30,9 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+
     <a href="/welcome" class="btn_calendar">Home</a>
     <a href="/index" class="btn_calendar">Calendar</a>
     <a href="/userControlPanel" class="btn_calendar">User Panel</a>

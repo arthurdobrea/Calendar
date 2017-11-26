@@ -24,6 +24,9 @@
     <title>All events</title>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+
 <a href="/welcome" class="btn_calendar">Home</a>
 <a href="/index" class="btn_calendar">Calendar</a>
 <a href="/events" class="btn_calendar">All events</a>

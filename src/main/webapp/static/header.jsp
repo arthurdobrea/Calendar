@@ -10,16 +10,17 @@
     <script>
         connectToServerFunc();
     </script>
-    <div class="topnav">
+    <div class="topnav" id="topnav">
         <div class="appLogo"></div>
         <div class="float-right">
-            <div class="float-right-item"><a href="/welcome">HOME</a></div>
+            <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
             <div class="float-right-item"><a href="/">CALENDAR</a></div>
             <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
                 <div class="sub-menu">
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
                     <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
                     <div class="sub-menu-item"><a href="#" onclick="create_event()">Add event</a></div>
+                    <div class="sub-menu-item"><a href="events">All events</a></div>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
@@ -103,16 +104,16 @@
         document.getElementById('down-arrow').src = "/resources/ic_arrow_down.png";
     }
 
-    /*do not delete it's for adaptive design'*/
     function hideShowNavbar(){
-        var tmp = document.getElementById('topnav');
+        var topnav = document.getElementById('topnav');
 
-        if (tmp.className === "topnav") {
-            tmp.className += " responsive";
+        if (topnav.className === "topnav") {
+            topnav.className += " responsive";
         } else {
-            tmp.className = "topnav";
+            topnav.className = "topnav";
         }
     }
+
 </script>
 
 <div class="add_event_modal"></div>

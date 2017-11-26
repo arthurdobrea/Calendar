@@ -13,6 +13,9 @@
     <title>Title</title>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+
 <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
 <a href="/welcome" class="btn_calendar">Home</a>
