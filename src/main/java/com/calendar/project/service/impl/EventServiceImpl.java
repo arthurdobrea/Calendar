@@ -1,18 +1,17 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.model.Tag;
-import com.calendar.project.model.dto.EventResource;
-import com.calendar.project.model.enums.EventType;
-import com.calendar.project.model.User;
-import com.calendar.project.model.enums.TagType;
-import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Tag;
+import com.calendar.project.model.User;
+import com.calendar.project.model.dto.EventResource;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
+import com.calendar.project.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,6 +155,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("allDay", event.isAllDay());
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("author", event.getAuthor().getFullName());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
@@ -214,6 +214,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("Event type", event.getEventType().toString());
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("allDay", event.isAllDay());
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("author", event.getAuthor().getUsername());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());

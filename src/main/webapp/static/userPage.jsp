@@ -45,7 +45,7 @@
         <div style="margin-top: 60px;">
             <img id="avatar" src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
         </div>
-        <div style="margin-top: 50px">
+        <div style="margin-top: 40px">
             <p class="capital_text" style="line-height: 100%;"><span style="size: 25px">${user.fullName}</span><br>
                                      ${user.email}</p>
             <p class="capital_text" style="color: #DE411B">${user.position}</p>
