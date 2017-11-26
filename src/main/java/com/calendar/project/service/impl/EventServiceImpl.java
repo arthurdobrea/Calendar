@@ -147,6 +147,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
             eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -159,6 +160,30 @@ public class EventServiceImpl implements EventService {
         String eventsString = eventsJsonArr.toString();
         Object json = mapper.readValue(eventsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public String getColorForEvent(EventType eventType)
+    {
+        switch (eventType)
+        {
+            case MEETING:
+                return "#C71585";
+            case TRAINING:
+                return "#00008B";
+            case WORKSHOP:
+                return "#FF00FF";
+            case STANDUP:
+                return "#2E8B57";
+            case OFFLINE:
+                return "#48D1CC";
+            case TEAM_BUILDING:
+                return "#FF4500";
+            case OTHER:
+                return "#F08080";
+            default:
+                return "#110022";
+        }
     }
 
     @Override

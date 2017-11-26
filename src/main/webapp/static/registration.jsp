@@ -18,6 +18,7 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -28,7 +29,7 @@
 <body>
 <div class="container">
     <form:form method="POST" modelAttribute="userForm" class="form-signin form-signin-reg" enctype = "multipart/form-data">
-        <div class="image"><input type="image" src="${contextPath}/resources/Logo.png"/></div>
+        <div class="image"><input type="image" src="${contextPath}/resources/logo.png"/></div>
 
         <spring:bind path="email">
             <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">

@@ -88,3 +88,8 @@ INSERT INTO roles values (1, 'ROLE_SUPREME_ADMIN');
 INSERT INTO roles values (2, 'ROLE_ADMIN');
 INSERT INTO roles values (3, 'ROLE_USER');
 INSERT INTO roles values (4, 'ROLE_GUEST');
+
+alter table users add column image text;
+alter table users add column position varchar(255);
+
+INSERT INTO events_users VALUES (41, 1);

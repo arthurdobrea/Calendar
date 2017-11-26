@@ -1,34 +1,21 @@
 package com.calendar.project.model.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by mhristiniuc on 11/18/2017.
  */
 public class UserResource {
 
-    private Long id;
     private String username;
     private String firstname;
     private String lastname;
     private String email;
     private String password;
     private String confirmPassword;
-    private String subscriptionByEventType;
-    private String subscriptionByTagType;
-    private Set<RoleResource> roles;
-    private List<EventResource> events = new ArrayList<>();
-    private List<EventResource> eventsOfAuthor = new ArrayList<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String position;
+    private MultipartFile multipartFile;
+    private byte[] image;
 
     public String getUsername() {
         return username;
@@ -80,46 +67,27 @@ public class UserResource {
         this.confirmPassword = confirmPassword;
     }
 
-    public String getSubscriptionByEventType() {
-        return subscriptionByEventType;
+    public String getPosition() {
+        return position;
     }
 
-    public void setSubscriptionByEventType(String subscriptionByEventType) {
-        this.subscriptionByEventType = subscriptionByEventType;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
-
-    public String getSubscriptionByTagType() {
-        return subscriptionByTagType;
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
     }
 
-    public void setSubscriptionByTagType(String subscriptionByTagType) {
-        this.subscriptionByTagType = subscriptionByTagType;
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
     }
 
-    public Set<RoleResource> getRoles() {
-        return roles;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setRoles(Set<RoleResource> roles) {
-        this.roles = roles;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
-
-    public List<EventResource> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<EventResource> events) {
-        this.events = events;
-    }
-
-    public List<EventResource> getEventsOfAuthor() {
-        return eventsOfAuthor;
-    }
-
-    public void setEventsOfAuthor(List<EventResource> eventsOfAuthor) {
-        this.eventsOfAuthor = eventsOfAuthor;
-    }
-
-
 }

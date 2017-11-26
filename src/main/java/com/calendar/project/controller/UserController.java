@@ -11,7 +11,6 @@ import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,9 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.Set;
@@ -45,6 +45,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private UserResourceValidator userResourceValidator;
 
     @Autowired
     private TagService tagService;
@@ -67,29 +70,26 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         LOGGER.info("Request of \"/registration\" page GET");
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserResource());
 
         LOGGER.info("Opening of \"/registration\" page");
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("userForm") @Valid UserResource userForm,
+                               BindingResult bindingResult)
+            {
         LOGGER.info("Request of \"/registration\" page POST");
 
-        userValidator.validate(userForm, bindingResult);
+        userResourceValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             LOGGER.info("Opening of \"/registration\" page");
             return "registration";
         }
-        MultipartFile userImage = userForm.getMultipartFile();
-        try{
-            userForm.setImage(Base64.encode(userImage.getBytes()));
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        userService.save(userForm);
+        User user = Converter.convert(userForm);
+        userService.save(user);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
@@ -164,6 +164,19 @@ public class UserController {
         return "index";
     }
 
+    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
+    public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        LOGGER.info("Request of \"/index\" page POST");
+        if (bindingResult.hasErrors()) {
+            LOGGER.info("Opening of \"/index\" page");
+            return "index";
+        }
+        List<User> participants = new ArrayList<>();
+        for (User u : eventForm.getParticipants()) {
+            u.setId(Long.parseLong(u.getUsername()));
+            participants.add(userService.getUser(u.getId()));
+        }
+    }
 
 //@RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
 //public String createEvent(Model model) {
@@ -195,6 +208,7 @@ public class UserController {
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("position", userForm.getPosition());
         model.addAttribute("email", userForm.getEmail());
 
         LOGGER.info("Opening of \"/userControlPanel\" page");
@@ -208,11 +222,12 @@ public class UserController {
         User user = userService.findByUsername(userForm.getUsername());
         user.setFirstname(userForm.getFirstname());
         user.setLastname(userForm.getLastname());
+        user.setPosition(userForm.getPosition());
         user.setEmail(userForm.getEmail());
 
         userService.update(user);
-        LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        LOGGER.info("Redirect to \"/userPage\" page");
+        return "redirect:/userPage";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
@@ -226,7 +241,8 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
-        model.addAttribute("image", userService.getUser(user.getId()).getImage());
+        model.addAttribute("user", user);
+        model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

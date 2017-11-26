@@ -1,8 +1,7 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.*;
-import com.calendar.project.model.enums.EventType;
-import com.calendar.project.service.*;
+import com.calendar.project.service.NotificationService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
@@ -10,6 +9,9 @@ import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
+import com.calendar.project.service.EventService;
+import com.calendar.project.service.SecurityService;
+import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -26,7 +28,6 @@ import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
-
 
     @Autowired
     private SecurityService securityService;
@@ -172,7 +173,6 @@ public class EventController {
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
     }
-
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
     public String showEvent(Model model, int eventId) {

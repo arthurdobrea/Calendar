@@ -27,6 +27,7 @@
         <commons.file.upload.version>1.2.2</commons.file.upload.version>
         <commons.io.version>2.4</commons.io.version>
         <log4j.version>1.2.17</log4j.version>
+        <springsecurityoauth2.version>2.0.10.RELEASE</springsecurityoauth2.version>
     </properties>
 
     <build>
@@ -60,8 +61,9 @@
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
                     <url>jdbc:postgresql://localhost:5432/calendar</url>
+                    <!--<url>jdbc:postgresql://localhost:5433/postgres</url>-->
                     <user>postgres</user>
-                    <password>dmitruk</password>
+                    <password>server..</password>
                 </configuration>
             </plugin>
 
@@ -308,6 +310,19 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>4.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sargue</groupId>
+            <artifactId>java-time-jsptags</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+        <!-- Spring Security OAuth2-->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${springsecurityoauth2.version}</version>
         </dependency>
 
     </dependencies>
