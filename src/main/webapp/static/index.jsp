@@ -36,22 +36,21 @@
 
     <c:import url="header.jsp" />
 
+    <input type="hidden" id="userId" value="${userId}">
+    
     <div class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
-        <%--<div style="border: none">--%>
-            <%--<input type="text" id="key-word-search" onkeyup="" placeholder="Enter key word...">--%>
-        <%--</div>--%>
 
         <div class="row">
             <div class="col-md-4" style="border: none">
                 <select id="allEventsId" onchange="searchEvents()" class="roles_button_style select">
                     <option value="">All Events</option>
-                    <option value="">Events created by me</option>
-                    <option value="">Events where I am Invited</option>
+                    <option value="EventsCreatedByMe">Events created by me</option>
+                    <option value="EventsWhereIamInvited">Events where I am Invited</option>
                 </select>
             </div>
 
             <div class="col-md-4" style="border: none">
-                <select id="searchByTagId" onchange="searchByTag()" class="roles_button_style select ">
+                <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style select ">
                         <option value="">Search by Tag</option>
                         <option value="AM_STREAM">AM Stream</option>
                         <option value="DEVELOPMENT">Development</option>
@@ -63,7 +62,7 @@
             </div>
 
             <div class="col-md-4" style="border: none">
-                <select id="searchByTypeId" onchange="searchByType()" class="roles_button_style select">
+                <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style select">
                     <option value="">Search by Type</option>
                     <option value="MEETING">Meeting</option>
                     <option value="TRAINING">Training</option>
@@ -75,8 +74,6 @@
                 </select>
             </div>
         </div>
-
-
 
     </div>
 
@@ -131,127 +128,33 @@
             var calen = $('#calendar')
             container.append(calen);
         });
-        </script>
 
-    <script>
-        function searchEvents() {
-            var input = document.getElementById("allEventsId");
-//            var x = '/json/getEventsByTag?tag=' + $(input).val();
-//            console.log(x);
-//            var calendar = $('#calendar');
+            function searchEvents() {
 
-            if (calendarInit == true)
-            {
-                $('#calendar').fullCalendar('destroy');
-            }
+                var inputTag = document.getElementById("searchByTagId");
+                var inputType = document.getElementById("searchByTypeId");
 
-            calendarInit = true;
-            $(document).ready(function () {
-                $('#calendar').fullCalendar({
-                    customButtons: {
-                    },
-                    header: {
-                        left: 'prev,today,next',
-                        center: 'title',
-                        right: 'addNew month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: $('#calendar').fullCalendar('today'),
-                    weekNumbers: "ISO",
-                    navLinks: true,
-                    eventLimit: true,
-                    views: {
-                        agenda: {
-                            eventLimit: 3,
-                        }
-                    },
-                    height:650,
-                    fixedWeekCount:false,
-//                themeSystem: 'bootstrap3',
-                    timeFormat: 'h:mma',
-                    events: {url: '/json/getEventsByAuthor?id=' + $(input).val()},
-//                    paramName: "TOWER",
-                    eventClick: function (event, jsEvent, view) {
-                        console.log(event);
-                        console.log(jsEvent);
-                        console.log(view);
+                var tag = inputTag.options[inputTag.selectedIndex].value;
+                var eventType = inputType.options[inputType.selectedIndex].value;
 
-                        printEventDataInModal(event.id);
-                        $('#eventPage').modal();
+                var inputUser = document.getElementById("allEventsId");
+                var selectedOption = inputUser.options[inputUser.selectedIndex].value;
 
-                    }
-                });
-//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
-                var container = $('#container');
-                var calen = $('#calendar')
-                container.append(calen);
-            });
-        }
-    </script>
+                var userIdVal = $("#userId").val();
 
-
-        <script>
-        function searchByTag() {
-            var input = document.getElementById("searchByTagId");
-            var x = '/json/getEventsByTag?tag=' + $(input).val();
-            console.log(x);
-//            var calendar = $('#calendar');
-
-            if (calendarInit == true)
-            {
-                $('#calendar').fullCalendar('destroy');
-            }
-
-            calendarInit = true;
-            $(document).ready(function () {
-                $('#calendar').fullCalendar({
-                    customButtons: {
-                    },
-                    header: {
-                        left: 'prev,today,next',
-                        center: 'title',
-                        right: 'addNew month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: $('#calendar').fullCalendar('today'),
-                    weekNumbers: "ISO",
-                    navLinks: true,
-                    eventLimit: true,
-                    views: {
-                        agenda: {
-                            eventLimit: 3,
-                        }
-                    },
-                    height:650,
-                    fixedWeekCount:false,
-//                themeSystem: 'bootstrap3',
-                    timeFormat: 'h:mma',
-                    events: {url: '/json/getEventsByTag?tag=' + $(input).val()},
-                    eventClick: function (event, jsEvent, view) {
-                        console.log(event);
-                        console.log(jsEvent);
-                        console.log(view);
-
-                        printEventDataInModal(event.id);
-                        $('#eventPage').modal();
-
-                    }
-                });
-//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
-                var container = $('#container');
-                var calen = $('#calendar')
-                container.append(calen);
-            });
-        }
-        </script>
-
-    <script>
-        function searchByType() {
-            var input1 = document.getElementById("searchByTypeId");
-            var x = '/json/getEventsByType?type=' + $(input1).val();
-           console.log(x);
-//            var calendar = $('#calendar');
-
-                if (calendarInit == true)
+                var authorVal = null;
+                var particVal = null;
+                if (selectedOption == "EventsCreatedByMe")
                 {
+                    authorVal = userIdVal;
+                }
+                else if (selectedOption == "EventsWhereIamInvited")
+                {
+                    particVal = userIdVal;
+                }
+
+
+                if (calendarInit == true) {
                     $('#calendar').fullCalendar('destroy');
                 }
 
@@ -277,22 +180,34 @@
                     fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
                     timeFormat: 'h:mma',
-                    events: {url: '/json/getEventsByType?type=' + $(input1).val()},
-                    eventClick: function (event, jsEvent, qview) {
+                    events:
+                    {
+                        url: '/json/searchEvents/',
+                        data: {
+                            tag: tag,
+                            type: eventType,
+                            authorId: authorVal,
+                            participantId: particVal
+                        }
+                    },
+                    eventClick: function (event, jsEvent, view) {
                         console.log(event);
                         console.log(jsEvent);
                         console.log(view);
 
                         printEventDataInModal(event.id);
                         $('#eventPage').modal();
+
                     }
                 });
 //                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
                 var container = $('#container');
                 var calen = $('#calendar')
                 container.append(calen);
-        }
-    </script>
+            }
+        </script>
+
+
 
         </div>
 
@@ -305,23 +220,6 @@
 </head>
 <body>
 
-    <%--<c:import url="header.jsp" />--%>
-    <%--&lt;%&ndash;<jsp:include page="header.jsp"/>&ndash;%&gt;--%>
-
-<%--<a href="/welcome" class="btn">Home</a>--%>
-<%--<a href="/index" class="btn">Calendar</a>--%>
-<%--<a href="/events" class="btn">All events</a>--%>
-<%--<a href="/tags" class="btn">Tags</a>--%>
-<%--<a href="/mailing" class="btn">Mail to all</a>--%>
-<%--<a href="/userPage" class="btn">User Page</a>--%>
-<%--<c:if test="${pageContext.request.isUserInRole('ADMIN')}">--%>
-    <%--<a href="/admin" class="btn">Admin page</a>--%>
-<%--</c:if>--%>
-<%--<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">--%>
-    <%--<a href="/admin" class="btn">Admin page</a>--%>
-<%--</c:if>--%>
-<%--<a href="/userControlPanel" class="btn">User Panel</a>--%>
-<%--<a href="/logout" class="btn">Logout</a>--%>
 <p>
 <p>
         <!-- Modal -->

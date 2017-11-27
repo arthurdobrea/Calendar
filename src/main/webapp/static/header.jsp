@@ -2,9 +2,9 @@
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 
-<head>
+
     <script src="${contextPath}/resources/js/userProfile.js"></script>
-</head>
+
 
 <div class="topnavContainer">
     <div class="appLogo"></div>
@@ -19,7 +19,7 @@
             <ul class="sub-menu">
                 <li><a href="/userPage">My profile</a></li>
                 <li><a href="">Admin panel</a></li>
-                <li><a onclick="create_event()"> Add event</a></li>
+                <li><a href="#" onclick="create_event()"> Add event</a></li>
                 <li><a href="/">Logout</a></li>
             </ul>
         </li>

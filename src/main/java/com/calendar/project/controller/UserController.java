@@ -163,6 +163,9 @@ public class UserController {
         model.addAttribute("eventForm", event);
         model.addAttribute("events", eventService.getEvent(event.getId()));
 
+        User user = securityService.findLoggedInUsername();
+        model.addAttribute("userId", user.getId());
+
         LOGGER.info("Opening of \"/index\" page");
         return "index";
     }

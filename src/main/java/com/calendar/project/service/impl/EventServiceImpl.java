@@ -193,6 +193,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId) {
+        return eventDao.searchEvents(type, tag, authorId, participantId);
+    }
+
+    @Override
     public Event updateEventForRest(Event event, EventResource eventResource){
         event.setTitle(eventResource.getTitle());
         event.setStart(eventResource.getStart());

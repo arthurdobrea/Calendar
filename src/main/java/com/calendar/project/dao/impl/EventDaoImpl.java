@@ -8,9 +8,11 @@ import com.calendar.project.model.User;
 import org.apache.log4j.Logger;
 import com.calendar.project.model.*;
 import org.hibernate.Hibernate;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -43,7 +45,7 @@ public class EventDaoImpl implements EventDao {
 
 
     @Override
-    public List<Event> getEventsByUser(Long userId) {
+    public List<Event> getEventsByUser(long userId) {
         List<Event> events = entityManager.createQuery("select DISTINCT e FROM Event e " +
                 "join e.author left join fetch e.participants p left join fetch e.tags WHERE p.id=:idOfUser", Event.class)
                 .setParameter("idOfUser", userId)
@@ -86,6 +88,50 @@ public class EventDaoImpl implements EventDao {
         return entityManager.createQuery("select distinct e from Event e left join fetch e.participants join fetch e.author left join fetch e.tags order by e.start", Event.class)
                 .getResultList();
 
+    }
+
+    @Override
+    public List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId) {
+
+        String hql = "select distinct e from Event e left join fetch e.participants p join fetch e.author left join fetch e.tags t";
+
+        boolean needAnd = false;
+
+        if (type != null || tag != null || authorId != null || participantId != null)
+            hql = hql + " where ";
+
+        if (type != null) {
+
+            hql = hql + "e.eventType = \'" + type + "\'";
+            needAnd = true;
+        }
+
+        if (tag != null) {
+            if (needAnd)
+                hql = hql + " and ";
+            hql = hql + "t.tag = \'" + tag + "\'";
+            needAnd = true;
+        }
+
+        if (authorId != null){
+
+            if (needAnd)
+                hql = hql + " and ";
+
+            hql = hql + "e.author.id = \'" + authorId + "\'";
+            needAnd = true;
+        }
+
+        if (participantId != null){
+
+            if(needAnd)
+                hql = hql + " and ";
+            hql = hql + "p.id = \'" + participantId + "\'";
+            needAnd = true;
+        }
+        LOGGER.info("hql = " + hql);
+
+        return entityManager.createQuery(hql).getResultList();
     }
 
     @Override
