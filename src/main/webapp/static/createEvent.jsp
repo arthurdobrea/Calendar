@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -15,121 +15,101 @@
 
     <title>Create an event</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
-    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
-    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
-    <script src='${contextPath}/resources/js/moment.js'></script>
-    <script src='${contextPath}/resources/js/jquery.min.js'></script>
-    <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
-    <script src='${contextPath}/resources/js/fullcalendar.js'></script>
-    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
-    <script src="${contextPath}/resources/js/gcal.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </head>
-<body>
-<!-- Modal for adding a new event-->
-<div class="modal fade" id="AddEvent" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add new event</h4>
+<body onload="eventStartValidation()">
+
+    <c:import url="header.jsp" />
+
+<a href="/welcome" class="btn_calendar">Home</a>
+<a href="/index" class="btn_calendar">Calendar</a>
+<a href="/userControlPanel" class="btn_calendar">User Panel</a>
+<a href="/createEvent" class="btn_calendar">Create new event</a>
+<a href="/userPage" class="btn_calendar">User Page</a>
+<a href="/events" class="btn_calendar">All events</a>
+<a href="/logout" class="btn_calendar">Logout</a>
+<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+    <a href="/admin" class="btn_calendar">Admin page</a>
+</c:if>
+<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+    <a href="/admin" class="btn_calendar">Admin page</a>
+</c:if>
+
+<div class="container">
+    <form:form method="POST" modelAttribute="eventForm" class="form-signin">
+        <h2 class="form-signin-heading">Create your event</h2>
+        <spring:bind path="title">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="title" class="form-control" placeholder="Event name"
+                            autofocus="true" required="true"></form:input>
             </div>
-            <div class="modal-body">
-                <form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">
-                    <spring:bind path="title">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="title" class="form-control" placeholder="Event name"
-                                        autofocus="true" required="true"></form:input>
-                        </div>
-                    </spring:bind>
-                    <spring:bind path="eventType">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:select  path="eventType" class="form-control" required="true">
-                                <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-                                    <a href="/admin" class="btn">Admin page</a>
-                                </c:if>
-                                <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-                                    <a href="/admin" class="btn">Admin page</a>
-                                </c:if>
+        </spring:bind>
 
-                                <option value="">Select Event Type</option>
-                                <option value="MEETING">Meeting</option>
-                                <option value="TRAINING">Training</option>
-                                <option value="STANDUP">Stand up</option>
-                                <option value="OFFLINE">Offline</option>
-                                <option value="TEAM_BUILDING">Team building</option>
-                                <option value="WORKSHOP">Workshop</option>
-                                <option value="OTHER">Other</option>
-                            </form:select>
-                        </div>
-                    </spring:bind>
-                    <spring:bind path="location">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="text" path="location" class="form-control"
-                                        placeholder="Location of the event"
-                                        autofocus="true" required="true"></form:input>
-                        </div>
-                    </spring:bind>
-                    <spring:bind path="start">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input id="datetimepicker1h" type="hidden" path="start"></form:input>
+        <spring:bind path="eventType">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:select  path="eventType" class="form-control" required="true" >
 
-                        </div>
-                    </spring:bind>
-                    <input type="text" id="datetimepicker1" class="form-control" required="true">
-
-                    <spring:bind path="end">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input id="datetimepicker2h" type="hidden" path="end"></form:input>
-                        </div>
-                    </spring:bind>
-                    <input type="text" id="datetimepicker2" class="form-control" required="true">
-
-
-
-                    <spring:bind path="allDay">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input id="all-dayh" type="hidden" path="allDay"></form:input>
-                        </div>
-                    </spring:bind>
-                    <label><input type="checkbox" id="all-day" path="allDay" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>
-
-
-                    <spring:bind path="description">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
-                                           autofocus="true"></form:textarea>
-                        </div>
-                    </spring:bind>
-                    <spring:bind path="participants">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
-                                         multiple="true" required="true" />
-                        </div>
-                    </spring:bind>
-
-                    <div align="left">
-                        <label><input type="checkbox" name="checkParticipants" checked/>Send emails to participants</label><br>
-                        <label><input type="checkbox" name="checkSubscribe" checked/>Send emails to subscribers</label>
-                    </div>
-
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>
-                </form:form>
+                    <option value="">Select Event Type</option>
+                    <option value="MEETING">Meeting</option>
+                    <option value="TRAINING">Training</option>
+                    <option value="STANDUP">Stand up</option>
+                    <option value="OFFLINE">Offline</option>
+                    <option value="TEAM_BUILDING">Team building</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="OTHER">Other</option>
+        </form:select>
             </div>
-        </div>
-    </div>
+        </spring:bind>
+
+        <spring:bind path="location">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="location" class="form-control"
+                            placeholder="Location of the event"
+                            autofocus="true" required="true"></form:input>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="start">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input id="eventStarts" type="datetime-local" path="start" class="form-control" autofocus="true"
+                            placeholder="Start time" onchange="eventEndsValidation()" required="true"></form:input>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="end">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input id="eventEnds" type="datetime-local" path="end" class="form-control" autofocus="true"
+                            placeholder="End time" onclick="eventEndsValidation()" required="true"></form:input>
+            </div>
+        </spring:bind>
+
+
+        <spring:bind path="description">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"
+                               autofocus="true"></form:textarea>
+            </div>
+        </spring:bind>
+        
+        <spring:bind path="participants">
+        <div class="form-group ${status.error ? 'has-error' : ''}">
+            <form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"
+                          multiple="true" required="true"/>
+            </div>
+        </spring:bind>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </form:form>
 </div>
-
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
-<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

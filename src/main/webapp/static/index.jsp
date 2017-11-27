@@ -305,7 +305,6 @@
     </style>
 </head>
 <body>
-
     <%--<c:import url="header.jsp" />--%>
     <%--&lt;%&ndash;<jsp:include page="header.jsp"/>&ndash;%&gt;--%>
 
