@@ -1,12 +1,12 @@
-$("#datetimepicker1").datetimepicker({
-    //format: 'm/d/Y H:i',
-    dayOfWeekStart: 1,
-    closeOnDateSelect:true,
-});
-$("#datetimepicker2").datetimepicker({
-    //format: 'm/d/Y H:i',
-    dayOfWeekStart: 1,
-    closeOnDateSelect:true,
+$(document).ready(function () {
+    $("#datetimepicker1").datetimepicker({
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
+    $("#datetimepicker2").datetimepicker({
+        dayOfWeekStart: 1,
+        closeOnDateSelect:true,
+    });
 });
 
 function allDayChecked() {
@@ -22,6 +22,7 @@ function allDayChecked() {
         dayOfWeekStart: 1,
         closeOnDateSelect:true,
     });
+    document.getElementById('all-dayh').setAttribute('value', 'true');
 }
 
 function allDayUnchecked() {
@@ -37,31 +38,25 @@ function allDayUnchecked() {
         dayOfWeekStart: 1,
         closeOnDateSelect:true,
     });
+    document.getElementById('all-dayh').setAttribute('value', 'false');
 }
 
 function eventDateTime() {
     var se = new Date(document.getElementById('datetimepicker1').value);
     var ee = new Date(document.getElementById('datetimepicker2').value);
 
-    var startYear = se.getFullYear();
-    var startMonth = se.getMonth() + 1;
-    var startDate = se.getDate();
+    var startYear = se.getUTCFullYear();
+    var startMonth = se.getUTCMonth() + 1;
+    var startDate = se.getUTCDate();
 
-    var endYear = ee.getFullYear();
-    var endMonth = ee.getMonth() + 1;
-    var endDate = ee.getDate();
+    var endYear = ee.getUTCFullYear();
+    var endMonth = ee.getUTCMonth() + 1;
+    var endDate = ee.getUTCDate();
 
-    if(document.getElementById('all-day').checked) {
-        var startHour = 0;
-        var startMinute = 0;
-        var endHour = 23;
-        var endMinute = 59;
-    } else {
-        startHour = se.getHours();
-        startMinute = se.getMinutes();
-        endHour = ee.getHours();
-        endMinute = ee.getMinutes();
-    }
+    var startHour = se.getUTCHours();
+    var startMinute = se.getUTCMinutes();
+    var endHour = ee.getUTCHours();
+    var endMinute = ee.getUTCMinutes();
 
     if(startMonth < 10) {
         startMonth = "0" + startMonth;

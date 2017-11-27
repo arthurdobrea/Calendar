@@ -39,7 +39,7 @@
 <body>
 <div class="login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <input class="endava_logo" type="image" src="${contextPath}/resources/logo.png" alt="LOGO"/>
+        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
         <div class=" ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"

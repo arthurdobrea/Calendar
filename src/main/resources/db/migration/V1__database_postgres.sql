@@ -230,7 +230,7 @@ INSERT INTO tags (tag_name, tag_color) VALUES ('TOWER', 'YELLOW');
 INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', 'GREY');
 INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', 'BLUE');
 
---Insert evets-tags
+--Insert events-tags
 INSERT INTO events_tags VALUES (1, 5);
 INSERT INTO events_tags VALUES (2, 4);
 INSERT INTO events_tags VALUES (3, 3);

@@ -1,9 +1,11 @@
 package com.calendar.project.service;
 
 import com.calendar.project.config.BASE64DecodedMultipartFile;
-import com.calendar.project.model.*;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.dto.UserResource;
+
 import java.io.IOException;
 
 public class Converter {

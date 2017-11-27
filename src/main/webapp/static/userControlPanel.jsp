@@ -32,8 +32,7 @@
         <!-- Modal content-->
         <div class="edit_profile_modal">
             <div class="modal-header edit_profile_header capital_text">
-                <button type="button" class="close_modal" data-dismiss="modal"></button>
-                <h4 align="left">EDIT PROFILE</h4>
+                <p align="left" class="modal_topic">EDIT PROFILE<button type="button" class="close_modal" data-dismiss="modal"></button></p>
             </div>
             <div class="modal-body edit_profile_body">
                 <form:form method="POST" modelAttribute="userForm" id="user_edit_form">
@@ -55,12 +54,13 @@
                         </div>
                     </spring:bind>
 
-                    <%--<spring:bind path="lastname">--%>
-                    <%--<div class="input_fields ${status.error ? 'has-error' : ''}">--%>
-                    <input id="user_lastname" type="text" value="AM ENGINEER" />
-                    <%--<form:errors path="lastname"></form:errors>--%>
-                    <%--</div>--%>
-                    <%--</spring:bind>--%>
+                    <spring:bind path="position">
+                        <div class="${status.error ? 'has-error' : ''} input_fields">
+                            <form:input autocomplete="false"   id="user_assignment"  type="text" path="position" name="position" placeholder="ASSIGNMENT"
+                                        autofocus="true" value="${position}"></form:input>
+                            <form:errors path="position"></form:errors>
+                        </div>
+                    </spring:bind>
 
                     <spring:bind path="email">
                         <div class="form-group ${status.error ? 'has-error' : ''}">

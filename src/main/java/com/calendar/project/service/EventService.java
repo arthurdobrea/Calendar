@@ -53,6 +53,8 @@ public interface EventService {
 
     String getEventJson(Event event) throws IOException;
 
+    EventType getEventTypeByString(String eventType);
+
     String getColorForEvent(EventType eventType);
 
     List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId);

@@ -1,5 +1,5 @@
 drop table roles;
-drop table user;
+drop table users;
 drop table user_roles;
 drop table events;
 drop table events_tags;
@@ -9,7 +9,7 @@ drop table events_users;
 
 
 -- User creating
-CREATE TABLE user (
+CREATE TABLE users (
   id                         BIGSERIAL    NOT NULL PRIMARY KEY,
   username                   VARCHAR(255) NOT NULL,
   password                   VARCHAR(255) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE user_roles (
   user_id INT NOT NULL,
   role_id INT NOT NULL,
 
-  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (role_id) REFERENCES roles (id),
 
   UNIQUE (user_id, role_id)
@@ -234,12 +234,29 @@ INSERT INTO events_users VALUES (12, 2);
 INSERT INTO events_users VALUES (12, 4);
 
 --Insert tags
-INSERT INTO tags (tag_name, tag_color) VALUES ('AM_STREAM', 'ORANGE');
-INSERT INTO tags (tag_name, tag_color) VALUES ('DEVELOPMENT', 'RED');
-INSERT INTO tags (tag_name, tag_color) VALUES ('TESTING', 'VIOLET');
-INSERT INTO tags (tag_name, tag_color) VALUES ('TOWER', 'YELLOW');
-INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', 'GREY');
-INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', 'BLUE');
+INSERT INTO tags (tag_name, tag_color) VALUES ('APPLICATION_MANAGEMENT', '#de681b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('DEVELOPMENT', '#de251b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('TESTING', '#6f1894');
+INSERT INTO tags (tag_name, tag_color) VALUES ('TOWER', '#dea11b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', '#737b8a');
+INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', '#213e96');
+
+UPDATE tags
+SET tag_color = "#de681b" WHERE tag_name=APPLICATION_MANAGEMENT;
+UPDATE tags
+SET tag_color = "#de251b" WHERE tag_name=DEVELOPMENT;
+UPDATE tags
+SET tag_color = "#6f1894" WHERE tag_name=TESTING;
+UPDATE tags
+SET tag_color = "#dea11b" WHERE tag_name=TOWER;
+UPDATE tags
+SET tag_color = "#737b8a" WHERE tag_name=NBC;
+UPDATE tags
+SET tag_color = "#213e96" WHERE tag_name=ALL_STAFF;
+
+
+
+
 
 --Insert evets-tags
 INSERT INTO events_tags VALUES (1, 5);
@@ -264,3 +281,4 @@ CREATE TABLE persistent_logins (
 
   CONSTRAINT persistent_logins_pk PRIMARY KEY (series)
 );
+

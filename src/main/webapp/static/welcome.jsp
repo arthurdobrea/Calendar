@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -14,8 +15,8 @@
 
     <title>Welcome</title>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">--%>
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
@@ -28,16 +29,20 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-</head>
-<body>
 
-    <c:import url="header.jsp" />
-    <%--<jsp:include page="header.jsp"/>--%>
+
+    <script src='${contextPath}/resources/js/jquery.min.js'></script>
+    <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
+    <script src='${contextPath}/resources/js/moment.js'></script>
+
+</head>
+
+<body>
+<c:import url="header.jsp" />
 
 <a href="/welcome" class="btn_calendar">Home</a>
 <a href="/index" class="btn_calendar">Calendar</a>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/userPage" class="btn_calendar">User Page</a>
 <a href="/events" class="btn_calendar">All events</a>
 <a href="/userPage" class="btn_calendar">User Page</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
@@ -46,7 +51,6 @@
 <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
     <a href="/admin" class="btn_calendar">Admin page</a>
 </c:if>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
 <a href="/logout" class="btn_calendar">Logout</a>
 
 
@@ -66,14 +70,20 @@
         </h2>
     </c:if>
 </div>
-<div class="container">
-        <%-- Output tags of event--%>
+<%--<div class="container">--%>
+         <%--Output tags of event--%>
         <%--<p>Tag:--%>
         <%--<c:forEach items="${notification.event.getTags()}" var="tag"> | ${tag.tag} |--%>
         <%--</c:forEach>--%>
         <%--</p>--%>
         <%--<br>--%>
-    </div>
-</div>
+<%--</div>--%>
+
+    <%--<div style="width: 150px">--%>
+        <%--<img src="data:image/jpeg;base64,${image}" alt="Your avatar"/>--%>
+    <%--</div>--%>
+
+<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

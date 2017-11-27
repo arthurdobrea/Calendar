@@ -13,6 +13,8 @@
 
     <title>Registration Confirmation Page</title>
 
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+
     <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet"></link>
 </head>
 <body>

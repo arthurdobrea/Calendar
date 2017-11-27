@@ -1,11 +1,14 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
+<!DOCTYPE html>
+<html>
 
-
-
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
+</head>
 
-
+<body>
 <div class="topnavContainer">
     <div class="appLogo"></div>
     <script>
@@ -28,15 +31,22 @@
                 <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
             </a>
 
+            <div class="add_event_modal"></div>
+
+            <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+            <script src="${contextPath}/resources/js/eventValidator.js"></script>
+
             <ul  class="sub-menu-notification sub-menu ">
                 <p id="notification-word">Notifications</p>
                 <div id="notification"></div>
                 <p><a href="#" id="go">Show all</a></p>
             </ul>
         </li>
-        <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
+        <li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>
     </ul>
 </div>
+
+<div class="modal fade" id="AddEvent" role="dialog"></div>
 
 <div id="modal_form"><!-- Сaмo oкнo -->
     <span id="modal_title">NOTIFICATIONS</span>
@@ -60,15 +70,17 @@
                 <tr id="modal_line">
                     <td>
                         <ul style="list-style-type: none; float: left;">
-                            <li id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
-                            <li id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
+                            <li class="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
+                            <li class="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
                         </ul>
                     </td>
-                    <td id="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
+                    <td class="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
                 </tr>
             </c:forEach>
         </table>
     </div>
+
+
 
 </div>
 <div id="overlay"></div>
@@ -119,3 +131,5 @@
 </script>
 
 <div class="add_event_modal"></div>
+</body>
+<html>

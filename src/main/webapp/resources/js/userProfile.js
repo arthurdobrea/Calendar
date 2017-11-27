@@ -7,7 +7,7 @@ $(document).ready(function(){
 });
 
 function create_event() {
-    $(".add_event_modal").load("/index #AddEvent", function () {
+    $(".add_event_modal").load("/createEvent #AddEvent", function () {
         $("#AddEvent").modal();
 
         $("#datetimepicker1").datetimepicker({
@@ -40,4 +40,5 @@ function showEventsInvited() {
     $('#total_events_created').hide();
     $('#total_events_invited').show();
 }
+
 
