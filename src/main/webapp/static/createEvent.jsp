@@ -1,11 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>--%>
-<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -103,29 +101,29 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="datetimepicker1"> START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="datetimepicker1"
-                                                   placeholder="Choose date... " required READONLY>
+                                            <input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"
+                                                   placeholder="Choose date... " required READONLY >
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="datetimepicker2" >END DATE</label>
+                                            <label for="datetimepicker2">END DATE</label>
                                             <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required READONLY>
+                                                   placeholder="Choose date... " required READONLY style="background-color: #FFFFFF">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group" id="alldaydiv">
-                                            <label>ALL DAY<br><input type="checkbox" id="all-day"  onclick="if(this.checked)
-                                            {allDayChecked();} else {allDayUnchecked();}"></label>
+
+                                        <div class="col-sm-6" style="top: 13px">
+                                            <div class="form-group" id="alldaydiv" style="padding-bottom:5px;">
+                                                &nbsp; &nbsp;&nbsp;ALL DAY &nbsp;
+                                                <label id="alldaylabel"> <input class="checkbox-inline"  type="checkbox" id="all-day" onclick="if(this.checked)
+                                            {allDayChecked();} else {allDayUnchecked();}" ></label>
+                                            </div >
                                         </div>
-                                    </div>
-                                    </div>
+
 
                                 </div>
-
 
 
                             </div>
@@ -155,16 +153,18 @@
                                         <textarea class="form-control" name="participants" id="t-participants"
                                                   rows="3" REQUIRED></textarea>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6" style="text-align: center; bottom:10px">
-                                        <div class="checkbox-group" name="end" id="subs-checkbox">
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox"/>Send emails to
-                                                participants</label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" name="checkSubscribe"/>Send emails to subscribers
-                                            </label>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="checkbox-group" name="end" id="subs-checkbox" style="padding-bottom:15px">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox"/>Send emails to
+                                                    participants</label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="checkSubscribe"/>Send emails to
+                                                    subscribers
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +174,8 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="tag-checkbox" id="tag-box-label">TAGS</label>
-                                <div class="checkbox-group form-group " style="text-align: center" id="tag-checkbox">
+                                <div class="checkbox-group form-group " style="text-align: center; bottom:-10px; "
+                                     id="tag-checkbox">
                                     <c:forEach items="${tags}" var="tag">
                                         <label class="checkbox-inline" style="color:${tag.tag.color()}">
                                             <input type="checkbox" name="checkboxTags"

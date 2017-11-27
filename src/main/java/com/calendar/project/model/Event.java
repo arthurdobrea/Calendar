@@ -75,7 +75,10 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private List<Notification> notifications;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY )
+    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
     public Event(){}
