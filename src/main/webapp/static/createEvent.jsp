@@ -31,9 +31,12 @@
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/jquery/jquery.js"></script>
     <script src="${contextPath}/resources/jquery/jquery-ui.js"></script>
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <script src="${contextPath}/resources/jquery/jquery.datetimepicker.js"></script>
     <link href="${contextPath}/resources/jquery/jquery-ui.css" rel="stylesheet">
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+
 
     <script>
         $(document).ready(function() {

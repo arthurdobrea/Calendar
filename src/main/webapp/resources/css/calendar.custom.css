@@ -249,7 +249,38 @@ button:focus {
     font-size: medium;
 }
 
+.table{
+    display:table;
+    margin:0 auto;
+}
 
+ul#legend{
+    min-width: 696px;
+    list-style:none;
+    padding-top:20px;
+}
+
+ul#legend li {
+    display:inline;
+}
+
+.smallCircle {
+    height: 5px;
+    width: 5px;
+    border-radius: 2px;
+    display: inline;
+}
+
+/*.span.glyphicon.glyphicon-stop{*/
+    /*background:none;*/
+/*}*/
+
+.glyphicon.glyphicon-one-fine-dot:before {
+    content: "\25cf";
+    font-size: 1.5em;
+    margin-right: 100px
+
+}
 
 
 
