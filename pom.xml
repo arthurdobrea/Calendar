@@ -60,7 +60,8 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://localhost:5433/postgres</url>
+                    <url>jdbc:postgresql://localhost:5432/Calendar_DB</url>
+                    <!--<url>jdbc:postgresql://localhost:5433/postgres</url>-->
                     <user>postgres</user>
                     <password>server..</password>
                 </configuration>
@@ -299,6 +300,7 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.5.7.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -321,6 +323,12 @@
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${springsecurityoauth2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>5.2.12.Final</version>
         </dependency>
 
     </dependencies>

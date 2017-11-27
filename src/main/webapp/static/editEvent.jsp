@@ -19,19 +19,17 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Create an event</title>
+    <title>Edit event</title>
 
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/jquery/jquery.js"></script>
     <script src="${contextPath}/resources/jquery/jquery-ui.js"></script>
-    <script src="${contextPath}/resources/jquery/jquery.datetimepicker.js"></script>
     <link href="${contextPath}/resources/jquery/jquery-ui.css" rel="stylesheet">
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
@@ -69,10 +67,10 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">ADD EVENT</h4>
+                <h4 class="modal-title">EDIT EVENT</h4>
             </div>
             <div class="modal-body">
-                <form action="${contextPath}/createEvent" method="POST">
+                <form action="${contextPath}/editEvent" method="POST">
                     <div class="event-form">
 
                         <div class="row" id="leftblock" style="padding-right: 15px">
@@ -80,50 +78,51 @@
                                 <div class="form-group">
                                     <label for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true">
+                                           placeholder="Enter title" required="true" value="${event.title}">
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true">
+                                           placeholder="Enter Location" required="true" value="${event.location}">
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-type">EVENT TYPE</label>
                                     <select class="form-control" id="ev-type" name="eventType" required="true">
-                                        <option value="">Select event type</option>
+
                                         <c:forEach items="${eventTypes}" var="et">
-                                            <option value=${et}>${et.view()}</option>
+                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>>${et.view()}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="datetimepicker1"> START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="datetimepicker1"
-                                                   placeholder="Choose date... " required READONLY>
+                                            <label for="ev-start-date">START DATE</label>
+                                            <input type="text" name="start" class="form-control" id="ev-start-date"
+                                                   placeholder="Choose date... " required="true" value="${event.start.toString()}">
                                         </div>
                                     </div>
-
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="datetimepicker2" >END DATE</label>
-                                            <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required READONLY>
+                                            <label for="ev-end-date">END DATE</label>
+                                            <input type="text" name="end" class="form-control" id="ev-end-date"
+                                                   placeholder="Choose date... " required="true" value="${event.end.toString()}">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group" id="alldaydiv">
-                                            <label>ALL DAY<br><input type="checkbox" id="all-day"  onclick="if(this.checked)
-                                            {allDayChecked();} else {allDayUnchecked();}"></label>
-                                        </div>
-                                    </div>
-                                    </div>
-
                                 </div>
 
-
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align: center; bottom:10px">
+                                        <div class="checkbox-group" name="end" id="subs-checkbox">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox"/>Send emails to
+                                                participants</label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="checkSubscribe"/>Send emails to subscribers
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -133,7 +132,7 @@
                                     <div class="form-group textarea-group">
                                         <label for="ev-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3"
-                                                  id="ev-description" required="true"></textarea>
+                                                  id="ev-description" required="true" value="${event.description}">${event.description} </textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -150,19 +149,7 @@
                                         </div>
                                         <label for="t-participants">PARTICIPANTS</label>
                                         <textarea class="form-control" name="participants" id="t-participants"
-                                                  rows="3" REQUIRED></textarea>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6" style="text-align: center; bottom:10px">
-                                        <div class="checkbox-group" name="end" id="subs-checkbox">
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox"/>Send emails to
-                                                participants</label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" name="checkSubscribe"/>Send emails to subscribers
-                                            </label>
-                                        </div>
+                                                  rows="3" value="${event.getParticipantsToString()}">${event.getParticipantsToString()}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -171,12 +158,27 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="tag-checkbox" id="tag-box-label">TAGS</label>
-                                <div class="checkbox-group form-group " style="text-align: center" id="tag-checkbox">
+                                <div class="checkbox-group" style="text-align: center" id="tag-checkbox">
+
                                     <c:forEach items="${tags}" var="tag">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}">
-                                            <input type="checkbox" name="checkboxTags"
-                                                   id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
-                                        </label>
+                                        <c:set var="checked" value="0"/>
+                                        <c:forEach items="${event.getEventTagsAsEnum()}" var="eventTag">
+                                            <c:if test = "${tag==eventTag}">
+                                                <c:set var="checked" value="1"/>
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:if test = "${checked==1}">
+                                            <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                                <input type="checkbox" name="checkboxTags"
+                                                       id="checkboxTag" checked/> ${tag.tag.view()}
+                                            </label>
+                                        </c:if>
+                                        <c:if test = "${checked==0}">
+                                            <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                                <input type="checkbox" name="checkboxTags"
+                                                       id="checkboxTag"/> ${tag.tag.view()}
+                                            </label>
+                                        </c:if>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -185,7 +187,7 @@
 
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center">
-                                <input type="submit" id="sendButton" value="ADD">
+                                <input type="submit" id="sendButton" value="Edit">
                             </div>
                         </div>
                     </div>

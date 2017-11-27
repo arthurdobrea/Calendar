@@ -1,17 +1,22 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
+
+import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "events")
@@ -150,6 +155,17 @@ public class Event implements Serializable {
         return tags;
     }
 
+    public List<TagType> getEventTagsAsEnum() {
+        //if (tags.isEmpty()||tags==null) return null;
+        List<TagType> tagTypes=new ArrayList<>();
+        for (Tag tag:getTags()){
+            for (TagType tt:TagType.values()){
+                if(tag.getTag().equals(tt)){ tagTypes.add(tt); break;}
+            }
+        }
+        return tagTypes;
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -160,6 +176,14 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getParticipantsToString() {
+        if (participants.isEmpty()||participants==null) return null;
+        StringBuilder part=new StringBuilder();
+        for (User participant:getParticipants())
+            part.append(participant.getFullName().toString()+",");
+        return part.toString();
     }
 
 
@@ -178,6 +202,7 @@ public class Event implements Serializable {
     }
 
     public void setStart(LocalDateTime start) {
+
         this.start = start;
     }
 
@@ -186,6 +211,7 @@ public class Event implements Serializable {
     }
 
     public void setEnd(LocalDateTime end) {
+
         this.end = end;
     }
 
@@ -210,7 +236,7 @@ public class Event implements Serializable {
         if (eventType != event.eventType) return false;
         if (!author.equals(event.author)) return false;
         if (!location.equals(event.location)) return false;
-//        if (!participants.equals(event.participants)) return false;
+        //if (!participants.equals(event.participants)) return false;
         if (!start.equals(event.start)) return false;
         if (!end.equals(event.end)) return false;
         if (!eventCreated.equals(event.eventCreated)) return false;

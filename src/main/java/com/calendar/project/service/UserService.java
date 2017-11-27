@@ -33,15 +33,13 @@ public interface UserService {
 
     void deleteUserByUsername(String username);
 
-    void mailToAllUsers();
-
-    void mailToUser(User user);
-
     String getUsersJson(List<User> users) throws IOException;
 
     String getUserJson(User user) throws IOException;
 
     User updateUserForRest(User firstUser, User secondUser);
+
+    List<User> parseStringToUsersList(String participants);
 
     User updateUser(User user, UserResource userResource);
 

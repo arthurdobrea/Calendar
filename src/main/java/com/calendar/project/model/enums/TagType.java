@@ -2,12 +2,12 @@ package com.calendar.project.model.enums;
 
 public enum TagType {
 
-    AM_STREAM ("AM Stream", "ORANGE"),
-    DEVELOPMENT ("Development", "RED"),
-    TESTING ("Testing", "VIOLET"),
-    TOWER ("Tower", "YELLOW"),
-    NBC("NBC", "GREY"),
-    ALL_STAFF ("All Staff", "BLUE");
+    APPLICATION_MANAGEMENT ("Application Management", "#de681b"),
+    DEVELOPMENT ("Development", "#de251b"),
+    TESTING ("Testing", "#6f1894"),
+    TOWER ("Tower", "#dea11b"),
+    NBC("NBC", "#737b8a"),
+    ALL_STAFF ("All Staff", "#213e96");
 
     private final String view;
     private final String color;

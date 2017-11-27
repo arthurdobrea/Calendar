@@ -1,52 +1,53 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
-<head>
-    <script src="${contextPath}/resources/js/userProfile.js"></script>
-</head>
+<%--<head>--%>
+    <%--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />--%>
+    <%--<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">--%>
+    <%--<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>--%>
+    <%--<script src="${contextPath}/resources/js/userProfile.js"></script>--%>
+<%--</head>--%>
+
 
 <div class="topnavContainer">
-    <div class="appLogo"></div>
     <script>
         connectToServerFunc();
     </script>
-
-    <ul class="topnav" id="topnav">
-        <li><a href="/welcome">HOME</a></li>
-        <li><a href="/">CALENDAR</a></li>
-        <li><a id="down-arrow" onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" alt="notifications" height="24" width="24"></a>
-            <ul class="sub-menu">
-                <li><a href="/userPage">My profile</a></li>
-                <li><a href="#">Admin panel</a></li>
-                <li><a onclick="create_event()">Add event</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </li>
-        <li class="no-underline">
-            <a href="#">
-                <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
-            </a>
+    <div class="topnav" id="topnav">
+        <div class="appLogo"></div>
+        <div class="float-right">
+            <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
+            <div class="float-right-item"><a href="/">CALENDAR</a></div>
+            <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()" onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img src="/resources/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
+                <div class="sub-menu">
+                    <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
+                    <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
+                    <div class="sub-menu-item"><a href="/createEvent" data-toggle="modal"  data-toggle="#AddEvent">Add event</a></div>
+                    <div class="sub-menu-item"><a href="events">All events</a></div>
+                    <div class="sub-menu-item"><a href="/logout">Logout</a></div>
+                </div>
+            </div>
+            <div class="no-underline">
+                <a href="#">
+                    <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
+                </a>
 
             <div class="add_event_modal"></div>
 
-            <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
-            <script src="${contextPath}/resources/js/eventValidator.js"></script>
-
-
-
-
-
-
-
-            <ul  class="sub-menu-notification sub-menu ">
-                <p id="notification-word">Notifications</p>
-                <div id="notification"></div>
-                <p><a href="#" id="go">Show all</a></p>
-            </ul>
-        </li>
-        <%--<li class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></li>--%>
-    </ul>
+                <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+                <script src="${contextPath}/resources/js/eventValidator.js"></script>
+                <ul  class="sub-menu-notification sub-menu ">
+                    <p id="notification-word">Notifications</p>
+                    <div id="notification"></div>
+                    <p><a href="#" id="go">Show all</a></p>
+                </ul>
+            </div>
+            <div class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon" onclick="hideShowNavbar()">&#9776;</a></div>
+        </div>
+    </div>
 </div>
+
+<div class="modal fade" id="AddEvent" role="dialog"></div>
 
 <div id="modal_form"><!-- Сaмo oкнo -->
     <span id="modal_title">NOTIFICATIONS</span>
@@ -70,16 +71,15 @@
                 <tr id="modal_line">
                     <td>
                         <ul style="list-style-type: none; float: left;">
-                            <li class="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
-                            <li class="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
+                            <li id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></li>
+                            <li id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></li>
                         </ul>
                     </td>
-                    <td class="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
+                    <td id="modal_message"><a href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a></td>
                 </tr>
             </c:forEach>
         </table>
     </div>
-
 </div>
 <div id="overlay"></div>
 <!-- Пoдлoжкa -->
@@ -109,21 +109,23 @@
     });
 
     function profileDropdownArrowOnMouseOver(){
-        document.getElementById('down-arrow').innerHTML = 'PROFILE<img src="/resources/ic_arrow_down_active.png" id="down-arrow" alt="notifications" height="24" width="24">';
+        document.getElementById('down-arrow').src = "/resources/ic_arrow_down_active.png";
     }
 
     function profileDropdownArrowOnMouseOut() {
-        document.getElementById('down-arrow').innerHTML = 'PROFILE<img src="/resources/ic_arrow_down.png" id="down-arrow" alt="notifications" height="24" width="24">';
+        document.getElementById('down-arrow').src = "/resources/ic_arrow_down.png";
     }
 
-    /*do not delete it's for adaptive design'*/
-//    function hideShowNavbar(){
-//        var tmp = document.getElementById('topnav');
-//
-//        if (tmp.className === "topnav") {
-//            tmp.className += " responsive";
-//        } else {
-//            tmp.className = "topnav";
-//        }
-//    }
+    function hideShowNavbar(){
+        var topnav = document.getElementById('topnav');
+
+        if (topnav.className === "topnav") {
+            topnav.className += " responsive";
+        } else {
+            topnav.className = "topnav";
+        }
+    }
+
 </script>
+
+<%--<div class="add_event_modal"></div>--%>
