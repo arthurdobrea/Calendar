@@ -15,13 +15,15 @@ public interface EventDao {
 
     Event getEvent(int eventId);
 
-    List<Event> getEventsByUser(Long userId);
+    List<Event> getEventsByUser(long userId);
 
     List<Event> getEventsByAuthor(Long authorId);
 
     List<Event> getEventsByLocation(String location);
 
     List<Event> getEventsByType(EventType type);
+
+    List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId);
 
     List<Event> getEventsByTag(TagType tag);
 

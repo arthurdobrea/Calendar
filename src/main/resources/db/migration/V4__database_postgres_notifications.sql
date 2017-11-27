@@ -12,5 +12,5 @@ CREATE TABLE notifications
     CONSTRAINT notifications_users_id_fk
     REFERENCES users
     ON DELETE CASCADE,
-  is_viewed BOOLEAN
+  is_viewed BOOLEAN DEFAULT FALSE
 );

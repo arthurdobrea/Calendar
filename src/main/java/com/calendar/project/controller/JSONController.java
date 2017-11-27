@@ -231,6 +231,7 @@ public class JSONController {
 
     @GetMapping(value = "/getEventsByAuthor", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getEventsByAuthor(@PathVariable @RequestParam("id") long id) throws IOException {
+
         List<Event> events = eventService.getEventsByAuthor(id);
         String eventString = eventService.getEventsJson(events);
         return new ResponseEntity<>(eventString, HttpStatus.OK);
@@ -246,6 +247,16 @@ public class JSONController {
     @GetMapping(value = "/getEventsByType", params = {"type"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getEventsByType(@PathVariable @RequestParam("type") EventType type) throws IOException {
         List<Event> events = eventService.getEventsByType(type);
+        String eventString = eventService.getEventsJson(events);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/searchEvents", params = {"tag", "type", "authorId", "participantId"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> searchEvents(@PathVariable @RequestParam("tag") TagType tag,
+                                               @PathVariable @RequestParam("type") EventType type,
+                                               @PathVariable @RequestParam("authorId") Long authorId,
+                                               @PathVariable @RequestParam("participantId") Long participantId) throws IOException {
+        List<Event> events = eventService.searchEvents(type, tag, authorId, participantId);
         String eventString = eventService.getEventsJson(events);
         return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
