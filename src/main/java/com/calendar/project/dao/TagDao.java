@@ -19,4 +19,6 @@ public interface TagDao {
 
     Tag getTagByName(TagType tag);
 
+    List<Tag> getTagsByEvent(int EventId);
+
 }

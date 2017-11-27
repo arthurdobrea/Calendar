@@ -5,6 +5,7 @@ import com.calendar.project.model.enums.TagType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public interface TagService {
 
@@ -25,5 +26,9 @@ public interface TagService {
     public List<TagType> getTagsTypeList();
 
     String getTagsJson(List<Tag> tags) throws IOException;
+
+    List<Tag> getTagsByEvent(int EventId);
+
+    Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString);
 
 }

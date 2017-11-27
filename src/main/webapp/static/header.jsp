@@ -1,8 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
-
 <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
 </head>
 
@@ -24,7 +26,15 @@
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
-            <div class="no-underline"><a href="#"><img id="bell" src="/resources/ic_notifications.png" alt="notifications" height="24" width="24"></a>
+            <div class="no-underline">
+                <a href="#">
+                    <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
+                </a>
+
+                <div class="add_event_modal"></div>
+
+                <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+                <script src="${contextPath}/resources/js/eventValidator.js"></script>
                 <ul  class="sub-menu-notification sub-menu ">
                     <p id="notification-word">Notifications</p>
                     <div id="notification"></div>
@@ -35,6 +45,8 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="AddEvent" role="dialog"></div>
 
 <div id="modal_form"><!-- Сaмo oкнo -->
     <span id="modal_title">NOTIFICATIONS</span>
@@ -67,7 +79,6 @@
             </c:forEach>
         </table>
     </div>
-
 </div>
 <div id="overlay"></div>
 <!-- Пoдлoжкa -->
