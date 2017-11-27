@@ -22,7 +22,7 @@
             <ul class="sub-menu">
                 <li><a href="/userPage">My profile</a></li>
                 <li><a href="">Admin panel</a></li>
-                <li><a href="#" onclick="create_event()"> Add event</a></li>
+                <li><a href="#"onclick="create_event()"> Add event</a></li>
                 <li><a href="/">Logout</a></li>
             </ul>
         </li>
@@ -31,6 +31,7 @@
                 <img src="/resources/ic_notifications.png" id="bell" alt="notifications" height="24" width="24">
             </a>
 
+            <a href="/createEvent" data-toggle="modal"  data-toggle="#AddEvent">Add event</a>
             <div class="add_event_modal"></div>
 
             <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
@@ -130,6 +131,6 @@
 //    }
 </script>
 
-<div class="add_event_modal"></div>
+<%--<div class="add_event_modal"></div>--%>
 </body>
 <html>

@@ -172,7 +172,7 @@ public class UserController {
         LOGGER.info("Opening of \"/index\" page");
         return "index";
     }
-/*
+
     @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/index\" page POST");
@@ -185,11 +185,20 @@ public class UserController {
             u.setId(Long.parseLong(u.getUsername()));
             participants.add(userService.getUser(u.getId()));
         }
-    }
-    */
 
-//@RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
-//public String createEvent(Model model) {
+        eventForm.setParticipants(participants);
+        User user = securityService.findLoggedInUsername();
+        eventForm.setAuthor(userService.findByUsername(user.getUsername()));
+        eventService.saveEvent(eventForm);
+        redirectAttributes.addAttribute("eventId", eventForm.getId());
+
+        LOGGER.info("Redirect to \"/index\" page");
+        return "redirect:/index";
+    }
+
+
+//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
+//    public String createEvent(Model model) {
 //    LOGGER.info("Request of \"/index\" page POST");
 //    return "redirect:/index";
 //}
