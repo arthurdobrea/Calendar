@@ -24,6 +24,7 @@
     <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
 
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
@@ -33,6 +34,7 @@
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/gcal.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
+    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
     <c:import url="header.jsp" />
 
@@ -95,9 +97,9 @@
                         addNew: {
                             text: 'Add event',
                             click:
-                                    function(event, jsEvent, view) {
-                                        $('#AddEvent').modal();
-                                    }
+                                function(event, jsEvent, view) {
+                                    $('#AddEvent').modal();
+                                }
                         }
                     },
                     header: {
@@ -190,15 +192,15 @@
 //                themeSystem: 'bootstrap3',
                     timeFormat: 'h:mma',
                     events:
-                    {
-                        url: '/json/searchEvents/',
-                        data: {
-                            tag: tag,
-                            type: eventType,
-                            authorId: authorVal,
-                            participantId: particVal
-                        }
-                    },
+                        {
+                            url: '/json/searchEvents/',
+                            data: {
+                                tag: tag,
+                                type: eventType,
+                                authorId: authorVal,
+                                participantId: particVal
+                            }
+                        },
                     eventClick: function (event, jsEvent, view) {
                         console.log(event);
                         console.log(jsEvent);
@@ -292,99 +294,99 @@
 </div>
 <%--<!-- Modal -->--%>
 <%--<div class="modal fade" id="AddEvent" role="dialog">--%>
-    <%--<div class="modal-dialog">--%>
-        <%--<!-- Modal content-->--%>
-        <%--<div class="modal-content">--%>
-            <%--<div class="modal-header">--%>
-                <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-                <%--<h4 class="modal-title">Add new event</h4>--%>
-            <%--</div>--%>
-            <%--<div class="modal-body">--%>
-                <%--<form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">--%>
-                    <%--<spring:bind path="title">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:input type="text" path="title" class="form-control" placeholder="Event name"--%>
-                                        <%--autofocus="true" required="true"></form:input>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<spring:bind path="eventType">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:select  path="eventType" class="form-control" required="true">--%>
-                                <%--<c:if test="${pageContext.request.isUserInRole('ADMIN')}">--%>
-                                    <%--<a href="/admin" class="btn">Admin page</a>--%>
-                                <%--</c:if>--%>
-                                <%--<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">--%>
-                                    <%--<a href="/admin" class="btn">Admin page</a>--%>
-                                <%--</c:if>--%>
+<%--<div class="modal-dialog">--%>
+<%--<!-- Modal content-->--%>
+<%--<div class="modal-content">--%>
+<%--<div class="modal-header">--%>
+<%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
+<%--<h4 class="modal-title">Add new event</h4>--%>
+<%--</div>--%>
+<%--<div class="modal-body">--%>
+<%--<form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">--%>
+<%--<spring:bind path="title">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:input type="text" path="title" class="form-control" placeholder="Event name"--%>
+<%--autofocus="true" required="true"></form:input>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<spring:bind path="eventType">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:select  path="eventType" class="form-control" required="true">--%>
+<%--<c:if test="${pageContext.request.isUserInRole('ADMIN')}">--%>
+<%--<a href="/admin" class="btn">Admin page</a>--%>
+<%--</c:if>--%>
+<%--<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">--%>
+<%--<a href="/admin" class="btn">Admin page</a>--%>
+<%--</c:if>--%>
 
-                                <%--<option value="">Select Event Type</option>--%>
-                                <%--<option value="MEETING">Meeting</option>--%>
-                                <%--<option value="TRAINING">Training</option>--%>
-                                <%--<option value="STANDUP">Stand up</option>--%>
-                                <%--<option value="OFFLINE">Offline</option>--%>
-                                <%--<option value="TEAM_BUILDING">Team building</option>--%>
-                                <%--<option value="WORKSHOP">Workshop</option>--%>
-                                <%--<option value="OTHER">Other</option>--%>
-                            <%--</form:select>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<spring:bind path="location">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:input type="text" path="location" class="form-control"--%>
-                                        <%--placeholder="Location of the event"--%>
-                                        <%--autofocus="true" required="true"></form:input>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<spring:bind path="start">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:input id="datetimepicker1h" type="hidden" path="start"></form:input>--%>
+<%--<option value="">Select Event Type</option>--%>
+<%--<option value="MEETING">Meeting</option>--%>
+<%--<option value="TRAINING">Training</option>--%>
+<%--<option value="STANDUP">Stand up</option>--%>
+<%--<option value="OFFLINE">Offline</option>--%>
+<%--<option value="TEAM_BUILDING">Team building</option>--%>
+<%--<option value="WORKSHOP">Workshop</option>--%>
+<%--<option value="OTHER">Other</option>--%>
+<%--</form:select>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<spring:bind path="location">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:input type="text" path="location" class="form-control"--%>
+<%--placeholder="Location of the event"--%>
+<%--autofocus="true" required="true"></form:input>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<spring:bind path="start">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:input id="datetimepicker1h" type="hidden" path="start"></form:input>--%>
 
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<input type="text" id="datetimepicker1" class="form-control" required="true">--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<input type="text" id="datetimepicker1" class="form-control" required="true">--%>
 
-                    <%--<spring:bind path="end">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:input id="datetimepicker2h" type="hidden" path="end"></form:input>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<input type="text" id="datetimepicker2" class="form-control" required="true">--%>
+<%--<spring:bind path="end">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:input id="datetimepicker2h" type="hidden" path="end"></form:input>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<input type="text" id="datetimepicker2" class="form-control" required="true">--%>
 
-                    <%--<label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>--%>
+<%--<label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>--%>
 
-                    <%--<spring:bind path="description">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"--%>
-                                           <%--autofocus="true"></form:textarea>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<spring:bind path="participants">--%>
-                        <%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-                            <%--<form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"--%>
-                                         <%--multiple="true" required="true"/>--%>
-                        <%--</div>--%>
-                    <%--</spring:bind>--%>
-                    <%--<button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>--%>
-                <%--</form:form>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
+<%--<spring:bind path="description">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"--%>
+<%--autofocus="true"></form:textarea>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<spring:bind path="participants">--%>
+<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
+<%--<form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"--%>
+<%--multiple="true" required="true"/>--%>
+<%--</div>--%>
+<%--</spring:bind>--%>
+<%--<button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>--%>
+<%--</form:form>--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--</div>--%>
 <%--</div>--%>
 
-<div id="container" class="panel panel-default box_style_shadow ", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
-    <span >Legend:</span>
-    <ul>
-        <li>Meeting: </li>
-        <li>Training: </li>
-        <li>Stand Up: </li>
-        <li>Offline: </li>
-        <li>Team building: </li>
-        <li>Workshop: </li>
-        <li>Other: </li>
-    </ul>
+<%--<div id="container" class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">--%>
+<%--<span>Legend:</span>--%>
+<%--<ul>--%>
+<%--<li>Meeting: #000000</li>--%>
+<%--<li>Training: </li>--%>
+<%--<li>Stand Up: </li>--%>
+<%--<li>Offline: </li>--%>
+<%--<li>Team building: </li>--%>
+<%----%>
+<%--</ul>--%>
 
 </div>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
+    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </body>
 </html>

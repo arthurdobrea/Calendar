@@ -422,11 +422,6 @@ a:hover {
     transition: .4s;
 }
 
-  /*.topnav.responsive .sub-menu {*/
-    /*width: 120%;*/
-  /*}*/
-/*}*/
-
            /*user page styles*/
 #wrapper {
   width: 1200px;
@@ -658,83 +653,6 @@ button:focus {
   color: #DE411B;
   border: none;
   background: none;
-}
-
-      /* css for header */
-.topnavContainer{
-  display: table;
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.appLogo {
-  float: left;
-  width: 190px;
-  height: 34px;
-  background-image: url("/resources/images/appLogo.png");
-  background-size: 190px 34px;
-  background-repeat: no-repeat;
-}
-
-.topnav {
-  float: right;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.topnav li {
-  display: inline-block;
-  position: relative;
-  padding: 1px 0px 0px 0px;
-  margin: 0px 0px 0px 0px;
-}
-
-.topnav li a {
-  padding: 0px 15px 0px 15px;
-  font-size: 15px;
-  text-align: center;
-  color: #48545B;
-}
-
-.topnav .no-underline a:hover  {
-  border-bottom: 0px solid #DE411B;
-}
-
-.topnav li a:hover {
-  color: #DE411B;
-  text-decoration: none;
-  border-bottom: 1px solid #DE411B;
-}
-
-.topnav .sub-menu {
-  width: 105%;
-  padding: 0px 0px 5px 0px;
-  position: absolute;
-  top: 100%;
-  left: 0px;
-  z-index: -1;
-  opacity: 0;
-  box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
-  background: #FFFFFF;
-}
-
-.topnav .sub-menu li{
-  display: block;
-  padding: 4px 10px 3px 10px;
-  margin: 0px 0px 0px 0px;
-  text-align: left;
-}
-
-.topnav li:hover .sub-menu {
-  z-index: 1;
-  opacity:1;
-}
-
-.topnav .sub-menu li a {
-  padding: 0px 10px 0px 10px;
-  margin: 0px 0px 0px 0px;
 }
 
  /*css for editing user modal view*/
@@ -1268,3 +1186,7 @@ button:focus {
     float: left;
     margin-left: 35px;
 }
+
+
+/*welcome page css*/
+

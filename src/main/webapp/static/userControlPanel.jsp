@@ -27,6 +27,9 @@
 </head>
 
 <body>
+
+    <c:import url="header.jsp" />
+
 <div class="modal fade" id="EditUser" role="dialog">
     <div class="modal-dialog" align="center" style="margin-top: 100px">
         <!-- Modal content-->
