@@ -30,51 +30,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
     <c:import url="header.jsp" />
     <%--<jsp:include page="header.jsp"/>--%>
 
-<a href="/welcome" class="btn_calendar">Home</a>
-<a href="/index" class="btn_calendar">Calendar</a>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/userPage" class="btn_calendar">User Page</a>
-<a href="/events" class="btn_calendar">All events</a>
-<a href="/userPage" class="btn_calendar">User Page</a>
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
-</c:if>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/logout" class="btn_calendar">Logout</a>
 
-
-<div class="container">
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a
-                onclick="document.forms['logoutForm'].submit()">Logout</a>
-        </h2>
-    </c:if>
-
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="adminForm" method="GET" action="${contextPath}/admin">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-        <h2>
-            As admin u can enter <a onclick="document.forms['adminForm'].submit()">Admin page</a>
-        </h2>
-    </c:if>
-</div>
-<div class="container">
-        <%-- Output tags of event--%>
-        <%--<p>Tag:--%>
-        <%--<c:forEach items="${notification.event.getTags()}" var="tag"> | ${tag.tag} |--%>
-        <%--</c:forEach>--%>
-        <%--</p>--%>
-        <%--<br>--%>
+    <div>
+        Welcome ${pageContext.request.userPrincipal.name}
     </div>
-</div>
+
+    <div>
+        Welcome to Endava Event Manager
+    </div>
+
+    <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    </div>
+
 </body>
 </html>
