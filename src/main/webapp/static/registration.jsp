@@ -28,17 +28,15 @@
 </head>
 <body>
 <div class="container">
-    <form:form method="POST" modelAttribute="userForm" class="form-signin form-signin-reg" enctype = "multipart/form-data">
-        <div class="image"><input type="image" src="${contextPath}/resources/logo.png"/></div>
-
-        <spring:bind path="email">
-            <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="email" path="email" class="form-control" placeholder="EMAIL"
+    <form:form method="POST" modelAttribute="userForm" class="form-signin-reg form-signin form-signin-reg" enctype = "multipart/form-data">
+        <div class="image"><input type="image" src="${contextPath}/resources/Logo.png"/></div>
+        <spring:bind path="multipartFile">
+            <div id="photo" class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="file" path="multipartFile" class="form-control"
                             autofocus="true"></form:input>
-                <form:errors path="email"></form:errors>
+                <form:errors path="multipartFile"></form:errors>
             </div>
         </spring:bind>
-
         <spring:bind path="username">
             <div id="username" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="username" class="form-control" placeholder="USERNAME"
@@ -48,30 +46,22 @@
         </spring:bind>
 
         <div class="first-last-div">
-        <spring:bind path="lastname">
-            <div id="lastname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="lastname" class="form-control" placeholder="LAST NAME"
-                            autofocus="true"></form:input>
-                <form:errors path="lastname"></form:errors>
-            </div>
-        </spring:bind>
+            <spring:bind path="lastname">
+                <div id="lastname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="lastname" class="form-control" placeholder="LAST NAME"
+                                autofocus="true"></form:input>
+                    <form:errors path="lastname"></form:errors>
+                </div>
+            </spring:bind>
 
-        <spring:bind path="firstname">
-            <div id="firstname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="firstname" class="form-control" placeholder="FIRST NAME"
-                            autofocus="true"></form:input>
-                <form:errors path="firstname"></form:errors>
-            </div>
-        </spring:bind>
+            <spring:bind path="firstname">
+                <div id="firstname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                    <form:input type="text" path="firstname" class="form-control" placeholder="FIRST NAME"
+                                autofocus="true"></form:input>
+                    <form:errors path="firstname"></form:errors>
+                </div>
+            </spring:bind>
         </div>
-        <spring:bind path="position">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="position" class="form-control" placeholder="position"
-                            autofocus="true"></form:input>
-                <form:errors path="position"></form:errors>
-            </div>
-        </spring:bind>
-
         <spring:bind path="confirmPassword">
             <div id="confirm-pass" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
                 <form:input type="password" path="confirmPassword" class="form-control" placeholder="CONFIRM PASSWORD"
@@ -88,15 +78,23 @@
             </div>
         </spring:bind>
 
-        <spring:bind path="multipartFile">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="file" path="multipartFile" class="form-control"
+
+        <spring:bind path="email">
+            <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                <form:input type="email" path="email" class="form-control" placeholder="EMAIL"
                             autofocus="true"></form:input>
-                <form:errors path="multipartFile"></form:errors>
+                <form:errors path="email"></form:errors>
             </div>
         </spring:bind>
 
-        <button id="btn-reg" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <spring:bind path="position">
+            <div class="assignment form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="text" path="position" class="form-control" placeholder="ASSIGNMENT NAME"
+                            autofocus="true"></form:input>
+                <form:errors path="position"></form:errors>
+            </div>
+        </spring:bind>
+        <div id="btn-reg-div"><button id="btn-reg" class="btn btn-lg btn-primary btn-block" type="submit">Register</button></div>
     </form:form>
 </div>
 </body>
