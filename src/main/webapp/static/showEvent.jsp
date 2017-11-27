@@ -8,6 +8,7 @@
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -72,8 +73,8 @@
                                     Type: ${event.eventType}
                                 </div>
                                 <div class="form-group">
-                                    When start: ${event.start.toString()} <br>
-                                    When end: ${event.end.toString()}
+                                    When start: ${event.start.toString().replace("T"," ")} <br>
+                                    When end:&nbsp; ${event.end.toString().replace("T"," ")}
                                 </div>
 
                                 <div class="form-group">
@@ -88,7 +89,7 @@
                                     <div class="form-group textarea-group">
                                         <label for="ev-show-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3"
-                                                  id="ev-show-description" required="true" value="${event.description}">${event.description} ${event.getEventTagsAsEnum()}</textarea>
+                                                  id="ev-show-description" required="true" value="${event.description}">${event.description}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -96,26 +97,15 @@
 
                             <div class="row" id="bottomblock">
                                 <div class="col-sm-12">
-                                    <label for="t-show-participants" id="label-show-participants">PARTICIPANTS ${event.participants.size()}</label>
+                                    <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span style="color: #d2322d">${event.participants.size()}</span>]</label>
                                     <div class="form-group participant-group" id="t-show-participants">
-                                        <%--<label for="t-participants">PARTICIPANTS</label>--%>
                                             <c:forEach items="${event.participants}" var="user">
-                                                <div>
                                                      ${user.fullName} ||  ${user.position}
-                                                </div>
                                             </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <%--<div class="row">--%>
-                            <%--<div class="col-sm-12" style="text-align: center">--%>
-                                <%--<input type="submit" id="sendButton" value="Edit">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-
-
                 </form>
             </div>
         </div>

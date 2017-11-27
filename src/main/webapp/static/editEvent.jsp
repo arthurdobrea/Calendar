@@ -25,11 +25,14 @@
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+
     <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/jquery/jquery.js"></script>
     <script src="${contextPath}/resources/jquery/jquery-ui.js"></script>
+    <script src="${contextPath}/resources/jquery/jquery.datetimepicker.js"></script>
     <link href="${contextPath}/resources/jquery/jquery-ui.css" rel="stylesheet">
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
@@ -97,16 +100,16 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="ev-start-date">START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="ev-start-date"
-                                                   placeholder="Choose date... " required="true" value="${event.start.toString()}">
+                                            <label for="datetimepicker1">START DATE</label>
+                                            <input type="text" name="start" class="form-control" id="datetimepicker1"
+                                                   placeholder="Choose date... " required="true" value="${event.start.toString().replace("T"," ")}">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="ev-end-date">END DATE</label>
-                                            <input type="text" name="end" class="form-control" id="ev-end-date"
-                                                   placeholder="Choose date... " required="true" value="${event.end.toString()}">
+                                            <label for="datetimepicker2">END DATE</label>
+                                            <input type="text" name="end" class="form-control" id="datetimepicker2"
+                                                   placeholder="Choose date... " required="true" value="${event.start.toString().replace("T"," ")}">
                                         </div>
                                     </div>
                                 </div>
@@ -163,7 +166,7 @@
                                     <c:forEach items="${tags}" var="tag">
                                         <c:set var="checked" value="0"/>
                                         <c:forEach items="${event.getEventTagsAsEnum()}" var="eventTag">
-                                            <c:if test = "${tag==eventTag}">
+                                            <c:if test = "${tag.tag==eventTag}">
                                                 <c:set var="checked" value="1"/>
                                             </c:if>
                                         </c:forEach>

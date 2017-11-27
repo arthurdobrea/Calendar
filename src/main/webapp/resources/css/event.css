@@ -30,7 +30,7 @@
 }
 .event-form .textarea-group textarea {
   resize: none;
-  height: 153px;
+  height: 130px;
   border-radius: 0;
   border: 2px solid #eee;
   box-shadow: none;
@@ -53,7 +53,7 @@
 }
 .event-form .participant-group textarea {
   resize: none;
-  height: 113px;
+  height: 100px;
   border-radius: 0;
   border: 2px solid #eee;
   box-shadow: none;
@@ -148,7 +148,28 @@
   padding: 10px;
   line-height: 1;
 }
+#alldaylabel{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 13px;
+}
+.event-form .checkbox-inline  {
+  top: 20px ;
+  /*padding-bottom: 10px;*/
 
-#rightblock{
+}
 
+
+#alldaydiv{
+  padding-top: 10px;
+  top: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  margin-bottom: 20px ;
+  /*transform:scale(3);*/
+  /*border: none;*/
+  /*opacity:0.7;*/
+  /*border-color: transparent;*/
 }
