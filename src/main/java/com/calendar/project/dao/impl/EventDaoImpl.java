@@ -42,8 +42,7 @@ public class EventDaoImpl implements EventDao {
         LOGGER.info("Return null event");
         return null;
     }
-
-
+    
     @Override
     public List<Event> getEventsByUser(long userId) {
         List<Event> events = entityManager.createQuery("select DISTINCT e FROM Event e " +

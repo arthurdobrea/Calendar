@@ -211,34 +211,34 @@
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style">
-                <option value="">All Events</option>
-                <option value="EventsCreatedByMe">Events created by me</option>
-                <option value="EventsWhereIamInvited">Events where I am Invited</option>
+                <option value=""style="font-size: 15px">All Events</option>
+                <option value="EventsCreatedByMe" style="font-size: 15px">Events created by me</option>
+                <option value="EventsWhereIamInvited" style="font-size: 15px">Events where I am Invited</option>
             </select>
         </div>
 
         <div class="col-md-4" style="border: none">
             <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style">
-                <option value="">Search by Tag</option>
-                <option value="APPLICATION_MANAGEMENT">Application Management</option>
-                <option value="DEVELOPMENT">Development</option>
-                <option value="TESTING">Testing</option>
-                <option value="TOWER">Tower</option>
-                <option value="NBC">NBC</option>
-                <option value="ALL_STAFF">All Staff</option>
+                <option value="" style="font-size: 15px">Search by Tag</option>
+                <option value="APPLICATION_MANAGEMENT" style="font-size: 15px">Application Management</option>
+                <option value="DEVELOPMENT" style="font-size: 15px">Development</option>
+                <option value="TESTING" style="font-size: 15px">Testing</option>
+                <option value="TOWER" style="font-size: 15px">Tower</option>
+                <option value="NBC" style="font-size: 15px">NBC</option>
+                <option value="ALL_STAFF" style="font-size: 15px">All Staff</option>
             </select>
         </div>
 
         <div class="col-md-4" style="border: none">
             <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style">
-                <option value="">Search by Type</option>
-                <option value="MEETING">Meeting</option>
-                <option value="TRAINING">Training</option>
-                <option value="STANDUP">Stand up</option>
-                <option value="OFFLINE">Offline</option>
-                <option value="TEAM_BUILDING">Team building</option>
-                <option value="WORKSHOP">Workshop</option>
-                <option value="OTHER">Other</option>
+                <option value="" style="font-size: 15px">Search by Type</option>
+                <option value="MEETING" style="font-size: 15px">Meeting</option>
+                <option value="TRAINING" style="font-size: 15px">Training</option>
+                <option value="STANDUP" style="font-size: 15px">Stand up</option>
+                <option value="OFFLINE" style="font-size: 15px">Offline</option>
+                <option value="TEAM_BUILDING" style="font-size: 15px">Team building</option>
+                <option value="WORKSHOP" style="font-size: 15px">Workshop</option>
+                <option value="OTHER" style="font-size: 15px">Other</option>
             </select>
         </div>
     </div>
@@ -254,13 +254,13 @@
 
 <div class="container-fluid" style="margin-top: -10px;">
     <ul id="legend">
-        <li style="font-size: 15px">Meeting: <span class="glyphicon glyphicon-one-fine-dot" style=" color: #C71585"></span></li>
-        <li style="font-size: 15px">Training:  <span class="glyphicon glyphicon-one-fine-dot" style="color: #00008B"></span>  </li>
-        <li style="font-size: 15px">Stand Up:  <span class="glyphicon glyphicon-one-fine-dot" style="color:#2E8B57 "></span>  </li>
-        <li style="font-size: 15px">Offline:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #48D1CC"></span>  </li>
-        <li style="font-size: 15px">Team Building:<span class="glyphicon glyphicon-one-fine-dot" style="color: #FF4500"></span></li>
-        <li style="font-size: 15px">Workshop:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #FF00FF"></span>  </li>
-        <li style="font-size: 15px">Other:     <span class="glyphicon glyphicon-one-fine-dot" style="color: #F08080"></span>   </li>
+        <li style="font-size: 15px">Meeting: <span class="glyphicon glyphicon-one-fine-dot" style=" color: #b61667"></span></li>
+        <li style="font-size: 15px">Training:  <span class="glyphicon glyphicon-one-fine-dot" style="color: #00897b"></span>  </li>
+        <li style="font-size: 15px">Stand Up:  <span class="glyphicon glyphicon-one-fine-dot" style="color:#992f99"></span>  </li>
+        <li style="font-size: 15px">Offline:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1a5a8f"></span>  </li>
+        <li style="font-size: 15px">Team Building:<span class="glyphicon glyphicon-one-fine-dot" style="color: #b61616"></span></li>
+        <li style="font-size: 15px">Workshop:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1bb7de"></span>  </li>
+        <li style="font-size: 15px">Other:     <span class="glyphicon glyphicon-one-fine-dot" style="color: #13A04C"></span>   </li>
     </ul>
 </div>
 
