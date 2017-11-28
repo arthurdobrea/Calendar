@@ -42,36 +42,33 @@
 <body>
 
     <c:import url="header.jsp" />
-    <%--<jsp:include page="header.jsp"/>--%>
 
-<a href="/welcome" class="btn_calendar">Home</a>
-<a href="/index" class="btn_calendar">Calendar</a>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/userPage" class="btn_calendar">User Page</a>
-<a href="/events" class="btn_calendar">All events</a>
-<a href="/userPage" class="btn_calendar">User Page</a>
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn_calendar">Admin page</a>
-</c:if>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
-<a href="/logout" class="btn_calendar">Logout</a>
+    <div class="mascot"></div>
 
-    <div>
-        Welcome ${pageContext.request.userPrincipal.name}
-    </div>
 
-    <div>
-        Welcome to Endava Event Manager
-    </div>
-
-    <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-    </div>
+    <table class="greeting-wrapper">
+        <tr>
+            <td class="greeting_1">
+                Welcome to Endava Event Manager
+            </td>
+        </tr>
+        <tr>
+            <td class="greeting_2">
+                You are logged as ${pageContext.request.userPrincipal.name}
+            </td>
+        </tr>
+        <tr>
+            <td class="greeting_3">
+                Endava Event Manager was created with love and passion by a team of highly pissed-off interns during a fucking long six week period.
+            </td>
+        </tr>
+        <tr>
+            <td class="greeting_4">
+                <a href="/createEvent" data-toggle="modal"  data-toggle="#AddEvent" class="greeting-btn">Add event</a>
+                <%--<a href="events" class="greeting-btn">See events</a>--%>
+            </td>
+        </tr>
+    </table>
 
 </body>
 </html>

@@ -168,21 +168,21 @@ public class EventServiceImpl implements EventService {
         switch (eventType)
         {
             case MEETING:
-                return "#C71585";
+                return "#b61667";
             case TRAINING:
-                return "#00008B";
+                return "#00897b";
             case WORKSHOP:
-                return "#FF00FF";
+                return "#1bb7de";
             case STANDUP:
-                return "#2E8B57";
+                return "#992f99";
             case OFFLINE:
-                return "#48D1CC";
+                return "#1a5a8f";
             case TEAM_BUILDING:
-                return "#FF4500";
+                return "#b61616";
             case OTHER:
-                return "#F08080";
+                return "#13A04C";
             default:
-                return "#110022";
+                return "#000000";
         }
     }
 
@@ -211,6 +211,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
             eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));

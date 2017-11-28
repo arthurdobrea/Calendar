@@ -154,9 +154,9 @@ public class EventController {
 
 /*
         event.setTitle(title);
-
+        event.setEventType(eventType);
         event.setAuthor( securityService.findLoggedInUsername());
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");;
         event.setStart(LocalDateTime.parse(startDate, formatter));
         event.setEnd(LocalDateTime.parse(endDate, formatter));
         event.setAllDay(allday);
@@ -164,13 +164,13 @@ public class EventController {
         event.setEventCreated(LocalDateTime.now());
         event.setDescription(description);
         event.setParticipants(participants);
+
         event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
-        System.out.println("event.getpart="+event.getParticipants());
+//
         */
         eventService.saveEvent(event);;
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
-
         for (User u : participants) {
             final Notification notification = new Notification(u, event);
             notifications.add(notification);
