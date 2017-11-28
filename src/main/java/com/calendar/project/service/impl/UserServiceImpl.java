@@ -224,24 +224,23 @@ public class UserServiceImpl implements UserService {
         String participantsArray[] = null;
         String participantAttributesArray[] = null;
         List <User> users=getAllUsers();
-        System.out.println("users="+users);
         List <User> participantsList=new ArrayList<>();
-        participantsArray=parsePhraseByComma(participants);
+        participantsArray=parsePhraseByComma(participants.trim());
         if (!checkUserList(participants)||participantsArray==null)
             return null;
         for (String participant:participantsArray) {
             participantAttributesArray=parsePhraseInto2Words(participant);
             if (participantAttributesArray==null) break;
-            String participantFirstName = participantAttributesArray[0];
-            String participantLastName = participantAttributesArray[1];
+            String participantFirstName = participantAttributesArray[0].trim();
+            String participantLastName = participantAttributesArray[1].trim();
             for (User user : users) {
-                System.out.println("user.getFirstname()="+user.getFirstname()+"participantFirstName="+participantFirstName);
                 if (user.getFirstname().equals(participantFirstName) &&
                         user.getLastname().equals(participantLastName)) {
                     participantsList.add(user);
                 }
             }
         }
+        System.out.println("Parse list consist - "+participantsList);
         return participantsList;
     }
 
@@ -270,6 +269,11 @@ public class UserServiceImpl implements UserService {
     private boolean checkUserList(String userList){
         if (userList!=null||!userList.equals("")||userList.length()>6
                 ||userList.contains(",")||userList.contains(" ")) return true;
+        System.out.println("Too short user list");
         return false;
+    }
+
+    public List<User> findLikeFullName(String fullname) {
+        return userDao.findLikeFullName(fullname);
     }
 }

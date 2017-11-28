@@ -380,7 +380,7 @@ public class UserController {
     List<String> getUsersFromRequest(@RequestParam String userFullName) {
         LOGGER.info("Request of \"/autocomplete\" page GET");
         List<String> result = new ArrayList<>();
-        for (User user : userService.getAllUsers()) {
+        for (User user : userService.findAllUsers()) {
             if (user.getFullName().toLowerCase().contains(userFullName.toLowerCase())) {
                 result.add(user.getFullName().toString());
             }

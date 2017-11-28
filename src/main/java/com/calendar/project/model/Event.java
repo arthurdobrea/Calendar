@@ -83,6 +83,22 @@ public class Event implements Serializable {
 
     public Event(){}
 
+    public Event(String title, EventType eventType, User author, String location,
+                 List<User> participants, LocalDateTime start, LocalDateTime end,
+                 boolean allDay, LocalDateTime eventCreated, String description, Set<Tag> tags) {
+        this.title = title;
+        this.eventType = eventType;
+        this.author = author;
+        this.location = location;
+        this.participants = participants;
+        this.start = start;
+        this.end = end;
+        this.allDay = allDay;
+        this.eventCreated = eventCreated;
+        this.description = description;
+        this.tags = tags;
+    }
+
     public List<Notification> getNotifications() {
         return notifications;
     }

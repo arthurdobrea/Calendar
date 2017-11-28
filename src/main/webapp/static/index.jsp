@@ -37,7 +37,6 @@
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
     <c:import url="header.jsp" />
-
     <input type="hidden" id="userId" value="${userId}">
 
     <div class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
