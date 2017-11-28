@@ -98,7 +98,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                     .rememberMeParameter("remember-me")
                     .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(900)
+                    .tokenValiditySeconds(86400)
                 .and()
                     .headers()
                     .xssProtection();
