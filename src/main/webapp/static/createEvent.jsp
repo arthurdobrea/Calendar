@@ -22,18 +22,16 @@
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/style.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <script src="${contextPath}/resources/jquery/jquery.js"></script>
-    <script src="${contextPath}/resources/jquery/jquery-ui.js"></script>
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
-    <script src="${contextPath}/resources/jquery/jquery.datetimepicker.js"></script>
-    <link href="${contextPath}/resources/jquery/jquery-ui.css" rel="stylesheet">
+    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
+    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
 
 
     <script>

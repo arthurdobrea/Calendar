@@ -139,7 +139,7 @@ public class EventController {
         System.out.println("startDate"+startDate);
         LOGGER.info("Request of \"/createEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
-        List<User> participants=userService.parseStringToUsersList(participantsList);
+        List<User> participants = userService.parseStringToUsersList(participantsList);
         Event event = new Event();
         event.setTitle(title);
         event.setEventType(eventType);
