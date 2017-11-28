@@ -210,7 +210,7 @@
 
     <div class="row">
         <div class="col-md-4" style="border: none">
-            <select id="allEventsId" onchange="searchEvents()" class="roles_button_style select">
+            <select id="allEventsId" onchange="searchEvents()" class="roles_button_style">
                 <option value="">All Events</option>
                 <option value="EventsCreatedByMe">Events created by me</option>
                 <option value="EventsWhereIamInvited">Events where I am Invited</option>
@@ -218,7 +218,7 @@
         </div>
 
         <div class="col-md-4" style="border: none">
-            <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style select ">
+            <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style">
                 <option value="">Search by Tag</option>
                 <option value="APPLICATION_MANAGEMENT">Application Management</option>
                 <option value="DEVELOPMENT">Development</option>
@@ -230,7 +230,7 @@
         </div>
 
         <div class="col-md-4" style="border: none">
-            <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style select">
+            <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style">
                 <option value="">Search by Type</option>
                 <option value="MEETING">Meeting</option>
                 <option value="TRAINING">Training</option>

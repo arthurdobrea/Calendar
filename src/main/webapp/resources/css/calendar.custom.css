@@ -206,24 +206,24 @@ button:focus {
     background-repeat: no-repeat;
 }
 
-.appLogo {
-    float: left;
-    width: 190px;
-    height: 34px;
-    background-image: url(/resources/appLogo.png);
-    background-size: 190px 34px;
-    background-repeat: no-repeat;
-}
+/*.appLogo {*/
+    /*float: left;*/
+    /*width: 190px;*/
+    /*height: 34px;*/
+    /*background-image: url(/resources/appLogo.png);*/
+    /*background-size: 190px 34px;*/
+    /*background-repeat: no-repeat;*/
+/*}*/
 
 .roles_button_style{
-    width: 150px;
+    width: 300px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-right: 0;
     border-left: 0;
     border-top: 0;
     font-size: 13px;
-    background-color: white;
+    background-color: whitesmoke;
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 30px;
@@ -279,6 +279,11 @@ ul#legend li {
     content: "\25cf";
     font-size: 1.5em;
     margin-right: 100px
+
+}
+
+.roles_button_style {
+    font-size: 20px;
 
 }
 
