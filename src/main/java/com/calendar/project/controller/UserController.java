@@ -40,6 +40,8 @@ import java.util.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
+
 @Controller
 public class UserController {
 
@@ -74,78 +76,100 @@ public class UserController {
 
     @RequestMapping(value = "/getUsernames", method = RequestMethod.GET)
     public @ResponseBody
-    List<User> getUsernames(@RequestParam String userName) {
+    List<String> getUsernames(@RequestParam String userName) throws IOException {
         return simulateSearchResultForUsername(userName);
     }
 
     @RequestMapping(value = "/getFirstnames", method = RequestMethod.GET)
     public @ResponseBody
-    List<User> getFirstName(@RequestParam String firstName) {
-
+    List<String> getFirstName(@RequestParam String firstName) {
         return simulateSearchResultForFirstName(firstName);
     }
 
     @RequestMapping(value = "/getLastnames", method = RequestMethod.GET)
     public @ResponseBody
-    List<User> getLastName(@RequestParam String lastName) {
-
+    List<String> getLastName(@RequestParam String lastName) {
         return simulateSearchResultForLastName(lastName);
     }
 
     @RequestMapping(value = "/getEmails", method = RequestMethod.GET)
     public @ResponseBody
-    List<User> getEmails(@RequestParam String email) {
-
+    List<String> getEmails(@RequestParam String email) {
         return simulateSearchResultForEmail(email);
     }
+
     @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
     public @ResponseBody
     List<User> getRoles(@RequestParam String role) {
         return simulateSearchResultForRoles(role);
     }
 
-    private List<User> simulateSearchResultForUsername(String userName) {
-        List<User> listOfUsers = userService.findAllUsers();
-        List<User> result = new ArrayList<>();
-        for (User user : listOfUsers) {
-            if (user.getUsername().contains(userName)) {
-                result.add(user);
+    private List<String> simulateSearchResultForUsername(String userName) throws IOException {
+        List<User> listOfUsers = userService.getAllUsers();
+        List<String> usernames = new ArrayList<>();
+
+
+
+        for(User u: listOfUsers){
+            usernames.add(u.getUsername());
+        }
+
+
+        List<String> result = new ArrayList<>();
+        for (String s : usernames) {
+            if (s.contains(userName)) {
+                result.add(s);
             }
         }
         return result;
     }
-    private List<User> simulateSearchResultForFirstName(String firstName) {
-        List<User> listOfUsers = userService.findAllUsers();
-        List<User> result = new ArrayList<>();
-        for (User user : listOfUsers) {
-            if (user.getFirstname().contains(firstName)) {
-                result.add(user);
+    private List<String> simulateSearchResultForFirstName(String firstName) {
+        List<User> listOfUsers = userService.getAllUsers();
+        List<String> firstname = new ArrayList<>();
+        for(User u: listOfUsers){
+            firstname.add(u.getFirstname());
+        }
+
+        List<String> result = new ArrayList<>();
+        for (String s : firstname) {
+            if (s.contains(firstName)) {
+                result.add(s);
             }
         }
         return result;
     }
-    private List<User> simulateSearchResultForLastName(String lastName) {
-        List<User> listOfUsers = userService.findAllUsers();
-        List<User> result = new ArrayList<>();
-        for (User user : listOfUsers) {
-            if (user.getLastname().contains(lastName)) {
-                result.add(user);
+    private List<String> simulateSearchResultForLastName(String lastName) {
+        List<User> listOfUsers = userService.getAllUsers();
+        List<String> lastnames = new ArrayList<>();
+        for(User u: listOfUsers){
+            lastnames.add(u.getLastname());
+        }
+
+        List<String> result = new ArrayList<>();
+        for (String s : lastnames) {
+            if (s.contains(lastName)) {
+                result.add(s);
             }
         }
         return result;
     }
-    private List<User> simulateSearchResultForEmail(String email) {
-        List<User> listOfUsers = userService.findAllUsers();
-        List<User> result = new ArrayList<>();
-        for (User user : listOfUsers) {
-            if (user.getEmail().contains(email)) {
-                result.add(user);
+    private List<String> simulateSearchResultForEmail(String email) {
+        List<User> listOfUsers = userService.getAllUsers();
+        List<String> emails = new ArrayList<>();
+        for(User u: listOfUsers){
+            emails.add(u.getEmail());
+        }
+
+        List<String> result = new ArrayList<>();
+        for (String s : emails) {
+            if (s.contains(email)) {
+                result.add(s);
             }
         }
         return result;
     }
     private List<User> simulateSearchResultForRoles(String role) {
-        List<User> listOfUsers = userService.findAllUsers();
+        List<User> listOfUsers = userService.getAllUsers();
         List<User> result = new ArrayList<>();
         for (User user : listOfUsers) {
             if (user.getRoles().contains(role)) {
@@ -289,56 +313,29 @@ public class UserController {
 
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(ModelMap modelMap, HttpServletRequest request) {
+    public String admin(Model model, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
 
-    public void admin (Model model, HttpServletRequest request) {
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
         model.addAttribute("request", request);
         model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
 
-        modelMap.addAttribute("users", users);
-        modelMap.addAttribute("request", request);
-        modelMap.addAttribute("loggedinuser", securityService.findLoggedInUsername());
-
         LOGGER.info("Opening of \"/admin\" page");
-
         return "admin";
     }
 
-    @RequestMapping(value = "/editUser-{usernameFromController}", method = RequestMethod.GET)
-    public Model editUser (Model model2, @PathVariable String usernameFromController) {
-        User user = userService.findByUsername(usernameFromController);
-        model2.addAttribute("user", user);
-        model2.addAttribute("edit", true);
-        return model2;
-    }
 
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
-        public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
-            editFormValidator.validate(user, bindingResult);
-            for (Role r : user.getRoles()) {
-                r.setId(roleService.findRoleIdByValue(r.getName()));
-            }
-            if (bindingResult.hasErrors()) {
-                return "admin";
-            }
-            userService.updateUser(user);
-            return "redirect:/admin";
-    }
-
-    @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        User user = userService.findByUsername(userForm.getUsername());
-
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
-
-        return "redirect:/index";
+    public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        User temp = userService.findByUsername(user.getUsername());
+        user.setPassword(temp.getPassword());
+//        editFormValidator.validate(user, bindingResult);
+        for (Role r : user.getRoles()) {
+            r.setId(roleService.findRoleIdByValue(r.getName()));
+        }
+        userService.updateUser(user);
+        return "admin";
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
@@ -346,10 +343,10 @@ public class UserController {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = userService.findByUsername(auth.getName());
-
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("position", userForm.getPosition());
         model.addAttribute("email", userForm.getEmail());
 
         LOGGER.info("Opening of \"/userControlPanel\" page");
@@ -359,16 +356,19 @@ public class UserController {
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
-        LOGGER.info("Request of \"/userControlPanel\" page POST");
-        User user = userService.findByUsername(userForm.getUsername());
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
+    LOGGER.info("Request of \"/userControlPanel\" page POST");
+    User user = userService.findByUsername(userForm.getUsername());
+    user.setFirstname(userForm.getFirstname());
+    user.setLastname(userForm.getLastname());
+    user.setPosition(userForm.getPosition());
+    user.setEmail(userForm.getEmail());
 
-        userService.update(user);
-        LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
-    }
+    userService.update(user);
+    LOGGER.info("Redirect to \"/userPage\" page");
+    return "redirect:/userPage";
+}
+
+
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
@@ -411,7 +411,7 @@ public class UserController {
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
         List<Role> list = roleService.findAll();
-        list.remove(3);     // to clarify
+        list.remove(1);     // to clarify
         LOGGER.info("Return list of roles");
         return list;
     }
@@ -445,34 +445,14 @@ public class UserController {
         LOGGER.info("Redirect to \"/admin\" page");
         return "redirect:/admin";
     }
-//    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
-//    public void editUser(@PathVariable String username, ModelMap model) {
-//        User user = userService.findByUsername(username);
-//        model.addAttribute("user", user);
-//        model.addAttribute("edit", true);
-//        model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
-////        return "admin";
-//    }
-//
-//    @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.POST)
-//    public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
-//        editFormValidator.validate(user, bindingResult);
-//        for (Role r : user.getRoles()) {
-//            r.setId(roleService.findRoleIdByValue(r.getName()));
-//        }
-//        if (bindingResult.hasErrors()) {
-//            return "admin";
-//        }
-//        userService.updateUser(user);
-//        return "redirect:/admin";
-//    }
+
 
     @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         LOGGER.info("Request of \"/delete-user-{username}\" page GET");
         userService.deleteUserByUsername(username);
         LOGGER.info("Redirect to \"/admin\" page");
-        return "admin";
+        return "redirect:/admin";
     }
 
     // is mailing all events to all users when labels are equals to event types.

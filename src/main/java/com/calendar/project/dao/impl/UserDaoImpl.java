@@ -61,14 +61,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events join u.eventsOfAuthor", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events left join u.eventsOfAuthor", User.class)
                 .getResultList();
 
     }
 
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
-        return entityManager.createQuery("from User u", User.class)
+        return entityManager.createQuery("from User u left join fetch u.roles", User.class)
                 .getResultList();
     }
 
@@ -80,11 +80,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User user) {
         entityManager.merge(user);
+
     }
 
     @Override
     public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
+
+    @Override
+    public List<User> getUserInfo() {
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles", User.class)
+                .getResultList();
+    }
+
 
 }

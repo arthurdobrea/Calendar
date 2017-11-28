@@ -174,20 +174,13 @@
                     <form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">
                         <spring:bind path="title">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <form:input type="text" path="title" class="form-control" placeholder="Event name"
+                                <form:input type="text" path="title" class="form-control" placeholder="Event title"
                                             autofocus="true" required="true"></form:input>
                             </div>
                         </spring:bind>
                         <spring:bind path="eventType">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
                                 <form:select  path="eventType" class="form-control" required="true">
-<c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-    <a href="/admin" class="btn">Admin page</a>
-</c:if>
-
                                     <option value="">Select Event Type</option>
                                     <option value="MEETING">Meeting</option>
                                     <option value="TRAINING">Training</option>

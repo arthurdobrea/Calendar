@@ -52,8 +52,8 @@
 
 <div class="container">
     <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>| <a
-                onclick="document.forms['logoutForm'].submit()">Logout</a>
+        <h2>Welcome ${pageContext.request.userPrincipal.name} <a href="/createEvent">Create new event</a>|
+            <a onclick="document.forms['logoutForm'].submit()">Logout</a>
         </h2>
     </c:if>
 

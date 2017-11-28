@@ -10,6 +10,8 @@ import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -21,10 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,6 +72,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findAllUsers();
     }
 
+
     @Override
     public List<User> getAllUsers(){
         return userDao.getAll();
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User editedUser) {
-        userDao.update(editedUser);
+        userDao.save(editedUser);
     }
 
     @Override
@@ -106,6 +106,15 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         User entity = userDao.findById(user.getId());
         userDao.update(user);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++User Service ++++++++++++++++++++++++++++");
+        System.out.println("id - " +user.getId());
+        System.out.println("username - " + user.getUsername());
+        System.out.println("password - " + user.getPassword());
+        System.out.println("email - " + user.getEmail());
+        System.out.println("firstname - " + user.getFirstname());
+        System.out.println("lastname - " + user.getLastname());
+        System.out.println("position - " + user.getPosition());
+        System.out.println("roles - " + user.getRoles());
     }
 
     @Override
@@ -170,6 +179,32 @@ public class UserServiceImpl implements UserService {
         Object json = mapper.readValue(usersString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
+    @Override
+    public List<User> getUserJsonList(List<User> users) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonArray usersJsonArr = new JsonArray();
+        for (User user : users) {
+            JsonObject userAsJson = new JsonObject();
+            userAsJson.addProperty("id", user.getId());
+            userAsJson.addProperty("username", user.getUsername());
+            userAsJson.addProperty("firstname", user.getFirstname());
+            userAsJson.addProperty("lastname", user.getLastname());
+            userAsJson.addProperty("email", user.getEmail());
+            userAsJson.addProperty("position", user.getPosition());
+            userAsJson.addProperty("image", user.getImage());
+            userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
+            userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+            userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
+            userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+            userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
+            usersJsonArr.add(userAsJson);
+        }
+        String arrayToJson = usersJsonArr.toString();
+        TypeReference<List<User>> mapType = new TypeReference<List<User>>() {};
+        List<User> jsonToUserList = mapper.readValue(arrayToJson, mapType);
+        return jsonToUserList;
+
+    }
 
     @Override
     public String getUserJson(User user) throws IOException{
@@ -202,4 +237,7 @@ public class UserServiceImpl implements UserService {
         firstUser.setEmail(secondUser.getEmail());
         return firstUser;
     }
+
+
+
 }

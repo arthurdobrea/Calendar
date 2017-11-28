@@ -25,5 +25,5 @@ public interface UserDao {
 
     void deleteByUsername(User user);
 
-
+    List<User> getUserInfo();
 }
