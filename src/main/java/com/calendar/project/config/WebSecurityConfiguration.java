@@ -7,12 +7,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
@@ -22,11 +22,13 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String GUEST = "GUEST";
@@ -36,11 +38,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired
     private ClientDetailsService clientDetailsService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
 
     @Autowired
     private DataSource dataSource;
@@ -65,29 +69,29 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-//            .antMatchers("/**").access("hasRole('ROLE_USER')")
-//            .and().formLogin().loginPage("/login").permitAll()
-//                .defaultSuccessUrl("/index").failureUrl("/loginError");
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/").authenticated()
-                    .antMatchers("/index").hasAnyRole(USER, ADMIN, SUPREME_ADMIN, GUEST)
-                    .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                    .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                    .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                    .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
-                    .antMatchers("/oauth/token").permitAll()
-                    //.and().httpBasic()
+                .antMatchers("/").authenticated()
+                .antMatchers("/index").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
+                .antMatchers("/json/allEvents").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                .antMatchers("/json/users").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                .antMatchers("/json/getUserByUsername").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                .antMatchers("/oauth/token").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                .and().httpBasic()
                 .and()
-                    .formLogin()
-                    .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/index")
-                    .failureUrl("/login?error")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/index")
+                .failureUrl("/login?error")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .and()
                     .logout()
                     .logoutSuccessUrl("/login?logout")
@@ -144,5 +148,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         store.setTokenStore(tokenStore);
         return store;
     }
+
 
 }
