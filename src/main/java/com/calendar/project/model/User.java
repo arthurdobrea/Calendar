@@ -3,17 +3,11 @@ package com.calendar.project.model;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.web.multipart.MultipartFile;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
-import java.util.HashSet;
-import java.util.Set;
-
-
-
-import java.util.List;
-import java.util.Objects;
 
 
 @Entity
@@ -132,9 +126,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public String getImageBase64() { return  Base64.encode(image);}
+
     public byte[] getImage() { return image; }
 
     public void setImage(byte[] image) { this.image = image; }
+
 
     public String getPassword() {
         return password;
@@ -241,14 +238,14 @@ public class User implements Serializable {
         if (!password.equals(user.password)) return false;
         if (!confirmPassword.equals(user.confirmPassword)) return false;
         if (!roles.equals(user.roles)) return false;
-      //  if (!image.equals(user.image)) return false;
+        if (!image.equals(user.image)) return false;
         if (!events.equals(user.events)) return false;
         return eventsOfAuthor.equals(user.eventsOfAuthor);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, events, eventsOfAuthor);
+        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, image, events, eventsOfAuthor);
     }
 
     @Override

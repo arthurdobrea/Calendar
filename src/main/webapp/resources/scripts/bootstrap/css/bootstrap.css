@@ -682,7 +682,7 @@ blockquote {
 }
 
 blockquote p {
-  font-size: 17.5px;
+  font-size: 17px;
   font-weight: 300;
   line-height: 1.25;
 }
@@ -755,7 +755,7 @@ code {
 
 pre {
   display: block;
-  padding: 9.5px;
+  padding: 9px;
   margin: 0 0 10px;
   font-size: 13px;
   line-height: 1.428571429;

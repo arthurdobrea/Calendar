@@ -5,6 +5,7 @@ import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserResource;
+import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
@@ -12,7 +13,6 @@ import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.Set;
@@ -61,6 +63,9 @@ public class UserController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private EmailService emailService;
+
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
 
@@ -88,7 +93,7 @@ public class UserController {
         User user = Converter.convert(userForm);
         userService.save(user);
 
-        securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
+        securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
         LOGGER.info("Redirect to \"/index\" page");
         return "redirect:/index";
@@ -134,8 +139,6 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        //EmailSender.send();
         LOGGER.info("Opening of \"/login\" page");
         return "login";
     }
@@ -162,6 +165,9 @@ public class UserController {
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
         model.addAttribute("events", eventService.getEvent(event.getId()));
+
+        User user = securityService.findLoggedInUsername();
+        model.addAttribute("userId", user.getId());
 
         LOGGER.info("Opening of \"/index\" page");
         return "index";
@@ -190,6 +196,13 @@ public class UserController {
         return "redirect:/index";
     }
 
+
+//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
+//    public String createEvent(Model model) {
+//    LOGGER.info("Request of \"/index\" page POST");
+//    return "redirect:/index";
+//}
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(ModelMap modelMap, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
@@ -210,9 +223,11 @@ public class UserController {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = userService.findByUsername(auth.getName());
+
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
+        model.addAttribute("position", userForm.getPosition());
         model.addAttribute("email", userForm.getEmail());
 
         LOGGER.info("Opening of \"/userControlPanel\" page");
@@ -226,13 +241,13 @@ public class UserController {
         User user = userService.findByUsername(userForm.getUsername());
         user.setFirstname(userForm.getFirstname());
         user.setLastname(userForm.getLastname());
+        user.setPosition(userForm.getPosition());
         user.setEmail(userForm.getEmail());
 
         userService.update(user);
-        LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        LOGGER.info("Redirect to \"/userPage\" page");
+        return "redirect:/userPage";
     }
-
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
     public String showMyEvents(  Model model, User user){
@@ -245,6 +260,7 @@ public class UserController {
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
+        model.addAttribute("user", user);
         model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
@@ -266,8 +282,7 @@ public class UserController {
         user.setSubscriptionByEventType(res);
 
         userService.update(user);
-        //is mailing all events to current user  by his labels and event types.
-        userService.mailToUser(user);
+        emailService.mailToUserFutureEvents(user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }
@@ -329,7 +344,7 @@ public class UserController {
     @RequestMapping(value = "/mailing", method = RequestMethod.POST)
     public String mailing(Model model) {
         LOGGER.info("Request of \"/mailing\" page POST");
-        userService.mailToAllUsers();
+        emailService.mailSubscribersAllFutureEvents();
         LOGGER.info("Opening of \"/mailing\" page");
         return "mailing";
     }
@@ -358,5 +373,20 @@ public class UserController {
         userService.update(user);
         LOGGER.info("Opening of \"/usersTags\" page");
         return "usersTags";
+    }
+
+    @RequestMapping(value = "/getUserFullName", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> getUsersFromRequest(@RequestParam String userFullName) {
+        LOGGER.info("Request of \"/autocomplete\" page GET");
+        List<String> result = new ArrayList<>();
+        for (User user : userService.findAllUsers()) {
+            if (user.getFullName().toLowerCase().contains(userFullName.toLowerCase())) {
+                result.add(user.getFullName().toString());
+            }
+        }
+        LOGGER.info("Return response for \"/autocomplete\" " +userFullName);
+        System.out.println("result=="+result);
+        return result;
     }
 }

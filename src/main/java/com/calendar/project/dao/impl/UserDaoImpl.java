@@ -25,14 +25,12 @@ public class UserDaoImpl implements UserDao {
                 .getSingleResult();
     }
 
-
     @Override
     public User findById(Long id) {
         return entityManager.createQuery("select DISTINCT u from User u left join fetch u.roles left join fetch u.events where u.id = :id", User.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
-
 
     @Override
     public User findByUsername(String username) {
@@ -43,6 +41,15 @@ public class UserDaoImpl implements UserDao {
         return users.stream()
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<User> findLikeFullName(String fullname) {
+        List<User> users = entityManager.createQuery("select DISTINCT u from User u where upper(u.firstname) like :fullname or upper(u.lastame) like :fullname ", User.class)
+                .setParameter("username", ("%"+fullname+"%").toUpperCase())
+                .getResultList();
+        System.out.println("select users by full name= " +users);
+        return users;
     }
 
     @Override
@@ -63,14 +70,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events join u.eventsOfAuthor", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events left join u.eventsOfAuthor", User.class)
                 .getResultList();
 
     }
 
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
-        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events join u.eventsOfAuthor", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events left join u.eventsOfAuthor", User.class)
                 .getResultList();
     }
 

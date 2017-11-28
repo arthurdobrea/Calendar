@@ -1,0 +1,197 @@
+
+/* Create event form */
+
+.event-form label {
+  font-size: 10px;
+  font-weight: normal;
+  text-align: left;
+  margin-left: 0;
+}
+.event-form input.form-control,
+.event-form select.form-control {
+  border: 0;
+  border-bottom: 2px solid #eee;
+  box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: none;
+  padding-left: 0;
+  font-size: 14px;
+}
+.event-form select.form-control option {
+  font-size: 14px;
+}
+.event-form input.form-control:focus ,
+.event-form select.form-control:focus {
+  border-color: #df3f14;
+  box-shadow: none;
+}
+.event-form .textarea-group {
+  position: relative;
+}
+.event-form .textarea-group textarea {
+  resize: none;
+  height: 130px;
+  border-radius: 0;
+  border: 2px solid #eee;
+  box-shadow: none;
+  padding-top: 15px;
+  font-size: 14px;
+}
+.event-form .textarea-group label {
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: -11px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+}
+
+.event-form .participant-group-group {
+  position: relative;
+}
+.event-form .participant-group textarea {
+  resize: none;
+  height: 100px;
+  border-radius: 0;
+  border: 2px solid #eee;
+  box-shadow: none;
+  padding-top: 20px;
+  font-size: 14px;
+  margin-right: 5px;
+}
+.event-form .participant-group label {
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: 20px;
+  left: 5px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+
+}
+
+
+#w-input-search{
+  bottom: 5px;
+  border: 0;
+}
+
+.event-form .input-group #span-btn-search{
+  background-color: #ffffff;
+  bottom: 5px;
+}
+
+#tag-checkbox {
+  /*top: -10px;*/
+  padding-bottom: 20px; ;
+  vertical-align: middle;
+  border-radius: 0;
+  border: 2px solid #eee;
+  height: 50px;
+}
+
+#tag-checkbox-edit {
+  top: -10px;
+  padding-top: 10px; ;
+  vertical-align: middle;
+  border-radius: 0;
+  border: 2px solid #eee;
+  height: 40px;
+}
+
+.event-form .checkbox-inline  {
+  vertical-align: middle;
+  align-content: center;
+  font-size: 14px;
+  top:10px;
+}
+
+
+.event-form #subs-checkbox  {
+  align-content: center;
+  font-size: 14px;
+
+}
+
+#tag-box-label{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 5px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+  font-size:10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+
+#sendButton {
+  width: 25%;
+  margin-left: 14px;
+  border-radius: 27px;
+  height: 30px;
+  margin-top: 5px;
+  background-color: #E2552F;
+  border-color: transparent;
+  font-size:12px;
+  text-decoration:none;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.event-form .textarea-group .participant-group{
+  margin-right: 5px;
+}
+
+#t-show-participants{
+  border-radius: 0;
+  border: 2px solid #eee;
+  padding-top: 10px;
+  /*padding-left: 2px;*/
+}
+
+#t-show-participants-row{
+  margin: 10px;
+
+}
+#label-show-participants{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 5px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+}
+#alldaylabel{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 13px;
+}
+.event-form .checkbox-inline  {
+  top: 20px ;
+  /*padding-bottom: 10px;*/
+
+}
+
+
+#alldaydiv{
+  padding-top: 10px;
+  top: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  margin-bottom: 20px ;
+  /*transform:scale(3);*/
+  /*border: none;*/
+  /*opacity:0.7;*/
+  /*border-color: transparent;*/
+}

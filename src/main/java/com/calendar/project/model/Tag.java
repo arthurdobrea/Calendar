@@ -21,10 +21,11 @@ public class Tag {
     @Column(name = "tag_color")
     private String color;
 
-   @ManyToMany(fetch = FetchType.LAZY )
+//   @ManyToMany(fetch = FetchType.LAZY )
    //@JsonBackReference(value = "child")
-   @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
-           inverseJoinColumns = @JoinColumn(name = "event_id"))
+   @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
+//   @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
+//           inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
 
     public Tag() {

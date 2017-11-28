@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +93,23 @@ public class TagServiceImpl implements TagService {
         String tagsString = tagJsonArr.toString();
         Object json = mapper.readValue(tagsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public List<Tag> getTagsByEvent(int EventId){
+        return tagDao.getTagsByEvent(EventId);
+    };
+
+    @Override
+    public Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString){
+        Set<Tag> tagList=new HashSet<>();
+        for(String tag: listOfString) {
+            if (!tag.equals("hidden"))
+            for (Tag tagDBO : getAllTags())
+                if (tagDBO.getTag().toString().equals(tag))
+                    tagList.add((tagDBO));
+        }
+        return tagList;
     }
 
 
