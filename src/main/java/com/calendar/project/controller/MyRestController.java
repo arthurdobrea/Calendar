@@ -28,7 +28,7 @@ import com.calendar.project.service.EventService;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/rest")
-public class RestController {
+public class MyRestController {
 
     private static final Logger LOGGER = Logger.getLogger(JSONController.class);
 

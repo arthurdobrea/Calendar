@@ -1,35 +1,21 @@
 package com.calendar.project.controller;
 
-
-import com.calendar.project.exception.FirebaseException;
-import com.calendar.project.exception.JacksonUtilityException;
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
-import com.calendar.project.model.dto.EventResource;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/json")
