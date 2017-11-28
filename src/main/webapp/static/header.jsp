@@ -23,7 +23,7 @@
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
                     <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
                     <div class="sub-menu-item"><a href="/createEvent" data-toggle="modal"  data-toggle="#AddEvent">Add event</a></div>
-                    <div class="sub-menu-item"><a href="events">All events</a></div>
+                    <%--<div class="sub-menu-item"><a href="events">All events</a></div>--%>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>

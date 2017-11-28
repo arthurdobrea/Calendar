@@ -1189,4 +1189,124 @@ button:focus {
 
 
 /*welcome page css*/
+.mascot {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 10%;
+    z-index: -1;
 
+    width: 528px;
+    height: 80%;
+    background-image: url("/resources/images/mascot.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.greeting-wrapper{
+    width: 60%;
+    margin: 120px auto;
+    min-width: 820px;
+    /*border: solid 1px red;*/
+}
+
+.greeting_1, .greeting_2, .greeting_3 .td.greeting_4 {
+    color: #48545B;
+}
+
+.greeting_1 {
+    font-size: 40px;
+    padding: 0px 0px 0px 0px;
+}
+
+.greeting_2 {
+    font-size: 25px;
+    padding: 0px 0px 0px 0px;
+}
+
+.greeting_3 {
+    font-size: 18px;
+    padding: 30px 0px 50px 0px;
+}
+
+.greeting_4 {
+    display: inline-table;
+    padding: 0px 0px 30px 0px;
+}
+
+.greeting_4 a {
+    display: inline-block;
+}
+
+.greeting-btn {
+    border-radius: 30px;
+    color: #48545B;
+    background-color: #f7f8f9;
+    border: solid 1px #DE411B;
+    margin: 0px 25px;
+    padding: 10px 125px;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.greeting-btn:hover{
+    color: #FFFFFF;
+    background-color: #DE411B;
+    border: solid 1px #DE411B;
+}
+
+@media screen and (max-width: 970px) {
+    .greeting-wrapper {
+        width: 100%;
+        min-width: 250px;
+    }
+
+    .greeting-btn {
+        padding: 10px 70px;
+        margin: 5px 20px 0px 20px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .greeting_1 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .greeting-btn {
+        padding: 10px 50px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    body{
+        padding: 5px !important;
+    }
+
+    .greeting-btn {
+        padding: 10px 40px;
+    }
+}
+
+@media screen and (max-height: 550px) {
+    .greeting-wrapper {
+        margin: 80px auto;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .greeting-wrapper {
+        margin: 40px auto;
+    }
+}
+
+@media screen and (max-height: 400px) {
+    .mascot {
+        display: none;
+    }
+
+    .greeting-wrapper {
+        margin: 0px auto;
+    }
+}

@@ -2,7 +2,7 @@
 .topnavContainer{
     display: table;
     width: 100%;
-    margin: auto;
+    margin: 0px 0px 20px 0px;
     /*border: solid 1px red;*/
 }
 
@@ -29,6 +29,7 @@
     display: inline-block;
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
+    background: #f7f8f9;
 }
 
 .topnav a{
@@ -94,6 +95,10 @@
         display: table;
     }
 
+    .float-right {
+        height: 0;
+    }
+
     .float-right-item {
         display: table;
         text-align: left;
@@ -132,6 +137,14 @@
 }
 
 @media screen and (max-width: 740px) {
+    .topnavContainer{
+        margin: 0px 0px 0px 0px;
+    }
+
+    .topnav.responsive .float-right {
+        height: auto;
+    }
+
     .topnav.responsive .float-right-item, .topnav.responsive .sub-menu-item {
         display: table;
     }
