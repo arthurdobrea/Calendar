@@ -2,6 +2,7 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 
+import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -59,6 +60,9 @@ public class Event implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
+    @Column(name="all_day")
+    private boolean allDay;
+
     @Column(name = "createdata")
     @JsonDeserialize(using=LocalDateDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
@@ -71,10 +75,21 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private List<Notification> notifications;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY )
+    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
     public Event(){}
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public int getId() {
         return id;
@@ -143,6 +158,17 @@ public class Event implements Serializable {
         return tags;
     }
 
+    public List<TagType> getEventTagsAsEnum() {
+        //if (tags.isEmpty()||tags==null) return null;
+        List<TagType> tagTypes=new ArrayList<>();
+        for (Tag tag:getTags()){
+            for (TagType tt:TagType.values()){
+                if(tag.getTag().equals(tt)){ tagTypes.add(tt); break;}
+            }
+        }
+        return tagTypes;
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -153,6 +179,14 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getParticipantsToString() {
+        if (participants.isEmpty()||participants==null) return null;
+        StringBuilder part=new StringBuilder();
+        for (User participant:getParticipants())
+            part.append(participant.getFullName().toString()+",");
+        return part.toString();
     }
 
 
@@ -184,6 +218,14 @@ public class Event implements Serializable {
         this.end = end;
     }
 
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -192,7 +234,8 @@ public class Event implements Serializable {
         Event event = (Event) o;
 
         if (id != event.id) return false;
-        if (!title.equals(event.title)) return false;
+        if (allDay != event.allDay) return false;
+        if (title != null ? !title.equals(event.title) : event.title != null) return false;
         if (eventType != event.eventType) return false;
         if (!author.equals(event.author)) return false;
         if (!location.equals(event.location)) return false;
@@ -206,15 +249,16 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + title.hashCode();
-        result = 31 * result + eventType.hashCode();
-        result = 31 * result + author.hashCode();
-        result = 31 * result + location.hashCode();
-        //result = 31 * result + participants.hashCode();
-        result = 31 * result + start.hashCode();
-        result = 31 * result + end.hashCode();
-        result = 31 * result + eventCreated.hashCode();
-        result = 31 * result + description.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (participants != null ? participants.hashCode() : 0);
+        result = 31 * result + (start != null ? start.hashCode() : 0);
+        result = 31 * result + (end != null ? end.hashCode() : 0);
+        result = 31 * result + (allDay ? 1 : 0);
+        result = 31 * result + (eventCreated != null ? eventCreated.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
@@ -222,15 +266,16 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", eventName= " + title + '\'' +
-                ", eventType= " + eventType +
-                //", author=" + author +
-                ", location=" + location + '\'' +
-                //", participants=" + participants +
-                ", startTime= "  + start +
-                ", endTime= " + end +
-                ", eventCreated= " + eventCreated +
-                ", description= " + description + '\'' +
+                ", title='" + title +
+                ", eventType=" + eventType +
+                ", author=" + author +
+                ", location='" + location +
+                ", participants=" + participants +
+                ", start=" + start +
+                ", end=" + end +
+                ", allDay=" + allDay +
+                ", eventCreated=" + eventCreated +
+                ", description='" + description +
                 '}';
     }
 }

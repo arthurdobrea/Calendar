@@ -1,5 +1,6 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
@@ -98,7 +99,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User editedUser) {
-        userDao.save(editedUser);
+        userDao.update(editedUser);
+        // userDao.save(editedUser);
     }
 
     @Override
@@ -106,15 +108,6 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         User entity = userDao.findById(user.getId());
         userDao.update(user);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++User Service ++++++++++++++++++++++++++++");
-        System.out.println("id - " +user.getId());
-        System.out.println("username - " + user.getUsername());
-        System.out.println("password - " + user.getPassword());
-        System.out.println("email - " + user.getEmail());
-        System.out.println("firstname - " + user.getFirstname());
-        System.out.println("lastname - " + user.getLastname());
-        System.out.println("position - " + user.getPosition());
-        System.out.println("roles - " + user.getRoles());
     }
 
     @Override
@@ -133,29 +126,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void mailToAllUsers(){
-          for (User user:getAllUsers())
-              mailToUser(user);
-    }
-
-    @Override
-    public void mailToUser(User user){
-        System.out.println(" enums _ "+user.getSubscriptionByEventTypeAsEnums());
-        StringBuilder mailText = new StringBuilder();
-        for (EventType eventType: (user.getSubscriptionByEventTypeAsEnums())){
-            for (Event event:eventService.getFutureEventsByType(eventType)) {
-                if (eventType.equals(event.getEventType())) {
-                    mailText.append("Event name: " + event.getTitle());
-                    mailText.append("Event description: " + event.getDescription());
-                    mailText.append("Event start time: " + event.getStart()+"\n");
-                    System.out.println("will send to " + user.getFirstname() + " this " + mailText + "");
-                }
-            }
-        }
-        EmailSender.sendTo(user.getEmail(), "subscribe from EventEndava "+ user.getSubscriptionByEventType(), " You were subscribed by" + user.getSubscriptionByEventType() + mailText.toString());
-    }
-
-    @Override
     public String getUsersJson(List<User> users) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         JsonArray usersJsonArr = new JsonArray();
@@ -167,7 +137,10 @@ public class UserServiceImpl implements UserService {
             userAsJson.addProperty("lastname", user.getLastname());
             userAsJson.addProperty("email", user.getEmail());
             userAsJson.addProperty("position", user.getPosition());
-            userAsJson.addProperty("image", user.getImage());
+            if(user.getImage() == null) userAsJson.addProperty("image", "null");
+            else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                userAsJson.addProperty("image", base64Encoded);}
             userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
             userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
             userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
@@ -217,7 +190,10 @@ public class UserServiceImpl implements UserService {
         userAsJson.addProperty("lastname", user.getLastname());
         userAsJson.addProperty("email", user.getEmail());
         userAsJson.addProperty("position", user.getPosition());
-        userAsJson.addProperty("image", user.getImage());
+        if(user.getImage() == null) userAsJson.addProperty("image", "null");
+        else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        userAsJson.addProperty("image", base64Encoded);}
         userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
         userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
         userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
@@ -238,6 +214,92 @@ public class UserServiceImpl implements UserService {
         return firstUser;
     }
 
+    @Override
+    public User updateUser(User user, UserResource userResource){
+        user.setFirstname(userResource.getFirstname());
+        user.setLastname(userResource.getLastname());
+        user.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
+        user.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
+        user.setEmail(userResource.getEmail());
+        return user;
+    }
+
+    @Override
+    public UserResource updateUserResourceWithUser(UserResource userResource, User user){
+        userResource.setFirstname(user.getFirstname());
+        userResource.setLastname(user.getLastname());
+        userResource.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userResource.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
+        BASE64DecodedMultipartFile base64DecodedMultipartFile = new BASE64DecodedMultipartFile(user.getImage());
+        userResource.setMultipartFile(base64DecodedMultipartFile);
+        userResource.setEmail(user.getEmail());
+        return userResource;
+    }
+
+    @Override
+    public UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource){
+        userResourceToUpdate.setFirstname(userResource.getFirstname());
+        userResourceToUpdate.setLastname(userResource.getLastname());
+        userResourceToUpdate.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
+        userResourceToUpdate.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
+        userResourceToUpdate.setMultipartFile(userResource.getMultipartFile());
+        userResourceToUpdate.setEmail(userResource.getEmail());
+        return userResourceToUpdate;
+    }
 
 
+    @Override
+    public List<User> parseStringToUsersList(String participants){
+        if (participants==null||participants=="") return null;
+        String participantsArray[] = null;
+        String participantAttributesArray[] = null;
+        List <User> users=getAllUsers();
+        System.out.println("users="+users);
+        List <User> participantsList=new ArrayList<>();
+        participantsArray=parsePhraseByComma(participants);
+        if (!checkUserList(participants)||participantsArray==null)
+            return null;
+        for (String participant:participantsArray) {
+            participantAttributesArray=parsePhraseInto2Words(participant);
+            if (participantAttributesArray==null) break;
+            String participantFirstName = participantAttributesArray[0];
+            String participantLastName = participantAttributesArray[1];
+            for (User user : users) {
+                System.out.println("user.getFirstname()="+user.getFirstname()+"participantFirstName="+participantFirstName);
+                if (user.getFirstname().equals(participantFirstName) &&
+                        user.getLastname().equals(participantLastName)) {
+                    participantsList.add(user);
+                }
+            }
+        }
+        return participantsList;
+    }
+
+    private String[] parsePhraseInto2Words(String phrase){
+        String words[] = null;
+        try {
+            words = phrase.split(" ");
+        } catch (Exception e) {
+            System.out.println("Fail Parse phrase into 2 words");
+            return null;
+        }
+        if (words.length!=2) return null;
+        return words;
+    }
+    private String[] parsePhraseByComma(String phrase){
+        String names[] = null;
+        try{
+            names = phrase.split(",");
+        } catch (Exception e){
+            System.out.println("Fail Parse phrase into  names by comma");
+            return null;
+        }
+        return names;
+    }
+
+    private boolean checkUserList(String userList){
+        if (userList!=null||!userList.equals("")||userList.length()>6
+                ||userList.contains(",")||userList.contains(" ")) return true;
+        return false;
+    }
 }

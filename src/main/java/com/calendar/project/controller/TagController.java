@@ -14,10 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class TagController {
@@ -37,7 +36,7 @@ public class TagController {
         model.addAttribute("tags", tagService.getAllTags());
         model.addAttribute("UserEvents", userService.getUsersListBySubscriptionByEventType("MEETING"));
         model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("AM_STREAM"));
-        model.addAttribute("evensByTag", eventService.getEventsByTag(TagType.AM_STREAM));
+        model.addAttribute("evensByTag", eventService.getEventsByTag(TagType.APPLICATION_MANAGEMENT));
         LOGGER.info("Opening of \"/tags\" page");
         return "tags";
     }
@@ -84,5 +83,19 @@ public class TagController {
         LOGGER.info("Redirect to \"/tags\" page");
         return "redirect:/tags";
     }
+    @RequestMapping(value = "/tagList", method = RequestMethod.GET)
+    public String getTagList(Model model) {
+        model.addAttribute("tags", tagService.getAllTags());
+        return "TagList";
+    }
+
+    @RequestMapping(value = "/tagList", method = RequestMethod.POST)
+    public String getTagList(Model model, @RequestParam("checkboxName")List<String> checkboxValue) {
+        model.addAttribute("tagsList",  tagService.parseListOfStringToSetOfTag(checkboxValue));
+        model.addAttribute("tags", tagService.getAllTags());
+        return "TagList";
+    }
+
+
 
 }

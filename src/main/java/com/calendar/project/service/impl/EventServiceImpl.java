@@ -50,11 +50,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventType> getEventTypeList(){
         List<EventType> EventTypeList = new ArrayList<>();
-
         for(EventType eventType : EventType.values()) {
             EventTypeList.add(eventType);
         }
-
         return EventTypeList;
     }
 
@@ -63,14 +61,10 @@ public class EventServiceImpl implements EventService {
         List<Event> eventList = new ArrayList<>();
 
         for (Event event : getAllEvents()) {
-            String startDate = event.getStart().toString(); // convert to ISO DateTime
-            LocalDateTime ldt = LocalDateTime.parse(startDate);
-
-            if (event.getEventType().equals(eventType)&& ldt.isAfter( LocalDateTime.now())) {
+            if (event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now())) {
                 eventList.add(event);
             }
         }
-
         return eventList;
     }
 
@@ -153,6 +147,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
             eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -165,6 +160,35 @@ public class EventServiceImpl implements EventService {
         String eventsString = eventsJsonArr.toString();
         Object json = mapper.readValue(eventsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    @Override
+    public String getColorForEvent(EventType eventType)
+    {
+        switch (eventType)
+        {
+            case MEETING:
+                return "#b61667";
+            case TRAINING:
+                return "#00897b";
+            case WORKSHOP:
+                return "#1bb7de";
+            case STANDUP:
+                return "#992f99";
+            case OFFLINE:
+                return "#1a5a8f";
+            case TEAM_BUILDING:
+                return "#b61616";
+            case OTHER:
+                return "#13A04C";
+            default:
+                return "#000000";
+        }
+    }
+
+    @Override
+    public List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId) {
+        return eventDao.searchEvents(type, tag, authorId, participantId);
     }
 
     @Override
@@ -187,6 +211,7 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
             eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -200,4 +225,12 @@ public class EventServiceImpl implements EventService {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 
+    @Override
+    public EventType getEventTypeByString(String eventType){
+        for(EventType et : EventType.values()) {
+            if (et.toString().equals(eventType)) return et;
+        }
+        return null;
     }
+
+}

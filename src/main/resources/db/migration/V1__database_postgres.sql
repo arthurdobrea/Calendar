@@ -223,14 +223,14 @@ INSERT INTO events_users VALUES (12, 2);
 INSERT INTO events_users VALUES (12, 4);
 
 --Insert tags
-INSERT INTO tags (tag_name, tag_color) VALUES ('AM_STREAM', 'ORANGE');
-INSERT INTO tags (tag_name, tag_color) VALUES ('DEVELOPMENT', 'RED');
-INSERT INTO tags (tag_name, tag_color) VALUES ('TESTING', 'VIOLET');
-INSERT INTO tags (tag_name, tag_color) VALUES ('TOWER', 'YELLOW');
-INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', 'GREY');
-INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', 'BLUE');
+INSERT INTO tags (tag_name, tag_color) VALUES ('APPLICATION_MANAGEMENT', '#de681b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('DEVELOPMENT', '#de251b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('TESTING', '#6f1894');
+INSERT INTO tags (tag_name, tag_color) VALUES ('TOWER', '#dea11b');
+INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', '#737b8a');
+INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', '#213e96');
 
---Insert evets-tags
+--Insert events-tags
 INSERT INTO events_tags VALUES (1, 5);
 INSERT INTO events_tags VALUES (2, 4);
 INSERT INTO events_tags VALUES (3, 3);

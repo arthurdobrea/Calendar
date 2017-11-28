@@ -52,4 +52,10 @@ public interface EventService {
     Event updateEventForRest(Event event, EventResource eventResource);
 
     String getEventJson(Event event) throws IOException;
+
+    EventType getEventTypeByString(String eventType);
+
+    String getColorForEvent(EventType eventType);
+
+    List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId);
 }

@@ -16,6 +16,7 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -23,11 +24,13 @@
     <title>All events</title>
 </head>
 <body>
+
+    <c:import url="header.jsp" />
+
 <a href="/welcome" class="btn_calendar">Home</a>
 <a href="/index" class="btn_calendar">Calendar</a>
 <a href="/events" class="btn_calendar">All events</a>
 <a href="/userPage" class="btn_calendar">User Page</a>
-<a href="/userControlPanel" class="btn_calendar">User Panel</a>
 <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
     <a href="/admin" class="btn_calendar">Admin page</a>
 </c:if>
@@ -46,7 +49,7 @@
     <tr>
         <th>Event</th>
         <th>Type</th>
-        <th>Author</th>
+        <%--<th>Author</th>--%>
         <th>Participants</th>
         <th>Tags</th>
     </tr>
@@ -54,7 +57,7 @@
     <tr>
         <td>${event.title}</td>
         <td>${event.eventType.view()}</td>
-        <td>${event.author.fullName}</td>
+        <%--<td>${event.author.fullName}</td>--%>
         <td><c:forEach items="${event.getParticipants()}" var="participant">
             <p>${participant.username}</p>
             </c:forEach></td>

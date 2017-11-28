@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
-        return entityManager.createQuery("from User u left join fetch u.roles", User.class)
+        return entityManager.createQuery("select distinct u from User u left join fetch u.roles left join fetch u.events left join u.eventsOfAuthor", User.class)
                 .getResultList();
     }
 

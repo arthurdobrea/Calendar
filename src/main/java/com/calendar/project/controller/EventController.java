@@ -1,7 +1,8 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.*;
-import com.calendar.project.service.NotificationService;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
@@ -9,9 +10,6 @@ import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
-import com.calendar.project.service.EventService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +41,15 @@ public class EventController {
     private UserService userService;
 
     @Autowired
+    private TagService tagService;
+
+    @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private EmailService emailService;
+
+
 
     private static final Logger LOGGER = Logger.getLogger(EventController.class);
 
@@ -107,38 +115,65 @@ public class EventController {
     @RequestMapping(value = "/createEvent", method = RequestMethod.GET)
     public String createEvent(Model model) {
         LOGGER.info("Request of \"/createEvent\" page GET");
-        Event event = new Event();
-        List<User> participants = userService.findAllUsers();
-        event.setParticipants(participants);
-        model.addAttribute("eventForm", event);
+        System.out.println("tags="+tagService.getAllTags());
+        model.addAttribute("tags", tagService.getAllTags());
+        model.addAttribute("eventTypes", eventService.getEventTypeList());
         LOGGER.info("Opening of \"/createEvent\" page");
         return "createEvent";
     }
 
     @MessageMapping("/notification")
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
-    public String createEvent(@ModelAttribute("eventForm") Event eventForm, RedirectAttributes redirectAttributes) {
+    public String createEvent(Model model, @ModelAttribute("title") String title,
+                              @ModelAttribute("location") String location,
+                              @ModelAttribute("description") String description,
+                              @ModelAttribute("start") String startDate,
+                              @ModelAttribute("end") String endDate,
+                              @ModelAttribute("participants") String participantsList,
+                              @ModelAttribute("checkSubscribe") String checkSubscribe,
+                              @ModelAttribute("checkParticipants") String checkParticipants,
+                              @ModelAttribute("eventType") EventType eventType,
+                              @RequestParam("checkboxTags")List<String> checkboxValue,
+                              RedirectAttributes redirectAttributes
+    ) {
+        System.out.println("startDate"+startDate);
         LOGGER.info("Request of \"/createEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
+        List<User> participants = userService.parseStringToUsersList(participantsList);
+        Event event = new Event();
+        event.setTitle(title);
+        event.setEventType(eventType);
+        event.setAuthor( securityService.findLoggedInUsername());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");;
+        event.setStart(LocalDateTime.parse(startDate, formatter));
+        event.setEnd(LocalDateTime.parse(endDate, formatter));
+        event.setLocation(location);
+        event.setEventCreated(LocalDateTime.now());
+        event.setDescription(description);
+        event.setParticipants(participants);
+        System.out.println("par="+participantsList);
 
-        List<User> participants = new LinkedList<>();
-        for (User u : eventForm.getParticipants()) {
-            u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
-            participants.add(userService.getUser(u.getId()));
 
-            final Notification notification = new Notification(u, eventForm);
+//        System.out.println("checkboxValue "+ checkboxValue+ "LIST "+tagService.parseListOfStringToSetOfTag(checkboxValue));
+        event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
+//        System.out.println("event.getTags()="+event.getTags());
+        System.out.println("event.getpart="+event.getParticipants());
+        eventService.saveEvent(event);;
+        Event eventTest = eventService.getEvent(event.getId());
+        System.out.println("eventTest.getpart="+eventTest.getParticipants());
+//        System.out.println("eventTest.getpart="+eventTest.getParticipantsToString());
+        if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
+        if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
+        for (User u : participants) {
+            final Notification notification = new Notification(u, event);
             notifications.add(notification);
         }
-
-        eventForm.setParticipants(participants);
-        User user = securityService.findLoggedInUsername();
-        eventForm.setAuthor(userService.findByUsername(user.getUsername()));  // TODO maybe it is better to move to service
-        eventService.saveEvent(eventForm);
-
-        redirectAttributes.addAttribute("eventId", eventForm.getId());
+//        notificationService.saveAll(notifications);
+        model.addAttribute("eventForm", event);
+        redirectAttributes.addAttribute("eventId", event.getId());
 
         notificationService.saveAll(notifications);
-        notificationService.sendToAllParticipants(participants, eventForm);
+        notificationService.sendToAllParticipants(participants, event);
         //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
@@ -149,13 +184,11 @@ public class EventController {
     public String showEvent(Model model, int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
-//        List<User> participantsByEvent = eventService.getParticipantsByEvent(eventId);
-//        event.setParticipants(participantsByEvent);
+        System.out.println(event);
+//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+//        notificationService.changeState(notification);
 
-        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-        notificationService.changeState(notification);
-
-        model.addAttribute("eventForm", event);
+        model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
         return "showEvent";
     }
@@ -177,8 +210,71 @@ public class EventController {
             userAsJson.addProperty("lastname", u.getLastname());
             participantsArray.add(userAsJson);
         }
-
         LOGGER.info("Returns list of participants at event (Count = " + participantsByEvent.size() + ")");
         return participantsArray.toString();
     }
+
+
+    @RequestMapping(value = "/editEvent", method = RequestMethod.GET)
+    public String createEvent(Model model,  int eventId){
+        LOGGER.info("Request of \"/editEvent\" page GET");
+        Event event = eventService.getEvent(eventId);
+        model.addAttribute("event", event);
+        model.addAttribute("tags", tagService.getAllTags());
+        model.addAttribute("eventTypes", eventService.getEventTypeList());
+        System.out.println("event.getEventTagsAsEnum()=="+event.getEventTagsAsEnum());
+        LOGGER.info("Redirect to \"/editEvent\" page");
+        return "/editEvent";
+    }
+
+    @RequestMapping(value = "/editEvent", method = RequestMethod.POST)
+    public String editvent(Model model, @ModelAttribute("title") String title,
+                              @ModelAttribute("location") String location,
+                              @ModelAttribute("description") String description,
+                              @ModelAttribute("start") String startDate,
+                              @ModelAttribute("end") String endDate,
+                              @ModelAttribute("participants") String participantsList,
+                              @ModelAttribute("checkSubscribe") String checkSubscribe,
+                              @ModelAttribute("checkParticipants") String checkParticipants,
+                              @ModelAttribute("eventType") EventType eventType,
+                              @RequestParam("checkboxTags")List<String> checkboxValue,
+                              RedirectAttributes redirectAttributes
+    ) {
+        LOGGER.info("Request of \"/editEvent\" page POST");
+        List<Notification> notifications = new ArrayList<>();
+        List<User> participants=userService.parseStringToUsersList(participantsList);
+        Event event = new Event();
+        event.setTitle(title);
+        event.setEventType(eventType);
+        event.setAuthor( securityService.findLoggedInUsername());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        event.setStart(LocalDateTime.parse(startDate, formatter));
+        event.setEnd(LocalDateTime.parse(endDate, formatter));
+        event.setLocation(location);
+        event.setEventCreated(LocalDateTime.now());
+        event.setDescription(description);
+        event.setParticipants(participants);
+        event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
+        eventService.updateEvent(event);
+        if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
+        if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
+        for (User u : participants) {
+            final Notification notification = new Notification(u, event);
+            notifications.add(notification);
+        }
+//        notificationService.saveAll(notifications);
+        model.addAttribute("eventForm", event);
+        redirectAttributes.addAttribute("eventId", event.getId());
+
+        notificationService.saveAll(notifications);
+        notificationService.sendToAllParticipants(participants, event);
+        //notificationService.sendToSpecificUser();
+
+        LOGGER.info("Redirect to \"/showEvent\" page");
+        return "redirect:/showEvent";
+    }
+
+
+
+
 }

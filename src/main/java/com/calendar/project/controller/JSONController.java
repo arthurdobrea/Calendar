@@ -1,13 +1,11 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.exception.FirebaseException;
-import com.calendar.project.exception.JacksonUtilityException;
+
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
 import com.calendar.project.model.dto.EventResource;
-import com.calendar.project.service.impl.Firebase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
@@ -20,21 +18,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -219,16 +207,20 @@ public class JSONController {
     @RequestMapping(value = "/createUserJson", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody void createUser(@RequestBody User user) throws IOException {
-        MultipartFile userImage = user.getMultipartFile();
-        if (userImage == null) userService.save(user);
-        else{
-        try{
-            user.setImage(Base64.encode(userImage.getBytes()));
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        userService.save(user);}
+        userService.save(user);
     }
+
+    @RequestMapping(value = "/deleteUserJson", params = "username", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody ResponseEntity deleteUser(@PathVariable @RequestParam("username") String username, @RequestBody User user) throws IOException {
+        User user1 = securityService.findLoggedInUsername();
+        if ((!user1.getId().equals(userService.findByUsername("admin").getId()))&&
+                (!user1.getId().equals(userService.findByUsername("admin").getId())))
+            return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+        userService.deleteUserByUsername(username);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/getEventsByUser", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getEventsByUser(@PathVariable @RequestParam("id") long id) throws IOException {
@@ -239,6 +231,7 @@ public class JSONController {
 
     @GetMapping(value = "/getEventsByAuthor", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getEventsByAuthor(@PathVariable @RequestParam("id") long id) throws IOException {
+
         List<Event> events = eventService.getEventsByAuthor(id);
         String eventString = eventService.getEventsJson(events);
         return new ResponseEntity<>(eventString, HttpStatus.OK);
@@ -258,8 +251,15 @@ public class JSONController {
         return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
 
-
-
+    @GetMapping(value = "/searchEvents", params = {"tag", "type", "authorId", "participantId"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> searchEvents(@PathVariable @RequestParam("tag") TagType tag,
+                                               @PathVariable @RequestParam("type") EventType type,
+                                               @PathVariable @RequestParam("authorId") Long authorId,
+                                               @PathVariable @RequestParam("participantId") Long participantId) throws IOException {
+        List<Event> events = eventService.searchEvents(type, tag, authorId, participantId);
+        String eventString = eventService.getEventsJson(events);
+        return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
 
 //    @RequestMapping(value = "/login", method =RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
 //    public @ResponseBody String authentication(@PathVariable @RequestParam("login") String username,
