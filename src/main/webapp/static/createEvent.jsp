@@ -19,7 +19,7 @@
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
@@ -62,8 +62,8 @@
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
         <div class="modal-content" style="border-radius: 0;">
             <div class="modal-header">
-                <div class="modal-header edit_profile_header endava_red_text">
-                    <p align="left" class="modal_topic">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
+                <div class="modal-header create_event_header">
+                    <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
             <div class="modal-body" style="padding-left: 50px; padding-right: 50px">
