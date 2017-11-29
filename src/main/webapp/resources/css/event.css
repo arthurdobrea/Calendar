@@ -1,5 +1,30 @@
 
 /* Create event form */
+.modal-dialog modal-dialog modal-lg{
+  border-radius: 0;
+}
+
+
+.event-form {
+  padding: 20px;
+  padding-left: 20px;
+  border-radius: 0;
+}
+
+/*.event-form  .modal-header*/
+/*{*/
+  /*border: none;*/
+/*}*/
+
+.modal-title{
+  right:25px;
+}
+
+.modal-header{
+  padding: 20px;
+  padding-left:30px ;
+  border: none;
+}
 
 .event-form label {
   font-size: 10px;
@@ -95,6 +120,8 @@
 
 #tag-checkbox-edit {
   top: -10px;
+  margin-left: 20px;
+  margin-right: 20px;
   padding-top: 10px; ;
   vertical-align: middle;
   border-radius: 0;
@@ -129,21 +156,21 @@
   font-family: 'Roboto', sans-serif;
 }
 
-
-
-#sendButton {
-  width: 25%;
-  margin-left: 14px;
-  border-radius: 27px;
-  height: 30px;
-  margin-top: 5px;
-  background-color: #E2552F;
-  border-color: transparent;
-  font-size:12px;
-  text-decoration:none;
-  letter-spacing:2px;
-  text-transform:uppercase;
+#tag-box-label-edit{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 25px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+  font-size:10px;
+  font-family: 'Roboto', sans-serif;
 }
+
+
+
 
 .event-form .textarea-group .participant-group{
   margin-right: 5px;
@@ -194,4 +221,20 @@
   /*border: none;*/
   /*opacity:0.7;*/
   /*border-color: transparent;*/
+}
+
+
+#sendButton {
+  width: 25%;
+  margin-left: 14px;
+  border-radius: 27px;
+  height: 30px;
+  margin-top: 5px;
+  background-color: #E2552F;
+  border-color: transparent;
+  font-size:12px;
+  text-decoration:none;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color: #FFFFFF;
 }

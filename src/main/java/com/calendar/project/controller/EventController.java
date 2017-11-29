@@ -152,22 +152,6 @@ public class EventController {
                 LocalDateTime.parse(startDate, formatter),LocalDateTime.parse(endDate, formatter),
                 allday,LocalDateTime.now(),description,tagService.parseListOfStringToSetOfTag(checkboxValue));
 
-/*
-        event.setTitle(title);
-        event.setEventType(eventType);
-        event.setAuthor( securityService.findLoggedInUsername());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");;
-        event.setStart(LocalDateTime.parse(startDate, formatter));
-        event.setEnd(LocalDateTime.parse(endDate, formatter));
-        event.setAllDay(allday);
-        event.setLocation(location);
-        event.setEventCreated(LocalDateTime.now());
-        event.setDescription(description);
-        event.setParticipants(participants);
-
-        event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
-//
-        */
         eventService.saveEvent(event);;
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
@@ -194,6 +178,12 @@ public class EventController {
         System.out.println(event);
 //        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
 //        notificationService.changeState(notification);
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+        String startDate=event.getStart().format(formatter);
+        String endDate=event.getStart().format(formatter);
+
+        model.addAttribute("start", startDate);
+        model.addAttribute("end", endDate);
         model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
