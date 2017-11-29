@@ -25,4 +25,6 @@ public interface UserDao {
 
     void deleteByUsername(User user);
 
+    List<User> findLikeFullName(String fullname);
+
 }

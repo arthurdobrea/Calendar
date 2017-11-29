@@ -30,7 +30,7 @@
 }
 .event-form .textarea-group textarea {
   resize: none;
-  height: 153px;
+  height: 130px;
   border-radius: 0;
   border: 2px solid #eee;
   box-shadow: none;
@@ -53,7 +53,7 @@
 }
 .event-form .participant-group textarea {
   resize: none;
-  height: 113px;
+  height: 100px;
   border-radius: 0;
   border: 2px solid #eee;
   box-shadow: none;
@@ -84,10 +84,22 @@
   bottom: 5px;
 }
 
-.event-form  #tag-checkbox {
+#tag-checkbox {
+  /*top: -10px;*/
+  padding-bottom: 20px; ;
+  vertical-align: middle;
   border-radius: 0;
   border: 2px solid #eee;
   height: 50px;
+}
+
+#tag-checkbox-edit {
+  top: -10px;
+  padding-top: 10px; ;
+  vertical-align: middle;
+  border-radius: 0;
+  border: 2px solid #eee;
+  height: 40px;
 }
 
 .event-form .checkbox-inline  {
@@ -104,7 +116,7 @@
 
 }
 
-.event-form #tag-box-label{
+#tag-box-label{
   position: absolute;
   margin: 0;
   width: auto;
@@ -113,7 +125,11 @@
   background: #fff;
   padding: 10px;
   line-height: 1;
+  font-size:10px;
+  font-family: 'Roboto', sans-serif;
 }
+
+
 
 #sendButton {
   width: 25%;
@@ -137,6 +153,12 @@
   border-radius: 0;
   border: 2px solid #eee;
   padding-top: 10px;
+  /*padding-left: 2px;*/
+}
+
+#t-show-participants-row{
+  margin: 10px;
+
 }
 #label-show-participants{
   position: absolute;
@@ -148,7 +170,28 @@
   padding: 10px;
   line-height: 1;
 }
+#alldaylabel{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 13px;
+}
+.event-form .checkbox-inline  {
+  top: 20px ;
+  /*padding-bottom: 10px;*/
 
-#rightblock{
+}
 
+
+#alldaydiv{
+  padding-top: 10px;
+  top: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  margin-bottom: 20px ;
+  /*transform:scale(3);*/
+  /*border: none;*/
+  /*opacity:0.7;*/
+  /*border-color: transparent;*/
 }

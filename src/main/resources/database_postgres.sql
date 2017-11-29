@@ -242,21 +242,17 @@ INSERT INTO tags (tag_name, tag_color) VALUES ('NBC', '#737b8a');
 INSERT INTO tags (tag_name, tag_color) VALUES ('ALL_STAFF', '#213e96');
 
 UPDATE tags
-SET tag_color = "#de681b" WHERE tag_name=APPLICATION_MANAGEMENT;
+SET tag_color = '#de681b' WHERE tag_name='APPLICATION_MANAGEMENT';
 UPDATE tags
-SET tag_color = "#de251b" WHERE tag_name=DEVELOPMENT;
+SET tag_color = '#de251b' WHERE tag_name='DEVELOPMENT';
 UPDATE tags
-SET tag_color = "#6f1894" WHERE tag_name=TESTING;
+SET tag_color = '#6f1894' WHERE tag_name='TESTING';
 UPDATE tags
-SET tag_color = "#dea11b" WHERE tag_name=TOWER;
+SET tag_color = '#dea11b' WHERE tag_name='TOWER';
 UPDATE tags
-SET tag_color = "#737b8a" WHERE tag_name=NBC;
+SET tag_color = '#737b8a' WHERE tag_name='NBC';
 UPDATE tags
-SET tag_color = "#213e96" WHERE tag_name=ALL_STAFF;
-
-
-
-
+SET tag_color = '#213e96' WHERE tag_name='ALL_STAFF';
 
 --Insert evets-tags
 INSERT INTO events_tags VALUES (1, 5);

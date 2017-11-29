@@ -3,6 +3,7 @@ package com.calendar.project.model;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -125,9 +126,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public String getImageBase64() { return  Base64.encode(image);}
+
     public byte[] getImage() { return image; }
 
     public void setImage(byte[] image) { this.image = image; }
+
 
     public String getPassword() {
         return password;

@@ -30,10 +30,10 @@ public class EventDaoImpl implements EventDao {
     @Override
     public Event getEvent(int eventId) {
         LOGGER.info("Returns an event based on its ID");
-        List<Event> events = entityManager.createQuery("select e from Event e left join fetch e.author left join fetch e.participants left join fetch e.tags where e.id = :idOfEvent", Event.class)
+        List<Event> events = entityManager.createQuery("select distinct e from Event e left join e.author left join fetch e.participants left join fetch e.tags where e.id = :idOfEvent", Event.class)
                 .setParameter("idOfEvent", eventId)
                 .getResultList();
-
+        System.out.println("SELECT = "+events);
         if (events.size() > 0) {
             Event event = events.get(0);
             LOGGER.info("Return event " + event);
@@ -42,8 +42,7 @@ public class EventDaoImpl implements EventDao {
         LOGGER.info("Return null event");
         return null;
     }
-
-
+    
     @Override
     public List<Event> getEventsByUser(long userId) {
         List<Event> events = entityManager.createQuery("select DISTINCT e FROM Event e " +

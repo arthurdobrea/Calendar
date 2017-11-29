@@ -75,10 +75,29 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private List<Notification> notifications;
 
-    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY )
+    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
     public Event(){}
+
+    public Event(String title, EventType eventType, User author, String location,
+                 List<User> participants, LocalDateTime start, LocalDateTime end,
+                 boolean allDay, LocalDateTime eventCreated, String description, Set<Tag> tags) {
+        this.title = title;
+        this.eventType = eventType;
+        this.author = author;
+        this.location = location;
+        this.participants = participants;
+        this.start = start;
+        this.end = end;
+        this.allDay = allDay;
+        this.eventCreated = eventCreated;
+        this.description = description;
+        this.tags = tags;
+    }
 
     public List<Notification> getNotifications() {
         return notifications;
@@ -185,17 +204,6 @@ public class Event implements Serializable {
             part.append(participant.getFullName().toString()+",");
         return part.toString();
     }
-
-
-//    public String getStartTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return start.format(formatter);
-//    }
-//
-//    public String getEndTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return end.format(formatter);
-//    }
 
     public LocalDateTime getStart() {
         return start;
