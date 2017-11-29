@@ -2,8 +2,8 @@
 /* Create event form */
 .modal-dialog modal-dialog modal-lg{
   border-radius: 0;
+  margin: auto;
 }
-
 
 .event-form {
   padding: 20px;

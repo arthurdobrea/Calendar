@@ -35,8 +35,9 @@ public class TagController {
         LOGGER.info("Request of \"/tags\" page GET");
         model.addAttribute("tags", tagService.getAllTags());
         model.addAttribute("UserEvents", userService.getUsersListBySubscriptionByEventType("MEETING"));
-        model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("AM_STREAM"));
+        model.addAttribute("UserTags", userService.getUsersListBySubscriptionByTagType("APPLICATION_MANAGEMENT"));
         model.addAttribute("evensByTag", eventService.getEventsByTag(TagType.APPLICATION_MANAGEMENT));
+        model.addAttribute("fullname", userService.findLikeFullName("a"));
         LOGGER.info("Opening of \"/tags\" page");
         return "tags";
     }

@@ -45,7 +45,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" onclick="window.location.href='/index'" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">EVENT</h4>
             </div>
             <div class="modal-body">
@@ -55,7 +55,7 @@
                         <div class="row" id="leftblock" style="padding-right: 15px">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    MAIN INFO <br>
+                                    MAIN INFO
                                     Title:   <span style="color: #d2322d">${event.title}</span>
                                 </div>
                                 <div class="form-group">
@@ -116,7 +116,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center">
+                                <input hidden name="id" value="${event.id}">
+                                <%--<c:set var="isParticipant" value="0"/>--%>
+                                <c:if test="${isParticipant}">
+                                    <input type="submit" id="sendButton" value="UNSUBSCRIBE">
+                                </c:if>
+                                    <c:if test="${!isParticipant}">
+                                        <input type="submit" id="sendButton" value="SUBSCRIBE">
+                                    </c:if>
+                            </div>
                         </div>
+                        </div>
+
                 </form>
             </div>
         </div>

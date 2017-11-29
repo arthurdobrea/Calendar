@@ -26,6 +26,11 @@
 <a href="/logout" class="btn_calendar">Logout</a>
 
 <h2>Events by tag:</h2>
+    Fullname
+    <c:forEach items="${fullname}" var="user">
+        ${user.fullName}<br>
+    </c:forEach>
+
 <c:forEach items="${tags}" var="tag">
     <p>Tag: ${tag.tag} |
         <a href="/updateTag?tagId=${tag.id}"> update</a>|

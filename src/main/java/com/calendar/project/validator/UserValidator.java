@@ -43,15 +43,17 @@ public class UserValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
-        int firstnameLength = firstname.length();
-        if (firstnameLength < 2 || firstnameLength > 32) {
-            errors.rejectValue("firstname", "Size.userForm.name");
+//        int firstnameLength = firstname.length();
+//        if (firstnameLength < 2 || firstnameLength > 32) {
+//            errors.rejectValue("firstname", "Size.userForm.name");
+        if (!Pattern.matches("^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$", user.getFirstname())){
+            errors.rejectValue("firstname", "FirstName.userForm.name");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "Required");
         int lastnameLength = lastname.length();
-        if (lastnameLength < 2 || lastnameLength > 32) {
-            errors.rejectValue("lastname", "Size.userForm.lastname");
+        if (!Pattern.matches("^[\\p{L} .'-]+$", user.getLastname())){
+            errors.rejectValue("lastname", "LastName.userForm.lastname");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
