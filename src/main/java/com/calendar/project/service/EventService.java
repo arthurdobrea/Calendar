@@ -58,4 +58,6 @@ public interface EventService {
     String getColorForEvent(EventType eventType);
 
     List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId);
+
+
 }

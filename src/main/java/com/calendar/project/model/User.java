@@ -226,26 +226,32 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
-        if (!username.equals(user.username)) return false;
-        if (!firstname.equals(user.firstname)) return false;
-        if (!lastname.equals(user.lastname)) return false;
-        if (!email.equals(user.email)) return false;
-        if (!password.equals(user.password)) return false;
-        if (!confirmPassword.equals(user.confirmPassword)) return false;
-        if (!roles.equals(user.roles)) return false;
-        if (!image.equals(user.image)) return false;
-        if (!events.equals(user.events)) return false;
-        return eventsOfAuthor.equals(user.eventsOfAuthor);
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null) return false;
+        if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (confirmPassword != null ? !confirmPassword.equals(user.confirmPassword) : user.confirmPassword != null)
+            return false;
+        return position != null ? position.equals(user.position) : user.position == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, firstname, lastname, email, password, confirmPassword, roles, image, events, eventsOfAuthor);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (confirmPassword != null ? confirmPassword.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        return result;
     }
 
     @Override

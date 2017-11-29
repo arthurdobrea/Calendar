@@ -280,4 +280,11 @@ public class UserServiceImpl implements UserService {
     public List<User> findLikeFullName(String fullname) {
         return userDao.findLikeFullName(fullname);
     }
+
+    @Override
+    public boolean isUserParticipant(Event event, User user) {
+        for (User u : event.getParticipants())
+            if (u.getId()== user.getId()) return true;
+        return false;
+    }
 }
