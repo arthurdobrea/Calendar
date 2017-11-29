@@ -898,6 +898,8 @@ input:-webkit-autofill:active {
     color: #FFFFFF;
     background-color: #DE411B;
     border: solid 1px #DE411B;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 970px) {

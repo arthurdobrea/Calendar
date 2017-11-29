@@ -28,7 +28,7 @@
         <div class="appLogo" id = "imageId" style="display: none" ></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
-            <div class="float-right-item"><a href="/">CALENDAR</a></div>
+            <div class="float-right-item"><a href="/index">CALENDAR</a></div>
             <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()"
                                              onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img
                     src="/resources/icons/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
