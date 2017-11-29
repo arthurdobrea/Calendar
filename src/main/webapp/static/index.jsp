@@ -203,23 +203,20 @@
 </div>
 
 
-<div id="container" class="panel panel-default box_style_shadow" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
+<div id="container" class="panel panel-default box_style_shadow1" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
 
     <div id="calendar"></div>
 
 </div>
 
-<div id="container1" class="panel panel-default box_style_shadow" style="padding-top: 0px; padding-left: 30px; padding-right: 30px; padding-bottom: 0px; margin-bottom: 30px">
-    <div class="container-fluid" style="margin-top: -10px;">
-        <ul id="legend">
-            <li style="font-size: 15px">Meeting: <span class="glyphicon glyphicon-one-fine-dot" style=" color: #b61667"></span></li>
-            <li style="font-size: 15px">Training:  <span class="glyphicon glyphicon-one-fine-dot" style="color: #00897b"></span>  </li>
-            <li style="font-size: 15px">Stand Up:  <span class="glyphicon glyphicon-one-fine-dot" style="color:#992f99"></span>  </li>
-            <li style="font-size: 15px">Offline:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1a5a8f"></span>  </li>
-            <li style="font-size: 15px">Team Building:<span class="glyphicon glyphicon-one-fine-dot" style="color: #b61616"></span></li>
-            <li style="font-size: 15px">Workshop:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1bb7de"></span>  </li>
-            <li style="font-size: 15px">Other:     <span class="glyphicon glyphicon-one-fine-dot" style="color: #13A04C"></span>   </li>
-    </ul>
+<div class="panel panel-default box_style_shadow", style="padding-top:0px; padding-left: 30px; padding-right: 30px; padding-bottom: 0px; margin-bottom: 30px">
+    <div class="legend-dot"><span id="meeting-color"></span> Meeting</div>
+    <div class="legend-dot"><span id="training-color"></span> Training</div>
+    <div class="legend-dot"><span id="stand-up-color"></span> Stand Up</div>
+    <div class="legend-dot"><span id="offline-color"></span> Offline</div>
+    <div class="legend-dot"><span id="team-building-color"></span> Team Building</div>
+    <div class="legend-dot"><span id="workshop-color"></span> Workshop</div>
+    <div class="legend-dot"><span id="other-color"></span> Other</div>
 </div>
 </div>
 

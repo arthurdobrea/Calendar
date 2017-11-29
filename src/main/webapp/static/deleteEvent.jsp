@@ -21,7 +21,7 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
-    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
+    <link href='${contextPath}/resources/css/calendar-custom.css' rel='stylesheet' />
 
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>

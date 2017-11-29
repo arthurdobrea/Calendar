@@ -1,0 +1,102 @@
+
+/* Create event form */
+.modal-dialog modal-dialog modal-lg{
+  border-radius: 0;
+}
+
+
+.subscribe-form {
+  padding: 20px;
+  border-radius: 0;
+  font-size: 14px;
+  align-content: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+#EventType-checkbox{
+  height: 70px;
+  border-radius: 0;
+  border: 2px solid #eee;
+  box-shadow: none;
+  text-align: center;
+  align-content: center;
+  vertical-align: middle;
+  padding-top: 5px;
+
+
+}
+
+#eventtype-box-label{
+  position: absolute;
+  margin: 0;
+  width: auto;
+  top: -13px;
+  left: 5px;
+  background: #fff;
+  padding: 10px;
+  line-height: 1;
+  font-size:10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/*.event-form  .modal-header*/
+/*{*/
+  /*border: none;*/
+/*}*/
+
+.modal-title{
+  right:25px;
+}
+
+.modal-header{
+  padding: 20px;
+  padding-left:30px ;
+  border: none;
+}
+
+.subscribe-form label {
+  font-size: 10px;
+  font-weight: normal;
+  text-align: left;
+  margin-left: 0;
+}
+
+.subscribe-form .checkbox-inline  {
+  vertical-align: middle;
+  align-content: center;
+  font-size: 14px;
+  top:10px;
+}
+
+
+
+
+#sendButton {
+  width: 25%;
+  margin-left: 14px;
+  border-radius: 27px;
+  height: 30px;
+  margin-top: 5px;
+  background-color: #E2552F;
+  border-color: transparent;
+  font-size: 12px;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#sendButton {
+  width: 25%;
+  margin-left: 14px;
+  border-radius: 27px;
+  height: 30px;
+  margin-top: 5px;
+  background-color: #E2552F;
+  border-color: transparent;
+  font-size:12px;
+  text-decoration:none;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color: #FFFFFF;
+}
+

@@ -154,9 +154,9 @@
 
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="checkbox-group" name="end" id="subs-checkbox" style="padding-bottom:15px">
+                                            <div class="checkbox-group" id="subs-checkbox" style="padding-bottom:15px">
                                                 <label class="checkbox-inline">
-                                                    <input type="checkbox"/>Send emails to
+                                                    <input type="checkbox"  name="checkParticipants"/>Send emails to
                                                     participants</label>
                                                 <label class="checkbox-inline">
                                                     <input type="checkbox" name="checkSubscribe"/>Send emails to
@@ -180,6 +180,11 @@
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>
                                     </c:forEach>
+                                    <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <input type="checkbox" name="checkboxTags"
+                                                hidden value="hidden" checked/>
+                                    </label>
+
                                 </div>
                             </div>
                         </div>

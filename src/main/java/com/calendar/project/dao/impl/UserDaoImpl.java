@@ -44,6 +44,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> findLikeFullName(String fullname) {
+        List<User> users = entityManager.createQuery("select DISTINCT u from User u where upper(u.firstname) like :fullname or upper(u.lastame) like :fullname ", User.class)
+                .setParameter("username", ("%"+fullname+"%").toUpperCase())
+                .getResultList();
+        System.out.println("select users by full name= " +users);
+        return users;
+    }
+
+    @Override
     public List<User> getUsersBySubscriptionByEventType(String subscriptionByEventType) {
         List<User> users = entityManager.createQuery("select DISTINCT u from User u where u.subscriptionByEventType Like :eventtype", User.class)
                 .setParameter("eventtype", "%" + subscriptionByEventType + "%")
@@ -80,11 +89,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User user) {
         entityManager.merge(user);
+
     }
 
     @Override
     public void deleteUser(User user) {
         entityManager.remove(user);
     }
+
+
+
 
 }

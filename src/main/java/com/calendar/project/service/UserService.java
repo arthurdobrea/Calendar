@@ -46,4 +46,6 @@ public interface UserService {
     UserResource updateUserResourceWithUser(UserResource userResource, User user);
 
     UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource);
+
+    List<User> findLikeFullName(String fullname);
 }

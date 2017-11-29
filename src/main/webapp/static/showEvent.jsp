@@ -55,16 +55,8 @@
                         <div class="row" id="leftblock" style="padding-right: 15px">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    MAIN INFO
-                                    <%--Name: ${event.title} <br>--%>
-                                    <%--Type: ${event.eventType}<br>--%>
-                                    <%--Location: ${event.location}<br>--%>
-                                    <%--Start time: ${event.start}<br>--%>
-                                    <%--End time: ${event.end}<br>--%>
-                                    <%--Description:${event.description}<br>--%>
-                                    <%--Created at: ${event.eventCreated}<br>--%>
-                                    <%--Created by: ${event.author.fullName}<br>--%>
-                                    Title: ${event.title}
+                                    MAIN INFO <br>
+                                    Title:   <span style="color: #d2322d">${event.title}</span>
                                 </div>
                                 <div class="form-group">
                                     Location: ${event.location}
@@ -73,8 +65,10 @@
                                     Type: ${event.eventType}
                                 </div>
                                 <div class="form-group">
-                                    When start: ${event.start.toString().replace("T"," ")} <br>
-                                    When end:&nbsp; ${event.end.toString().replace("T"," ")}
+                                    When start: ${start}
+                                </div>
+                                <div class="form-group">
+                                    When end:&nbsp; ${end}
                                 </div>
 
                                 <div class="form-group">
@@ -95,16 +89,33 @@
                             </div>
                         </div>
 
-                            <div class="row" id="bottomblock">
-                                <div class="col-sm-12">
-                                    <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span style="color: #d2322d">${event.participants.size()}</span>]</label>
-                                    <div class="form-group participant-group" id="t-show-participants">
-                                            <c:forEach items="${event.participants}" var="user">
-                                                     ${user.fullName} ||  ${user.position}
-                                            </c:forEach>
+                        <div class="row" id="bottomblock">
+                            <div class="col-sm-12">
+                                <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
+                                        style="color: #d2322d">${event.participants.size()}</span>]</label>
+                                <div class="form-group participant-group" id="t-show-participants">
+                                    <div class="row">
+
+                                        <c:forEach items="${event.participants}" var="user">
+                                            <div class="col-md-3 col-sm-4" id="t-show-participants-row">
+                                                <table style="border: none">
+                                                    <tr>
+                                                        <td rowspan="2"><img id="avatar" src="data:image/jpeg;base64,
+                                                             ${user.getImageBase64()}" alt="Your avatar"
+                                                                             style="width: 40px; height: 40px; border-radius: 50%"/>
+                                                        </td>
+                                                        <td style="padding-left: 2px; font-size: 14px"> ${user.fullName}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-left: 2px; font-size: 10px"> ${user.position}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                 </form>
             </div>

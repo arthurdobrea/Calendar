@@ -5,6 +5,7 @@ import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
@@ -136,32 +137,22 @@ public class EventController {
                               @RequestParam("checkboxTags")List<String> checkboxValue,
                               RedirectAttributes redirectAttributes
     ) {
-        System.out.println("startDate"+startDate);
+        boolean allday=false;
+        System.out.println("participantsList" +participantsList);
+        if (startDate.length()<15){
+            startDate+=" 10:00";
+            endDate+=" 17:00";
+            allday=true;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/createEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
-        List<User> participants = userService.parseStringToUsersList(participantsList);
-        Event event = new Event();
-        event.setTitle(title);
-        event.setEventType(eventType);
-        event.setAuthor( securityService.findLoggedInUsername());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");;
-        event.setStart(LocalDateTime.parse(startDate, formatter));
-        event.setEnd(LocalDateTime.parse(endDate, formatter));
-        event.setLocation(location);
-        event.setEventCreated(LocalDateTime.now());
-        event.setDescription(description);
-        event.setParticipants(participants);
-        System.out.println("par="+participantsList);
+        List<User> participants=userService.parseStringToUsersList(participantsList);
+        Event event = new Event(title,eventType,securityService.findLoggedInUsername(),location, participants,
+                LocalDateTime.parse(startDate, formatter),LocalDateTime.parse(endDate, formatter),
+                allday,LocalDateTime.now(),description,tagService.parseListOfStringToSetOfTag(checkboxValue));
 
-
-//        System.out.println("checkboxValue "+ checkboxValue+ "LIST "+tagService.parseListOfStringToSetOfTag(checkboxValue));
-        event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
-//        System.out.println("event.getTags()="+event.getTags());
-        System.out.println("event.getpart="+event.getParticipants());
         eventService.saveEvent(event);;
-        Event eventTest = eventService.getEvent(event.getId());
-        System.out.println("eventTest.getpart="+eventTest.getParticipants());
-//        System.out.println("eventTest.getpart="+eventTest.getParticipantsToString());
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
         for (User u : participants) {
@@ -187,7 +178,13 @@ public class EventController {
         System.out.println(event);
 //        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
 //        notificationService.changeState(notification);
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+        String startDate=event.getStart().format(formatter);
+        String endDate=event.getStart().format(formatter);
 
+        model.addAttribute("start", startDate);
+        model.addAttribute("end", endDate);
+        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
         return "showEvent";
@@ -228,7 +225,9 @@ public class EventController {
     }
 
     @RequestMapping(value = "/editEvent", method = RequestMethod.POST)
-    public String editvent(Model model, @ModelAttribute("title") String title,
+    public String editvent(Model model,
+                           @ModelAttribute("event-id") int id,
+                           @ModelAttribute("title") String title,
                               @ModelAttribute("location") String location,
                               @ModelAttribute("description") String description,
                               @ModelAttribute("start") String startDate,
@@ -243,7 +242,7 @@ public class EventController {
         LOGGER.info("Request of \"/editEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
         List<User> participants=userService.parseStringToUsersList(participantsList);
-        Event event = new Event();
+        Event event = eventService.getEvent(id);
         event.setTitle(title);
         event.setEventType(eventType);
         event.setAuthor( securityService.findLoggedInUsername());
