@@ -62,10 +62,13 @@ public class EventServiceImpl implements EventService {
         List<Event> eventList = new ArrayList<>();
 
         for (Event event : getAllEvents()) {
-            if (event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now())) {
+
+            if (event.getEventType()!=null&& event.getStart()!=null && eventType!=null
+                    && event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now())) {
                 eventList.add(event);
             }
         }
+        System.out.println("eventType: "+eventType+"/n eventList:"+eventList);
         return eventList;
     }
 

@@ -323,11 +323,6 @@ public class UserController {
     }
 
 
-//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
-//    public String createEvent(Model model) {
-//    LOGGER.info("Request of \"/index\" page POST");
-//    return "redirect:/index";
-//}
 
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -403,9 +398,23 @@ public class UserController {
         return "userPage";
     }
 
-    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
-    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
-        LOGGER.info("Request of \"/eventTypeLink\" page POST");
+    @RequestMapping(value = "/subscribe", method = RequestMethod.GET)
+    public String showMySubscribe(  Model model, User user){
+        LOGGER.info("Request of \"/subscribe\" page GET");
+        user = securityService.findLoggedInUsername();
+
+        model.addAttribute("userSubscription", user.getSubscriptionByEventTypeAsEnums());
+        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("eventsList", eventService.getEventTypeList());
+        model.addAttribute("user", user = securityService.findLoggedInUsername());
+        LOGGER.info("Opening of \"/subscribe\" page");
+        return "subscription";
+    }
+
+    @RequestMapping(value = "/subscribe", method = RequestMethod.POST)
+    public String setSubscribe(Model model,  @ModelAttribute("checksubs") String checkSubscription,
+                               @RequestParam("checkboxName")Set<String> checkboxValue) {
+        LOGGER.info("Request of \"/subscribe\" page POST");
         User user = securityService.findLoggedInUsername();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -414,12 +423,32 @@ public class UserController {
                 stringBuilder.append(ptr + ',');
             }
         }
-
-        String res = stringBuilder.toString();
-        user.setSubscriptionByEventType(res);
-
+        String subscription = stringBuilder.toString();
+        user.setSubscriptionByEventType(subscription);
         userService.update(user);
-        emailService.mailToUserFutureEvents(user);
+        System.out.println("checkSubscription: "+checkSubscription);
+        if (checkSubscription.equals("on"))emailService.mailToUserFutureEvents(user);
+        LOGGER.info("Opening of \"/subscribe\" page");
+        return "redirect:/userPage";
+    }
+
+    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
+        LOGGER.info("Request of \"/eventTypeLink\" page POST");
+        User user = securityService.findLoggedInUsername();
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for(String ptr: checkboxValue) {
+//            if (!ptr.equals("")) {
+//                stringBuilder.append(ptr + ',');
+//            }
+//        }
+//
+//        String res = stringBuilder.toString();
+//        user.setSubscriptionByEventType(res);
+//
+//        userService.update(user);
+//        emailService.mailToUserFutureEvents(user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

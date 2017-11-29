@@ -65,7 +65,7 @@
 <body>
 
 
-<div class=" modal-dialog modal-dialog modal-lg">
+<div class="modal-dialog modal-dialog modal-lg">
     <div class="modal-content">
 
         <div class="modal-header">
@@ -104,7 +104,7 @@
                                         <label for="datetimepicker1">START DATE</label>
                                         <input type="text" name="start" class="form-control" id="datetimepicker1"
                                                placeholder="Choose date... " required="true"
-                                               value="${event.start.toString().replace("T"," ")}">
+                                               value="${event.start.toString().replace("T"," ").replace("-","/")}">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -112,7 +112,7 @@
                                         <label for="datetimepicker2">END DATE</label>
                                         <input type="text" name="end" class="form-control" id="datetimepicker2"
                                                placeholder="Choose date... " required="true"
-                                               value="${event.start.toString().replace("T"," ")}">
+                                               value="${event.end.toString().replace("T"," ").replace("-","/")}">
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="top: -7px">
@@ -158,9 +158,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12" style="text-align: center; bottom: 20px">
-                                        <div class="checkbox-group" name="end" id="subs-checkbox">
+                                        <div class="checkbox-group"  id="subs-checkbox">
                                             <label class="checkbox-inline">
-                                                <input type="checkbox"/>Send emails to
+                                                <input type="checkbox"  name="checkParticipants"/>Send emails to
                                                 participants</label>
                                             <label class="checkbox-inline">
                                                 <input type="checkbox" name="checkSubscribe"/>Send emails to
@@ -177,7 +177,7 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="tag-checkbox" id="tag-box-label">TAGS</label>
+                        <label for="tag-checkbox-edit" id="tag-box-label-edit">TAGS</label>
                         <div class="checkbox-group" style="text-align: center" id="tag-checkbox-edit">
                             <c:forEach items="${tags}" var="tag">
                                 <c:set var="checked" value="0"/>
@@ -222,7 +222,7 @@
 </div>
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
-    <script src="${contextPath}/resources/js/eventValidator.js"></script>
+<script src="${contextPath}/resources/js/eventValidator.js"></script>
 
 
 

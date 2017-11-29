@@ -65,10 +65,10 @@
                                     Type: ${event.eventType}
                                 </div>
                                 <div class="form-group">
-                                    When start: ${event.start.toString().replace("T"," ")}
+                                    When start: ${start}
                                 </div>
                                 <div class="form-group">
-                                    When end:&nbsp; ${event.end.toString().replace("T"," ")}
+                                    When end:&nbsp; ${end}
                                 </div>
 
                                 <div class="form-group">
