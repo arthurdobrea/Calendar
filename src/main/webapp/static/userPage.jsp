@@ -120,6 +120,7 @@
     <div class="add_event_modal"></div>
     <div class="edit_user_modal"></div>
     <div class="delete_event_modalka"></div>
+    <div class="edit_event_modalka"></div>
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
