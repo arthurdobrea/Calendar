@@ -58,8 +58,6 @@
                 }
             });
         });
-
-
     </script>
 </head>
 <body>
@@ -67,7 +65,7 @@
     <div class="modal-dialog" align="center">
         <!-- Modal content-->
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.href='/index'"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">ADD EVENT</h4>
             </div>
             <div class="modal-body">

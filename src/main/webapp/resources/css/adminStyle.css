@@ -211,10 +211,10 @@ tbody:before {
     background-image: url(/resources/icons/ic_close.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 17px 17px;
+    background-size: 100% 100%;
     border: none;
-    width: 17px;
-    height: 17px;
+    width: 30px;
+    height: 30px;
     padding: 0;
 }
 .btn_not_today_modal{

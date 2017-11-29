@@ -23,6 +23,7 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
@@ -35,22 +36,24 @@
     <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
     <script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>
     <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
+
 </head>
 <body style="width:1600px;">
 
 <c:import url="header.jsp" />
-<div class="generic-container" style="width: 1450px; margin-top: 5%">
+
+<div class="generic-container" style="width: 1450px; margin-top: 5%; max-width: 100%; max-height: 100%">
     <div class="panel panel-default box_style_shadow", style="padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
-        <table id = "id" class="table table-hover", style="padding-left: 300px">
-            <div style="padding-top: 30px" class="test">FILTERS</div>
+        <table id = "id" class="table table-hover", style="padding-left: 300px; max-width: 100%; max-height: 100%">
+            <div style="padding-top: 30px; max-width: 100%; max-height: 100%" class="test">FILTERS</div>
 
             <thead class="color222">
-            <th style="border: none"><input type="text"  id="w-input-search-username" onkeyup="searchFunction()" value="" placeholder = "By username" class="user_button_style"></th>
-            <th style="border: none"><input type="text"  id="w-input-search-firstname" onkeyup="searchFunction2()" value="" placeholder="By first name" class="first_name_button_style"></th>
-            <th style="border: none"><input type="text"  id="w-input-search-lastname" onkeyup="searchFunction3()" value="" placeholder="By last name" class="last_name_button_style"></th>
-            <th style="border: none"><input type="text"  id="w-input-search-email" onkeyup="searchFunction4()" value="" placeholder="By email" class="email_button_style"></th>
-            <th style="border: none"><input type="text"  id="w-input-search-assignment_name" value="" placeholder="By assignment" class="assignment_button_style"></th>
-            <th style="border: none"><select id="w-input-search-role" onchange="searchFunction6()" class="roles_button_style">
+            <th style="border: none; max-width: 100%; max-height: 100%"><input type="text"  id="w-input-search-username" onkeyup="searchFunction()" value="" placeholder = "By username" class="user_button_style"></th>
+            <th style="border: none; max-width: 100%; max-height: 100%"><input type="text"  id="w-input-search-firstname" onkeyup="searchFunction2()" value="" placeholder="By first name" class="first_name_button_style"></th>
+            <th style="border: none; max-width: 100%; max-height: 100%"><input type="text"  id="w-input-search-lastname" onkeyup="searchFunction3()" value="" placeholder="By last name" class="last_name_button_style"></th>
+            <th style="border: none; max-width: 100%; max-height: 100%"><input type="text"  id="w-input-search-email" onkeyup="searchFunction4()" value="" placeholder="By email" class="email_button_style"></th>
+            <th style="border: none; max-width: 100%; max-height: 100%"><input type="text"  id="w-input-search-assignment_name" value="" placeholder="By assignment" class="assignment_button_style"></th>
+            <th style="border: none; max-width: 100%; max-height: 100%"><select id="w-input-search-role" onchange="searchFunction6()" class="roles_button_style">
                 <option value="">By role</option>
                 <option>ROLE_GUEST</option>
                 <option>ROLE_USER</option>
@@ -61,10 +64,10 @@
             </thead>
         </table>
     </div>
-    <div style="height: 1px"></div>
-    <div class="panel panel-default box_style_shadow", style="padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
+    <div style="height: 1px; max-width: 100%; max-height: 100%"></div>
+    <div class="panel panel-default box_style_shadow", style="padding-left: 30px; padding-right: 30px; padding-bottom: 30px; max-width: 100%; max-height: 100%">
 
-        <table id = "administrationTable" class="table table-hover", style="padding-left: 300px">
+        <table id = "administrationTable" class="table table-hover", style="padding-left: 300px; max-width: 100%; max-height: 100%">
 
             <div style="padding-top: 30px" class="test">USER ADMINISTRATION</div>
             <tbody>
@@ -124,7 +127,7 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 400px; border-radius: 0px; padding-bottom: 37px">
-            <div class="modal_content"> <button type="button" style="margin-top: 7px;" class="btn_close_modal" data-dismiss="modal"></button>
+            <div class="modal_content"> <button type="button" style="margin-top: 0%" class="btn_close_modal" data-dismiss="modal"></button>
                 <div align="left" style="padding-top: 7px">DELETE USER </div>
                 <div align="left" style="padding-top: 25px">Are u sure you want to delete this user?</div>
                 <div style="padding-top: 30px">
@@ -136,12 +139,12 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%; position: absolute;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">
             <div id="modal-content" class="modal_content">
-                <button type="button" id = "close-edit" style="margin-top: 3%;" class="btn_close_modal" data-dismiss="modal"></button>
+                <button type="button" id = "close-edit" class="btn_close_modal" data-dismiss="modal"></button>
                 <div  align="left" style="padding-top: 7px; margin-bottom: 5%">EDIT USER </div>
 
             </div>
@@ -257,6 +260,8 @@
                     input.style.borderLeft = "none";
                     input.style.borderRight = "none";
                     input.style.borderBottom = "2px solid #E0E0E1";
+                    input.style.webkitBoxShadow = "none";
+                    input.style.boxShadow = "none";
 
                     div.appendChild((input));
                     div.appendChild((selectList));
