@@ -17,10 +17,9 @@
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
-    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <%--<link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />--%>
     <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
@@ -38,8 +37,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
-    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
-    <script src="${contextPath}/resources/js/gcal.min.js"></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
@@ -48,6 +46,7 @@
         $(document).ready(function() {
             calendarInit = true;
             $('#calendar').fullCalendar({
+                timezone: 'local',
                 customButtons: {
                 },
                 header: {

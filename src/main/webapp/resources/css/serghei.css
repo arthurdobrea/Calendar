@@ -191,7 +191,7 @@ input:checked + .slider:before {
     padding: 30px 30px 40px;
 }
 
-.edit_profile_header, .delete_event_header, .login_header {
+.edit_profile_header, .delete_event_header, .login_header, create_event_header {
     margin: 0;
     padding: 0;
     border: none;
@@ -329,11 +329,12 @@ input:checked + .slider:before {
 }
 
 .modal_topic {
+    font-size: 20px;
     margin: 0;
     vertical-align: middle;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 20px;
+    padding-top: 15px;
 }
 .slider:before {
     position: absolute;
@@ -638,10 +639,6 @@ input:checked + .slider:before {
         font-size: 12px;
     }
 
-    #text_my_events {
-        color: transparent;
-    }
-
     #add_event_button {
         height: 13px;
         width: 17px;
@@ -700,10 +697,11 @@ input:checked + .slider:before {
 /*for screen width > 1119px*/
 @media screen and (min-width: 1120px) {
     #avatar {
+        margin: auto;
         margin-top: 50%;
         margin-bottom: 40px;
-        width:160px;
-        height:160px;
+        width:150px;
+        height:150px;
         overflow: hidden;
         border-radius:50%;
         object-fit: cover;

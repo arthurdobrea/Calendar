@@ -57,17 +57,17 @@
         <div class="user_page_right for_shadow">
             <div class="right_block_header">
                 <div id="text_my_events" class="endava_grey_text">MY EVENTS
-                    <span class="endava_grey_text events_toggle">CREATED BY ME
+                    <span class="endava_red_text events_toggle">CREATED
                         <label class="switch">
                             <input type="checkbox" id="switch_events" onclick="if(this.checked) {showEventsInvited();} else {showMyEvents();}">
                             <span class="slider round"></span></label> INVITATIONS</span>
                 </div>
                 <div class="right_header_2_row">
                     <span class="endava_grey_text for_add_event"><button id="add_event_button" onclick="create_event()">+</button>&nbsp;ADD EVENT</span>
-                    <span id="total_events_created" class="endava_grey_text">TOTAL CREATED:
-                            <span class="endava_grey_text events_number">${eventsByAuthor.size()}</span>&nbsp;EVENTS</span>
-                    <span id="total_events_invited" class="endava_grey_text events_number">INVITED AT:
-                            <span class="endava_grey_text events_number">${eventsByUser.size()}</span>&nbsp;EVENTS</span>
+                    <span id="total_events_created" class="endava_grey_text">EVENTS:
+                            <span class="endava_grey_text events_number">${eventsByAuthor.size()}</span></span>
+                    <span id="total_events_invited" class="endava_grey_text events_number">EVENTS:
+                            <span class="endava_grey_text events_number">${eventsByUser.size()}</span></span>
                 </div>
             </div>
 

@@ -1,42 +1,5 @@
 
 /* Create event form */
-.modal-dialog modal-dialog modal-lg{
-  border-radius: 0;
-  margin: auto;
-}
-
-.event-form {
-  padding: 20px;
-  padding-left: 20px;
-  border-radius: 0;
-}
-
-/*.event-form  .modal-header*/
-/*{*/
-  /*border: none;*/
-/*}*/
-
-.modal-title{
-  right:25px;
-}
-
-.event_btn_close{
-  alignment-baseline: middle;
-  float: right;
-  width: 35px;
-  height: 35px;
-  border: none;
-  background-size: 35px 35px;
-  background-image: url(/resources/icons/ic_close.png);
-  background-color: transparent;
-  background-repeat: no-repeat;
-}
-
-.modal-header{
-  padding: 20px;
-  padding-left:30px ;
-  border: none;
-}
 
 .event-form label {
   font-size: 10px;
@@ -111,31 +74,20 @@
 }
 
 
-
+#w-input-search{
+  bottom: 5px;
+  border: 0;
+}
 
 .event-form .input-group #span-btn-search{
   background-color: #ffffff;
   bottom: 5px;
 }
 
-#tag-checkbox {
-  /*top: -10px;*/
-  padding-bottom: 20px; ;
-  vertical-align: middle;
+.event-form  #tag-checkbox {
   border-radius: 0;
   border: 2px solid #eee;
   height: 50px;
-}
-
-#tag-checkbox-edit {
-  top: -10px;
-  margin-left: 20px;
-  margin-right: 20px;
-  padding-top: 10px; ;
-  vertical-align: middle;
-  border-radius: 0;
-  border: 2px solid #eee;
-  height: 40px;
 }
 
 .event-form .checkbox-inline  {
@@ -152,7 +104,7 @@
 
 }
 
-#tag-box-label{
+.event-form #tag-box-label{
   position: absolute;
   margin: 0;
   width: auto;
@@ -161,25 +113,21 @@
   background: #fff;
   padding: 10px;
   line-height: 1;
-  font-size:10px;
-  font-family: 'Roboto', sans-serif;
 }
 
-#tag-box-label-edit{
-  position: absolute;
-  margin: 0;
-  width: auto;
-  top: -13px;
-  left: 25px;
-  background: #fff;
-  padding: 10px;
-  line-height: 1;
-  font-size:10px;
-  font-family: 'Roboto', sans-serif;
+#sendButton {
+  width: 25%;
+  margin-left: 14px;
+  border-radius: 27px;
+  height: 30px;
+  margin-top: 5px;
+  background-color: #E2552F;
+  border-color: transparent;
+  font-size:12px;
+  text-decoration:none;
+  letter-spacing:2px;
+  text-transform:uppercase;
 }
-
-
-
 
 .event-form .textarea-group .participant-group{
   margin-right: 5px;
@@ -189,12 +137,6 @@
   border-radius: 0;
   border: 2px solid #eee;
   padding-top: 10px;
-  /*padding-left: 2px;*/
-}
-
-#t-show-participants-row{
-  margin: 10px;
-
 }
 #label-show-participants{
   position: absolute;
@@ -213,86 +155,21 @@
   top: -13px;
   left: 13px;
 }
-.event-form .checkbox-inline {
-  top: 20px;
+.event-form .checkbox-inline  {
+  top: 0 ;
   /*padding-bottom: 10px;*/
-}
-/*.event-form .checkbox-inline {*/
-  /*top: 20px;*/
-  /*!* padding-top: 20px; *!*/
-  /*!* padding-bottom: 10px; *!*/
 
-/*}*/
+}
 
 
 #alldaydiv{
-  padding-top: 20px;
+  padding-top: 10px;
   top: 5px;
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   margin-bottom: 20px ;
-  /*transform:scale(3);*/
-  /*border: none;*/
-  /*opacity:0.7;*/
-  /*border-color: transparent;*/
 }
 
-
-#sendButton {
-  width: 25%;
-  margin-left: 14px;
-  border-radius: 27px;
-  height: 30px;
-  margin-top: 5px;
-  background-color: #DE411B;
-  border: solid thin #DE411B;
-  font-size:12px;
-  text-decoration:none;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color: white;
-}
-
-#sendButton:hover {
-  background-color: #7a210c;
-  color: #ffffff;
-}
-
-#w-input-search{
-  bottom: 10px;
-  width: 405px;
-  border: 0;
-  border-bottom: 2px solid #ccc;
-  background-image: url(/resources/icons/ic_search.png);
-  background-repeat: no-repeat;
-  background-position: 100% 1px;
-  background-size: 7% 90%;
-  padding: 15px 20px 5px 5px;
-}
-#w-input-search:focus{
-  border-bottom: 2px solid #DE411B;
-}
-
-.event_type_select_box{
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
-  width: 100%;
-  border-bottom: 2px solid #E0E0E1;
-  background-image: url(/resources/icons/ic_arrow_down.png);
-  background-position: right bottom;
-  background-repeat: no-repeat;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
-  background-size: 5% 100%;
-  -webkit-appearance: none;
-  /*padding-top: 6px;*/
-  /*padding-right: 12px;*/
-  /*padding-bottom: 6px;*/
-  /*padding-left: 12px;*/
-}
-
-.event_type_select_box:focus {
-  border-bottom: 2px solid #DE411B;
-  outline:none;
+.label_add_event {
+  float: left;
 }
