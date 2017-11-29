@@ -39,7 +39,7 @@
 <body>
 <div class="login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
+        <input align="center" class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
         <div class=" ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
@@ -50,11 +50,11 @@
 
             <div style="margin-top: 40px">
                 <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input type="checkbox" name="remember-me"/>
-                    <span class="capital_text"> Remember me</span></label></div>
-                    <div style="float: right; margin-right: 35px"><span class="capital_text">Forgot password?</span></div>
+                    <span class="endava_red_text"> Remember me</span></label></div>
+                    <div style="float: right; margin-right: 35px"><span class="endava_red_text">Forgot password?</span></div>
             </div>
             <button type="submit" class="btn_login_submit">LOG IN</button>
-            <p class="capital_text">Don't have an account?<a href="${contextPath}/registration"> Register</a></p>
+            <p class="endava_red_text">Don't have an account?<a href="${contextPath}/registration"> Register</a></p>
         </div>
     </form>
     <script type="text/javascript">

@@ -31,7 +31,7 @@
     <div class="modal-dialog" align="center" style="margin-top: 100px">
         <!-- Modal content-->
         <div class="edit_profile_modal">
-            <div class="modal-header edit_profile_header capital_text">
+            <div class="modal-header edit_profile_header endava_red_text">
                 <p align="left" class="modal_topic">EDIT PROFILE<button type="button" class="close_modal" data-dismiss="modal"></button></p>
             </div>
             <div class="modal-body edit_profile_body">
