@@ -1,6 +1,7 @@
 package com.calendar.project.dao;
 
 import com.calendar.project.config.*;
+import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import org.junit.Assert;
@@ -14,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Transactional
@@ -24,6 +27,7 @@ import java.util.Set;
 public class UserDaoTest {
 
     private User user;
+    private Event event;
 
     @Resource
     private UserDao userDao;
@@ -33,9 +37,14 @@ public class UserDaoTest {
 
     @Before
     public void setUp() {
+        event = new Event();
+        event.setId(1);
+        event.setTitle("Spring Security");
+        List<Event> events = new ArrayList<>();
+        events.add(event);
         user = new User("UserTest12");
         Role role = new Role("ROLE_USER");
-        role.setId(1L);
+        role.setId(10L);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setPassword("$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG");
@@ -43,33 +52,84 @@ public class UserDaoTest {
         user.setLastname("Qawsed");
         user.setEmail("adamaa14@gmail.com");
         user.setRoles(roles);
-        user.setEvents(null);
+        user.setEvents(events);
         user.setEventsOfAuthor(null);
+        user.setSubscriptionByEventType("DEVELOPMENT");
+        user.setSubscriptionByTagType("NBC");
         entityManager.persist(user);
     }
 
     @Test
-    public void daoFindByUserNameTest() throws Exception {
+    public void testGetUser() throws Exception {
+        Assert.assertEquals(user, userDao.getUser(user.getId()));
+    }
+
+    @Test
+    public void testFindById() throws Exception {
+        Assert.assertEquals(user, userDao.findById(user.getId()));
+    }
+
+    @Test
+    public void testFindByUserName() throws Exception {
         User userFromDb = userDao.findByUsername(user.getUsername());
         Assert.assertEquals(user, userFromDb);
 
     }
 
     @Test
-    public void daoPersistUserTest() throws Exception {
+    public void testGetUsersBySubscriptionByEventType() throws Exception {
+        List<User> users = userDao.getUsersBySubscriptionByEventType(user.getSubscriptionByEventType());
+        Assert.assertNotNull(users);
+    }
+
+    @Test
+    public void testGetUsersBySubscriptionByTagType() throws Exception {
+        List<User> users = userDao.getUsersBySubscriptionByTagType(user.getSubscriptionByTagType());
+        Assert.assertNotNull(users);
+    }
+
+    @Test
+    public void testGetAll() throws Exception {
+        List<User> allUsers = userDao.getAll();
+        Assert.assertNotNull(allUsers);
+    }
+
+    @Test
+    public void testFindAll() throws Exception {
+        List<User> allUsers = userDao.findAllUsers();
+        Assert.assertNotNull(allUsers);
+    }
+
+    @Test
+    public void testSaveUser() throws Exception {
         userDao.save(user);
         User userFromDb = userDao.findByUsername(user.getUsername());
         Assert.assertEquals(user, userFromDb);
     }
 
     @Test
-    public void daoUpdateUserTest() throws Exception {
+    public void testUpdateUser() throws Exception { //TODO check it
         user.setFirstname("changed name");
         user.setLastname("changed name 2");
         user.setEmail("changedemail@gmail.com");
         userDao.update(user);
 
-        User user2 = userDao.findByUsername("UserTest");
+        User user2 = userDao.findByUsername("UserTest12");
         Assert.assertEquals(user, user2);
     }
+
+    @Test
+    public void testDeleteUser() throws Exception {
+        userDao.save(user);
+        userDao.deleteUser(user);
+        User deletedUser = userDao.findByUsername(user.getUsername());
+        Assert.assertNull(deletedUser);
+
+    }
+
+
+
+
+
+
 }

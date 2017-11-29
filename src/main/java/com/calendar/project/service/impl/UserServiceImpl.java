@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUserByUsername(String username) {
-        userDao.deleteByUsername(userDao.findByUsername(username));
+        userDao.deleteUser(userDao.findByUsername(username));
     }
 
     public List<User> getUsersListBySubscriptionByEventType(String subscriptionByEventType){

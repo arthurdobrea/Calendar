@@ -23,6 +23,6 @@ public interface UserDao {
 
     void update(User user);
 
-    void deleteByUsername(User user);
+    void deleteUser(User user);
 
 }

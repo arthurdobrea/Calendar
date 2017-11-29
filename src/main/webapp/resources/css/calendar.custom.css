@@ -215,7 +215,7 @@ button:focus {
     /*background-repeat: no-repeat;*/
 /*}*/
 
-.roles_button_style{
+.roles_button_style1{
     width: 300px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -260,9 +260,20 @@ ul#legend{
     padding-top:20px;
 }
 
-ul#legend li {
-    display:inline;
+.container-fluid{
+
 }
+
+#legend{
+    overflow: hidden;
+    display: block;
+}
+
+ul#legend li {
+    display:inline-block;
+}
+
+
 
 .smallCircle {
     height: 5px;
@@ -274,7 +285,7 @@ ul#legend li {
 .glyphicon.glyphicon-one-fine-dot:before {
     content: "\25cf";
     font-size: 1.5em;
-    margin-right: 100px
+    margin-right: 70px
 
 }
 
@@ -288,6 +299,12 @@ option {
     outline: grey;
     border-color: grey;
 }
+
+/*@media screen and (min-width: 900px) {*/
+/*.container-fluid{*/
+    /*display: block;*/
+/*}*/
+/*}*/
 
 
 
