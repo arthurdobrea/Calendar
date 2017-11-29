@@ -203,14 +203,14 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
+<div class="panel panel-default box_style_shadow1", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
     <%--<div style="border: none">--%>
     <%--<input type="text" id="key-word-search" onkeyup="" placeholder="Enter key word...">--%>
     <%--</div>--%>
 
     <div class="row">
         <div class="col-md-4" style="border: none">
-            <select id="allEventsId" onchange="searchEvents()" class="roles_button_style">
+            <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">
                 <option value=""style="font-size: 15px">All Events</option>
                 <option value="EventsCreatedByMe" style="font-size: 15px">Events created by me</option>
                 <option value="EventsWhereIamInvited" style="font-size: 15px">Events where I am Invited</option>
@@ -218,7 +218,7 @@
         </div>
 
         <div class="col-md-4" style="border: none">
-            <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style">
+            <select id="searchByTagId" onchange="searchEvents()" class="roles_button_style1">
                 <option value="" style="font-size: 15px">Search by Tag</option>
                 <option value="APPLICATION_MANAGEMENT" style="font-size: 15px">Application Management</option>
                 <option value="DEVELOPMENT" style="font-size: 15px">Development</option>
@@ -230,7 +230,7 @@
         </div>
 
         <div class="col-md-4" style="border: none">
-            <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style">
+            <select id="searchByTypeId" onchange="searchEvents()" class="roles_button_style1">
                 <option value="" style="font-size: 15px">Search by Type</option>
                 <option value="MEETING" style="font-size: 15px">Meeting</option>
                 <option value="TRAINING" style="font-size: 15px">Training</option>
@@ -246,7 +246,7 @@
 </div>
 
 
-<div id="container" class="panel panel-default box_style_shadow" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: -50px">
+<div id="container" class="panel panel-default box_style_shadow1" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: -50px">
 
     <div id="calendar"></div>
 
@@ -303,91 +303,6 @@
 </div>
 </div>
 </div>
-<%--<!-- Modal -->--%>
-<%--<div class="modal fade" id="AddEvent" role="dialog">--%>
-<%--<div class="modal-dialog">--%>
-<%--<!-- Modal content-->--%>
-<%--<div class="modal-content">--%>
-<%--<div class="modal-header">--%>
-<%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
-<%--<h4 class="modal-title">Add new event</h4>--%>
-<%--</div>--%>
-<%--<div class="modal-body">--%>
-<%--<form:form method="POST" action="${contextPath}/index" modelAttribute="eventForm" class="form-signin" htmlEscape="true">--%>
-<%--<spring:bind path="title">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:input type="text" path="title" class="form-control" placeholder="Event name"--%>
-<%--autofocus="true" required="true"></form:input>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<spring:bind path="eventType">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:select  path="eventType" class="form-control" required="true">--%>
-<%--<c:if test="${pageContext.request.isUserInRole('ADMIN')}">--%>
-<%--<a href="/admin" class="btn">Admin page</a>--%>
-<%--</c:if>--%>
-<%--<c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">--%>
-<%--<a href="/admin" class="btn">Admin page</a>--%>
-<%--</c:if>--%>
-
-<%--<option value="">Select Event Type</option>--%>
-<%--<option value="MEETING">Meeting</option>--%>
-<%--<option value="TRAINING">Training</option>--%>
-<%--<option value="STANDUP">Stand up</option>--%>
-<%--<option value="OFFLINE">Offline</option>--%>
-<%--<option value="TEAM_BUILDING">Team building</option>--%>
-<%--<option value="WORKSHOP">Workshop</option>--%>
-<%--<option value="OTHER">Other</option>--%>
-<%--</form:select>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<spring:bind path="location">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:input type="text" path="location" class="form-control"--%>
-<%--placeholder="Location of the event"--%>
-<%--autofocus="true" required="true"></form:input>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<spring:bind path="start">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:input id="datetimepicker1h" type="hidden" path="start"></form:input>--%>
-
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<input type="text" id="datetimepicker1" class="form-control" required="true">--%>
-
-<%--<spring:bind path="end">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:input id="datetimepicker2h" type="hidden" path="end"></form:input>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<input type="text" id="datetimepicker2" class="form-control" required="true">--%>
-
-<%--<label><input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">All day event</label>--%>
-
-<%--<spring:bind path="description">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:textarea type="textarea" rows="7" path="description" class="form-control" placeholder="Description"--%>
-<%--autofocus="true"></form:textarea>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<spring:bind path="participants">--%>
-<%--<div class="form-group ${status.error ? 'has-error' : ''}">--%>
-<%--<form:select path = "participants" cssClass="form-control" itemLabel="fullName" itemValue="id" items = "${eventForm.participants}"--%>
-<%--multiple="true" required="true"/>--%>
-<%--</div>--%>
-<%--</spring:bind>--%>
-<%--<button class="btn btn-lg btn-primary btn-block" type="submit" onmouseover ="eventDateTime()">Submit</button>--%>
-<%--</form:form>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-<%--<div id="container1" class="panel panel-default box_style_shadow", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">--%>
-<%----%>
-<%--</div>--%>
-
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>

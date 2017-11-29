@@ -63,7 +63,7 @@
                     <url>jdbc:postgresql://localhost:5432/Calendar_DB</url>
                     <!--<url>jdbc:postgresql://localhost:5433/postgres</url>-->
                     <user>postgres</user>
-                    <password>server..</password>
+                    <password>j30n28B7</password>
                 </configuration>
             </plugin>
 

@@ -11,6 +11,8 @@ import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findAllUsers();
     }
 
+
     @Override
     public List<User> getAllUsers(){
         return userDao.getAll();
@@ -97,6 +100,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(User editedUser) {
         userDao.update(editedUser);
+        // userDao.save(editedUser);
     }
 
     @Override
@@ -137,11 +141,11 @@ public class UserServiceImpl implements UserService {
             else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
                 String base64Encoded = new String(encodeBase64, "UTF-8");
                 userAsJson.addProperty("image", base64Encoded);}
-            userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
-            userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+            userAsJson.addProperty("subscription_by_event_type", user.getSubscriptionByEventType());
+            userAsJson.addProperty("subscription_by_tag_type", user.getSubscriptionByTagType());
             userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
-            userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
-            userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
+            userAsJson.addProperty("events", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+            userAsJson.addProperty("eventsOfAuthor", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
             usersJsonArr.add(userAsJson);
         }
         String usersString = usersJsonArr.toString();
@@ -164,11 +168,11 @@ public class UserServiceImpl implements UserService {
         else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
         String base64Encoded = new String(encodeBase64, "UTF-8");
         userAsJson.addProperty("image", base64Encoded);}
-        userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
-        userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
+        userAsJson.addProperty("subscription_by_event_type", user.getSubscriptionByEventType());
+        userAsJson.addProperty("subscription_by_tag_type", user.getSubscriptionByTagType());
         userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
-        userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
-        userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
+        userAsJson.addProperty("events", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
+        userAsJson.addProperty("eventsOfAuthor", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
         userJsonArr.add(userAsJson);
         String userString = userJsonArr.toString();
         Object json = mapper.readValue(userString, Object.class);

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -149,11 +150,12 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("id", event.getId());
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
-            eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("eventType", event.getEventType().toString());
             eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("allDay", event.isAllDay());
+            eventAsJson.addProperty("eventCreated", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("author", event.getAuthor().getFullName());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventAsJson.addProperty("description", event.getDescription());
@@ -213,11 +215,12 @@ public class EventServiceImpl implements EventService {
             eventAsJson.addProperty("id", event.getId());
             eventAsJson.addProperty("title", event.getTitle());
             eventAsJson.addProperty("location", event.getLocation());
-            eventAsJson.addProperty("Event type", event.getEventType().toString());
+            eventAsJson.addProperty("eventType", event.getEventType().toString());
             eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
             eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("Created time", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+            eventAsJson.addProperty("allDay", event.isAllDay());
+            eventAsJson.addProperty("eventCreated", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             eventAsJson.addProperty("author", event.getAuthor().getUsername());
             eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
             eventAsJson.addProperty("description", event.getDescription());

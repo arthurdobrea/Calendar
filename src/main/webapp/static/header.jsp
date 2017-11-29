@@ -1,6 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
+<%--<head>--%>
+    <%--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />--%>
+    <%--<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">--%>
+    <%--<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>--%>
+    <%--<script src="${contextPath}/resources/js/userProfile.js"></script>--%>
+<%--</head>--%>
+<script>
+    $(function() {
+        var currentLocation = window.location.href;
+
+        if(~currentLocation.indexOf('welcome') == false){
+            $("#imageId").show();
+        }
+    });
+
+</script>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 
@@ -9,7 +25,7 @@
         connectToServerFunc();
     </script>
     <div class="topnav" id="topnav">
-        <div class="appLogo"></div>
+        <div class="appLogo" id = "imageId" style="display: none" ></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
             <div class="float-right-item"><a href="/">CALENDAR</a></div>

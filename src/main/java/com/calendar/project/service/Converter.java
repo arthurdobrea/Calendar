@@ -4,7 +4,9 @@ import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
+import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
 
@@ -53,4 +55,17 @@ public class Converter {
         return userResource;
     }
 
+
+    public static User convert(UserDTO userDTO){
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setFirstname(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setPassword(userDTO.getPassword());
+        user.setPosition(userDTO.getPosition());
+        user.setImage(Base64.decodeBase64(userDTO.getImage()));
+        user.setEmail(userDTO.getEmail());
+        user.setConfirmPassword(userDTO.getConfirmPassword());
+        return user;
+    }
 }

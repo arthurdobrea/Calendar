@@ -205,17 +205,6 @@ public class Event implements Serializable {
         return part.toString();
     }
 
-
-//    public String getStartTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return start.format(formatter);
-//    }
-//
-//    public String getEndTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return end.format(formatter);
-//    }
-
     public LocalDateTime getStart() {
         return start;
     }
