@@ -44,16 +44,14 @@
         <div class="user_page_left for_shadow">
             <div class="left_block_header">
                 <span class="endava_grey_text profile_text">PROFILE</span>
-                <span class="endava_red_text edit_user_link" onclick="edit_user()">EDIT</span>
+                <span class="endava_red_text edit_user_link cursor_link" onclick="edit_user()">EDIT</span>
             </div>
             <div class="left_block_body" align="center">
-                <img id="avatar" src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
-                <div>
+                        <img id="avatar" src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
                     <div id="profile_fullname" class="endava_grey_text"><span style="size: 25px">${user.fullName}</span><br>
                         ${user.email}
                         <p class="endava_red_text" style="line-height: 40px">${user.position}</p>
                     </div>
-                </div>
             </div>
         </div>
 
@@ -81,7 +79,7 @@
                     <c:forEach items="${eventsByAuthor}" var="event">
                         <script>
                             function delete_event() {
-                                $(".delete_event_modal").load("/deleteEvent?eventId=${event.id} #DeleteEvent", function () {
+                                $(".delete_event_modalka").load("/deleteEvent?eventId=${event.id} #DeleteEvent", function () {
                                     $("#DeleteEvent").modal();
                                 });
                             }
@@ -121,7 +119,7 @@
 
     <div class="add_event_modal"></div>
     <div class="edit_user_modal"></div>
-    <div class="delete_event_modal"></div>
+    <div class="delete_event_modalka"></div>
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>

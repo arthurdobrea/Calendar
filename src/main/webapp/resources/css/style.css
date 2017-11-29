@@ -616,34 +616,32 @@ button:focus {
 }
 
  /*css for editing user modal view*/
-.edit_profile_modal {
-  width: 550px;
+.edit_profile_modal, .delete_event_modal, .login_form {
+  max-width: 550px;
+  min-width: 300px;
   background-color: white;
   border-radius: 0;
-  height: 450px;
-  padding: 30px;
+  padding: 30px 30px 40px;
 }
 
-.edit_profile_header {
+.edit_profile_header, .delete_event_header, .login_header {
   margin: 0;
-  margin-left: 30px;
-  margin-right: 30px;
   padding: 0;
   border: none;
 }
 
-.edit_profile_body {
-  width: 450px;
+.edit_profile_body, .delete_event_body, .login_body {
   background-color: white;
   border-radius: 0;
-  height: 350px;
   border: none;
   margin: 0;
   padding: 0;
 }
 
-.btn_edit_user_submit {
-  width: 400px;
+.btn_edit_user_submit, .btn_login_submit {
+  width: 100%;
+  max-width: 500px;
+  min-width: 100px;
   height: 30px;
   background-color: #DE411B;
   color: white;
@@ -652,17 +650,16 @@ button:focus {
   border: 0;
   border-radius: 15px;
   padding: 0;
-  margin: 0;
-  margin-top: 20px;
+  margin: 20px 0 0;
 }
 
 .close_modal {
   alignment-baseline: middle;
   float: right;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border: none;
-  background-size: 35px 35px;
+  background-size: 30px 30px;
   background-image: url(/resources/icons/ic_close.png);
   background-color: transparent;
   background-repeat: no-repeat;
@@ -673,45 +670,27 @@ button:focus {
   padding-top: 10px;
 }
 
-#user_username, #user_firstname, #user_lastname, #user_position, #user_email  {
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input  {
   color: #48545B;
   font-size: 15px;
   text-underline: none;
   font-family: Arial, sans-serif;
-  margin: auto;
-  width: 400px;
+  margin: 0;
+  width: 100%;
+  max-width: 500px;
   height: 60px;
   padding-top: 35px;
   border: none;
-  border-bottom: 1px solid #eceeef;
+  border-bottom: 1px solid #48545B;
 }
 
-#user_firstname, #user_lastname, #user_position, #user_email:focus {
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input:focus {
 outline: 0;
 }
 
   /*css for login page*/
 .login_form {
-  align-content: center;
-  width: 550px;
-  margin: auto;
-  background-color: white;
-  border-radius: 0;
-  height: 520px;
-  padding: 30px;
-}
-
-.login_input {
-  color: #48545B;
-  font-size: 15px;
-  text-underline: none;
-  font-family: Arial, sans-serif;
-  margin: auto;
-  width: 420px;
-  height: 80px;
-  padding-top: 35px;
-  border: none;
-  border-bottom: 1px solid #eceeef;;
+    margin: 50px auto auto;
 }
 
 .login_input:focus {
@@ -722,29 +701,9 @@ outline: 0;
 
 }
 
-.btn_login_submit {
-  max-width: 430px;
-  height: 30px;
-  background-color: #DE411B;
-  color: white;
-  font-size: 15px;
-  font-family: Arial, sans-serif;
-  border: 0;
-  border-radius: 15px;
-  padding: 0;
-  margin: 0;
-  margin-top: 20px;
-  margin-bottom: 25px;
-}
-
-.endava_logo {
-  margin-top: 0;
-}
-
 #remember_me {
   width: 130px;
   height: 15px;
-  font-family: Arial, sans-serif;
 }
 
 .error_text {
@@ -757,33 +716,6 @@ outline: 0;
 }
 
 /*css for delete event modal*/
-.delete_event_modal {
-  width: 550px;
-  background-color: white;
-  border-radius: 0;
-  justify-content: space-between;
-  margin: auto;
-}
-
-.delete_event_header {
-  margin: auto;
-  margin-left: 32px;
-  margin-right: 32px;
-  padding: 0;
-  border: none;
-}
-
-.delete_event_body {
-  width: 450px;
-  height: 130px;
-  background-color: white;
-  border-radius: 0;
-  border: none;
-  margin: 0;
-  margin-bottom: 30px;
-  padding: 0;
-}
-
 .btn_delete_event_cancel {
   width: 200px;
   height: 30px;
@@ -793,11 +725,11 @@ outline: 0;
   border: solid thin #DE411B;
   border-radius: 15px;
   padding: 0;
-  margin: 0;
-  margin-top: 20px;
+    margin: 20px 0 0;
 }
 
 .btn_delete_event_cancel:hover {
+  border: 0;
   background-color: #DE411B;
   color: #939fa5;
 }
@@ -821,21 +753,19 @@ outline: 0;
 }
 
 .for_delete_event {
-  height: 60px;
-  color: #48545B;
-  font-size: 20px;
-  text-underline: none;
-  font-family: Arial, sans-serif;
-  margin-top: 60px;
-  margin-bottom: 0;
-  padding: 0;
-  padding-bottom: 40px;
+    margin: 20px auto;
+    font-size: 25px;
+}
+
+.cursor_link {
+    cursor: pointer;
 }
 
 .modal_topic {
+  margin: 0;
   vertical-align: middle;
-  padding-left: 2px;
-  padding-right: 2px;
+  padding-left: 0;
+  padding-right: 0;
   padding-top: 20px;
 }
 .slider:before {
@@ -981,90 +911,12 @@ button:focus {
     background: none;
 }
 
-.edit_profile_modal {
-    max-width: 550px;
-    background-color: white;
-    border-radius: 0;
-    height: 450px;
-    padding: 30px;
-}
-
-.edit_profile_header {
-    margin: 0;
-    margin-left: 32px;
-    margin-right: 32px;
-    padding: 0;
-    border: none;
-}
-
-.edit_profile_body {
-    width: 450px;
-    background-color: white;
-    border-radius: 0;
-    height: 350px;
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-
-.btn_edit_user_submit {
-    width: 430px;
-    height: 30px;
-    background-color: #DE411B;
-    color: white;
-    font-size: 15px;
-    font-family: Arial, sans-serif;
-    border: 0;
-    border-radius: 15px;
-    padding: 0;
-    margin: 0;
-    margin-top: 20px;
-}
-
-.close_modal {
-    background-position: right;
-    float: right;
-    width: 35px;
-    height: 35px;
-    border: none;
-    background-size: 35px 35px;
-    background-image: url(/resources/icons/ic_close.png);
-    background-color: transparent;
-    background-repeat: no-repeat;
-}
-
 #user_edit_form {
     margin: 0;
     padding-top: 10px;
 }
 
-#user_username, #user_firstname, #user_lastname, #user_assignment, #user_email  {
-    color: #48545B;
-    font-size: 15px;
-    text-underline: none;
-    font-family: Arial, sans-serif;
-    margin: auto;
-    width: 420px;
-    height: 60px;
-    padding-top: 35px;
-    border: none;
-    border-bottom: solid 1px #939fa5;
-}
-
-#user_firstname, #user_lastname, #user_assignment, #user_email:focus {
-    outline: 0;
-}
-
 /*css for login page*/
-.login_form {
-    width: 550px;
-    margin: auto;
-    /*margin-top: 30px;*/
-    background-color: white;
-    border-radius: 0;
-    height: 520px;
-    padding: 30px;
-}
 
 .login_input {
     color: #48545B;
@@ -1085,21 +937,6 @@ button:focus {
 }
 
 .login_input:empty {
-}
-
-.btn_login_submit {
-    width: 430px;
-    height: 30px;
-    background-color: #DE411B;
-    color: white;
-    font-size: 15px;
-    font-family: Arial, sans-serif;
-    border: 0;
-    border-radius: 15px;
-    padding: 0;
-    margin: 0;
-    margin-top: 20px;
-    margin-bottom: 25px;
 }
 
 .endava_logo {
@@ -1173,6 +1010,8 @@ body {
 /*----- adaptive css for user page general -----*/
 .scrollable-content {
     width: 100%;
+    height: 80%;
+    max-height: 80%;
     overflow: auto;
     overflow-x: hidden;
     margin-top: 10px;
@@ -1191,7 +1030,7 @@ body {
 .wrap_box_user_page {
     width: 80%;
     min-width: 310px;
-    margin: auto;
+    margin: 10px auto auto;
     padding: 0;
     background: transparent;
     overflow: visible;
@@ -1221,8 +1060,6 @@ body {
 
 .edit_user_link {
     float: right;
-    cursor:pointer;
-    color: #DE411B;
 }
 
 .events_toggle {
@@ -1274,25 +1111,17 @@ body {
 }
 
 /*for tablets and notebooks height < 900px*/
-@media screen and (max-height: 699px) {
+@media screen and (max-height: 800px) {
     .wrap_box_user_page {
         height: 500px;
-    }
-
-    .scrollable-content {
-        max-height: 370px;
     }
 }
 
 /*for PC screens height > 800px*/
-@media screen and (min-height: 700px) {
+@media screen and (min-height: 800px) {
     .wrap_box_user_page {
         max-width: 1400px;
         height: 680px;
-    }
-
-    .scrollable-content {
-        max-height: 550px;
     }
 }
 
@@ -1309,10 +1138,6 @@ body {
     #add_event_button {
         height: 13px;
         width: 17px;
-    }
-
-    .btn_delete_event, .btn_edit_event, .btn_show_event {
-
     }
 }
 
@@ -1350,10 +1175,6 @@ body {
 
     .left_block_body {
         height: 96%;
-    }
-
-    .scrollable-content {
-        max-height: 230px;
     }
 
     #profile_fullname {

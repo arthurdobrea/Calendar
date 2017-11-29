@@ -37,33 +37,31 @@
     <script src="${contextPath}/resources/js/myuploadfunction.js"></script>
 </head>
 <body>
-<div class="login_form for_shadow">
+<div class=" row login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <input align="center" class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
-        <div class=" ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
+        <div align="center" class="login_header">
+            <div><img src="${contextPath}/resources/icons/logo.png" alt="LOGO"/></div>
+            <div>${message}</div>
+        </div>
+        <div class="login_body ${error != null ? 'has-error' : ''}">
+            <input autocomplete="false" name="username" id="username_input" type="text" placeholder="USERNAME"
                    autofocus="true" />
-            <input autocomplete="false" name="password" class="login_input" type="password" placeholder="PASSWORD" />
+            <input autocomplete="false" name="password" id="password_input" type="password" placeholder="PASSWORD" />
             <span class="error_text">${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div style="margin-top: 40px">
                 <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input type="checkbox" name="remember-me"/>
-                    <span class="endava_red_text"> Remember me</span></label></div>
-                    <div style="float: right; margin-right: 35px"><span class="endava_red_text">Forgot password?</span></div>
+                    <span class="endava_grey_text"> Remember me</span></label>
+                </div>
+                    <%--<div style="float: right; margin-right: 35px"><span class="endava_red_text">Forgot password?</span></div>--%>
             </div>
             <button type="submit" class="btn_login_submit">LOG IN</button>
-            <p class="endava_red_text">Don't have an account?<a href="${contextPath}/registration"> Register</a></p>
-        </div>
+            <div align="center">
+                <span class="endava_grey_text">Don't have an account?</span>
+                <span class="endava_red_text cursor_link" onclick="window.location.href='/registration' "> Register</span>
+           </div>
     </form>
-    <script type="text/javascript">
-//        connectToServerFunc()
-    </script>
 </div>
-<%--<h1>Spring MVC - jQuery File Upload</h1>--%>
-<%--<div style="width:500px;padding:20px">--%>
-    <%--<input id="fileupload" type="file" path = "nope" name="files[]" data-url="${contextPath}/upload" multiple>--%>
-<%--</div>--%>
 </body>
 </html>
