@@ -103,10 +103,12 @@ public class TagServiceImpl implements TagService {
     @Override
     public Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString){
         Set<Tag> tagList=new HashSet<>();
-        for(String tag: listOfString)
+        for(String tag: listOfString) {
+            if (!tag.equals("hidden"))
             for (Tag tagDBO : getAllTags())
                 if (tagDBO.getTag().toString().equals(tag))
                     tagList.add((tagDBO));
+        }
         return tagList;
     }
 

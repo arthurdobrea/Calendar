@@ -83,6 +83,22 @@ public class Event implements Serializable {
 
     public Event(){}
 
+    public Event(String title, EventType eventType, User author, String location,
+                 List<User> participants, LocalDateTime start, LocalDateTime end,
+                 boolean allDay, LocalDateTime eventCreated, String description, Set<Tag> tags) {
+        this.title = title;
+        this.eventType = eventType;
+        this.author = author;
+        this.location = location;
+        this.participants = participants;
+        this.start = start;
+        this.end = end;
+        this.allDay = allDay;
+        this.eventCreated = eventCreated;
+        this.description = description;
+        this.tags = tags;
+    }
+
     public List<Notification> getNotifications() {
         return notifications;
     }
@@ -188,17 +204,6 @@ public class Event implements Serializable {
             part.append(participant.getFullName().toString()+",");
         return part.toString();
     }
-
-
-//    public String getStartTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return start.format(formatter);
-//    }
-//
-//    public String getEndTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return end.format(formatter);
-//    }
 
     public LocalDateTime getStart() {
         return start;
