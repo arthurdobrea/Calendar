@@ -28,75 +28,143 @@
 </head>
 <body>
 <div class="container">
-    <form:form method="POST" modelAttribute="userForm" class="form-signin form-signin-reg" enctype = "multipart/form-data">
-        <div class="image"><input type="image" src="${contextPath}/resources/logo.png"/></div>
-
-        <spring:bind path="email">
-            <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="email" path="email" class="form-control" placeholder="EMAIL"
-                            autofocus="true"></form:input>
-                <form:errors path="email"></form:errors>
+    <form:form method="POST" modelAttribute="userForm" class="form-signin-reg form-signin form-signin-reg" enctype = "multipart/form-data">
+        <div class="image"><input type="image" src="${contextPath}/resources/icons/logo.png"/></div>
+        <spring:bind path="multipartFile">
+            <div id="photo" class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input type="file" path="multipartFile" class="form-control"
+                            autofocus="true"/>
+                <form:errors path="multipartFile"/>
             </div>
         </spring:bind>
-
         <spring:bind path="username">
             <div id="username" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="username" class="form-control" placeholder="USERNAME"
-                            autofocus="true"></form:input>
-                <form:errors path="username"></form:errors>
+            <c:choose>
+            <c:when test="${status.error}">
+                <c:set var="placeholder" value="Username must be between 6 and 32 characters."/>
+                <c:set var="placeColor" value="#df3f14"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="placeholder" value="USERNAME"/>
+                <c:set var="placeColor" value="#48545B"/>
+            </c:otherwise>
+        </c:choose>
+                <form:input cssClass=".has-error form-control" type="text" path="username" class="form-control" placeholder='${placeholder}'
+                            autofocus="true"/>
+                <%--<form:errors path="username" id="reg-error"/>--%>
             </div>
         </spring:bind>
 
-        <div class="first-last-div">
-        <spring:bind path="lastname">
-            <div id="lastname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="lastname" class="form-control" placeholder="LAST NAME"
-                            autofocus="true"></form:input>
-                <form:errors path="lastname"></form:errors>
-            </div>
-        </spring:bind>
+        <div class="first-last-div" >
+            <spring:bind path="lastname">
+                <div id="lastname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                    <c:choose>
+                        <c:when test="${status.error}">
+                            <c:set var="placeholder" value="must be more 6 characters."/>
+                            <c:set var="placeColor" value="#df3f14"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="placeholder" value="LAST NAME"/>
+                            <c:set var="placeColor" value="#48545B"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <form:input type="text" path="lastname" class="form-control" placeholder="${placeholder}"
+                                autofocus="true"/>
+                    <%--<form:errors path="lastname" class="reg-last-first-error"/>--%>
+                </div>
+            </spring:bind>
 
-        <spring:bind path="firstname">
-            <div id="firstname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="firstname" class="form-control" placeholder="FIRST NAME"
-                            autofocus="true"></form:input>
-                <form:errors path="firstname"></form:errors>
-            </div>
-        </spring:bind>
+            <spring:bind path="firstname">
+                <div id="firstname" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                    <c:choose>
+                        <c:when test="${status.error}">
+                            <c:set var="placeholder" value="must be more 6 characters."/>
+                            <c:set var="placeColor" value="#df3f14"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="placeholder" value="FIRST NAME"/>
+                            <c:set var="placeColor" value="#48545B"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <form:input type="text" path="firstname" class="form-control" placeholder="${placeholder}"
+                                autofocus="true"/>
+                    <%--<form:errors path="firstname" class="reg-last-first-error"/>--%>
+                </div>
+            </spring:bind>
         </div>
-        <spring:bind path="position">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="position" class="form-control" placeholder="position"
-                            autofocus="true"></form:input>
-                <form:errors path="position"></form:errors>
-            </div>
-        </spring:bind>
-
         <spring:bind path="confirmPassword">
             <div id="confirm-pass" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="password" path="confirmPassword" class="form-control" placeholder="CONFIRM PASSWORD"
-                            autofocus="true"></form:input>
-                <form:errors path="confirmPassword"></form:errors>
+                <c:choose>
+                    <c:when test="${status.error}">
+                        <c:set var="placeholder" value="Password don't match."/>
+                        <c:set var="placeColor" value="#df3f14"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="placeholder" value="CONFIRM PASSWORD"/>
+                        <c:set var="placeColor" value="#48545B"/>
+                    </c:otherwise>
+                </c:choose>
+                <form:input type="password" path="confirmPassword" class="form-control" placeholder="${placeholder}"
+                            autofocus="true"/>
+                <%--<form:errors path="confirmPassword" id="reg-error"/>--%>
             </div>
         </spring:bind>
 
         <spring:bind path="password">
             <div class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
-                <form:input type="password" path="password" class="form-control" placeholder="PASSWORD"
-                            autofocus="true"></form:input>
-                <form:errors path="password"></form:errors>
+                <c:choose>
+                    <c:when test="${status.error}">
+                        <c:set var="placeholder" value="Password must be over 8 characters."/>
+                        <c:set var="placeColor" value="#df3f14"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="placeholder" value="PASSWORD"/>
+                        <c:set var="placeColor" value="#48545B"/>
+                    </c:otherwise>
+                </c:choose>
+                <form:input type="password" path="password" class="form-control" placeholder="${placeholder}"
+                            autofocus="true"/>
+                <%--<form:errors path="password" id="reg-error"/>--%>
             </div>
         </spring:bind>
 
-        <spring:bind path="multipartFile">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="file" path="multipartFile" class="form-control"
-                            autofocus="true"></form:input>
-                <form:errors path="multipartFile"></form:errors>
+
+        <spring:bind path="email">
+            <div id="email" class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
+                <c:choose>
+                    <c:when test="${status.error}">
+                        <c:set var="placeholder" value="enter a valid email."/>
+                        <c:set var="placeColor" value="#df3f14"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="placeholder" value="EMAIL"/>
+                        <c:set var="placeColor" value="#48545B"/>
+                    </c:otherwise>
+                </c:choose>
+                <form:input type="email" path="email" class="form-control" placeholder="${placeholder}"
+                            autofocus="true"/>
+                <%--<form:errors path="email" id="reg-error"/>--%>
             </div>
         </spring:bind>
 
-        <button id="btn-reg" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <spring:bind path="position">
+            <div class="assignment form-group ${status.error ? 'has-error' : ''}">
+                <c:choose>
+                    <c:when test="${status.error}">
+                        <c:set var="placeholder" value="Username must be between 6 and 32 characters."/>
+                        <c:set var="placeColor" value="#df3f14"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="placeholder" value="ASSIGNMENT NAME"/>
+                        <c:set var="placeColor" value="#48545B"/>
+                    </c:otherwise>
+                </c:choose>
+                <form:input type="text" path="position" class="form-control" placeholder="${placeholder}"
+                            autofocus="true"/>
+                <%--<form:errors path="position" id="reg-error"/>--%>
+            </div>
+        </spring:bind>
+        <div id="btn-reg-div"><button id="btn-reg" class="btn btn-lg btn-primary btn-block" type="submit">Register</button></div>
     </form:form>
 </div>
 </body>

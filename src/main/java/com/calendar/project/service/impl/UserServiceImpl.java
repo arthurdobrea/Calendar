@@ -11,6 +11,8 @@ import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findAllUsers();
     }
 
+
     @Override
     public List<User> getAllUsers(){
         return userDao.getAll();
@@ -97,6 +100,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(User editedUser) {
         userDao.update(editedUser);
+        // userDao.save(editedUser);
     }
 
     @Override

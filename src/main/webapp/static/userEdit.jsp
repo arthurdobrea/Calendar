@@ -81,13 +81,13 @@
         <spring:bind path="roles">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm"
-                            autofocus="true"></form:select>
+                             autofocus="true"></form:select>
                 <form:errors path="roles"></form:errors>
             </div>
         </spring:bind>
 
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit", autofocus="true" >Submit</button>
     </form:form>
 </div>
 </body>

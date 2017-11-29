@@ -36,7 +36,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public Long findRoleIdByValue(String roleValue) {
         LOGGER.info("Return id of a role = " + roleValue);
-        return entityManager.createQuery("select r.id from Role r left join fetch r.users where r.name = :roleValue", Long.class)
+        return entityManager.createQuery("select r.id from Role r left join r.users where r.name = :roleValue", Long.class)
                 .setParameter("roleValue", roleValue)
                 .getSingleResult();
     }
