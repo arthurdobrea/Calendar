@@ -13,6 +13,7 @@
 
         if(~currentLocation.indexOf('welcome') == false){
             $("#imageId").show();
+            $("#imageTextId").hide();
         }
     });
 
@@ -26,6 +27,7 @@
     </script>
     <div class="topnav" id="topnav">
         <div class="appLogo" id = "imageId" style="display: none" ></div>
+        <div class="appLogoText" id = "imageTextId"></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
             <div class="float-right-item"><a href="/">CALENDAR</a></div>

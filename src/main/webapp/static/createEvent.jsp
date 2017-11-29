@@ -63,12 +63,12 @@
 <body>
 
 
-    <div class=" modal-dialog modal-dialog modal-lg">
+    <div class=" modal-dialog modal-dialog modal-lg" style="margin-top: 6%">
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">ADD EVENT</h4>
+                <button type="button" class="event_btn_close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true"></span></button>
+                <h4 class="modal-title" style="margin-top: 1%">ADD EVENT</h4>
             </div>
             <div class="modal-body">
                 <form action="${contextPath}/createEvent" method="POST">
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-type">EVENT TYPE</label>
-                                    <select class="form-control" id="ev-type" name="eventType" required="true">
+                                    <select class="event_type_select_box" id="ev-type" name="eventType" required="true">
                                         <option value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
                                             <option value=${et}>${et.view()}</option>
@@ -116,7 +116,7 @@
                                             <div class="form-group" id="alldaydiv" style="padding-bottom:5px;">
                                                 &nbsp; &nbsp;&nbsp;ALL DAY &nbsp;
                                                 <label id="alldaylabel"> <input class="checkbox-inline"  type="checkbox" id="all-day" onclick="if(this.checked)
-                                            {allDayChecked();} else {allDayUnchecked();}" ></label>
+                                            {allDayChecked();} else {allDayUnchecked();}" style="top: 30px"></label>
                                             </div >
                                         </div>
 
@@ -141,10 +141,6 @@
 
                                             <input type="text" id="w-input-search" value=""
                                                    class="form-control" placeholder="Enter name...">
-                                            <span class="input-group-btn" style="text-align: right">
-                                                    <button class="btn btn-secondary" type="button"
-                                                            id="span-btn-search">&#128269</button>
-                                                </span>
 
                                         </div>
                                         <label for="t-participants">PARTICIPANTS</label>
@@ -155,10 +151,10 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="checkbox-group" id="subs-checkbox" style="padding-bottom:15px">
-                                                <label class="checkbox-inline">
+                                                <label class="checkbox-inline" style="top: 5px">
                                                     <input type="checkbox"  name="checkParticipants"/>Send emails to
                                                     participants</label>
-                                                <label class="checkbox-inline">
+                                                <label class="checkbox-inline" style="top: 5px">
                                                     <input type="checkbox" name="checkSubscribe"/>Send emails to
                                                     subscribers
                                                 </label>

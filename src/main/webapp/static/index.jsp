@@ -142,7 +142,7 @@
                         eventLimit: 3,
                     }
                 },
-                height:650,
+                height:500,
                 fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',

@@ -23,6 +23,7 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
@@ -35,10 +36,12 @@
     <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
     <script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>
     <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
+
 </head>
 <body style="width:1600px;">
 
 <c:import url="header.jsp" />
+
 <div class="generic-container" style="width: 1450px; margin-top: 5%; max-width: 100%; max-height: 100%">
     <div class="panel panel-default box_style_shadow", style="padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
         <table id = "id" class="table table-hover", style="padding-left: 300px; max-width: 100%; max-height: 100%">
@@ -136,7 +139,7 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%; position: absolute;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">
