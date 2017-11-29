@@ -16,8 +16,9 @@
     <title>Log in with your account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/common.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
@@ -51,7 +52,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div style="margin-top: 40px">
-                <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input type="checkbox" name="remember-me"/>
+                <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input id="remember_me_checkbox" type="checkbox" name="remember-me"/>
                     <span class="endava_grey_text"> Remember me</span></label>
                 </div>
                     <%--<div style="float: right; margin-right: 35px"><span class="endava_red_text">Forgot password?</span></div>--%>
