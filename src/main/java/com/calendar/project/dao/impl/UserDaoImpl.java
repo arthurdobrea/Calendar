@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUser(User user) {
+    public void deleteByUsername(User user) {
         entityManager.remove(user);
     }
 

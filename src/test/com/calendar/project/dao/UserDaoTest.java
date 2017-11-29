@@ -119,9 +119,9 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testDeleteUser() throws Exception {
+    public void testDeleteUserByUsername() throws Exception {
         userDao.save(user);
-        userDao.deleteUser(user);
+        userDao.deleteByUsername(user);
         User deletedUser = userDao.findByUsername(user.getUsername());
         Assert.assertNull(deletedUser);
 
