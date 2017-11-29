@@ -97,11 +97,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.remove(user);
     }
 
-    @Override
-    public List<User> getUserInfo() {
-        return entityManager.createQuery("select distinct u from User u left join fetch u.roles", User.class)
-                .getResultList();
-    }
+
 
 
 }
