@@ -41,4 +41,3 @@ function showEventsInvited() {
     $('#total_events_invited').show();
 }
 
-

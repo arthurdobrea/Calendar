@@ -23,6 +23,7 @@ public class Converter {
         ev.setDescription(eventResource.getDescription());
         ev.setParticipants(eventResource.getParticipants());
         ev.setTags(eventResource.getTags());
+        ev.setAllDay(eventResource.isAllDay());
         return ev;
     }
 
