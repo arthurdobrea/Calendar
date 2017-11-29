@@ -55,7 +55,7 @@
                         <div class="row" id="leftblock" style="padding-right: 15px">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    MAIN INFO <br>
+                                    MAIN INFO
                                     Title:   <span style="color: #d2322d">${event.title}</span>
                                 </div>
                                 <div class="form-group">
@@ -116,7 +116,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center">
+                                <input hidden name="id" value="${event.id}">
+                                <%--<c:set var="isParticipant" value="0"/>--%>
+                                <c:if test="${isParticipant}">
+                                    <input type="submit" id="sendButton" value="UNSUBSCRIBE">
+                                </c:if>
+                                    <c:if test="${!isParticipant}">
+                                        <input type="submit" id="sendButton" value="SUBSCRIBE">
+                                    </c:if>
+                            </div>
                         </div>
+                        </div>
+
                 </form>
             </div>
         </div>

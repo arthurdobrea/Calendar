@@ -60,19 +60,14 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getFutureEventsByType(EventType eventType) {
         List<Event> eventList = new ArrayList<>();
-
-        for (Event event : getAllEvents()) {
-
+        for (Event event : getAllEvents())
             if (event.getEventType()!=null&& event.getStart()!=null && eventType!=null
-                    && event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now())) {
+                    && event.getEventType().equals(eventType)&&  event.getStart().isAfter( LocalDateTime.now()))
                 eventList.add(event);
-            }
-        }
-        System.out.println("eventType: "+eventType+"/n eventList:"+eventList);
         return eventList;
     }
 
-    @Override
+     @Override
     public List<Event> getEventsByTag(TagType tag){
         return eventDao.getEventsByTag(tag);
     }
