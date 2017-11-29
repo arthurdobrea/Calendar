@@ -291,5 +291,46 @@ option {
     border-color: grey;
 }
 
+/*legend for calendar*/
+.legend-dot {
+    display: inline;
+    white-space: nowrap;
+    margin: 0px 50px;
+}
 
+.legend-dot :before {
+    content: '\2B24';
+}
+
+.legend-dot, #meeting-color, #training-color, #stand-up-color, #offline-color, #team-building-color, #workshop-color, #other-color {
+    font-size: 15px;
+}
+
+#meeting-color {
+    color: #b61667;
+}
+
+#training-color {
+    color: #00897b;
+}
+
+#stand-up-color {
+    color: #992f99;
+}
+
+#offline-color {
+    color: #1a5a8f;
+}
+
+#team-building-color {
+    color: #b61616;
+}
+
+#workshop-color {
+    color: #1bb7de;
+}
+
+#other-color {
+    color: #13A04C;
+}
 
