@@ -10,10 +10,12 @@
 <script>
     $(function() {
         var currentLocation = window.location.href;
+
         if(~currentLocation.indexOf('welcome') == false){
             $("#imageId").show();
         }
     });
+
 </script>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
@@ -54,8 +56,6 @@
         </div>
     </div>
 </div>
-
-<div class="add_event_modal"></div>
 
 <div id="modal_form">
     <span id="modal_title">NOTIFICATIONS</span>
@@ -113,14 +113,18 @@
                 );
         });
     });
+
     function profileDropdownArrowOnMouseOver() {
         document.getElementById('down-arrow').src = "/resources/icons/ic_arrow_down_active.png";
     }
+
     function profileDropdownArrowOnMouseOut() {
         document.getElementById('down-arrow').src = "/resources/icons/ic_arrow_down.png";
     }
+
     function hideShowNavbar() {
         var topnav = document.getElementById('topnav');
+
         if (topnav.className === "topnav") {
             topnav.className += " responsive";
         } else {
@@ -128,3 +132,5 @@
         }
     }
 </script>
+
+<div class="add_event_modal"></div>
