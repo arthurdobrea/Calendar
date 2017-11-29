@@ -638,10 +638,6 @@ input:checked + .slider:before {
         font-size: 12px;
     }
 
-    #text_my_events {
-        color: transparent;
-    }
-
     #add_event_button {
         height: 13px;
         width: 17px;
