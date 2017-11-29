@@ -59,7 +59,7 @@
         </tr>
         <tr>
             <td class="greeting_3">
-                Endava Event Manager was created with love and passion by a team of highly pissed-off interns during a fucking long six week period.
+                Endava Event Manager is a simple calendaring web-application designed by a team of Application Management interns during a period of six weeks.
             </td>
         </tr>
         <tr>
