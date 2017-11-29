@@ -278,3 +278,5 @@ CREATE TABLE persistent_logins (
   CONSTRAINT persistent_logins_pk PRIMARY KEY (series)
 );
 
+ALTER TABLE notifications  ADD is_subscribed BOOLEAN DEFAULT FALSE;
+

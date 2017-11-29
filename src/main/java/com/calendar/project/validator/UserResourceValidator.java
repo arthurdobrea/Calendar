@@ -36,7 +36,13 @@ public class UserResourceValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         int usernameLength = username.length();
         if (usernameLength < 8 || usernameLength > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
+            errors.rejectValue("username", "Size.user.username");
+        }
+        else {
+            if (!Pattern.matches("\t\n" +
+                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
+                errors.rejectValue("username", "UserName.userForm.username");
+            }
         }
 
         if (userService.exists(username)) {
@@ -45,14 +51,25 @@ public class UserResourceValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
         int firstnameLength = firstname.length();
-        if (firstnameLength < 2 || firstnameLength > 32) {
-            errors.rejectValue("firstname", "Size.userForm.name");
+        if ( (firstnameLength < 2 || firstnameLength > 32)) {
+            errors.rejectValue("firstname", "Size.user.firstname");
         }
+        else {
+            if (!Pattern.matches("^[\\p{L} .'-]+$", user.getFirstname())) {
+                errors.rejectValue("firstname", "FirstName.userForm.name");
+            }
+        }
+
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "Required");
         int lastnameLength = lastname.length();
-        if (lastnameLength < 2 || lastnameLength > 32) {
-            errors.rejectValue("lastname", "Size.userForm.lastname");
+        if ( (lastnameLength < 2 || lastnameLength > 32)) {
+            errors.rejectValue("lastname", "Size.user.firstname");
+        }
+        else {
+            if (!Pattern.matches("^[\\p{L} .'-]+$", user.getLastname())) {
+                errors.rejectValue("lastname", "LastName.userForm.lastname");
+            }
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
@@ -69,5 +86,17 @@ public class UserResourceValidator implements Validator {
         if (!user.getConfirmPassword().equals(user.getPassword())) {
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
+
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "Required");
+//        int positionLength = username.length();
+//        if (usernameLength < 8 || usernameLength > 32) {
+//            errors.rejectValue("username", "Size.user.username");
+//        }
+//        else {
+//            if (!Pattern.matches("\t\n" +
+//                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
+//                errors.rejectValue("username", "UserName.userForm.username");
+//            }
+//        }
     }
 }

@@ -49,18 +49,11 @@
             calendarInit = true;
             $('#calendar').fullCalendar({
                 customButtons: {
-//                    addNew: {
-//                        text: 'Add event',
-//                        click:
-//                                function(event, jsEvent, view) {
-//                                    $('#AddEvent').modal();
-//                                }
-//                    }
                 },
                 header: {
                     left: 'prev,today,next',
                     center: 'title',
-                    right: 'addNew month,agendaWeek,agendaDay,listWeek'
+                    right: 'month,agendaWeek,agendaDay,listWeek'
                 },
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
@@ -77,12 +70,11 @@
                 timeFormat: 'h:mma',
                 events: {url:'/json/allEvents'},
                 eventClick:  function (event, jsEvent, view) {
-                    console.log(event);
-                    console.log(jsEvent);
-                    console.log(view);
+//                    console.log(event);
+//                    console.log(jsEvent);
+//                    console.log(view);
 
-                    printEventDataInModal(event.id);
-                    $('#eventPage').modal();
+                    window.location.replace("/showEvent?eventId=" + event.id);
                 }
             });
 //          $('#calendar').fullCalendar( 'gotoDate', currentDate);
@@ -92,11 +84,6 @@
         });
 
         function searchEvents() {
-
-            // get selected values from dropdowns (3 values)
-            // call a method from json controller and send this 3 params
-            // in json method filter by these params
-
             var inputTag = document.getElementById("searchByTagId");
             var inputType = document.getElementById("searchByTypeId");
 
@@ -161,8 +148,7 @@
                     console.log(jsEvent);
                     console.log(view);
 
-                    printEventDataInModal(event.id);
-                    $('#eventPage').modal();
+                    window.location.replace("/showEvent?eventId=" + event.id);
 
                 }
             });
@@ -170,31 +156,6 @@
             var container = $('#container');
             var calen = $('#calendar')
             container.append(calen);
-
-
-        }
-
-        function printEventDataInModal(eventId)
-        {
-            $.get("/json/getEvent", {eventId: eventId}, function(data) {
-                console.log(data);
-
-                $("#evName").text(data.title);
-                $("#evType").text(data.eventType);
-                $("#evLocation").text(data.location);
-                $("#evStart").text(data.start);
-                $("#evEnd").text(data.end);
-                $("#evDescription").text(data.description);
-                $("#evCreated").text(data.eventCreated);
-                $("#evAuthor").text(data.author.firstname + data.author.lastname);
-            });
-            $.get("/getParticipantsByEvent", {eventId: eventId}, function(data) {
-                console.log(data);
-                $("#participantsList").text("");
-                $.each(data, function(i, user) {
-                    $("#participantsList").append('<li>' + user.firstname + " " + user.lastname + "</li>");
-                });
-            });
         }
     </script>
 
@@ -203,11 +164,7 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow1", style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
-    <%--<div style="border: none">--%>
-    <%--<input type="text" id="key-word-search" onkeyup="" placeholder="Enter key word...">--%>
-    <%--</div>--%>
-
+<div class="panel panel-default box_style_shadow", style="padding-top:30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">
@@ -246,61 +203,20 @@
 </div>
 
 
-<div id="container" class="panel panel-default box_style_shadow1" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: -50px">
+<div id="container" class="panel panel-default box_style_shadow1" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
 
     <div id="calendar"></div>
 
 </div>
 
-<div class="container-fluid" style="margin-top: -10px;">
-    <ul id="legend">
-        <li style="font-size: 15px">Meeting: <span class="glyphicon glyphicon-one-fine-dot" style=" color: #b61667"></span></li>
-        <li style="font-size: 15px">Training:  <span class="glyphicon glyphicon-one-fine-dot" style="color: #00897b"></span>  </li>
-        <li style="font-size: 15px">Stand Up:  <span class="glyphicon glyphicon-one-fine-dot" style="color:#992f99"></span>  </li>
-        <li style="font-size: 15px">Offline:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1a5a8f"></span>  </li>
-        <li style="font-size: 15px">Team Building:<span class="glyphicon glyphicon-one-fine-dot" style="color: #b61616"></span></li>
-        <li style="font-size: 15px">Workshop:   <span class="glyphicon glyphicon-one-fine-dot" style="color: #1bb7de"></span>  </li>
-        <li style="font-size: 15px">Other:     <span class="glyphicon glyphicon-one-fine-dot" style="color: #13A04C"></span>   </li>
-    </ul>
-</div>
-
-<p>
-<p>
-    <!-- Modal -->
-    <div class="modal fade" id="eventPage" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Event page</h4>
-                </div>
-                <div class="modal-body">
-                    <form:form modelAttribute="eventForm" class="form-signin">
-                    <h2 class="form-signin-heading"></h2>
-
-                    <spring:bind path="id">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="hidden" path="id" class="form-control eventId" placeholder="Id of event"
-                                    autofocus="true"></form:input>
-                    </div>
-                    </spring:bind>
-                    </form:form>
-
-<p>
-    Name: <span id="evName"></span> <br>
-    Type: <span id="evType"></span><br>
-    Location: <span id="evLocation"></span> <br>
-    Start time: <span id="evStart"></span> <br>
-    End time: <span id="evEnd"></span> <br>
-    Description:<span id="evDescription"></span> <br>
-    Created at: <span id="evCreated"></span> <br>
-    Created by: <span id="evAuthor"></span> <br>
-    Will be attended by:<br>
-<ul style = "list-style: none"; id="participantsList"></ul>
-</p>
-</div>
-</div>
+<div class="panel panel-default box_style_shadow", style="padding-top:0px; padding-left: 30px; padding-right: 30px; padding-bottom: 0px; margin-bottom: 30px">
+    <div class="legend-dot"><span id="meeting-color"></span> Meeting</div>
+    <div class="legend-dot"><span id="training-color"></span> Training</div>
+    <div class="legend-dot"><span id="stand-up-color"></span> Stand Up</div>
+    <div class="legend-dot"><span id="offline-color"></span> Offline</div>
+    <div class="legend-dot"><span id="team-building-color"></span> Team Building</div>
+    <div class="legend-dot"><span id="workshop-color"></span> Workshop</div>
+    <div class="legend-dot"><span id="other-color"></span> Other</div>
 </div>
 </div>
 
