@@ -16,7 +16,7 @@
     float: left;
     width: 190px;
     height: 34px;
-    background-image: url("/resources/icons/appLogo.png");
+    background-image: url("/resources/images/appLogo.png");
     background-size: 190px 34px;
     background-repeat: no-repeat;
 }
@@ -174,3 +174,4 @@
         top: 5px;
     }
 }
+
