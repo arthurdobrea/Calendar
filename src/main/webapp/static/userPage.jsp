@@ -20,7 +20,7 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <%--<link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">--%>
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
@@ -35,7 +35,6 @@
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </head>
-
 
 <body>
 <c:import url="header.jsp" />

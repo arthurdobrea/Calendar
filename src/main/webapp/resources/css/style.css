@@ -3,7 +3,6 @@
 	-webkit-transition-duration: .2s;
   -moz-transition-timing-function: cubic-bezier(100,50,21,6);
 	-moz-transition-property: all;
-  -moz-transition-timing-function: cubic-bezier(100,50,21,6);
   font-family: 'Roboto', sans-serif;
   font-size: 21px;
 }
@@ -378,107 +377,147 @@ button:focus {
     color: red
 }
 
-
-a {
-    font-size: 15px;
-    color: #DE411B;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #DE411B;
-}
-
-.error_text {
-    color: red;
-    font-size: 12px;
-    text-underline: none;
-    font-family: Arial, sans-serif;
-    float: left;
-    margin-left: 35px;
-}
-
 body {
     padding-top: 40px;
     padding-bottom: 20px;
     background-color: #eee;
 }
 
-/* css for header */
-.topnavContainer{
-display: table;
-width: 100%;
-max-width: 1200px;
-margin: auto;
+/*disable yellow color in the box in login form*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+.login_input:focus {
+    outline: 0;
 }
 
-.appLogo {
-float: left;
-width: 190px;
-height: 34px;
-background-image: url("/resources/images/appLogo.png");
-background-size: 190px 34px;
-background-repeat: no-repeat;
+.login_input:empty {
+
 }
 
-.topnav {
-float: right;
-list-style-type: none;
-margin: 0;
-padding: 0;
+/*welcome page css*/
+.mascot {
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 10%;
+    z-index: -1;
+
+    width: 528px;
+    height: 80%;
+    background-image: url("/resources/images/mascot.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.topnav li {
-display: inline-block;
-position: relative;
-padding: 1px 0px 0px 0px;
-margin: 0px 0px 0px 0px;
+.greeting-wrapper{
+    width: 60%;
+    margin: 120px auto;
+    min-width: 820px;
+    /*border: solid 1px red;*/
 }
 
-.topnav li a {
-padding: 0px 15px 0px 15px;
-font-size: 15px;
-text-align: center;
-color: #48545B;
+.greeting_1, .greeting_2, .greeting_3 .td.greeting_4 {
+    color: #48545B;
 }
 
-.topnav .no-underline a:hover  {
-border-bottom: 0px solid #DE411B;
+.greeting_1 {
+    font-size: 40px;
+    padding: 0px 0px 0px 0px;
 }
 
-.topnav li a:hover {
-color: #DE411B;
-text-decoration: none;
-border-bottom: 1px solid #DE411B;
+.greeting_2 {
+    font-size: 25px;
+    padding: 0px 0px 0px 0px;
 }
 
-.topnav .sub-menu {
-width: 105%;
-padding: 0px 0px 5px 0px;
-position: absolute;
-top: 100%;
-left: 0px;
-z-index: -1;
-opacity: 0;
-box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
-background: #FFFFFF;
+.greeting_3 {
+    font-size: 18px;
+    padding: 30px 0px 50px 0px;
 }
 
-.topnav .sub-menu li{
-display: block;
-padding: 4px 10px 3px 10px;
-margin: 0px 0px 0px 0px;
-text-align: left;
+.greeting_4 {
+    display: inline-table;
+    padding: 0px 0px 30px 0px;
 }
 
-.topnav li:hover .sub-menu {
-z-index: 1;
-opacity:1;
+.greeting_4 a {
+    display: inline-block;
 }
 
-.topnav .sub-menu li a {
-padding: 0px 10px 0px 10px;
-margin: 0px 0px 0px 0px;
+.greeting-btn {
+    border-radius: 30px;
+    color: #48545B;
+    background-color: #f7f8f9;
+    border: solid 1px #DE411B;
+    margin: 0px 25px;
+    padding: 10px 125px;
+    font-size: 18px;
+    text-decoration: none;
 }
+
+.greeting-btn:hover{
+    color: #FFFFFF;
+    background-color: #DE411B;
+    border: solid 1px #DE411B;
+}
+
+@media screen and (max-width: 970px) {
+    .greeting-wrapper {
+        width: 100%;
+        min-width: 250px;
+    }
+
+    .greeting-btn {
+        padding: 10px 70px;
+        margin: 5px 20px 0px 20px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .greeting_1 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .greeting-btn {
+        padding: 10px 50px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    body{
+        padding: 5px !important;
+    }
+
+    .greeting-btn {
+        padding: 10px 40px;
+    }
+}
+
+@media screen and (max-height: 550px) {
+    .greeting-wrapper {
+        margin: 80px auto;
+    }
+}
+
+@media screen and (max-height: 450px) {
+    .greeting-wrapper {
+        margin: 40px auto;
+    }
+}
+
+@media screen and (max-height: 400px) {
+    .mascot {
+        display: none;
+    }
+
+    .greeting-wrapper {
+        margin: 0px auto;
+    }
+}
+

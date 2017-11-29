@@ -189,3 +189,4 @@
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>
+
