@@ -1,5 +1,6 @@
 package com.calendar.project.service;
 
+import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserResource;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,4 +49,6 @@ public interface UserService {
     UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource);
 
     List<User> findLikeFullName(String fullname);
+
+    boolean isUserParticipant(Event event, User user);
 }
