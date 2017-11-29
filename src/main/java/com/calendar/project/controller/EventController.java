@@ -172,22 +172,47 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, int eventId) {
+    public String showEvent(Model model, int  eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
+        User user =securityService.findLoggedInUsername();
+        boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
 //        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
 //        notificationService.changeState(notification);
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
-        String startDate=event.getStart().format(formatter);
-        String endDate=event.getStart().format(formatter);
 
-        model.addAttribute("start", startDate);
-        model.addAttribute("end", endDate);
-        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
+        model.addAttribute("start", event.getStart().format(formatter));
+        model.addAttribute("end", event.getStart().format(formatter));
+        model.addAttribute("isParticipant", isParticipant);
+//        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
+//        redirectAttributes.addAttribute("eventId", event.getId());
         return "showEvent";
+    }
+
+    @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
+    public String suscribeToEvent(Model model, @ModelAttribute("id") int eventId) {
+        LOGGER.info("Request of \"/showEvent\" page GET");
+        Event event = eventService.getEvent(eventId);
+        User user =securityService.findLoggedInUsername();
+        if (userService.isUserParticipant(event,user)) {
+            System.out.println("found "+user.getFullName());
+            event.getParticipants().remove(user);
+        }else {
+            event.getParticipants().add(user);
+            System.out.println("NOT found "+user.getFullName());
+        }
+
+        eventService.updateEvent(event);
+//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+//        notificationService.changeState(notification);
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+
+        LOGGER.info("Opening of \"/showEvent\" page");
+
+        return "userPage";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
