@@ -7,14 +7,23 @@
     <%--<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>--%>
     <%--<script src="${contextPath}/resources/js/userProfile.js"></script>--%>
 <%--</head>--%>
+<script>
+    $(function() {
+        var currentLocation = window.location.href;
 
+        if(~currentLocation.indexOf('welcome') == false){
+            $("#imageId").show();
+        }
+    });
+
+</script>
 
 <div class="topnavContainer">
     <script>
         connectToServerFunc();
     </script>
     <div class="topnav" id="topnav">
-        <div class="appLogo"></div>
+        <div class="appLogo" id = "imageId" style="display: none" ></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
             <div class="float-right-item"><a href="/">CALENDAR</a></div>

@@ -179,14 +179,16 @@ button:focus {
 
 }
 
-.box_style_shadow{
+.box_style_shadow1{
     box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
 }
 
 .fc-next-button.fc-button.fc-state-default.fc-corner-right{
     background: none;
 }
-
+/*.fc-next-button.fc-button.fc-state-default.fc-corner-right:hover{*/
+    /*background-color: #7a210c;*/
+/*}*/
 .fc-addNew-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right{
     background: none;
 }
@@ -215,7 +217,7 @@ button:focus {
     /*background-repeat: no-repeat;*/
 /*}*/
 
-.roles_button_style{
+.roles_button_style1{
     width: 300px;
     box-sizing: border-box;
     border: 2px solid #ccc;

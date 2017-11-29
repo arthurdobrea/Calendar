@@ -23,7 +23,8 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
 
 
@@ -37,7 +38,8 @@
 </head>
 <body style="width:1600px;">
 
-<div class="generic-container" style="width: 1450px">
+<c:import url="header.jsp" />
+<div class="generic-container" style="width: 1450px; margin-top: 5%">
     <div class="panel panel-default box_style_shadow", style="padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
         <table id = "id" class="table table-hover", style="padding-left: 300px">
             <div style="padding-top: 30px" class="test">FILTERS</div>
@@ -88,26 +90,22 @@
                     <c:set var="roles" value="${user.roles}"/>
                     <c:set var="role" value="${fn:substringAfter(roles, \"name='\")}"/>
                 <td style="padding-top: 15px" align="left">${fn:substringBefore(role, "\'}")}</td>
-                <td style="width: 90px">
-
-
-                    <button type="button" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" id = "${user.username}"></button>
+                <td style="width: 90px; padding-top: 15px">
 
                     <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-                    <div style="padding-top: 15px; padding-right: 2px;">
-
-                    </div>
-                    </c:if>
+                    <button type="button" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" id = "${user.username}"></button>
+                        </c:if>
 
                     <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-                        <%--<button type="editButton" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" name="usernameYes" value= "${user.username}"></button>--%>
+                        <button type="button" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" id = "${user.username}"></button>
                     </c:if>
 
                     <c:choose>
                         <c:when test="${pageContext.request.remoteUser.equals(user.username)}"></c:when>
                     <c:otherwise>
                     <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
-                    <button type="deleteButton" style="float: right" class="btn_delete_image" data-toggle="modal" data-target="#myModal"  id="${user.username}"></button></div>
+                    <button type="deleteButton" class="btn_delete_image" data-toggle="modal" data-target="#myModal"  id="${user.username}"></button>
+
     </c:if>
     </c:otherwise>
     </c:choose>
@@ -138,13 +136,13 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">
             <div id="modal-content" class="modal_content">
-                <button type="button" id = "close-edit" style="margin-top: 7px;" class="btn_close_modal" data-dismiss="modal"></button>
-                <div  align="left" style="padding-top: 7px">EDIT USER </div>
+                <button type="button" id = "close-edit" style="margin-top: 3%;" class="btn_close_modal" data-dismiss="modal"></button>
+                <div  align="left" style="padding-top: 7px; margin-bottom: 5%">EDIT USER </div>
 
             </div>
         </div>
@@ -159,13 +157,7 @@
         $('#close-edit').on('click', function(){
             location.reload()
             $("#myModal_edit").modal('h ide');
-
-
         });
-
-
-
-
 
         $(".btn_delete_image").on('click', function() {
             var $modalDeleteButton = $('#modal_delete');
@@ -201,8 +193,8 @@
                 console.log(right_text);
                 var btn = document.createElement('input');
                 btn.type="button";
-                btn.value = 'Submit';
-                btn.className = "btn btn-lg btn-primary btn-block";
+                btn.value = 'EDIT';
+                btn.className = "btn_submit_edit";
                 btn.id = "submit-edit";
 
                 var array = ["ROLE_GUEST","ROLE_USER","ROLE_ADMIN"];
@@ -223,7 +215,7 @@
 
                 var selectList = document.createElement("select");
                 selectList.id = "roles";
-                selectList.className = 'edit-input';
+                selectList.className = 'select_box_of_role class_for_submit111';
 
                 for (var i = 0; i < array.length; i++) {
                     var option = document.createElement("option");
@@ -239,7 +231,8 @@
 
 
                     if(fieldName === "id"){
-                        input.readOnly = true;
+//                        input.readOnly = true;
+                        input.style.display = 'none';
                     }
                     else if(fieldName === "email"){
                         input.readOnly = true;
@@ -253,9 +246,17 @@
                     }
 
                     input.id = fieldName;
-                    input.className = 'form-control edit-input';
+                    input.className = 'form-control class_for_submit111';
                     input.placeholder = fieldName;
                     input.value = userInfo[fieldName];
+                    input.style.float = "none";
+                    input.style.width = "100%";
+                    input.style.height = "34px";
+                    input.style.marginBottom = "4%";
+                    input.style.borderTop = "none";
+                    input.style.borderLeft = "none";
+                    input.style.borderRight = "none";
+                    input.style.borderBottom = "2px solid #E0E0E1";
 
                     div.appendChild((input));
                     div.appendChild((selectList));
@@ -277,7 +278,7 @@
         function registerSubmitEvent(btn){
             btn.onclick = function() {
                 var result = {};
-                $.each($('.edit-input'), function(index, element){
+                $.each($('.class_for_submit111'), function(index, element){
                     result[element.id] = element.value;
                     console.log(element.value);
                 });

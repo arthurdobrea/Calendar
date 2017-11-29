@@ -152,32 +152,6 @@ public class UserServiceImpl implements UserService {
         Object json = mapper.readValue(usersString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
-    @Override
-    public List<User> getUserJsonList(List<User> users) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonArray usersJsonArr = new JsonArray();
-        for (User user : users) {
-            JsonObject userAsJson = new JsonObject();
-            userAsJson.addProperty("id", user.getId());
-            userAsJson.addProperty("username", user.getUsername());
-            userAsJson.addProperty("firstname", user.getFirstname());
-            userAsJson.addProperty("lastname", user.getLastname());
-            userAsJson.addProperty("email", user.getEmail());
-            userAsJson.addProperty("position", user.getPosition());
-            userAsJson.addProperty("image", user.getImage());
-            userAsJson.addProperty("subscription by event type", user.getSubscriptionByEventType());
-            userAsJson.addProperty("subscription by tag type", user.getSubscriptionByTagType());
-            userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
-            userAsJson.addProperty("invitations", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
-            userAsJson.addProperty("created by author", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
-            usersJsonArr.add(userAsJson);
-        }
-        String arrayToJson = usersJsonArr.toString();
-        TypeReference<List<User>> mapType = new TypeReference<List<User>>() {};
-        List<User> jsonToUserList = mapper.readValue(arrayToJson, mapType);
-        return jsonToUserList;
-
-    }
 
     @Override
     public String getUserJson(User user) throws IOException{

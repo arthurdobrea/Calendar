@@ -47,6 +47,6 @@ public interface UserService {
 
     UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource);
 
-    List<User> getUserJsonList(List<User> user) throws IOException;
+
 
 }
