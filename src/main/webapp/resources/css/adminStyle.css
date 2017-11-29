@@ -191,7 +191,7 @@ tbody:before {
 .btn_edit_image{
     color: rgb(1, 1, 2);
     background: rgba(0, 0, 0, 0);
-    background-image: url(/resources/buttons.png);
+    background-image: url(/resources/icons/buttons.png);
     background-position: 0px 0px;
     background-repeat: no-repeat;
     border: none;
@@ -201,14 +201,14 @@ tbody:before {
     transition: initial;
 }
 .btn_edit_image:hover{
-    background-image: url(/resources/buttons.png);
+    background-image: url(/resources/icons/buttons.png);
     background-position: -32px 0;
 }
 .btn_close_modal{
     margin-top: 1%;
     float: right;
     background: white;
-    background-image: url(/resources/ic_close.png);
+    background-image: url(/resources/icons/ic_close.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 17px 17px;
@@ -277,7 +277,7 @@ tbody:before {
 .btn_delete_image{
     color: rgb(1, 1, 2);
     background: rgba(0, 0, 0, 0);
-    background-image: url(/resources/buttons.png);
+    background-image: url(/resources/icons/buttons.png);
     background-position: 0px -20px;
     background-repeat: no-repeat;
     border: none;
@@ -287,7 +287,7 @@ tbody:before {
     transition: initial;
 }
 .btn_delete_image:hover{
-    background-image: url(/resources/buttons.png);
+    background-image: url(/resources/icons/buttons.png);
     background-position: -32px -20px;
 
 }
@@ -303,7 +303,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/ic_search.png);
+    background-image: url(/resources/icons/ic_search.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -320,7 +320,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/user.png);
+    background-image: url(/resources/icons/user.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -337,7 +337,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/FirstLastName.png);
+    background-image: url(/resources/icons/FirstLastName.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -354,7 +354,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/FirstLastName.png);
+    background-image: url(/resources/icons/FirstLastName.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -371,7 +371,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/email.png);
+    background-image: url(/resources/icons/email.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -388,7 +388,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/assignment.png);
+    background-image: url(/resources/icons/assignment.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -429,7 +429,7 @@ tbody:before {
     width: 100%;
     margin-bottom: 20px;
     border-bottom: 2px solid #E0E0E1;
-    background-image: url(/resources/ic_arrow_down.png);
+    background-image: url(/resources/icons/ic_arrow_down.png);
     background-position: right bottom;
     background-repeat: no-repeat;
     -webkit-transition: width 0.4s ease-in-out;
@@ -472,7 +472,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/ic_arrow_down.png), url(/resources/Job.png);
+    background-image: url(/resources/icons/ic_arrow_down.png), url(/resources/icons/Job.png);
     background-position: right bottom, left bottom;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 30px;
