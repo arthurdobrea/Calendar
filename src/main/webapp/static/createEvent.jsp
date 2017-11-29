@@ -62,12 +62,10 @@
 
     </script>
 </head>
-<body id="bodyEvent">
-
-
-    <div class=" modal-dialog modal-dialog modal-lg">
-        <div class="modal-content">
-
+<body>
+<div class="modal fade" id="AddEvent" role="dialog">
+    <div class="modal-dialog" align="center">
+        <!-- Modal content-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">ADD EVENT</h4>
@@ -114,13 +112,13 @@
                                         </div>
                                     </div>
 
-                                        <div class="col-sm-6" style="top: 13px">
-                                            <div class="form-group" id="alldaydiv" style="padding-bottom:5px;">
-                                                &nbsp; &nbsp;&nbsp;ALL DAY &nbsp;
-                                                <label id="alldaylabel"> <input class="checkbox-inline"  type="checkbox" id="all-day" onclick="if(this.checked)
+                                    <div class="col-sm-6" style="top: 13px">
+                                        <div class="form-group" id="alldaydiv" style="padding-bottom:5px;">
+                                            &nbsp; &nbsp;&nbsp;ALL DAY &nbsp;
+                                            <label id="alldaylabel"> <input class="checkbox-inline"  type="checkbox" id="all-day" onclick="if(this.checked)
                                             {allDayChecked();} else {allDayUnchecked();}" ></label>
-                                            </div >
-                                        </div>
+                                        </div >
+                                    </div>
 
 
                                 </div>
@@ -184,7 +182,7 @@
                                     </c:forEach>
                                     <label class="checkbox-inline" style="color:${tag.tag.color()}">
                                         <input type="checkbox" name="checkboxTags"
-                                                hidden value="hidden" checked/>
+                                               hidden value="hidden" checked/>
                                     </label>
 
                                 </div>
@@ -201,13 +199,11 @@
 
                 </form>
             </div>
-        </div>
-    </div>
+</div>
+
 
     <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
     <script src="${contextPath}/resources/js/eventValidator.js"></script>
-
-
 
 </body>
 </html>

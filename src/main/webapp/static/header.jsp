@@ -35,7 +35,7 @@
                 <div class="sub-menu">
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
                     <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
-                    <div class="sub-menu-item"><a href="/createEvent" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
+                    <div class="sub-menu-item"><a onclick="create_event()" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
@@ -56,10 +56,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="AddEvent" role="dialog"></div>
-
-<div class="add_event_modal"></div>
 
 <div id="modal_form">
     <span id="modal_title">NOTIFICATIONS</span>
@@ -137,4 +133,4 @@
     }
 </script>
 
-<%--<div class="add_event_modal"></div>--%>
+<div class="add_event_modal"></div>
