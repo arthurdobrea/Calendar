@@ -14,3 +14,4 @@ CREATE TABLE notifications
     ON DELETE CASCADE,
   is_viewed BOOLEAN DEFAULT FALSE
 );
+
