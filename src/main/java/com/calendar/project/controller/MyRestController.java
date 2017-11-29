@@ -4,6 +4,8 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
+import com.calendar.project.model.dto.UserDTO;
+import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
@@ -178,7 +180,8 @@ public class MyRestController {
 
     @RequestMapping(value = "/createUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody void createUser(@RequestBody User user) throws IOException {
+    public @ResponseBody void createUser(@RequestBody UserDTO userDTO) throws IOException {
+        User user = Converter.convert(userDTO);
         userService.save(user);
     }
 
