@@ -87,16 +87,10 @@ public class UserResourceValidator implements Validator {
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "Required");
-//        int positionLength = username.length();
-//        if (usernameLength < 8 || usernameLength > 32) {
-//            errors.rejectValue("username", "Size.user.username");
-//        }
-//        else {
-//            if (!Pattern.matches("\t\n" +
-//                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
-//                errors.rejectValue("username", "UserName.userForm.username");
-//            }
-//        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "Required");
+        if (!Pattern.matches("[a-zA-Z|\\s]+$", user.getPosition())) {
+                errors.rejectValue("position", "Position.userForm.position");
+            }
+        }
     }
-}
+
