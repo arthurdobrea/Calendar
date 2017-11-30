@@ -40,6 +40,11 @@
 <body>
 <div class=" row login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
+        <%--<input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>--%>
+            <img src="/resources/icons/Endava_Logo.png" class="endava_logo" />
+        <div class=" ${error != null ? 'has-error' : ''}">
+            <span>${message}</span>
+            <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
         <div align="center" class="login_header">
             <div><img src="${contextPath}/resources/icons/logo.png" alt="LOGO"/></div>
             <div>${message}</div>
