@@ -197,7 +197,8 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow", style="padding-top:30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
+
+<div class="panel panel-default box_style_shadow", style="padding-top:30px; padding-left: 100px; padding-right: 30px; padding-bottom: 30px">
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">

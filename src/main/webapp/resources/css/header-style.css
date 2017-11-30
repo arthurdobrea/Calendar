@@ -81,6 +81,7 @@
     padding: 4px 10px 0px 10px;
     margin: 0px 0px 0px 0px;
     text-align: left;
+    font-size: 21px;
 }
 
 .float-right-item:hover div:not(first-child) {
@@ -189,7 +190,33 @@
 }
 
 /* Выпадающее окно уведомлений */
-.no-underline:hover .notifications-list {
+/*.no-underline:checked .notifications-list{*/
+    /*right: 50px;*/
+    /*display: block;*/
+    /*position: absolute;*/
+    /*top: 70px;*/
+    /*width: 310px;*/
+/*}*/
+
+input[type=checkbox] {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    -webkit-appearance: none;
+    outline: 0;
+}
+input[type=checkbox]:checked {
+    background-image: url(/resources/icons/ic_notifications.png);
+    outline:none;
+}
+input[type=checkbox]:not(:checked) {
+    background-image: url(/resources/icons/ic_notifications.png);
+    outline:none;
+}
+
+.no-underline:checked ~ .notifications-list{
     right: 50px;
     display: block;
     position: absolute;
@@ -256,6 +283,7 @@
     color: #000;
     font-size: 12px;
     font-family: 'Roboto', sans-serif;
+    border-bottom: 0px solid #DE411B;
 }
 
 .notifications-list #notification-title {
@@ -293,6 +321,8 @@
     opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
     z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
     box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
+    margin-top: 0;
+    margin-left: 0;
 }
 
 #modal_title {
