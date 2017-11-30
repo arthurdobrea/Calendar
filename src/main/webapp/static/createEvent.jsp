@@ -63,7 +63,7 @@
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
         <div class="modal-content" style="border-radius: 0;">
             <div class="modal-header">
-                <div class="modal-header create_event_header">
+                <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>

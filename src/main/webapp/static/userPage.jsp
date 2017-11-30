@@ -107,7 +107,7 @@
                             <tr>
                                 <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
-                                <td align="right" id="td_show_event"><a href="/showEvent?eventId=${event.id}"><button class="btn_show_event"></button></a></td>
+                                <td align="right" id="td_show_event"><button class="btn_show_event" onclick="window.location.href='/showEvent?eventId=${event.id}'"></button></td>
                             </tr>
                         </a>
                     </c:forEach>
@@ -119,6 +119,7 @@
 
     <div class="add_event_modal"></div>
     <div class="edit_user_modal"></div>
+    <div class="show_event_modalka"></div>
     <div class="delete_event_modalka"></div>
     <div class="edit_event_modalka"></div>
 

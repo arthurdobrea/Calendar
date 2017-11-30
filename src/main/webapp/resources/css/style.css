@@ -6,11 +6,11 @@
   /*font-family: 'Roboto', sans-serif;*/
   /*font-size: 21px;*/
 /*}*/
-/*.container{*/
-  /*width: 100%;*/
-  /*max-width: 1400px;*/
-  /*height: 500px;*/
-/*}*/
+.container{
+  width: 100%;
+  max-width: 1400px;
+  height: 500px;
+}
 
 /*.first-last-div{*/
   /*width: 601px;*/
@@ -528,8 +528,16 @@
 }
 
 body{
-    padding-top: 30px;
+    max-width: 1400px;
+    margin: auto;
+    padding-top: 40px;
     background-color: #eee;
+}
+
+@media screen and (max-width: 1200px) {
+    body {
+        max-width: 1200px;
+    }
 }
 
 /* cyrillic */

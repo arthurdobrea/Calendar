@@ -6,6 +6,12 @@ $(document).ready(function(){
     $('#total_events_invited').hide();
 });
 
+function show_event() {
+    $(".show_event_modalka").load("/showEvent #ShowEvent", function () {
+        $("#ShowEvent").modal();
+    });
+}
+
 function create_event() {
     $(".add_event_modal").load("/createEvent #AddEvent", function () {
         $("#AddEvent").modal();
