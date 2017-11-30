@@ -32,6 +32,10 @@
     <script src="${contextPath}/resources/js/userProfile.js"></script>
     <script src='${contextPath}/resources/js/moment.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
+
+    <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
 </head>
 
 <body>
@@ -86,10 +90,10 @@
 
             <a href="/showEvent?eventId=${event.id}">
                 <tr>
-                    <td align="left"><span  class="inline_text" style="color: #48545B; line-height: 100%;">${event.title}<br></span>
+                    <td align="left" style="padding-left: 0"><span  class="inline_text" style="color: #48545B; line-height: 100%;">${event.title}<br></span>
                                      <span  class="inline_text">${event.eventType}</span></td>
-                    <td align="right" class="td_edit_delete"  style="vertical-align: middle; "><button class="btn_edit_event" onclick="window.location.href='/updateEvent?eventId=${event.id}' "></button></td>
-                <td align="right" class="td_edit_delete"  style="vertical-align: middle; "><button class="btn_delete_event" onclick="delete_event() "></button></td>
+                    <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><button class="btn_edit_event" onclick="window.location.href='/updateEvent?eventId=${event.id}' "></button></td>
+                <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><button class="btn_delete_event" onclick="delete_event() "></button></td>
             </tr>
             </a>
         </c:forEach>
@@ -104,9 +108,9 @@
                 <c:forEach items="${eventsByUser}" var="event">
                     <a href="/showEvent?eventId=${event.id}">
                         <tr>
-                            <td align="left"><span  class="inline_text" style="color: #48545B; line-height: 100%;">${event.title}<br></span>
+                            <td align="left" style="padding-left: 0"><span  class="inline_text" style="color: #48545B; line-height: 100%;">${event.title}<br></span>
                                 <span  class="inline_text">${event.eventType}</span></td>
-                            <td align="right" class="td_edit_delete"  style="vertical-align: middle;"><a href="/showEvent?eventId=${event.id}"><button class="btn_unsubscribe"></button></a></td>
+                            <td align="right" class="td_edit_delete"  style="vertical-align: middle; padding-right: 0"><a href="/showEvent?eventId=${event.id}"><button class="btn_unsubscribe"></button></a></td>
                         </tr>
                     </a>
                 </c:forEach>

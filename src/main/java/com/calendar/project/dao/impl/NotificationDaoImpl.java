@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Repository
@@ -37,18 +40,22 @@ public class NotificationDaoImpl implements NotificationDao {
 
     @Override
     public List<Notification> getCheckedEvents(User user) {
-        return entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
-                + "and n.isViewed = true ", Notification.class)
+        List<Notification> notificationList = entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
+                + "and n.isViewed = true", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
+        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        return notificationList;
     }
 
     @Override
     public List<Notification> getUnchekedEvents(User user) {
-        return entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
-                + "and n.isViewed = false ", Notification.class)
+        List<Notification> notificationList = entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
+                + "and n.isViewed = false", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
+        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        return notificationList;
     }
 
     @Override
