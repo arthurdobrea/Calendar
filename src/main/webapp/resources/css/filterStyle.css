@@ -1,4 +1,5 @@
-.autocomplete-suggestions {border: 2px solid #ccc; border-top: none; background: #FFF; overflow: auto; position: absolute; width: inherit; top:inherit;}
+.autocomplete-suggestions {border: 2px solid #ccc; border-top: none; background: #FFF; overflow: auto; position: absolute; top:inherit;}
 .autocomplete-suggestion { padding: 2px 2px; white-space: nowrap; overflow: hidden; font-size:14px}
 .autocomplete-selected { background: #F0F0F0; }
 .autocomplete-suggestions strong {color: #FF4500; }
+

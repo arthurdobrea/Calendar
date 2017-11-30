@@ -69,10 +69,10 @@
     width: 535px;
 }
 
-label{
-    width: 185px;
-    margin: 17px 413px 1px 11px;
-}
+/*label{*/
+    /*width: 185px;*/
+    /*margin: 17px 413px 1px 11px;*/
+/*}*/
 body{
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
