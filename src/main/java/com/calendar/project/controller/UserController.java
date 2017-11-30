@@ -13,7 +13,6 @@ import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
-import com.calendar.project.testDomain.Tag;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;

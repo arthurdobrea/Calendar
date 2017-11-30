@@ -1,5 +1,6 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.config.MobilePushNotificationsService;
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
@@ -7,18 +8,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,6 +53,9 @@ public class EventController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    MobilePushNotificationsService mobilePushNotificationsService;
 
 
 
@@ -168,7 +175,15 @@ public class EventController {
         event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
 //
         */
-        eventService.saveEvent(event);;
+        eventService.saveEvent(event);
+//        try{
+//            String eventString = eventService.getEventJson(event);
+//            HttpEntity<String> request = new HttpEntity<>(eventString);
+//            mobilePushNotificationsService.send(request,event.getId() + ".json");
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
         for (User u : participants) {
