@@ -19,14 +19,10 @@ public interface NotificationService {
 
     void saveAll(List<Notification> notifications);
 
-    Notification getNotification(User user, Event event);
+    List<Notification> getUncheckedEvents(User User);
 
-    List<Notification> getUnchekedEvents(User User);
-
-    List<Notification> getChekedEvents(User User);
+    List<Notification> getCheckedEvents(User User);
 
     void changeState(Notification Notification);
-
-    void delete(Notification notification);
 
 }

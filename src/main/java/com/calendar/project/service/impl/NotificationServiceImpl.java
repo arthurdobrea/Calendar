@@ -71,17 +71,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification getNotification(User user, Event event) {
-        return notificationDao.getNotification(user, event);
+    public List<Notification> getUncheckedEvents(User user) {
+        return notificationDao.getUncheckedEvents(user);
     }
 
     @Override
-    public List<Notification> getUnchekedEvents(User user) {
-        return notificationDao.getUnchekedEvents(user);
-    }
-
-    @Override
-    public List<Notification> getChekedEvents(User user) {
+    public List<Notification> getCheckedEvents(User user) {
         return notificationDao.getCheckedEvents(user);
     }
 
@@ -89,11 +84,5 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void changeState(Notification notification) {
         notificationDao.changeState(notification);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Notification notification) {
-        notificationDao.delete(notification);
     }
 }

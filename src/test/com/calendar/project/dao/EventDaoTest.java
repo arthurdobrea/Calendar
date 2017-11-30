@@ -76,7 +76,12 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testGetEventsByUser() throws Exception {
+    public void testEventName() throws Exception {
+        Assert.assertEquals("Java Presentation", event.getTitle());
+    }
+
+    @Test
+    public void testGetEventsByUserNotEmptyList() throws Exception {
         Event event1 = new Event();
         event1.setTitle("Java Presentation 2");
         event1.setEventType(EventType.TRAINING);
@@ -92,7 +97,7 @@ public class EventDaoTest {
         entityManager.persist(event1);
 
         List<Event> eventsWhereUserInvited =  eventDao.getEventsByUser(userTest.getId());
-        Assert.assertNotNull(eventsWhereUserInvited);
+        Assert.assertFalse(eventsWhereUserInvited.isEmpty());
     }
 
     @Test
@@ -102,16 +107,23 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testGetEventsByLocation() throws Exception{
+    public void testGetEventsByLocationNotEmptyList() throws Exception{
         List<Event> eventsByLocation = eventDao.getEventsByLocation(event.getLocation());
-        Assert.assertNotNull(eventsByLocation);
+        Assert.assertFalse("List is empty", eventsByLocation.isEmpty());
     }
 
     @Test
-    public void testGetEventsByType() throws Exception{
-        List<Event> eventsByLocation = eventDao.getEventsByType(event.getEventType());
-        Assert.assertNotNull(eventsByLocation);
+    public void testGetEventsByLocationEmptyList() throws Exception {
+        List<Event> eventsByLocation = eventDao.getEventsByLocation("Zimbabwe");
+        Assert.assertTrue("List is not empty", eventsByLocation.isEmpty());
     }
+
+    @Test
+    public void testGetEventsByTypeNotEmptyList() throws Exception{
+        List<Event> eventsByType = eventDao.getEventsByType(event.getEventType());
+        Assert.assertFalse("List is empty", eventsByType.isEmpty());
+    }
+
 
     @Test
     public void testGetAllEventsReturnsValue() throws Exception{
@@ -150,13 +162,19 @@ public class EventDaoTest {
     @Test
     public void testGetEventsByTag() throws Exception{
         List<Event> eventsByTag = eventDao.getEventsByTag(TagType.APPLICATION_MANAGEMENT);
-        Assert.assertNotNull(eventsByTag);
+        Assert.assertFalse("List is empty",eventsByTag.isEmpty());
     }
 
     @Test
-    public void testGetEventsByKeyword() throws Exception {
-        List<Event> eventsByKeyword = eventDao.getEventsByKeyword("Spring");
-        Assert.assertNotNull(eventsByKeyword);
+    public void testGetEventsByKeywordNotEmptyList() throws Exception {
+        List<Event> eventsByKeyword = eventDao.getEventsByKeyword("Hibernate");
+        Assert.assertFalse("List is empty", eventsByKeyword.isEmpty());
+    }
+
+    @Test
+    public void testGetEventsByKeywordEmptyList() throws Exception {
+        List<Event> eventsByKeword = eventDao.getEventsByKeyword("&*&^%^$$");
+        Assert.assertTrue("List is not empty", eventsByKeword.isEmpty());
     }
 
     @Test
@@ -182,6 +200,7 @@ public class EventDaoTest {
         Event deletedEvent = eventDao.getEvent(event.getId());
         Assert.assertNull(deletedEvent);
     }
+
 
     @Test
     public void testGetEventsByDate() throws Exception {
