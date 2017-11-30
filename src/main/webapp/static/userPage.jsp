@@ -18,8 +18,8 @@
     <title>User Page</title>
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
@@ -84,21 +84,24 @@
                     <tbody>
                     <c:forEach items="${eventsByAuthor}" var="event">
                         <script>
+                            function edit_event_modal() {
+                                $(".edit_event_modalka").load("/editEvent?eventId=${event.id} #EditEvent", function () {
+                                    $("#EditEvent").modal();
+                                });
+                            }
+
                             function delete_event() {
                                 $(".delete_event_modalka").load("/deleteEvent?eventId=${event.id} #DeleteEvent", function () {
                                     $("#DeleteEvent").modal();
                                 });
                             }
                         </script>
-
-                        <a href="/showEvent?eventId=${event.id}">
                             <tr>
                                 <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
-                                <td align="right" id="td_edit_btn"><button class="btn_edit_event" onclick="window.location.href='/updateEvent?eventId=${event.id}' "></button></td>
-                                <td align="right" id="td_delete_btn"><button class="btn_delete_event" onclick="delete_event() "></button></td>
+                                <td align="right" id="td_edit_btn"><button class="btn_edit_event" onclick="edit_event_modal() "></button></td>
+                                <td align="right" id="td_delete_btn"><button class="btn_delete_event" onclick="delete_event()"></button></td>
                             </tr>
-                        </a>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -109,13 +112,21 @@
                 <table class="table table-hover">
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
-                        <a href="/showEvent?eventId=${event.id}">
+                        <script>
+                            function show_event() {
+                                $('.show_event_modal').load("/userPage #ShowEvent", function () {
+                                    console.log(${event.id});
+                                    $("#ShowEvent").modal();
+
+                                });
+                            }
+                        </script>
+
                             <tr>
                                 <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
-                                <td align="right" id="td_show_event"><button class="btn_show_event" onclick="window.location.href='/showEvent?eventId=${event.id}'"></button></td>
+                                <td align="right" id="td_show_event"><button class="btn_show_event" onclick="show_event()"></button></td>
                             </tr>
-                        </a>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -125,7 +136,7 @@
 
     <div class="add_event_modal"></div>
     <div class="edit_user_modal"></div>
-    <div class="show_event_modalka"></div>
+    <div class="show_event_modal"></div>
     <div class="delete_event_modalka"></div>
     <div class="edit_event_modalka"></div>
 

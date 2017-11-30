@@ -27,13 +27,9 @@
     <script src="${contextPath}/resources/js/jquery-ui.min.js"></script>
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
-
-    <script>
-    </script>
 </head>
+
 <body>
-
-
 <div class=" modal-dialog modal-dialog modal-lg">
     <div class="modal-content" style="border-radius: 0">
         <div class="modal-header">
@@ -48,28 +44,25 @@
                     <div class="row" id="leftblock" style="padding-right: 15px">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                MAIN INFO
-                                Title:   <span style="color: #d2322d">${event.title}</span>
+                                <strong>Title:</strong>   <span style="color: #d2322d">${event.title}</span>
                             </div>
                             <div class="form-group">
-                                Location: ${event.location}
+                                <strong>Location:</strong> ${event.location}
                             </div>
                             <div class="form-group">
-                                Type: ${event.eventType}
+                                <strong>Type:</strong> ${event.eventType}
                             </div>
                             <div class="form-group">
-                                When start: ${start}
+                                <strong>Start:</strong> ${start}
                             </div>
                             <div class="form-group">
-                                When end:&nbsp; ${end}
+                                <strong>End:</strong>&nbsp; ${end}
                             </div>
 
                             <div class="form-group">
-                                Author: ${event.author.fullName}
+                                <strong>Author:</strong> ${event.author.fullName}
                             </div>
-
                         </div>
-
 
                         <div class="row" id="rightblock">
                             <div class="col-sm-6">
@@ -122,13 +115,11 @@
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
 </div>
-
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
-<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>
+
+

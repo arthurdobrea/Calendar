@@ -98,7 +98,6 @@
 //                    console.log(event);
 //                    console.log(jsEvent);
 //                    console.log(view);
-
                     window.location.replace("/showEvent?eventId=" + event.id);
                 }
             });
@@ -254,7 +253,7 @@
 
 
 
-<div class="add_event_modal"></div>
+<div class="show_event_modal"></div>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
