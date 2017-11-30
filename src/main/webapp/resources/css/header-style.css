@@ -198,7 +198,7 @@
     /*width: 310px;*/
 /*}*/
 
-input[type=checkbox] {
+.no-underline[type=checkbox] {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -207,11 +207,11 @@ input[type=checkbox] {
     -webkit-appearance: none;
     outline: 0;
 }
-input[type=checkbox]:checked {
+.no-underline[type=checkbox]:checked {
     background-image: url(/resources/icons/ic_notifications.png);
     outline:none;
 }
-input[type=checkbox]:not(:checked) {
+.no-underline[type=checkbox]:not(:checked) {
     background-image: url(/resources/icons/ic_notifications.png);
     outline:none;
 }
