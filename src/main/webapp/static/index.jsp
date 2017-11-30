@@ -76,13 +76,14 @@
                 eventRender: function (event, element) {
                     element.attr('href', 'javascript:void(0);');
                     element.click(function() {
+                        $("#eventLocation").html(event.location);
+                        $("#eventAuthor").html(event.author);
                         $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
                         $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
                         $("#eventInfo").html(event.description);
-                        $("#eventLink").attr('href', event.url);
                         $("#eventContent").dialog({ modal: true, title: event.title, width:350});
                     });
-                }
+                },
 
                 businessHours: {
 
@@ -107,10 +108,10 @@
                 timeFormat: 'h:mma',
                 events: {url:'/json/allEvents'},
                 eventClick:  function (event, jsEvent, view) {
-//                    console.log(event);
-//                    console.log(jsEvent);
-//                    console.log(view);
-                    window.location.replace("/showEvent?eventId=" + event.id);
+                    console.log(event);
+                    console.log(jsEvent);
+                    console.log(view);
+//                    window.location.replace("/showEvent?eventId=" + event.id);
                 }
             });
 //          $('#calendar').fullCalendar( 'gotoDate', currentDate);
@@ -156,6 +157,17 @@
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
+                eventRender: function (event, element) {
+                    element.attr('href', 'javascript:void(0);');
+                    element.click(function() {
+                        $("#eventLocation").html(event.location);
+                        $("#eventAuthor").html(event.author);
+                        $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                        $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+                        $("#eventInfo").html(event.description);
+                        $("#eventContent").dialog({ modal: true, title: event.title, width:350});
+                    });
+                },
                 businessHours: {
 
                     dow: [ 1, 2, 3, 4, 5 ],
@@ -192,7 +204,7 @@
                     console.log(jsEvent);
                     console.log(view);
 
-                    window.location.replace("/showEvent?eventId=" + event.id);
+//                    window.location.replace("/showEvent?eventId=" + event.id);
 
                 }
             });
@@ -268,10 +280,11 @@
 <div class="show_event_modal"></div>
 
 <div id="eventContent" title="Event Details" style="display:none;">
-    Start: <span id="startTime"></span><br>
-    End: <span id="endTime"></span><br><br>
-    <p id="eventInfo"></p>
-    <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
+    <strong>Location: </strong><span id="eventLocation"></span><br>
+    <strong>Start: </strong><span id="startTime"></span><br>
+    <strong>End: </strong><span id="endTime"></span><br>
+    <strong>Author: </strong><span id="eventAuthor"></span><br>
+    <strong>Description: </strong><p id="eventInfo"></p>
 </div>
 
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
