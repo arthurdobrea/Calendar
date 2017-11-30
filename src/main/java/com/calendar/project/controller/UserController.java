@@ -13,7 +13,6 @@ import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
-import com.calendar.project.testDomain.Tag;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;
@@ -263,8 +262,6 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        //EmailSender.send();
         LOGGER.info("Opening of \"/login\" page");
         return "login";
     }
@@ -288,6 +285,12 @@ public class UserController {
 
         Event event = new Event();
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
+
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
         model.addAttribute("events", eventService.getEvent(event.getId()));
@@ -323,13 +326,23 @@ public class UserController {
     }
 
 
-
+//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
+//    public String createEvent(Model model) {
+//    LOGGER.info("Request of \"/index\" page POST");
+//    return "redirect:/index";
+//}
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
 
         List<User> users = userService.findAllUsers();
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
+
         model.addAttribute("users", users);
         model.addAttribute("request", request);
         model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
@@ -356,6 +369,7 @@ public class UserController {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = userService.findByUsername(auth.getName());
+
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -387,6 +401,11 @@ public class UserController {
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
         model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
         model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
@@ -398,23 +417,9 @@ public class UserController {
         return "userPage";
     }
 
-    @RequestMapping(value = "/subscribe", method = RequestMethod.GET)
-    public String showMySubscribe(  Model model, User user){
-        LOGGER.info("Request of \"/subscribe\" page GET");
-        user = securityService.findLoggedInUsername();
-
-        model.addAttribute("userSubscription", user.getSubscriptionByEventTypeAsEnums());
-        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
-        model.addAttribute("eventsList", eventService.getEventTypeList());
-        model.addAttribute("user", user = securityService.findLoggedInUsername());
-        LOGGER.info("Opening of \"/subscribe\" page");
-        return "subscription";
-    }
-
-    @RequestMapping(value = "/subscribe", method = RequestMethod.POST)
-    public String setSubscribe(Model model,  @ModelAttribute("checksubs") String checkSubscription,
-                               @RequestParam("checkboxName")Set<String> checkboxValue) {
-        LOGGER.info("Request of \"/subscribe\" page POST");
+    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
+    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
+        LOGGER.info("Request of \"/eventTypeLink\" page POST");
         User user = securityService.findLoggedInUsername();
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -423,32 +428,12 @@ public class UserController {
                 stringBuilder.append(ptr + ',');
             }
         }
-        String subscription = stringBuilder.toString();
-        user.setSubscriptionByEventType(subscription);
-        userService.update(user);
-        System.out.println("checkSubscription: "+checkSubscription);
-        if (checkSubscription.equals("on"))emailService.mailToUserFutureEvents(user);
-        LOGGER.info("Opening of \"/subscribe\" page");
-        return "redirect:/userPage";
-    }
 
-    @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
-    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
-        LOGGER.info("Request of \"/eventTypeLink\" page POST");
-        User user = securityService.findLoggedInUsername();
-//
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for(String ptr: checkboxValue) {
-//            if (!ptr.equals("")) {
-//                stringBuilder.append(ptr + ',');
-//            }
-//        }
-//
-//        String res = stringBuilder.toString();
-//        user.setSubscriptionByEventType(res);
-//
-//        userService.update(user);
-//        emailService.mailToUserFutureEvents(user);
+        String res = stringBuilder.toString();
+        user.setSubscriptionByEventType(res);
+
+        userService.update(user);
+        emailService.mailToUserFutureEvents(user);
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }
@@ -490,7 +475,6 @@ public class UserController {
         LOGGER.info("Redirect to \"/admin\" page");
         return "redirect:/admin";
     }
-
 
     @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
@@ -547,8 +531,7 @@ public class UserController {
     List<String> getUsersFromRequest(@RequestParam String userFullName) {
         LOGGER.info("Request of \"/autocomplete\" page GET");
         List<String> result = new ArrayList<>();
-
-        for (User user : userService.findLikeFullName(userFullName)) {
+        for (User user : userService.findAllUsers()) {
             if (user.getFullName().toLowerCase().contains(userFullName.toLowerCase())) {
                 result.add(user.getFullName().toString());
             }

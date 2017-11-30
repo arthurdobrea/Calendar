@@ -27,6 +27,18 @@
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/calendar.custom.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+
+    <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
+
+    <style>
+        #calendar {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+    </style>
 
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
@@ -60,6 +72,14 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
+                businessHours: {
+
+                    dow: [ 1, 2, 3, 4, 5 ],
+
+                    start: '10:00',
+                    end: '17:00',
+                },
+                firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
                 navLinks: true,
@@ -125,6 +145,14 @@
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
+                businessHours: {
+
+                    dow: [ 1, 2, 3, 4, 5 ],
+
+                    start: '10:00',
+                    end: '17:00',
+                },
+                firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
                 navLinks: true,
@@ -134,7 +162,7 @@
                         eventLimit: 3,
                     }
                 },
-                height:500,
+                height:600,
                 fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',

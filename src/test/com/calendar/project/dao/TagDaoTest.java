@@ -72,7 +72,7 @@ public class TagDaoTest {
     }
 
     @Test
-    public void testDeleteTag() throws Exception {
+    public void testDeleteTag() throws Exception { //TODO: still not working
         tagDao.saveTag(tag);
         tagDao.deleteTag(tag);
         Tag deletedTag = tagDao.getTagById(tag.getId());
