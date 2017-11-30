@@ -140,7 +140,7 @@ INSERT INTO events_users VALUES (4, 4);
 --2-nd part of events
 INSERT INTO events (event_name, event_type, author_user_id, createdata,
                     timebegin, timeend, event_location, description)
-VALUES ('Pianka', 'OFFLINE', 3, '2017-11-23 12:30:00+02',
+VALUES ('Halloween', 'OFFLINE', 3, '2017-11-23 12:30:00+02',
         '2017-11-24 19:30:00+02', '2017-11-24 22:30:00+02',
         'Pub', 'Test decription'
 );
