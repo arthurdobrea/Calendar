@@ -1,12 +1,15 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.dao.UserDao;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
+import com.calendar.project.model.User;
 import com.calendar.project.config.MobilePushNotificationsService;
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -15,6 +18,7 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -28,7 +32,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
@@ -159,22 +162,6 @@ public class EventController {
                 LocalDateTime.parse(startDate, formatter),LocalDateTime.parse(endDate, formatter),
                 allday,LocalDateTime.now(),description,tagService.parseListOfStringToSetOfTag(checkboxValue));
 
-/*
-        event.setTitle(title);
-        event.setEventType(eventType);
-        event.setAuthor( securityService.findLoggedInUsername());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");;
-        event.setStart(LocalDateTime.parse(startDate, formatter));
-        event.setEnd(LocalDateTime.parse(endDate, formatter));
-        event.setAllDay(allday);
-        event.setLocation(location);
-        event.setEventCreated(LocalDateTime.now());
-        event.setDescription(description);
-        event.setParticipants(participants);
-
-        event.setTags(tagService.parseListOfStringToSetOfTag(checkboxValue));
-//
-        */
         eventService.saveEvent(event);
 //        try{
 //            String eventString = eventService.getEventJson(event);
@@ -183,7 +170,6 @@ public class EventController {
 //        }catch(IOException e){
 //            e.printStackTrace();
 //        }
-
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
         for (User u : participants) {
@@ -203,16 +189,47 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
-    public String showEvent(Model model, int eventId) {
+    public String showEvent(Model model, int  eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
+        User user =securityService.findLoggedInUsername();
+        boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
 //        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
 //        notificationService.changeState(notification);
-        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+
+        model.addAttribute("start", event.getStart().format(formatter));
+        model.addAttribute("end", event.getStart().format(formatter));
+        model.addAttribute("isParticipant", isParticipant);
+//        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
+//        redirectAttributes.addAttribute("eventId", event.getId());
         return "showEvent";
+    }
+
+    @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
+    public String suscribeToEvent(Model model, @ModelAttribute("id") int eventId) {
+        LOGGER.info("Request of \"/showEvent\" page GET");
+        Event event = eventService.getEvent(eventId);
+        User user =securityService.findLoggedInUsername();
+        if (userService.isUserParticipant(event,user)) {
+            System.out.println("found "+user.getFullName());
+            event.getParticipants().remove(user);
+        }else {
+            event.getParticipants().add(user);
+            System.out.println("NOT found "+user.getFullName());
+        }
+
+        eventService.updateEvent(event);
+//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+//        notificationService.changeState(notification);
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+
+        LOGGER.info("Opening of \"/showEvent\" page");
+
+        return "index";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,

@@ -42,6 +42,16 @@ button:focus {
     width: 100px;
 }
 
+.fc-prev-button:hover{
+    color: #DE411B;
+    background: none;
+}
+
+.fc-next-button:hover{
+    color: #DE411B;
+    background: none;
+}
+
 .fc-agendaWeek-button{
     color: black;
     background: none;
@@ -225,13 +235,17 @@ button:focus {
     border-left: 0;
     border-top: 0;
     font-size: 13px;
-    background-color: whitesmoke;
     background-position: 1px 1px;
     background-repeat: no-repeat;
-    padding: 5px 20px 5px 30px;
+    padding: 1px 1px 1px 5px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
-    background-size: 20% 90%
+    background-size: 8% 100%;
+
+    background-image: url(/resources/icons/ic_arrow_down.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
 }
 
 .fc-more{
@@ -289,6 +303,49 @@ outline-color: grey;
 option {
     outline: grey;
     border-color: grey;
+}
+
+/*legend for calendar*/
+.legend-dot {
+    display: inline;
+    white-space: nowrap;
+    margin: 0px 50px;
+}
+
+.legend-dot :before {
+    content: '\2B24';
+}
+
+.legend-dot, #meeting-color, #training-color, #stand-up-color, #offline-color, #team-building-color, #workshop-color, #other-color {
+    font-size: 15px;
+}
+
+#meeting-color {
+    color: #b61667;
+}
+
+#training-color {
+    color: #00897b;
+}
+
+#stand-up-color {
+    color: #992f99;
+}
+
+#offline-color {
+    color: #1a5a8f;
+}
+
+#team-building-color {
+    color: #b61616;
+}
+
+#workshop-color {
+    color: #1bb7de;
+}
+
+#other-color {
+    color: #13A04C;
 }
 
 

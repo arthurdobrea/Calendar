@@ -17,17 +17,14 @@
 
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
-    <link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
     <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
 
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
-    <script src="${contextPath}/resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
-    <script src="${contextPath}/resources/js/gcal.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
 </head>
 <body>
@@ -36,19 +33,21 @@
 <div class="modal fade" id="DeleteEvent" role="dialog">
     <div class="modal-dialog" align="center" style="margin-top: 100px">
         <!-- Modal content-->
-        <div class="delete_event_modal">
-            <div class="modal-header delete_event_header capital_text">
-                <p align="left" class="modal_topic">DELETE EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
+        <div class="row delete_event_modal">
+            <div class="modal-header delete_event_header endava_grey_text">
+                <div align="left" class="modal_topic">DELETE EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></div>
             </div>
             <div class="delete_event_body">
                 <form:form method="POST" modelAttribute="eventForm">
-                    <div class="for_delete_event">Are you sure you want to delete this event?</div>
+                    <div class="for_delete_event endava_grey_text">Are you sure you want to delete this event?</div>
                     <spring:bind path="id">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
                                         autofocus="true"></form:input>
-                            <button class="btn_delete_event_cancel" data-dismiss="modal">NOT TODAY</button>
-                            <button class="btn_delete_event_submit" type="submit">DELETE</button>
+                            <div class=" col-sm-12">
+                                <button class="btn_delete_event_cancel" data-dismiss="modal">NOT TODAY</button>
+                                <button class="btn_delete_event_submit" type="submit">DELETE</button>
+                            </div>
                         </div>
                     </spring:bind>
                 </form:form>

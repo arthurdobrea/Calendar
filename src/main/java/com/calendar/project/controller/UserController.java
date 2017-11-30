@@ -262,8 +262,6 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        // Вася, вот главный метод который отправляет данные на мыло, в классе настороишь его так как нужно.
-        //EmailSender.send();
         LOGGER.info("Opening of \"/login\" page");
         return "login";
     }
@@ -287,6 +285,12 @@ public class UserController {
 
         Event event = new Event();
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
+
         event.setParticipants(participants);
         model.addAttribute("eventForm", event);
         model.addAttribute("events", eventService.getEvent(event.getId()));
@@ -328,12 +332,17 @@ public class UserController {
 //    return "redirect:/index";
 //}
 
-
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
 
         List<User> users = userService.findAllUsers();
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
+
         model.addAttribute("users", users);
         model.addAttribute("request", request);
         model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
@@ -360,6 +369,7 @@ public class UserController {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = userService.findByUsername(auth.getName());
+
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -391,6 +401,11 @@ public class UserController {
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
+        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+
+        model.addAttribute("checkedNotifications", checkedNotifications);
+        model.addAttribute("uncheckedNotifications", uncheckedNotifications);
         model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
         model.addAttribute("userAuthor", userService.getUser(user.getId()) );
         model.addAttribute("eventsByAuthor", eventsByAuthor);
@@ -461,7 +476,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-
     @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         LOGGER.info("Request of \"/delete-user-{username}\" page GET");
@@ -525,5 +539,9 @@ public class UserController {
         LOGGER.info("Return response for \"/autocomplete\" " +userFullName);
         System.out.println("result=="+result);
         return result;
+    }
+    @RequestMapping(value = "/wrongSide", method = RequestMethod.GET)
+    public String wrongSide(Model model){
+        return"wrongSide";
     }
 }

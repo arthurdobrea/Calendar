@@ -13,6 +13,7 @@
 
         if(~currentLocation.indexOf('welcome') == false){
             $("#imageId").show();
+            $("#imageTextId").hide();
         }
     });
 
@@ -22,20 +23,21 @@
 
 <div class="topnavContainer">
     <script>
-        connectToServerFunc();
+        connectToServer();
     </script>
     <div class="topnav" id="topnav">
         <div class="appLogo" id = "imageId" style="display: none" ></div>
+        <div class="appLogoText" id = "imageTextId"></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
-            <div class="float-right-item"><a href="/">CALENDAR</a></div>
+            <div class="float-right-item"><a href="/index">CALENDAR</a></div>
             <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()"
                                              onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img
                     src="/resources/icons/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
                 <div class="sub-menu">
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
                     <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
-                    <div class="sub-menu-item"><a href="/createEvent" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
+                    <div class="sub-menu-item"><a onclick="create_event()" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
@@ -47,8 +49,52 @@
 
                 <div class="notifications-list">
                     <p id="notification-title">Notifications</p>
-                    <div id="notification"></div>
-                    <p id="notification-bottom"><a href="#" id="go">Show all</a></p>
+                    <table id="notification">
+                        <%
+                            int counter = 0;
+                        %>
+                        <c:forEach items="${uncheckedNotifications}" var="notification">
+                            <%
+                                if (counter < 3) {
+                                    ++counter;
+                                } else {
+                                    break;
+                                }
+                            %>
+                            <tr>
+                                <td id="notification_time_date">
+                                    <p id="notification_time"><javatime:format value="${notification.event.eventCreated}"
+                                                                        pattern="HH:mm"/></p>
+                                    <p id="notification_date"><javatime:format value="${notification.event.eventCreated}"
+                                                                        pattern="MM/dd/yy"/></p>
+                                </td>
+                                <td id="notification_message"><a
+                                        href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        <c:forEach items="${checkedNotifications}" var="notification">
+                            <%
+                                if (counter < 3) {
+                                    ++counter;
+                                } else {
+                                    break;
+                                }
+                            %>
+                            <tr>
+                                <td id="notification_time_date">
+                                    <p id="notification_time"><javatime:format value="${notification.event.eventCreated}"
+                                                                        pattern="HH:mm"/></p>
+                                    <p id="notification_date"><javatime:format value="${notification.event.eventCreated}"
+                                                                        pattern="MM/dd/yy"/></p>
+                                </td>
+                                <td id="notification_message"><a
+                                        href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table id="notification">
+                    <p id="notification-bottom"><a href="#" id="notification_window">Show all</a></p>
                 </div>
             </div>
             <div class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon"
@@ -57,22 +103,17 @@
     </div>
 </div>
 
-<div class="modal fade" id="AddEvent" role="dialog"></div>
-
-<div class="add_event_modal"></div>
-
 <div id="modal_form">
     <span id="modal_title">NOTIFICATIONS</span>
     <span id="modal_close"></span>
 
     <div id="modal_content">
-        <div id="notification-modal"></div>
-        <table>
+        <table id="modal_table">
             <c:forEach items="${uncheckedNotifications}" var="notification">
                 <tr id="modal_line">
                     <td id="modal_time_date">
-                        <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
-                        <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
+                        <p id="modal_time"><javatime:format value="${notification.event.eventCreated}" pattern="HH:mm"/></p>
+                        <p id="modal_date"><javatime:format value="${notification.event.eventCreated}" pattern="MM/dd/yy"/></p>
                     </td>
                     <td id="modal_message"><a
                             href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
@@ -82,8 +123,8 @@
             <c:forEach items="${checkedNotifications}" var="notification">
                 <tr id="modal_line">
                     <td id="modal_time_date">
-                        <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
-                        <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
+                        <p id="modal_time"><javatime:format value="${notification.event.eventCreated}" pattern="HH:mm"/></p>
+                        <p id="modal_date"><javatime:format value="${notification.event.eventCreated}" pattern="MM/dd/yy"/></p>
                     </td>
                     <td id="modal_message"><a
                             href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
@@ -97,7 +138,7 @@
 <!-- Пoдлoжкa -->
 <script>
     $(document).ready(function () { // вся мaгия пoсле зaгрузки стрaницы
-        $('a#go').click(function (event) { // лoвим клик пo ссылки с id="go"
+        $('a#notification_window').click(function (event) { // лoвим клик пo ссылки с id="go"
             event.preventDefault(); // выключaем стaндaртную рoль элементa
             $('#overlay').fadeIn(10, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
                 function () { // пoсле выпoлнения предъидущей aнимaции
@@ -137,4 +178,4 @@
     }
 </script>
 
-<%--<div class="add_event_modal"></div>--%>
+<div class="add_event_modal"></div>

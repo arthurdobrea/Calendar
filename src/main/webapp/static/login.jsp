@@ -16,8 +16,9 @@
     <title>Log in with your account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/common.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>
@@ -37,33 +38,31 @@
     <script src="${contextPath}/resources/js/myuploadfunction.js"></script>
 </head>
 <body>
-<div class="login_form for_shadow">
+<div class=" row login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>
-        <div class=" ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
+        <div align="center" class="login_header">
+            <img src="/resources/icons/Endava_Logo.png" class="endava_logo" />
+            <div style="margin-left: 50px;">${message}</div>
+        </div>
+        <div class="login_body ${error != null ? 'has-error' : ''}">
+            <input autocomplete="false" name="username" id="username_input" type="text" placeholder="USERNAME"
                    autofocus="true" />
-            <input autocomplete="false" name="password" class="login_input" type="password" placeholder="PASSWORD" />
+            <input autocomplete="false" name="password" id="password_input" type="password" placeholder="PASSWORD" />
             <span class="error_text">${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div style="margin-top: 40px">
-                <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input type="checkbox" name="remember-me"/>
-                    <span class="capital_text"> Remember me</span></label></div>
-                    <div style="float: right; margin-right: 35px"><span class="capital_text">Forgot password?</span></div>
+                <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input id="remember_me_checkbox" type="checkbox" name="remember-me"/>
+                    <span class="endava_grey_text"> Remember me</span></label>
+                </div>
+                    <div style="float: right; margin-right: 35px"><span class="endava_red_text cursor_link" onclick="window.location.href='/wrongSide'" style="margin-right: -33px;">Forgot password?</span></div>
             </div>
             <button type="submit" class="btn_login_submit">LOG IN</button>
-            <p class="capital_text">Don't have an account?<a href="${contextPath}/registration"> Register</a></p>
-        </div>
+            <div align="center">
+                <span class="endava_grey_text">Don't have an account?</span>
+                <span class="endava_red_text cursor_link" onclick="window.location.href='/registration' "> Register</span>
+           </div>
     </form>
-    <script type="text/javascript">
-//        connectToServerFunc()
-    </script>
 </div>
-<%--<h1>Spring MVC - jQuery File Upload</h1>--%>
-<%--<div style="width:500px;padding:20px">--%>
-    <%--<input id="fileupload" type="file" path = "nope" name="files[]" data-url="${contextPath}/upload" multiple>--%>
-<%--</div>--%>
 </body>
 </html>
