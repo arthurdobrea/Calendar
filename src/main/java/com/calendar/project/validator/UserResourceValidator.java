@@ -1,6 +1,5 @@
 package com.calendar.project.validator;
 
-import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.service.UserService;
 import org.apache.log4j.Logger;
@@ -32,6 +31,7 @@ public class UserResourceValidator implements Validator {
         String firstname = user.getFirstname();
         String lastname = user.getLastname();
         String email = user.getEmail();
+        String position = user.getPosition();
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         int usernameLength = username.length();
@@ -39,8 +39,7 @@ public class UserResourceValidator implements Validator {
             errors.rejectValue("username", "Size.user.username");
         }
         else {
-            if (!Pattern.matches("\t\n" +
-                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
+            if (!Pattern.matches("[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
                 errors.rejectValue("username", "UserName.userForm.username");
             }
         }
@@ -87,16 +86,15 @@ public class UserResourceValidator implements Validator {
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "Required");
-//        int positionLength = username.length();
-//        if (usernameLength < 8 || usernameLength > 32) {
-//            errors.rejectValue("username", "Size.user.username");
-//        }
-//        else {
-//            if (!Pattern.matches("\t\n" +
-//                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
-//                errors.rejectValue("username", "UserName.userForm.username");
-//            }
-//        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "Required");
+        int positionLength = position.length();
+        if (positionLength < 8 || positionLength > 32) {
+            errors.rejectValue("position", "Size.user.username");
+        }
+        else {
+            if (!Pattern.matches("[a-zA-Z|\\s]+$", user.getPosition())) {
+                errors.rejectValue("position", "UserName.userForm.username");
+            }
+        }
     }
 }
