@@ -74,12 +74,6 @@
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
-
-
-
-
-
-
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </head>
 <body style="width:1600px;">
