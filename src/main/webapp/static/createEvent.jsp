@@ -60,10 +60,10 @@
 
 <body>
 <div class="modal fade" id="AddEvent" role="dialog">
-    <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 7%">
         <div class="modal-content" style="border-radius: 0;">
-            <div class="modal-header">
-                <div class="create_event_header">
+            <div class="event_add_modal-header">
+                <div class="create_event_header" style="padding-left: 35px;">
                     <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
@@ -84,10 +84,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
-                                    <select class="form-control" id="ev-type" name="eventType" >
-                                        <option value="">Select event type</option>
+                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType" >
+                                        <option style="font-size: 14px" value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
-                                            <option value=${et}>${et.view()}</option>
+                                            <option style="font-size: 14px" value=${et}>${et.view()}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -126,16 +126,16 @@
                                                   id="ev-description" required="true"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="top: 10px;">
                                     <div class="form-group participant-group">
-                                        <div class="input-group">
+                                        <div class="input-group" style="bottom: 15px;">
 
                                             <input type="text" id="w-input-search" value=""
-                                                   class="form-control" placeholder="Enter name...">
-                                            <span class="input-group-btn" style="text-align: right">
-                                                    <button class="btn btn-secondary" type="button"
-                                                            id="span-btn-search">&#128269</button>
-                                                </span>
+                                                   class="event_form_enter_name_field" placeholder="Enter name...">
+                                            <%--<span class="input-group-btn" style="text-align: right">--%>
+                                                    <%--<button class="btn btn-secondary" type="button"--%>
+                                                            <%--id="span-btn-search">&#128269</button>--%>
+                                                <%--</span>--%>
 
                                         </div>
                                         <label for="t-participants">PARTICIPANTS</label>
@@ -144,7 +144,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12" style="bottom: 8px;">
                                             <div class="checkbox-group" name="end" id="subs-checkbox" style="padding-bottom:15px">
                                                 <label class="checkbox-inline">
                                                     <input type="checkbox"/>Send emails to
@@ -175,7 +175,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12" style="text-align: center">
+                            <div class="col-sm-12" style="text-align: center; bottom: 10px;">
                                 <input type="submit" class="btn_login_submit" value="ADD">
                             </div>
                         </div>

@@ -540,4 +540,8 @@ public class UserController {
         System.out.println("result=="+result);
         return result;
     }
+    @RequestMapping(value = "/wrongSide", method = RequestMethod.GET)
+    public String wrongSide(Model model){
+        return"wrongSide";
+    }
 }

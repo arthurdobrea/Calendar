@@ -230,7 +230,10 @@ input:checked + .slider:before {
     background-image: url(/resources/icons/ic_close.png);
     background-color: transparent;
     background-repeat: no-repeat;
+    margin-right: 20px;
+    margin-top: -2px;
 }
+
 
 #user_edit_form {
     margin: 0;
@@ -257,7 +260,7 @@ input:checked + .slider:before {
 
 /*css for login page*/
 .login_form {
-    margin: 50px auto auto;
+    margin: 7% auto auto;
 }
 
 .login_input:focus {
@@ -316,7 +319,7 @@ input:checked + .slider:before {
 }
 
 .btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
-    color: #939fa5;
+    color: white;
 }
 
 .for_delete_event {

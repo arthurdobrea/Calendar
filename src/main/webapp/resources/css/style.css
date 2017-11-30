@@ -672,10 +672,10 @@ line-height: 0.6;
 }
 
 
-label{
-  width: 185px;
-  margin: 17px 413px 1px 11px;
-}
+/*label{*/
+  /*width: 185px;*/
+  /*margin: 17px 413px 1px 11px;*/
+/*}*/
 body{
     max-width: 1400px;
     margin: auto;
@@ -853,21 +853,14 @@ outline: 0;
 
 /*css for login page*/
 .login_form {
-    max-width: 550px;
-    margin: auto;
-    margin-top: 10%;
-    background-color: white;
-    border-radius: 0;
-    height: 520px;
-    padding: 30px;
-}
-    width: 550px;
-    margin: auto;
     margin-top: 7%;
+    max-width: 550px;
+    /*margin: auto;*/
     background-color: white;
     border-radius: 0;
     padding: 30px;
 }
+
 
 .login_input {
   color: #48545B;

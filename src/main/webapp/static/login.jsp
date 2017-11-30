@@ -40,14 +40,9 @@
 <body>
 <div class=" row login_form for_shadow">
     <form method="POST" action="${contextPath}/login">
-        <%--<input class="endava_logo" type="image" src="${contextPath}/resources/icons/logo.png" alt="LOGO"/>--%>
-            <img src="/resources/icons/Endava_Logo.png" class="endava_logo" />
-        <div class=" ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input autocomplete="false" name="username" class="login_input" type="text" placeholder="USERNAME"
         <div align="center" class="login_header">
-            <div><img src="${contextPath}/resources/icons/logo.png" alt="LOGO"/></div>
-            <div>${message}</div>
+            <img src="/resources/icons/Endava_Logo.png" class="endava_logo" />
+            <div style="margin-left: 50px;">${message}</div>
         </div>
         <div class="login_body ${error != null ? 'has-error' : ''}">
             <input autocomplete="false" name="username" id="username_input" type="text" placeholder="USERNAME"
@@ -60,7 +55,7 @@
                 <div style="float: left"><label id="remember_me" class="modal-header edit_profile_header"><input id="remember_me_checkbox" type="checkbox" name="remember-me"/>
                     <span class="endava_grey_text"> Remember me</span></label>
                 </div>
-                    <%--<div style="float: right; margin-right: 35px"><span class="endava_red_text">Forgot password?</span></div>--%>
+                    <div style="float: right; margin-right: 35px"><span class="endava_red_text cursor_link" onclick="window.location.href='/wrongSide'" style="margin-right: -33px;">Forgot password?</span></div>
             </div>
             <button type="submit" class="btn_login_submit">LOG IN</button>
             <div align="center">
