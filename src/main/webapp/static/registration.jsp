@@ -16,8 +16,7 @@
     <title>Create an account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/registration.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
@@ -42,7 +41,7 @@
                         <div class="form-group form-group-reg ${status.error ? 'has-error' : ''}">
                             <c:choose>
                                 <c:when test="${status.error}">
-                                    <c:set var="placeholder" value="Username must be from 6 to 32 characters"/>
+                                    <c:set var="placeholder" value="Username must be from 4 to 32 characters"/>
                                     <c:set var="placeColor" value="#df3f14"/>
                                 </c:when>
                                 <c:otherwise>

@@ -35,7 +35,7 @@ public class UserResourceValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         int usernameLength = username.length();
-        if (usernameLength < 8 || usernameLength > 32) {
+        if (usernameLength < 4 || usernameLength > 32) {
             errors.rejectValue("username", "Size.user.username");
         }
         else {
