@@ -540,6 +540,6 @@
     }
 </script>
 
-
+<div class="add_event_modal"></div>
 </body>
 </html>

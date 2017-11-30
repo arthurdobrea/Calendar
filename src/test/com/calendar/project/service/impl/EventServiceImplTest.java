@@ -1,11 +1,15 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.config.HibernateConfiguration;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Tag;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.User;
+import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.SecurityService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,11 +29,15 @@ import java.util.List;
 /**
  * Created by mhristiniuc on 11/7/2017.
  */
+@Transactional
+@ContextConfiguration(classes = HibernateConfiguration.class)
+@WebAppConfiguration
 @RunWith(MockitoJUnitRunner.class)
 public class EventServiceImplTest {
 
     private Event event;
     private User user;
+    private Tag tag;
 
     @InjectMocks
     private EventService eventService = new EventServiceImpl();
@@ -96,6 +108,34 @@ public class EventServiceImplTest {
         Mockito.verify(eventDao).getParticipantsByEvent(event.getId());
     }
 
+    @Test
+    public void testGetEventTypeList() throws Exception {
+        List<EventType> eventTypeList = eventService.getEventTypeList();
+        Assert.assertNotNull(eventTypeList);
+    }
+
+    @Test
+    public void testGetFutureEventsByType() throws Exception {
+        List<Event> events = eventService.getFutureEventsByType(EventType.MEETING);
+        Assert.assertNotNull(events);
+    }
+
+    @Test
+    public void testGetEventsByTag() throws Exception {
+        List<Event> events = constructEventsList();
+        Mockito.when(eventDao.getEventsByTag(TagType.APPLICATION_MANAGEMENT)).thenReturn(events);
+        eventService.getEventsByTag(TagType.APPLICATION_MANAGEMENT);
+        Mockito.verify(eventDao).getEventsByTag(TagType.APPLICATION_MANAGEMENT);
+    }
+
+//    @Test
+//    public void testGetEventsByTag() throws Exception {
+//        List<Event> events = constructEventsList();
+//        Mockito.when(eventDao.getEventsByTag(TagType.APPLICATION_MANAGEMENT)).thenReturn(events);
+//        eventService.getEventsByTag(TagType.APPLICATION_MANAGEMENT);
+//        Mockito.verify(eventDao).getEventsByTag(TagType.APPLICATION_MANAGEMENT);
+//    }
+
     private Event constructEvent() {
         event = new Event();
         event.setId(1);
@@ -161,4 +201,12 @@ public class EventServiceImplTest {
 
         return allEvents;
     }
+
+//    private List<EventType> constructEventTypeList() {
+//        List<EventType> eventTypeList = new ArrayList<>();
+//        for(EventType eventType : EventType.values()) {
+//            eventTypeList.add(eventType);
+//        }
+//        return eventTypeList;
+//    }
 }

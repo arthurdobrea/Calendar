@@ -257,14 +257,17 @@ button:focus {
     padding-bottom: 5px;
 }
 
-.fc-title{
-    font-size: medium;
+.fc-title,
+.fc-time,
+.fc-time-grid-event .fc-time,
+.fc-time-grid-event .fc-time *,
+.fc-title *, .fc-time * {
+    font-size: 14px;
 }
+.fc-time-grid-event .fc-content {
+    overflow: visible;
 
-.fc-time{
-    font-size: medium;
 }
-
 .table{
     display:table;
     margin:0 auto;
@@ -348,5 +351,30 @@ option {
     color: #13A04C;
 }
 
+/*.fc-week-number{*/
+    /*background: lightgray;*/
+    /*border: solid;*/
+    /*border-color: whitesmoke;*/
+/*}*/
 
+/*.fc-content{*/
+    /*height: 10px;*/
+    /*font-size: 3px;*/
+/*}*/
 
+/*.fc-day-number{*/
+    /*font-size: 15px;*/
+/*}*/
+
+* {
+    -webkit-transition-property: all;
+    -webkit-transition-duration: .2s;
+    -moz-transition-timing-function: cubic-bezier(100,50,21,6);
+    -moz-transition-property: all;
+    -moz-transition-timing-function: cubic-bezier(100,50,21,6);
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+.fc-time-grid .fc-event, .fc-time-grid .fc-bgevent{
+    min-height: 19px;
+}

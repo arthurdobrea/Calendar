@@ -12,14 +12,10 @@ public interface NotificationDao {
 
     void saveAll(List<Notification> notifications);
 
-    Notification getNotification(User user, Event event);
-
     List<Notification> getCheckedEvents(User user);
 
-    List<Notification> getUnchekedEvents(User user);
+    List<Notification> getUncheckedEvents(User user);
 
     void changeState(Notification Notification);
-
-    void delete(Notification notification);
 
 }
