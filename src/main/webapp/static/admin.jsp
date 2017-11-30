@@ -142,7 +142,7 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%; position: absolute;">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 15%;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">

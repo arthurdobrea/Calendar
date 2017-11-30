@@ -261,12 +261,15 @@ tbody:before {
 .modal{
     width: 55%;
     height: 30%px;
-    position: absolute;
-    left: 36%;
-    top:  40%;
-    margin-left: -150px;
-    margin-top: -150px;
+    /*position: absolute;*/
+    /*left: 36%;*/
+    /*top:  40%;*/
+    /*margin-left: -150px;*/
+    /*margin-top: -150px;*/
+    margin: 0 auto;
     border-radius: 0px;
+    position: fixed;
+
 }
 .modal_content{
     padding-left: 40px;

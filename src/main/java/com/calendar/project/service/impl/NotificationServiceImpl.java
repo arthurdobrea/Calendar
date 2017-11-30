@@ -28,7 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendToAllParticipantsNotification(String username, Event eventForm) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
-        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                 " " + eventForm.getTitle()));
     }
 
@@ -36,7 +36,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendToAll(String destination, Event eventForm) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
-        template.convertAndSendToUser(destination, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+        template.convertAndSendToUser(destination, "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                 " " + eventForm.getTitle()));
     }
 
@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
         for (User it : users) {
-            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                     " " + eventForm.getTitle()));
         }
     }
