@@ -1475,3 +1475,19 @@ input:-webkit-autofill:active {
         margin: 0px auto;
     }
 }
+
+/*error styles*/
+.error-wrapper {
+    display: block;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+}
+
+.error-msg {
+    font-size: 25px;
+    color: #48545B;
+    padding: 0px 0px 15px 0px;
+}
