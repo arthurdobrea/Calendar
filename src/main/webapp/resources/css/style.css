@@ -840,7 +840,6 @@ input:-webkit-autofill:active {
     left: 0px;
     top: 10%;
     z-index: -1;
-
     width: 528px;
     height: 80%;
     background-image: url("/resources/images/mascot.png");
@@ -855,8 +854,9 @@ input:-webkit-autofill:active {
     /*border: solid 1px red;*/
 }
 
-.greeting_1, .greeting_2, .greeting_3 .td.greeting_4 {
+.greeting_1, .greeting_2, .greeting_3 {
     color: #48545B;
+    text-align: center;
 }
 
 .greeting_1 {

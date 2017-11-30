@@ -18,6 +18,28 @@ function create_event() {
             dayOfWeekStart: 1,
             closeOnDateSelect:true,
         });
+
+        $('#w-input-search').autocomplete({
+            serviceUrl: "/getUserFullName",
+            onSelect: function(inp){
+                console.log(inp.value);
+                if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
+                    document.getElementById("t-participants").value+=inp.value+",";
+                else
+                    alert("User "+ inp.value+" is in the list ");
+                document.getElementById("w-input-search").value="";
+            },
+            paramName: "userFullName",
+            delimiter: ",",
+            width: "31%",
+            transformResult: function(response) {
+                return {
+                    suggestions: $.map($.parseJSON(response), function(item) {
+                        return { value: item.toString(), data: item.id};
+                    })
+                };
+            }
+        });
     });
 }
 
@@ -40,4 +62,5 @@ function showEventsInvited() {
     $('#total_events_created').hide();
     $('#total_events_invited').show();
 }
+
 

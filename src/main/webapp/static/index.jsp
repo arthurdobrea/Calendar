@@ -15,22 +15,18 @@
 
     <title>Main Page</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
+    <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
-    <%--<link href='${contextPath}/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />--%>
-    <link href='${contextPath}/resources/css/calendar.custom.css' rel='stylesheet' />
+    <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
-
-    <style>
-        #calendar {
-            max-width: 1500px;
-            margin: 0 auto;
-        }
-    </style>
+    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/calendar.custom.css" rel="stylesheet">
 
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
@@ -40,6 +36,16 @@
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
+
+    <style>
+        #calendar {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+    </style>
 
     <script>
         var calendarInit = false;
@@ -217,10 +223,11 @@
     <div class="legend-dot"><span id="workshop-color"></span> Workshop</div>
     <div class="legend-dot"><span id="other-color"></span> Other</div>
 </div>
-</div>
 
+
+
+<div class="add_event_modal"></div>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
-<script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </body>
 </html>
