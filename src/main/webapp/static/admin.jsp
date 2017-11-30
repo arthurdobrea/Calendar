@@ -27,7 +27,7 @@
     <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
-
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -500,6 +500,6 @@
     }
 </script>
 
-
+<div class="add_event_modal"></div>
 </body>
 </html>

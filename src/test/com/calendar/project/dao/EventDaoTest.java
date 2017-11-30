@@ -101,9 +101,20 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testGetEventsByAuthor() throws Exception{
+    public void testGetEventsByAuthorDoesFetchAuthor() throws Exception{
         List<Event> eventsOfAuthor = eventDao.getEventsByAuthor(userTest.getId());
-        Assert.assertNotNull(eventsOfAuthor);
+
+        for (Event e : eventsOfAuthor)
+            Assert.assertNotNull(e.getAuthor());
+    }
+
+    @Test
+    public void testGetEventsByAuthorReturnsAuthorsEvents() throws Exception{
+        List<Event> eventsOfAuthor = eventDao.getEventsByAuthor(userTest.getId());
+
+        for (Event e : eventsOfAuthor){
+            Assert.assertEquals("Event of another author", userTest.getId(), e.getAuthor().getId());
+        }
     }
 
     @Test

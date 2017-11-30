@@ -50,9 +50,8 @@ public class EventDaoImpl implements EventDao {
                 .setParameter("idOfUser", userId)
                 .getResultList();
 
-//        Hibernate.initialize(user.getEvents()); // TODO don't forget testing
         LOGGER.info("Returns a list of events where user with ID = " + userId + " is invited");
-//        return user.getEvents();
+
         return events;
     }
 
