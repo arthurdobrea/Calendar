@@ -6,6 +6,12 @@ $(document).ready(function(){
     $('#total_events_invited').hide();
 });
 
+function show_event() {
+    $(".show_event_modalka").load("/showEvent #ShowEvent", function () {
+        $("#ShowEvent").modal();
+    });
+}
+
 function create_event() {
     $(".add_event_modal").load("/createEvent #AddEvent", function () {
         $("#AddEvent").modal();
@@ -17,6 +23,28 @@ function create_event() {
         $("#datetimepicker2").datetimepicker({
             dayOfWeekStart: 1,
             closeOnDateSelect:true,
+        });
+
+        $('#w-input-search').autocomplete({
+            serviceUrl: "/getUserFullName",
+            onSelect: function(inp){
+                console.log(inp.value);
+                if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
+                    document.getElementById("t-participants").value+=inp.value+",";
+                else
+                    alert("User "+ inp.value+" is in the list ");
+                document.getElementById("w-input-search").value="";
+            },
+            paramName: "userFullName",
+            delimiter: ",",
+            width: "31%",
+            transformResult: function(response) {
+                return {
+                    suggestions: $.map($.parseJSON(response), function(item) {
+                        return { value: item.toString(), data: item.id};
+                    })
+                };
+            }
         });
     });
 }

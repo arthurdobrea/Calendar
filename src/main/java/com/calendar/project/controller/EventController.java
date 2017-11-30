@@ -1,18 +1,17 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.model.*;
+import com.calendar.project.dao.UserDao;
+import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
+import com.calendar.project.model.User;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
-import org.springframework.http.MediaType;
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class EventController {

@@ -1,0 +1,738 @@
+/*******************user page css****************************/
+
+/*-----------switch--------------*/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 12px;
+    margin: 3px 0 0;
+}
+
+.switch input {display:none;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #DE411B;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 1px;
+    bottom: 1px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #DE411B;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #DE411B;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 25px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.for_panel{
+    background-color: #f7f8f9;
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+}
+
+.text_logo {
+    align-content: center;
+}
+
+.for_shadow {
+    box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
+    border-radius: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.endava_grey_text {
+    color: #48545B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+}
+
+.endava_red_text {
+    color: #DE411B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+}
+
+#td_edit_btn {
+    width: 32px;
+    background-size: 15px 15px;
+    vertical-align: middle;
+    padding-right: 0
+}
+
+#td_delete_btn {
+    width: 32px;
+    background-size: 15px 15px;
+    vertical-align: middle;
+    padding-right: 0
+}
+
+.btn_edit_event {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/buttons.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_edit_event:hover {
+    background-image: url(/resources/icons/buttons.png);
+    background-position: -32px 0;
+}
+
+.btn_delete_event {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/buttons.png);
+    background-position: 0 -20px;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_delete_event:hover {
+    background-image: url(/resources/icons/buttons.png);
+    background-position: -32px -20px;
+}
+
+#add_event_button {
+    width: 35px;
+    height: 20px;
+    background-color: #DE411B;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+}
+
+.btn_show_event {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/ic_button_view.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_show_event:hover {
+    background-image: url(/resources/icons/ic_button_view.png);
+    background-position: -32px 0;
+}
+
+#edit_user {
+    float: right;
+    color: #DE411B;
+    border: none;
+    background: none;
+    text-align: right;
+    padding-right: 0;
+}
+
+/*css for editing user modal view*/
+.edit_profile_modal, .delete_event_modal, .login_form {
+    max-width: 550px;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 0;
+    padding: 30px 30px 40px;
+}
+
+.edit_profile_header, .delete_event_header, .login_header, create_event_header {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.edit_profile_body, .delete_event_body, .login_body {
+    background-color: white;
+    border-radius: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.btn_edit_user_submit, .btn_login_submit {
+    width: 100%;
+    max-width: 500px;
+    min-width: 100px;
+    height: 30px;
+    background-color: #DE411B;
+    color: white;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    border: 0;
+    border-radius: 15px;
+    padding: 0;
+    margin: 20px 0 0;
+}
+
+.close_modal {
+    alignment-baseline: middle;
+    float: right;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-size: 30px 30px;
+    background-image: url(/resources/icons/ic_close.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+}
+
+#user_edit_form {
+    margin: 0;
+    padding-top: 10px;
+}
+
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input  {
+    color: #48545B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+    height: 60px;
+    padding-top: 35px;
+    border: none;
+    border-bottom: 1px solid #48545B;
+}
+
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input:focus {
+    outline: 0;
+}
+
+/*css for login page*/
+.login_form {
+    margin: 50px auto auto;
+}
+
+.login_input:focus {
+    outline: 0;
+}
+
+.login_input:empty {
+
+}
+
+#remember_me {
+    width: 130px;
+    height: 15px;
+}
+
+.error_text {
+    color: red;
+    font-size: 12px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+    float: left;
+    margin-left: 35px;
+}
+
+/*css for delete event modal*/
+.btn_delete_event_cancel {
+    width: 200px;
+    height: 30px;
+    background-color: white;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    border: solid thin #DE411B;
+    border-radius: 15px;
+    padding: 0;
+    margin: 20px 0 0;
+}
+
+.btn_delete_event_cancel:hover {
+    border: 0;
+    background-color: #DE411B;
+    color: #939fa5;
+}
+
+.btn_delete_event_submit {
+    width: 200px;
+    height: 30px;
+    background-color: #DE411B;
+    color: white;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    border: 0;
+    border-radius: 15px;
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
+    color: #939fa5;
+}
+
+.for_delete_event {
+    margin: 20px auto;
+    font-size: 25px;
+}
+
+.cursor_link {
+    cursor: pointer;
+}
+
+.modal_topic {
+    font-size: 20px;
+    margin: 0;
+    vertical-align: middle;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 15px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 1px;
+    bottom: 1px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #DE411B;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #DE411B;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 25px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.for_panel{
+    background-color: #f7f8f9;
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+}
+
+.text_logo {
+    align-content: center;
+}
+
+.capital_text {
+    color: #48545B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+}
+
+.inline_text {
+    color: #DE411B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+}
+
+#td_show_event {
+    width: 32px;
+    background-size: 15px 15px;
+    vertical-align: middle;
+    padding-right: 0
+}
+
+.btn_edit_event {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/buttons.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_edit_event:hover {
+    background-image: url(/resources/icons/buttons.png);
+    background-position: -32px 0;
+}
+
+.btn_delete_event {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/buttons.png);
+    background-position: 0 -20px;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_delete_event:hover {
+    background-image: url(/resources/icons/buttons.png);
+    background-position: -32px -20px;
+}
+
+.btn_add_event {
+    width: 35px;
+    height: 20px;
+    background-color: #DE411B;
+    color: white;
+    border: 0;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.btn_unsubscribe {
+    color: rgb(1, 1, 2);
+    background: rgba(0, 0, 0, 0);
+    background-image: url(/resources/icons/ic_button_view.png);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 20px;
+    transition: initial;
+}
+
+.btn_unsubscribe:hover {
+    background-image: url(/resources/icons/ic_button_view.png);
+    background-position: -32px 0;
+}
+
+#edit_user {
+    float: right;
+    color: #DE411B;
+    border: none;
+    background: none;
+}
+
+#user_edit_form {
+    margin: 0;
+    padding-top: 10px;
+}
+
+/*css for login page*/
+
+.login_input {
+    color: #48545B;
+    font-size: 15px;
+    text-underline: none;
+    font-family: Arial, sans-serif;
+    margin: auto;
+    width: 420px;
+    height: 80px;
+    padding-top: 35px;
+    border: none;
+    border-bottom: solid #939fa5;
+}
+
+.login_input:focus {
+    outline: 0;
+    border-color: #df3f14;
+}
+
+.endava_logo {
+    margin-top: 0;
+}
+
+#remember_me, #alldaylabel {
+    width: 130px;
+    height: 15px;
+    font-family: Arial, sans-serif;
+}
+
+#remember_me_checkbox {
+    zoom: 1.2;
+    vertical-align: -2.5px
+}
+
+/*----- adaptive css for user page general -----*/
+.scrollable-content {
+    width: 100%;
+    height: 80%;
+    max-height: 80%;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+}
+
+.for_shadow {
+    box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
+    border-radius: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.wrap_box_user_page {
+    width: 80%;
+    min-width: 310px;
+    margin: 10px auto auto;
+    padding: 0;
+    background: transparent;
+    overflow: visible;
+    cursor:context-menu;
+}
+
+.left_block_header {
+    height: 20px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: inline-block;
+    justify-content: space-between;
+}
+
+.right_block_header {
+    padding: 0;
+    margin: 1px 0 0;
+    width: 100%;
+    display: inline-block;
+    justify-content: space-between;
+}
+
+.profile_text {
+    float: left;
+}
+
+.edit_user_link {
+    float: right;
+}
+
+.events_toggle {
+    float: right;
+}
+
+.right_header_2_row {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.for_add_event {
+    color: #DE411B;
+    vertical-align: top;
+}
+
+#total_events_created, #total_events_invited {
+    float: right;
+    color: #48545B;
+}
+
+.events_number {
+    color: #DE411B;
+}
+
+.user_page_left {
+    background: white;
+    height: 100%;
+    padding: 20px;
+}
+
+.user_page_right {
+    background: white;
+    height: 100%;
+    padding: 20px;
+}
+
+#created_event_name {
+    padding-left: 0
+}
+
+#invited_event_name {
+    padding-left: 0;
+}
+
+.span_event_title {
+    color: #48545B;
+    line-height: 100%;
+}
+
+/*for tablets and notebooks height < 900px*/
+@media screen and (max-height: 800px) {
+    .wrap_box_user_page {
+        height: 500px;
+    }
+}
+
+/*for PC screens height > 800px*/
+@media screen and (min-height: 800px) {
+    .wrap_box_user_page {
+        max-width: 1400px;
+        height: 680px;
+    }
+}
+
+/*for screen width < 500px*/
+@media screen and (max-width: 500px) {
+    .endava_red_text, .endava_grey_text {
+        font-size: 12px;
+    }
+
+    #add_event_button {
+        height: 13px;
+        width: 17px;
+    }
+
+    .for_delete_event {
+        margin: 20px auto;
+        font-size: 20px;
+    }
+}
+
+/*for screen width < 1120px*/
+@media screen and (max-width: 1119px) {
+    #avatar {
+        float: left;
+        width:80px;
+        height:80px;
+        overflow: hidden;
+        border-radius:50%;
+        object-fit: cover;
+        box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    }
+
+    #avatar img {
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%)
+    }
+
+    .user_page_left {
+        float: left;
+        width: 100%;
+        height: 30%;
+        margin-bottom: 10px;
+    }
+
+    .user_page_right {
+        float: right;
+        width: 100%;
+        height: 70%;
+    }
+
+    .left_block_body {
+        height: 96%;
+    }
+
+    #profile_fullname {
+        float: left;
+        text-align: left;
+        margin-left: 10px;
+        line-height: 120%;
+    }
+}
+
+/*for screen width > 1119px*/
+@media screen and (min-width: 1120px) {
+    #avatar {
+        margin: auto;
+        margin-top: 50%;
+        margin-bottom: 40px;
+        width:150px;
+        height:150px;
+        overflow: hidden;
+        border-radius:50%;
+        object-fit: cover;
+        box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    }
+
+    #avatar img {
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%)
+    }
+
+    .user_page_left {
+        float: left;
+        width: 23.5%;
+        height: 100%;
+    }
+
+    .user_page_right {
+        float: right;
+        width: 76%;
+        height: 100%;
+    }
+
+    .left_block_body {
+        height: 96%;
+    }
+
+    #profile_fullname {
+        line-height: 100%;
+        text-align: center;
+    }
+}

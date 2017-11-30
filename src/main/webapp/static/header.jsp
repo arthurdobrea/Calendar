@@ -13,6 +13,7 @@
 
         if(~currentLocation.indexOf('welcome') == false){
             $("#imageId").show();
+            $("#imageTextId").hide();
         }
     });
 
@@ -26,16 +27,17 @@
     </script>
     <div class="topnav" id="topnav">
         <div class="appLogo" id = "imageId" style="display: none" ></div>
+        <div class="appLogoText" id = "imageTextId"></div>
         <div class="float-right">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
-            <div class="float-right-item"><a href="/">CALENDAR</a></div>
+            <div class="float-right-item"><a href="/index">CALENDAR</a></div>
             <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()"
                                              onMouseOut="profileDropdownArrowOnMouseOut()">PROFILE<img
                     src="/resources/icons/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
                 <div class="sub-menu">
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
                     <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
-                    <div class="sub-menu-item"><a href="/createEvent" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
+                    <div class="sub-menu-item"><a onclick="create_event()" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
@@ -56,10 +58,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="AddEvent" role="dialog"></div>
-
-<div class="add_event_modal"></div>
 
 <div id="modal_form">
     <span id="modal_title">NOTIFICATIONS</span>
@@ -137,4 +135,4 @@
     }
 </script>
 
-<%--<div class="add_event_modal"></div>--%>
+<div class="add_event_modal"></div>
