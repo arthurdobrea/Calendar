@@ -44,7 +44,7 @@ public class NotificationDaoTest {
     @Before
     public void setUp() {
         notification = new Notification();
-        //notification.setId(1L);
+//        notification.setId(1L);
         user = new User();
         user.setId(1L);
         notification.setUser(user);
@@ -67,20 +67,18 @@ public class NotificationDaoTest {
         List<Notification> notifications = new ArrayList<>();
         notifications.add(notification);
         notificationDao.saveAll(notifications);
-        List<Notification> notFromDb = new ArrayList<>();
+        List<Notification> notifsFromDb = new ArrayList<>();
 
         for (Notification n : notifications){
-            notFromDb.add(n);
+            notifsFromDb.add(n);
         }
 
-        Assert.assertNotNull(notFromDb);
-
-
+        Assert.assertNotNull(notifsFromDb);
     }
 
     @Test
     public void testGetNotification() throws Exception {
-
+        Assert.assertEquals(notification, notificationDao.getNotification(user, event));
     }
 
     @Test

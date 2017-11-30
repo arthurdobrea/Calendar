@@ -60,6 +60,14 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
+                businessHours: {
+
+                    dow: [ 1, 2, 3, 4, 5 ],
+
+                    start: '10:00',
+                    end: '17:00',
+                },
+                firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
                 navLinks: true,
@@ -125,6 +133,14 @@
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
+                businessHours: {
+
+                    dow: [ 1, 2, 3, 4, 5 ],
+
+                    start: '10:00',
+                    end: '17:00',
+                },
+                firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
                 navLinks: true,
@@ -134,7 +150,7 @@
                         eventLimit: 3,
                     }
                 },
-                height:500,
+                height:600,
                 fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',

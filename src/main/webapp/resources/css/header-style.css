@@ -41,7 +41,8 @@
     display: inline-block;
     padding: 0px 0px 0px 0px;
     margin: 0px 0px 0px 0px;
-    background: #f7f8f9;
+    /*background: #f7f8f9;*/
+    /*background: none;*/
 }
 
 .topnav a{
@@ -122,6 +123,7 @@
         z-index: 1;
         opacity: 1;
         box-shadow: 0 0 0px 0px rgba(221, 221, 221, 1);
+        /*background: #f7f8f9;*/
         background: #f7f8f9;
     }
 

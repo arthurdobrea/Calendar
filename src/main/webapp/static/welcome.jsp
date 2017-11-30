@@ -68,7 +68,7 @@
             </td>
         </tr>
         <tr>
-            <td class="greeting_4" style="text-align: center">
+            <td class="greeting_3" align="center"">
                 <a onclick="create_event()" data-toggle="modal"  data-toggle="#AddEvent" class="greeting-btn">Add event</a>
                 <%--<a href="events" class="greeting-btn">See events</a>--%>
             </td>

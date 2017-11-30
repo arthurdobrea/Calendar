@@ -210,7 +210,7 @@ public class EventController {
 
         LOGGER.info("Opening of \"/showEvent\" page");
 
-        return "userPage";
+        return "index";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
