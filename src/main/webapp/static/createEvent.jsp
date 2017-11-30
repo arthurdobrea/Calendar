@@ -112,7 +112,9 @@
                                     <div class="col-sm-6" style="top: 13px">
                                         <div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">
                                             <div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">
-                                                <input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}"><span class="endava_red_text">&nbsp;All day</span>
+                                                <input type="checkbox" id="all-day" onclick="if(this.checked) {
+                                                    allDayChecked();} else {allDayUnchecked();}">
+                                                <span class="endava_red_text">&nbsp;All day</span>
                                             </label></div>
                                         </div >
                                     </div>

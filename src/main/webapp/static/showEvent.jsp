@@ -35,44 +35,66 @@
 <%--show event modal--%>
 <div class="modal fade" id="ShowEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
-        <div class="modal-content" style="border-radius: 0;">
-            <div class="modal-header">
+        <div class="modal-content" style="border-radius: 0; cursor: context-menu">
+            <div class="modal-header" style="padding-left: 25px; padding-right: 25px">
                 <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
-            <div class="modal-body" style="padding-left: 50px; padding-right: 50px">
+            <div class="modal-body" style="padding-left: 25px; padding-right: 25px">
                 <form action="${contextPath}/showEvent" method="POST">
                     <div class="event-form">
 
                         <div class="row" id="leftblock" style="padding-right: 15px">
-                            <div class="col-sm-6" style="text-align: left">
-                                <div class="form-group">
-                                    <strong>Title:</strong>   <span style="color: #d2322d">${event.title}</span>
-                                </div>
-                                <div class="form-group">
-                                    <strong>Location:</strong> ${event.location}
-                                </div>
-                                <div class="form-group">
-                                    <strong>Type:</strong> ${event.eventType}
-                                </div>
-                                <div class="form-group">
-                                    <strong>Start:</strong> ${start}
-                                </div>
-                                <div class="form-group">
-                                    <strong>End:</strong>&nbsp; ${end}
-                                </div>
+                            <div class="col-sm-6" style="text-align: left; overflow: scroll">
+                                <table class="table_show_event">
+                                    <tbody>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Title:</strong></td>
+                                            <td><span style="color: #d2322d">${event.title}</span></td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Location:</strong></td>
+                                            <td>${event.location}</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Type:</strong></td>
+                                            <td>${event.eventType}</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Start:</strong></td>
+                                            <td>${start}</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>End:</strong>&nbsp;</td>
+                                            <td>${end}</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Author:</strong></td>
+                                            <td>${event.author.fullName}</td>
+                                        </div>
+                                    </tr>
 
-                                <div class="form-group">
-                                    <strong>Author:</strong> ${event.author.fullName}
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <div class="row" id="rightblock">
                                 <div class="col-sm-6">
                                     <div class="form-group textarea-group">
                                         <label for="ev-show-description">DESCRIPTION</label>
-                                        <textarea name="description" class="form-control" rows="3"
+                                        <textarea name="description" class="form-control" rows="3" readonly style="background: none"
                                                   id="ev-show-description" required="true" value="${event.description}">${event.description}</textarea>
                                     </div>
                                 </div>

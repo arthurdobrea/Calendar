@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -70,29 +69,29 @@ public class EventController {
         return "events";
     }
 
-    @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-    public String updateEvent(int eventId, Model model) {
-        LOGGER.info("Request of \"/updateEvent\" page GET");
-        model.addAttribute("eventForm", eventService.getEvent(eventId));
-        LOGGER.info("Opening of \"/updateEvent\" page");
-        return "updateEvent";
-    }
-
-    @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-    public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
-        LOGGER.info("Request of \"/updateEvent\" page POST");
-        List<User> participants = new LinkedList<>();
-        for (User u : eventForm.getParticipants()) {
-            u.setId(Long.parseLong(u.getUsername()));   // TODO investigate why username is set instead of id
-            participants.add(userDao.getUser(u.getId()));
-        }
-
-        eventForm.setParticipants(participants);
-        model.addAttribute("eventForm", eventForm);
-        eventService.updateEvent(eventForm);
-        LOGGER.info("Redirect to \"/userPage\" page");
-        return "redirect:/userPage";
-    }
+//    @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
+//    public String updateEvent(int eventId, Model model) {
+//        LOGGER.info("Request of \"/updateEvent\" page GET");
+//        model.addAttribute("eventForm", eventService.getEvent(eventId));
+//        LOGGER.info("Opening of \"/updateEvent\" page");
+//        return "updateEvent";
+//    }
+//
+//    @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
+//    public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
+//        LOGGER.info("Request of \"/updateEvent\" page POST");
+//        List<User> participants = new LinkedList<>();
+//        for (User u : eventForm.getParticipants()) {
+//            u.setId(Long.parseLong(u.getUsername()));   // TODO use editEvents.jsp instead
+//            participants.add(userDao.getUser(u.getId()));
+//        }
+//
+//        eventForm.setParticipants(participants);
+//        model.addAttribute("eventForm", eventForm);
+//        eventService.updateEvent(eventForm);
+//        LOGGER.info("Redirect to \"/userPage\" page");
+//        return "redirect:/userPage";
+//    }
 
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
     public String deleteEvent(int eventId, Model model) {
@@ -210,7 +209,7 @@ public class EventController {
 
         LOGGER.info("Opening of \"/showEvent\" page");
 
-        return "index";
+        return "userPage";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
@@ -292,8 +291,8 @@ public class EventController {
         notificationService.sendToAllParticipants(participants, event);
         //notificationService.sendToSpecificUser();
 
-        LOGGER.info("Redirect to \"/showEvent\" page");
-        return "redirect:/showEvent";
+        LOGGER.info("Redirect to \"/userPage\" page");
+        return "redirect:/userPage";
     }
 
 

@@ -72,6 +72,18 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
+
+                eventRender: function (event, element) {
+                    element.attr('href', 'javascript:void(0);');
+                    element.click(function() {
+                        $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                        $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+                        $("#eventInfo").html(event.description);
+                        $("#eventLink").attr('href', event.url);
+                        $("#eventContent").dialog({ modal: true, title: event.title, width:350});
+                    });
+                }
+
                 businessHours: {
 
                     dow: [ 1, 2, 3, 4, 5 ],
@@ -254,6 +266,14 @@
 
 
 <div class="show_event_modal"></div>
+
+<div id="eventContent" title="Event Details" style="display:none;">
+    Start: <span id="startTime"></span><br>
+    End: <span id="endTime"></span><br><br>
+    <p id="eventInfo"></p>
+    <p><strong><a id="eventLink" href="" target="_blank">Read More</a></strong></p>
+</div>
+
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>

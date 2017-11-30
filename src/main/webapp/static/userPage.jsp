@@ -87,25 +87,31 @@
                                 <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
                                 <td align="right">
-                                    <input type="text" id="${event.id}" value="${event.id}" readonly>
+                                    <input type="text" id="${event.id}" value="${event.id}" readonly hidden>
                                 </td>
 
                                 <td align="right" id="td_show_event">
-                                    <button class="btn_show_event" onmouseover="console.log(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#ShowEvent').toString())"
-                                            onclick="$('.show_event_modal').load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#ShowEvent').toString(),
-                                                    function () {$('#ShowEvent').modal();});"></button>
+                                    <button class="btn_show_event" onclick="$('.show_event_modal').
+                                            load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                                    function () {$('#ShowEvent').modal();});">
+                                    </button>
                                 </td>
 
                                 <td align="right" id="td_edit_btn">
-                                    <button class="btn_edit_event" onmouseover="console.log(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#EditEvent').toString())"
-                                            onclick="$('.edit_event_modalka').load(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#EditEvent').toString(),
-                                                    function () {$('#DeleteEvent').modal();});"></button>
+                                    <button class="btn_edit_event" onclick="$('.edit_event_modalka').
+                                            load(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#EditEvent').toString(),
+                                                    function () {$('#EditEvent').modal();});">
+                                    </button>
                                 </td>
 
                                 <td align="right" id="td_delete_btn">
-                                    <button class="btn_delete_event" onmouseover="console.log(('/' + 'deleteEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#DeleteEvent').toString())"
-                                             onclick="$('.delete_event_modalka').load(('/' + 'deleteEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#DeleteEvent').toString(),
-                                                     function () {$('#EditEvent').modal();});"></button>
+                                    <button class="btn_delete_event" onclick="$('.delete_event_modalka').
+                                            load(('/' + 'deleteEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#DeleteEvent').toString(),
+                                                     function () {$('#DeleteEvent').modal();});">
+                                    </button>
                                 </td>
                             </tr>
                     </c:forEach>
@@ -119,13 +125,15 @@
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
                             <tr>
-                                <td><input type="text" id="${event.id}" value="${event.id}" readonly></td>
+                                <td><input type="text" id="${event.id}" value="${event.id}" readonly hidden></td>
                                 <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
                                 <td align="right" id="td_show_event">
-                                    <button class="btn_show_event" onmouseover="console.log(('/' + 'ShowEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#ShowEvent').toString())"
-                                            onclick="$('.show_event_modal').load(('/' + 'ShowEvent?eventId=' + document.getElementById(${event.id}).getAttribute('value') + ' ' + '#ShowEvent').toString(),
-                                                    function () {$('#ShowEvent').modal();});"></button>
+                                    <button class="btn_show_event" onclick="$('.show_event_modal').
+                                            load(('/' + 'ShowEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                                    function () {$('#ShowEvent').modal();});">
+                                    </button>
                                 </td>
                             </tr>
                     </c:forEach>
