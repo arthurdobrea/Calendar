@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,22 +26,27 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendToAllParticipantsNotification(String username, Event eventForm) {
-        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast("&lt;b&gt;"
-                + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
+        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+                " " + eventForm.getTitle()));
     }
 
     @Override
     public void sendToAll(String destination, Event eventForm) {
-        template.convertAndSend(destination, new MessageBroadcast("&lt;b&gt;"
-                + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
+
+        template.convertAndSendToUser(destination, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+                " " + eventForm.getTitle()));
     }
 
     @Override
     public void sendToAllParticipants(List<User> users, Event eventForm) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
+
         for (User it : users) {
-            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast("&lt;b&gt;"
-                    + eventForm.getTitle() + " " + eventForm.getLocation() + "&lt;/b&gt;"));
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+                    " " + eventForm.getTitle()));
         }
     }
 
@@ -48,7 +54,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendToSpecificUser(List<User> users, Notification notification) {
         for (User it : users) {
             template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(
-                     notification.getEvent().getTitle()));
+                    notification.getEvent().getTitle()));
         }
     }
 

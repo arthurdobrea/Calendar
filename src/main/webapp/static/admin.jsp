@@ -22,6 +22,7 @@
     <title>Edit account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
@@ -36,6 +37,9 @@
     <script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>
     <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
 
+    <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
 </head>
 <body style="width:1600px;">
 
@@ -259,8 +263,6 @@
                     input.style.borderLeft = "none";
                     input.style.borderRight = "none";
                     input.style.borderBottom = "2px solid #E0E0E1";
-                    input.style.webkitBoxShadow = "none";
-                    input.style.boxShadow = "none";
 
                     div.appendChild((input));
                     div.appendChild((selectList));

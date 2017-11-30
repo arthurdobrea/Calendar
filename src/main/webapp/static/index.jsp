@@ -27,6 +27,18 @@
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/calendar.custom.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+
+    <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
+    <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
+
+    <style>
+        #calendar {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+    </style>
 
     <script src='${contextPath}/resources/js/moment.min.js'></script>
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
