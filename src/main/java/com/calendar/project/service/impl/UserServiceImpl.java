@@ -252,13 +252,13 @@ public class UserServiceImpl implements UserService {
             String participantLastName = participantAttributesArray[1].trim();
             for (User user : users) {
                 if (user.getFirstname().equals(participantFirstName) &&
-                        user.getLastname().equals(participantLastName)) {
+                        user.getLastname().equals(participantLastName) &&!participantsList.contains(user)) {
                     participantsList.add(user);
                 }
             }
         }
         System.out.println("Parse list consist - "+participantsList);
-        return participantsList;
+        return  participantsList;
     }
 
     private String[] parsePhraseInto2Words(String phrase){

@@ -143,30 +143,55 @@ public class EventDaoTest {
     }
 
     @Test
-    public void testSearchEventsByTypeScenario() throws Exception{
+    public void testSearchEventsByTypeReturnsEventsWithCorrectType() throws Exception{
        List<Event> eventsByType = eventDao.searchEvents(event.getEventType(), null, null, null);
-        Assert.assertNotNull(eventsByType);
-    }
 
-    @Test
-    public void testSearchEventsByTagScenario() throws Exception{ //TODO check it one more time
-        for (TagType t: event.getEventTagsAsEnum()){
-            List<Event> eventsByTag = eventDao.searchEvents(null, t, null, null);
-            Assert.assertNotNull(eventsByTag);
+        for(Event e : eventsByType){
+            Assert.assertEquals("Incompatible types", event.getEventType(), e.getEventType());
         }
     }
 
     @Test
-    public void testSearchEventsByAuthorScenario() throws Exception{
-        List<Event> eventsByAuthor = eventDao.searchEvents(null, null, event.getAuthor().getId(), null);
-        Assert.assertNotNull(eventsByAuthor);
+    public void testSearchEventsByTypeReturnsAllEventsWithParticularType() throws Exception{
+        List<Event> eventsByType = eventDao.searchEvents(event.getEventType(), null, null, null);
+        List<Event> allEvents = eventDao.getAllEvents();
+        List<Event> eventsParticularType = new ArrayList<>();
+        int countFromEventsByType = 0;
+        int countFromAllEvents = 0;
+
+        for(Event e : allEvents){
+            if (e.getEventType() == event.getEventType()){
+                eventsParticularType.add(e);
+                countFromAllEvents++;
+            }
+        }
+
+        for(int i = 0; i < eventsByType.size(); i++)
+            countFromEventsByType++;
+
+
+        Assert.assertEquals("Not all events with this type were returned", countFromAllEvents, countFromEventsByType);
     }
 
     @Test
-    public void testSearchEventsByUserScenario() throws Exception{ //TODO check it one more time
+    public void testSearchEventsByTagScenario() throws Exception{
+        for (TagType t: event.getEventTagsAsEnum()){
+            List<Event> eventsByTag = eventDao.searchEvents(null, t, null, null);
+            Assert.assertFalse("List is empty", eventsByTag.isEmpty());
+        }
+    }
+
+    @Test
+    public void testSearchEventsByAuthorScenarioReturnsAsGetEventsByAuthor() throws Exception{
+        List<Event> eventsByAuthor = eventDao.searchEvents(null, null, event.getAuthor().getId(), null);
+        Assert.assertEquals(eventsByAuthor, eventDao.getEventsByAuthor(event.getAuthor().getId()));
+    }
+
+    @Test
+    public void testSearchEventsByUserScenario() throws Exception{
         for (User u: event.getParticipants()){
             List<Event> eventsByUser = eventDao.searchEvents(null, null, null, u.getId());
-            Assert.assertNotNull(eventsByUser);
+            Assert.assertFalse("List is empty", eventsByUser.isEmpty());
         }
     }
 
@@ -228,13 +253,13 @@ public class EventDaoTest {
     @Test
     public void testGetParticipantsByEvent() throws Exception{
         List<User> participantsAtEvent = eventDao.getParticipantsByEvent(event.getId());
-        Assert.assertNotNull(participantsAtEvent);
+        Assert.assertFalse(participantsAtEvent.isEmpty());
     }
 
     @Test
     public void testGetEventsCountByPeriod() throws Exception{
         List<Event> eventCountByPeriod = eventDao.getEventCountByPeriod("2017-11-20", "2017-12-01");
-        Assert.assertNotNull(eventCountByPeriod);
+        Assert.assertFalse("List is empty", eventCountByPeriod.isEmpty());
     }
 
 }

@@ -178,15 +178,16 @@ public class EventController {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
         User user =securityService.findLoggedInUsername();
+        List<User> participants=event.getParticipants();
         if (userService.isUserParticipant(event,user)) {
-            System.out.println("found "+user.getFullName());
-            event.getParticipants().remove(user);
+            participants.remove(user);
         }else {
-            event.getParticipants().add(user);
-            System.out.println("NOT found "+user.getFullName());
+            participants.add(user);
         }
-
+        event.setParticipants(participants);
         eventService.updateEvent(event);
+
+
         LOGGER.info("Opening of \"/showEvent\" page");
 
         return "index";

@@ -24,26 +24,6 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
-    <script language="javascript">
-        function Checkfiles()
-        {
-            var fup = document.getElementById('register-fields');
-            var fileName = fup.value;
-            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-            if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "doc")
-            {
-                return true;
-            }
-            else
-            {
-                alert("Upload Gif or Jpg images only");
-                fup.focus();
-                return false;
-            }
-        }
-    </script>
-
 </head>
 <body>
 <div class="container">
@@ -72,7 +52,7 @@
                             <form:input id="register-fields" type="text"
                                         path="username"
                                         class="form-control" placeholder='${placeholder}'
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -91,7 +71,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="email" path="email" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -112,7 +92,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="firstname" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -131,7 +111,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="lastname" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -150,7 +130,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="position" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -171,7 +151,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="password" path="password" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -191,7 +171,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="password" path="confirmPassword" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -209,7 +189,7 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" onmouseover="avatarka()" type="submit">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" onclick="disableSubmitButton()">Register</button>
                 </td>
             </tr>
         </table>
@@ -217,11 +197,14 @@
 </div>
 
 <script>
-    function avatarka() {
-        if($('#register-fields').isEmpty()) {
-            alert("Choose avatar!!!");
-        }
-    }
+    function disableSubmitButton() {
+        $("form").submit(function() {
+            $(this).submit(function() {
+                return false;
+            });
+            return true;
+        });
+   }
 </script>
 
 </body>
