@@ -21,25 +21,60 @@
 
     <title>Edit account</title>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
+
+    <%--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>--%>
+    <%--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--%>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
+    <%--<script src='${contextPath}/resources/js/moment.js'></script>--%>
+    <%--<script src="${contextPath}/resources/js/eventValidator.js"></script>--%>
+    <%--<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>--%>
+    <%--<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">--%>
+    <%--<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>--%>
+    <%--<link href="${contextPath}/resources/css/event.css" rel="stylesheet">--%>
+    <%--<link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">--%>
+    <%--<link href="${contextPath}/resources/css/style.css" rel="stylesheet">--%>
+    <%--<link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">--%>
+
+
+    <%--<script src="${contextPath}/resources/js/userProfile.js"></script>--%>
+    <%--<link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">--%>
+    <%--<script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>--%>
+    <%--<link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">--%>
+    <%--<script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>--%>
+    <%--<script src="<c:url value="/resources/scripts/stomp.js"/>"></script>--%>
+    <%--<script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>--%>
 
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
-    <script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>
-    <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
+    <script src='${contextPath}/resources/js/moment.js'></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
+    <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
+    <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
 
+    <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
+    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
+    <script src='${contextPath}/resources/js/jquery.min.js'></script>
+    <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
+    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
+    <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
+    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+
+    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </head>
 <body style="width:1600px;">
 
@@ -123,7 +158,7 @@
 </div>
 </div>
 
-
+<div class="add_event_modal"></div>
 
 <!-- Modal delete-->
 <div class="modal" id="myModal" role="dialog">
@@ -142,7 +177,7 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 30%; position: absolute;">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 15%;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">
@@ -327,7 +362,6 @@
         });
     });
 </script>
-
 <script>
     $(document).ready(function() {
         $('#w-input-search-firstname').autocomplete({
@@ -500,6 +534,6 @@
     }
 </script>
 
-
+<div class="add_event_modal"></div>
 </body>
 </html>

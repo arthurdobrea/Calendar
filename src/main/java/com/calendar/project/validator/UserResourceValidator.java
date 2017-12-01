@@ -35,12 +35,11 @@ public class UserResourceValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         int usernameLength = username.length();
-        if (usernameLength < 8 || usernameLength > 32) {
+        if (usernameLength < 4 || usernameLength > 32) {
             errors.rejectValue("username", "Size.user.username");
         }
         else {
-            if (!Pattern.matches("\t\n" +
-                    "[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
+            if (!Pattern.matches("[a-zA-Z0-9_.-]{3,}", user.getUsername())) {
                 errors.rejectValue("username", "UserName.userForm.username");
             }
         }

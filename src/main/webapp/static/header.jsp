@@ -16,8 +16,8 @@
             $("#imageTextId").hide();
         }
     });
-
 </script>
+
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 
@@ -28,7 +28,7 @@
     <div class="topnav" id="topnav">
         <div class="appLogo" id = "imageId" style="display: none" ></div>
         <div class="appLogoText" id = "imageTextId"></div>
-        <div class="float-right">
+        <div class="float-right" style="margin-top: -1%;">
             <div class="float-right-item"><a href="/welcome" id="welcome">HOME</a></div>
             <div class="float-right-item"><a href="/index">CALENDAR</a></div>
             <div class="float-right-item"><a onMouseOver="profileDropdownArrowOnMouseOver()"
@@ -41,13 +41,9 @@
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
-            <div class="no-underline">
-                <a href="#">
-                    <img src="/resources/icons/ic_notifications.png" id="bell" alt="notifications" height="24"
-                         width="24">
-                </a>
+            <input type="checkbox" class="no-underline image-checkbox" id = "bell_button">
 
-                <div class="notifications-list">
+            <div class="notifications-list" style="z-index: 9;">
                     <p id="notification-title">Notifications</p>
                     <table id="notification">
                         <%
@@ -63,9 +59,9 @@
                             %>
                             <tr>
                                 <td id="notification_time_date">
-                                    <p id="notification_time"><javatime:format value="${notification.event.eventCreated}"
+                                    <p id="notification_time"><javatime:format value="${notification.event.start}"
                                                                         pattern="HH:mm"/></p>
-                                    <p id="notification_date"><javatime:format value="${notification.event.eventCreated}"
+                                    <p id="notification_date"><javatime:format value="${notification.event.start}"
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
                                 <td id="notification_message"><a
@@ -83,9 +79,9 @@
                             %>
                             <tr>
                                 <td id="notification_time_date">
-                                    <p id="notification_time"><javatime:format value="${notification.event.eventCreated}"
+                                    <p id="notification_time"><javatime:format value="${notification.event.start}"
                                                                         pattern="HH:mm"/></p>
-                                    <p id="notification_date"><javatime:format value="${notification.event.eventCreated}"
+                                    <p id="notification_date"><javatime:format value="${notification.event.start}"
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
                                 <td id="notification_message"><a
@@ -96,7 +92,7 @@
                     </table id="notification">
                     <p id="notification-bottom"><a href="#" id="notification_window">Show all</a></p>
                 </div>
-            </div>
+            </input>
             <div class="no-underline"><a href="javascript:void(0);" style="font-size:16px;" class="icon"
                                          onclick="hideShowNavbar()">&#9776;</a></div>
         </div>
@@ -112,8 +108,8 @@
             <c:forEach items="${uncheckedNotifications}" var="notification">
                 <tr id="modal_line">
                     <td id="modal_time_date">
-                        <p id="modal_time"><javatime:format value="${notification.event.eventCreated}" pattern="HH:mm"/></p>
-                        <p id="modal_date"><javatime:format value="${notification.event.eventCreated}" pattern="MM/dd/yy"/></p>
+                        <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
+                        <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
                     <td id="modal_message"><a
                             href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
@@ -123,8 +119,8 @@
             <c:forEach items="${checkedNotifications}" var="notification">
                 <tr id="modal_line">
                     <td id="modal_time_date">
-                        <p id="modal_time"><javatime:format value="${notification.event.eventCreated}" pattern="HH:mm"/></p>
-                        <p id="modal_date"><javatime:format value="${notification.event.eventCreated}" pattern="MM/dd/yy"/></p>
+                        <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
+                        <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
                     <td id="modal_message"><a
                             href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>

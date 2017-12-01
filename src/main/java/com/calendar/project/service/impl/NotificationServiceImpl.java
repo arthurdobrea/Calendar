@@ -28,7 +28,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendToAllParticipantsNotification(String username, Event eventForm) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
-        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+        template.convertAndSendToUser(username, "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                 " " + eventForm.getTitle()));
     }
 
@@ -36,7 +36,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendToAll(String destination, Event eventForm) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
-        template.convertAndSendToUser(destination, "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+        template.convertAndSendToUser(destination, "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                 " " + eventForm.getTitle()));
     }
 
@@ -45,7 +45,7 @@ public class NotificationServiceImpl implements NotificationService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yy");
 
         for (User it : users) {
-            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(eventForm.getEventCreated().format(formatter) +
+            template.convertAndSendToUser(it.getUsername(), "/queue/reply", new MessageBroadcast(eventForm.getStart().format(formatter) +
                     " " + eventForm.getTitle()));
         }
     }
@@ -71,17 +71,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification getNotification(User user, Event event) {
-        return notificationDao.getNotification(user, event);
+    public List<Notification> getUncheckedEvents(User user) {
+        return notificationDao.getUncheckedEvents(user);
     }
 
     @Override
-    public List<Notification> getUnchekedEvents(User user) {
-        return notificationDao.getUnchekedEvents(user);
-    }
-
-    @Override
-    public List<Notification> getChekedEvents(User user) {
+    public List<Notification> getCheckedEvents(User user) {
         return notificationDao.getCheckedEvents(user);
     }
 
@@ -89,11 +84,5 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void changeState(Notification notification) {
         notificationDao.changeState(notification);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Notification notification) {
-        notificationDao.delete(notification);
     }
 }

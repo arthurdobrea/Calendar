@@ -1,3 +1,51 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 730px;
+    margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input {
+    margin-top: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin button {
+    margin-top: 10px;
+}
+
+.has-error {
+    color: red
+}
+
 * {
     -webkit-transition-property: all;
     -webkit-transition-duration: .2s;
@@ -5,93 +53,101 @@
     -moz-transition-property: all;
     -moz-transition-timing-function: cubic-bezier(100,50,21,6);
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 21px;
 }
 .container{
-    width: 100%;
-    max-width: 1400px;
-    height: 500px;
+    width: 1113px;
+    height: 675px;
+}
+
+.has-error .form-control::-webkit-input-placeholder {
+    color: #a16363;
+}
+.has-error .form-control:-moz-placeholder {
+    color: #a16363;
+}
+.has-error .form-control::-moz-placeholder {
+    color: #a16363;
+}
+.has-error .form-control:-ms-input-placeholder {
+    color: #a16363;
+}
+.has-error .form-control::-webkit-input-placeholder, .has-error .form-control::-webkit-input-placeholder {
+    color: #a16363;
+}
+.has-error .form-control:-moz-placeholder, .has-error .form-control:-moz-placeholder {
+    color: #a16363;
+}
+
+.container span{
+
+}
+
+.container input{
+    -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, .075)!important;
 }
 #remember-me{
     width: 42px;
     height: 30px;
 }
-.first-last-div{
-    width: 601px;
-    float: left;
-}
-#email{
-    margin-bottom: 50px;
-    margin-right: 4px;
-    width: 535px;
-    float: right;
-    height: 68px;
+
+/* Регистрация */
+.registration-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0px auto;
 }
 
-#username{
-    margin-top: 8px;
-}
-#btn-reg{
-    font-size: 24px;
-    letter-spacing: 1px;
-    margin: 97px 316px;!important;
-
-}
-#ass-name{
-    margin-left: 11px;
-    height: 70px;
-    float: right;
-}
-#ass-name input {
-    margin-left: -7px;
-}
-#confirm-pass{
-    float: right;
-    margin: -2px 17px -1px 11px;
-
-}
-#confirm-pass input{
-    margin-left: 10px;
+.registration-wrapper td {
+    padding: 0 20px;
 }
 
-#lastname{
-    width: 253px;
-    float: right;
-    margin-right: 25px;
-    margin-bottom: 0px;
-    margin-top: 1px;
-}
-
-#firstname{
-    width: 254px;
-}
 .form-group-reg{
-    width: 535px;
+    /*margin-top: 34px; */
+    /* height: 100px; */
+    /* width: 421px; */
+    margin-left: -4px;
 }
 
-/*label{*/
-    /*width: 185px;*/
-    /*margin: 17px 413px 1px 11px;*/
-/*}*/
+#reg-error {
+    font-size: 12px;
+    color: red;
+}
+
+.reg-last-first-error{
+    line-height: 0.6;
+}
+
+#register-fields {
+    width: 100%;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.image {
+    height: 79px;
+}
+
+#btn-reg {
+    font-size: 17px;
+    letter-spacing: 1px;
+    color: white;
+    margin: auto;
+}
+
+label{
+    width: 185px;
+    margin: 17px 413px 1px 11px;
+}
 body{
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    background: #f7f8f9;
-    width: 1300px;
-    margin-right: auto;
-    margin-left: auto;
+    font-size: 21px;
     background: #f7f8f9;
     padding:75px;
     padding-top: 40px;
     text-align:center;
 }
 
-.image{
-    width: 1000px;
-    margin-left: 94px;
-    height: 138px;
-
-}
 .form-signin {
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     background-color: #ffffff;
@@ -104,7 +160,7 @@ body{
     margin: 82px auto;
     height: 767px;
     font-family: 'Roboto', arial, sans-serif;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 
@@ -121,11 +177,15 @@ h1{
 .form-signin .checkbox {
     font-weight: normal;
 }
+/*.form-signin-reg input{*/
+/*font-size: 14px!important;*/
+/*border-width: 1px!important;*/
+/*}*/
 
 .form-signin .form-control {
     top: 1px;
     position: relative;
-    border-width: 4px;
+    border-width: 1px;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -134,10 +194,10 @@ h1{
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: 0;
-    font-size: 20px;
+    font-size: 14px;
     margin-left: 15px;
     height: 62px;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 .form-signin .form-control:focus {
@@ -156,7 +216,9 @@ h1{
 }
 .form-signin-reg {
     max-width: 1345px;
-    margin: 17px auto;
+    margin: 17px 50px;
+    height: 590px;
+    padding: 30px;
 }
 
 .form-signin button {
@@ -165,14 +227,9 @@ h1{
 }
 
 .has-error {
-    color: red
+    color: red;
 }
 
-tbody:before {
-    content: '';
-    display: table-row;
-    height: 10px;
-}
 .btn{
     width: 546px;
     margin-left: 14px;
@@ -188,112 +245,6 @@ tbody:before {
     text-transform:uppercase;
 }
 
-.btn_edit_image{
-    color: rgb(1, 1, 2);
-    background: rgba(0, 0, 0, 0);
-    background-image: url(/resources/icons/buttons.png);
-    background-position: 0px 0px;
-    background-repeat: no-repeat;
-    border: none;
-    padding: 0;
-    width: 32px;
-    height: 20px;
-    transition: initial;
-}
-.btn_edit_image:hover{
-    background-image: url(/resources/icons/buttons.png);
-    background-position: -32px 0;
-}
-.btn_close_modal{
-    margin-top: 1%;
-    float: right;
-    background: white;
-    background-image: url(/resources/icons/ic_close.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
-    border: none;
-    width: 30px;
-    height: 30px;
-    padding: 0;
-}
-.btn_not_today_modal{
-    width: 140px;
-    height: 25px;
-    padding: 4px;
-    border: 1px solid #de411b;
-    float: left;
-    border-radius: 20px;
-    background-color: #DE411B;
-    font-size: 13px;
-    color: white;
-}
-.box_style_shadow{
-    box-shadow: 0 0 14px 2px rgba(221, 221, 221, 1);
-}
-.btn_delete_modal{
-    width: 140px;
-    height: 25px;
-    padding: 4px;
-    border: 1px solid #de411b;
-    float: right;
-    border-radius: 20px;
-    background-color: white;
-    font-size: 13px;
-    color: black;
-    text-align: center;
-}
-.btn_delete_modal:focus, .btn_delete_modal:hover{
-    background-color: #de411b;
-    color: white;
-}
-.btn_not_today_modal:focus, .btn_not_today_modal:hover{
-    background-color: #7a210c;
-    color: white;
-}
-.btn_close_modal:focus, .btn_close_modal:hover {
-
-    text-decoration: none;
-    cursor: pointer;
-    filter: alpha(opacity=50);
-    opacity: .5
-}
-.modal{
-    width: 55%;
-    height: 30%px;
-    /*position: absolute;*/
-    /*left: 36%;*/
-    /*top:  40%;*/
-    /*margin-left: -150px;*/
-    /*margin-top: -150px;*/
-    margin: 0 auto;
-    border-radius: 0px;
-    position: fixed;
-
-}
-.modal_content{
-    padding-left: 40px;
-    padding-bottom: 40px;
-    padding-right: 40px;
-    padding-top: 40px;
-}
-.btn_delete_image{
-    color: rgb(1, 1, 2);
-    background: rgba(0, 0, 0, 0);
-    background-image: url(/resources/icons/buttons.png);
-    background-position: 0px -20px;
-    background-repeat: no-repeat;
-    border: none;
-    padding: 0;
-    width: 32px;
-    height: 20px;
-    transition: initial;
-}
-.btn_delete_image:hover{
-    background-image: url(/resources/icons/buttons.png);
-    background-position: -32px -20px;
-
-}
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #48545B;
 }
@@ -306,7 +257,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/ic_search.png);
+    background-image: url(/resources/ic_search.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -323,7 +274,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/user.png);
+    background-image: url(/resources/user.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -340,7 +291,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/FirstLastName.png);
+    background-image: url(/resources/FirstLastName.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -357,7 +308,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/FirstLastName.png);
+    background-image: url(/resources/FirstLastName.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -374,7 +325,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/email.png);
+    background-image: url(/resources/email.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -391,7 +342,7 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/assignment.png);
+    background-image: url(/resources/assignment.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding: 5px 20px 5px 38px;
@@ -408,53 +359,7 @@ tbody:before {
     color: white;
     text-align: center;
 }
-.btn_submit_edit{
-    width: 100%;
-    height: 35px;
-    padding: 4px;
-    border: 1px solid #DE411B;
-    float: right;
-    border-radius: 20px;
-    background-color: #DE411B;
-    font-size: 17px;
-    color: white;
-    text-align: center;
-}
-.btn_submit_edit:hover{
-    background-color: #7a210c;
-    color: #ffffff;
-}
 
-.select_box_of_role{
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    width: 100%;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #E0E0E1;
-    background-image: url(/resources/icons/ic_arrow_down.png);
-    background-position: right bottom;
-    background-repeat: no-repeat;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    background-size: 6% 90%;
-    -webkit-appearance: none;
-    padding-top: 6px;
-    padding-right: 12px;
-    padding-bottom: 6px;
-    padding-left: 12px;
-}
-
-.user_edit_modal_form{
-    float: none;
-    width: 100%;
-    height: 34px;
-    margin-bottom: 10%;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-
-}
 .user_edit_fields{
     padding-top: 15px;
     padding-bottom: 15px;
@@ -463,7 +368,6 @@ tbody:before {
     border-left: none;
     border-right: none;
     float: left;
-    border-bottom: 2px solid #E0E0E1;
 }
 .roles_button_style{
     width: 145px;
@@ -475,8 +379,9 @@ tbody:before {
     border-top: 0;
     font-size: 13px;
     background-color: white;
-    background-image: url(/resources/icons/ic_arrow_down.png), url(/resources/icons/Job.png);
-    background-position: right bottom, left bottom;
+    background-image: url(/resources/ic_arrow_down.png);
+    background-position: right bottom;
+
     background-repeat: no-repeat;
     padding: 5px 20px 5px 30px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -497,19 +402,7 @@ tbody:before {
     border-right: 0;
 }
 
-.test{
-    text-align: left;
-    padding: 10px;
-    width: 300px;
-}
-.tdtest{
-    border-left: 0;
-    border-right: 0;
-}
 
-.thstyle{
-    color: #de411b;
-}
 
 .cellpadding {
     padding-left: 20px;
@@ -580,128 +473,20 @@ tbody:before {
     text-transform:uppercase;
 }
 
-.sub-menu-notification{
-    width: 320px!important;
-    opacity: 0!important;
-    float: left!important;
-    left: -290px!important;
-    height: 238px!important;
-    top: 34px!important;
-}
-
-#modal_form {
-    width: 612px;
-    height: 455px;
-    background: #fff;
-    position: fixed; /* чтoбы oкнo былo в видимoй зoне в любoм месте */
-    top: 41%;; /* oтступaем сверху 45%, oстaльные 5% пoдвинет скрипт */
-    left: 39.5%;
-    margin-top: -150px;
-    margin-left: -150px; /* тут вся мaгия центрoвки css, oтступaем влевo и вверх минус пoлoвину ширины и высoты сooтветственнo =) */
-    display: none; /* в oбычнoм сoстoянии oкнa не дoлжнo быть */
-    opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
-    z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
-    padding: 40px 40px;
-}
-
-#modal_title {
-    position: absolute;
-    top: 60px;
-    left: 60px;
-    display: block;
-}
-
-/* Кнoпкa зaкрыть для тех ктo в тaнке) */
-#modal_close {
-    position: absolute;
-    top: 60px;
-    right: 60px;
-    cursor: pointer;
-    display: block;
-    font-size: 15pt;
-}
-
-#modal_content {
-    width: 492px;
-    height: 295px;
-    position: absolute;
-    top: 110px;
-    left: 60px;
-}
-
-#modal_line {
-    width: 492px;
-    margin: 5px;
-    padding: 15px;
-    border-bottom: 1px solid #ECECEC;
-}
-
-#modal_time {
-    margin: auto;
-    width: 60px;
-    color: #DE411B;
-}
-
-#modal_date {
-    width: 90px;
-    color: #6A7378;
-}
-
-#modal_message {
-    width: 430px;
-    color: #000;
-}
-
 /* Пoдлoжкa */
 #overlay {
-    z-index:3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
-    position:fixed; /* всегдa перекрывaет весь сaйт */
-    background-color:#000; /* чернaя */
-    opacity:0.8; /* нo немнoгo прoзрaчнa */
-    -moz-opacity:0.8; /* фикс прозрачности для старых браузеров */
-    filter:alpha(opacity=80);
-    width:100%;
-    height:100%; /* рaзмерoм вo весь экрaн */
-    top:0; /* сверху и слевa 0, oбязaтельные свoйствa! */
-    left:0;
-    cursor:pointer;
-    display:none; /* в oбычнoм сoстoянии её нет) */
-}
-
-#notification li{
-    width: 320px ;
-    font-size: 14px;
-    font-weight: 100;
-}
-
-#notification li b{
-    font-size: 14px;
-    font-weight: 100;
-    border-bottom: 2px solid #E0E0E1;
-}
-
-#notification-word{
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    color: #E0E0E1;
-    text-align: left;
-    border-bottom: 1px solid;
-
-}
-#notification-modal{
-    font-size: 14px;
-    list-style: none;
-}
-#notification-modal li{
-    font-size: 14px;
-}
-
-#go{
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    color: #E0E0E1;
-    border-top: 1px solid;
-    width: 320px ;
+    z-index: 3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
+    position: fixed; /* всегдa перекрывaет весь сaйт */
+    background-color: #000; /* чернaя */
+    opacity: 0; /* нo немнoгo прoзрaчнa */
+    -moz-opacity: 0; /* фикс прозрачности для старых браузеров */
+    filter: alpha(opacity=0);
+    width: 100%;
+    height: 100%; /* рaзмерoм вo весь экрaн */
+    top: 0; /* сверху и слевa 0, oбязaтельные свoйствa! */
+    left: 0;
+    cursor: pointer;
+    display: none; /* в oбычнoм сoстoянии её нет) */
 }
 
 #wrapper {
@@ -871,6 +656,7 @@ input:checked + .slider:before {
     height: 360px;
     width: 880px;
     margin-top: 20px;
+    box-shadow: none;
 }
 
 .for_shadow {
@@ -1197,7 +983,8 @@ button:focus {
 }
 
 .btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
-    color: #939fa5;
+    background-color: #7a210c;
+    color: #ffffff;
 }
 
 .for_delete_event {
@@ -1271,6 +1058,7 @@ input:checked + .slider:before {
     height: 360px;
     width: 880px;
     margin-top: 20px;
+    box-shadow: none;
 }
 
 .for_shadow {
@@ -1464,7 +1252,7 @@ button:focus {
 .login_form {
     width: 550px;
     margin: auto;
-    /*margin-top: 30px;*/
+    margin-top: 10%;
     background-color: white;
     border-radius: 0;
     height: 520px;
@@ -1482,8 +1270,16 @@ button:focus {
     padding-top: 35px;
     border: none;
     border-bottom: solid #939fa5;
-}
+    background-color: white;
 
+}
+/*disable yellow color in the box in login form*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
 .login_input:focus {
     outline: 0;
 }
@@ -1525,6 +1321,8 @@ button:focus {
     float: left;
     margin-left: 35px;
 }
+
+
 
 
 /*welcome page css*/
@@ -1648,4 +1446,20 @@ button:focus {
     .greeting-wrapper {
         margin: 0px auto;
     }
+}
+
+/*error styles*/
+.error-wrapper {
+    display: block;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+}
+
+.error-msg {
+    font-size: 25px;
+    color: #48545B;
+    padding: 0px 0px 15px 0px;
 }
