@@ -1,9 +1,9 @@
 -- User creating
 CREATE TABLE users (
   id                         BIGSERIAL    NOT NULL PRIMARY KEY,
-  username                   VARCHAR(255) NOT NULL,
+  username                   VARCHAR(255) NOT NULL UNIQUE ,
   password                   VARCHAR(255) NOT NULL,
-  email                      VARCHAR(255),
+  email                      VARCHAR(255) UNIQUE,
   lastname                   VARCHAR(255),
   firstname                  VARCHAR(255),
   subscription_by_event_type VARCHAR(255),
