@@ -6,12 +6,17 @@ import com.calendar.project.model.MessageBroadcast;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
 import com.calendar.project.service.NotificationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -84,5 +89,20 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional
     public void changeState(Notification notification) {
         notificationDao.changeState(notification);
+    }
+
+    @Override
+    public String getNotificationInJson(Notification notification) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject notificationAsJson = new JSONObject();
+        //JsonArray notificationJsonArr = new JsonArray();
+        notificationAsJson.put("id", notification.getId());
+        notificationAsJson.put("title", notification.getEvent().getTitle());
+        notificationAsJson.put("eventCreated", notification.getEvent().getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        notificationAsJson.put("start", notification.getEvent().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        //notificationJsonArr.add(notificationAsJson);
+        String notificationString = notificationAsJson.toString();
+        Object json = mapper.readValue(notificationString, Object.class);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 }

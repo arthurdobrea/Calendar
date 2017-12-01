@@ -100,40 +100,4 @@ public class JSONController {
         return new ResponseEntity<>(usersString, HttpStatus.OK);
     }
 
-//
-//    @RequestMapping(value = "/send", method = {RequestMethod.GET}, produces = "application/x-www-form-urlencoded")
-//    public ResponseEntity<String> send(){
-//        JsonObject main = new JsonObject();
-//        JsonObject json = new JsonObject();
-//        json.addProperty("topic", TOPIC);
-//        //json.addProperty("to", "/topics/" + TOPIC);
-//        json.addProperty("priority", "high");
-//
-//        JsonObject notification = new JsonObject();
-//        notification.addProperty("title", "Notification!");
-//
-//        JsonObject body = new JsonObject();
-//        body.addProperty("start", "2017-11-11");
-//
-//        notification.add("body", body);
-//        json.add("notification", notification);
-//        HttpEntity<String> request = new HttpEntity<>(json.toString());
-//
-//        //CompletableFuture<String> pushNotification = mobilePushNotificationsService.send(request);
-//        CompletableFuture.allOf(pushNotification).join();
-//
-//        try {
-//            String firebaseResponse = pushNotification.get();
-//
-//            return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
-//    }
-
-
 }
