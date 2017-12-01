@@ -220,7 +220,7 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow", style="padding: 20px;">
+<div class="panel panel-default box_style_shadow", style=" padding: 20px; padding-left: 125px;" >
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">
