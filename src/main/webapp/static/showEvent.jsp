@@ -46,7 +46,7 @@
                     <div class="event-form">
 
                         <div class="row" id="leftblock" style="padding-right: 15px">
-                            <div class="col-sm-6" style="text-align: left; overflow: scroll">
+                            <div class="col-sm-6" style="text-align: left; overflow: scroll;">
                                 <table class="table_show_event">
                                     <tbody>
                                     <tr>

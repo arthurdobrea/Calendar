@@ -181,7 +181,7 @@
                     <spring:bind path="multipartFile">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input id="register-fields" type="file" path="multipartFile" class="form-control"
-                                        autofocus="true" />
+                                        autofocus="true" required="true" />
                             <form:errors path="multipartFile"/>
                         </div>
                     </spring:bind>
