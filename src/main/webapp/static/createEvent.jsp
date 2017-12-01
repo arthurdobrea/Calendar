@@ -174,6 +174,10 @@
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>
                                     </c:forEach>
+                                    <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <input type="checkbox" name="checkboxTags"
+                                               hidden value="hidden" checked/>
+                                    </label>
                                 </div>
                             </div>
                         </div>
