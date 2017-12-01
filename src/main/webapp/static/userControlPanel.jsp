@@ -35,7 +35,7 @@
                 <div align="left" class="modal_topic">EDIT PROFILE<button type="button" class="close_modal" data-dismiss="modal"></button></div>
             </div>
             <div class="modal-body edit_profile_body">
-                <form:form method="POST" modelAttribute="userForm" id="user_edit_form">
+                <form:form method="POST" modelAttribute="userForm" id="user_edit_form" enctype = "multipart/form-data">
                     <input id="user_username" type="hidden" name="username" placeholder="Username" autofocus="true" value="${username}" readonly>
 
                     <spring:bind path="firstname">
@@ -67,6 +67,14 @@
                             <form:input autocomplete="false" id="user_email" type="text" path="email" name="email" placeholder="EMAIL"
                                         autofocus="true" value="${email}"></form:input>
                             <form:errors path="email"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                    <spring:bind path="multipartFile">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input type="file" path="multipartFile" class="form-control"
+                                        autofocus="true"/>
+                            <form:errors path="multipartFile"/>
                         </div>
                     </spring:bind>
                     <button class="btn_edit_user_submit" type="submit">EDIT</button>

@@ -176,13 +176,11 @@ public class EventController {
             final Notification notification = new Notification(u, event);
             notifications.add(notification);
         }
-//        notificationService.saveAll(notifications);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
         notificationService.saveAll(notifications);
         notificationService.sendToAllParticipants(participants, event);
-        //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
@@ -195,17 +193,13 @@ public class EventController {
         User user =securityService.findLoggedInUsername();
         boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
-//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-//        notificationService.changeState(notification);
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
 
         model.addAttribute("start", event.getStart().format(formatter));
         model.addAttribute("end", event.getStart().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
-//        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
-//        redirectAttributes.addAttribute("eventId", event.getId());
         return "showEvent";
     }
 
@@ -223,10 +217,6 @@ public class EventController {
         }
 
         eventService.updateEvent(event);
-//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-//        notificationService.changeState(notification);
-        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
-
         LOGGER.info("Opening of \"/showEvent\" page");
 
         return "index";
@@ -303,13 +293,11 @@ public class EventController {
             final Notification notification = new Notification(u, event);
             notifications.add(notification);
         }
-//        notificationService.saveAll(notifications);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
         notificationService.saveAll(notifications);
         notificationService.sendToAllParticipants(participants, event);
-        //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
