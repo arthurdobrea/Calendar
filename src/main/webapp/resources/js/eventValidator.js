@@ -1,9 +1,11 @@
 $(document).ready(function () {
     $("#datetimepicker1").datetimepicker({
         dayOfWeekStart: 1,
+        closeOnDateSelect:true,
     });
     $("#datetimepicker2").datetimepicker({
         dayOfWeekStart: 1,
+        closeOnDateSelect:true,
     });
 });
 
@@ -12,11 +14,13 @@ function allDayChecked() {
         timepicker: false,
         format: 'Y/m/d',
         dayOfWeekStart: 1,
+        closeOnDateSelect:true,
     });
     $("#datetimepicker2").datetimepicker({
         timepicker: false,
         format: 'Y/m/d',
         dayOfWeekStart: 1,
+        closeOnDateSelect:true,
     });
     document.getElementById('all-dayh').setAttribute('value', 'true');
 }
@@ -93,29 +97,6 @@ function eventDateTime() {
     document.getElementById('datetimepicker2h').setAttribute('value', end);
 }
 
-function auto_complete() {
-    $('#w-input-search').autocomplete({
-        serviceUrl: "/getUserFullName",
-        onSelect: function(inp){
-            console.log(inp.value);
-            if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
-                document.getElementById("t-participants").value+=inp.value+",";
-            else
-                alert("User "+ inp.value+" is in the list ");
-            document.getElementById("w-input-search").value="";
-        },
-        paramName: "userFullName",
-        delimiter: ",",
-        width: "31%",
-        transformResult: function(response) {
-            return {
-                suggestions: $.map($.parseJSON(response), function(item) {
-                    return { value: item.toString(), data: item.id};
-                })
-            };
-        }
-    });
-}
 
 
 

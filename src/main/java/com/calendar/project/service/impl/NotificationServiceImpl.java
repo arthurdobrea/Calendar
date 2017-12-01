@@ -7,8 +7,6 @@ import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
 import com.calendar.project.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
