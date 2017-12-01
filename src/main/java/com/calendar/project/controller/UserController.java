@@ -4,6 +4,7 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
@@ -16,6 +17,8 @@ import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -315,13 +318,6 @@ public class UserController {
         return "redirect:/index";
     }
 
-
-//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
-//    public String createEvent(Model model) {
-//    LOGGER.info("Request of \"/index\" page POST");
-//    return "redirect:/index";
-//}
-
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
@@ -346,7 +342,6 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
-//        editFormValidator.validate(user, bindingResult);
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
         }
@@ -355,11 +350,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
-    public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
+    public String userControlPanel(Model model, @ModelAttribute("userForm") UserResource userForm) {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userForm = userService.findByUsername(auth.getName());
-
+        userForm = Converter.convert(userService.findByUsername(auth.getName()));
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -372,15 +366,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+    public String userControlPanel(@ModelAttribute("userForm") UserResource userForm, Model model) {
         LOGGER.info("Request of \"/userControlPanel\" page POST");
-        User user = userService.findByUsername(userForm.getUsername());
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setPosition(userForm.getPosition());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
+        try {
+            User user = userService.findByUsername(userForm.getUsername());
+            user.setFirstname(userForm.getFirstname());
+            user.setLastname(userForm.getLastname());
+            user.setPosition(userForm.getPosition());
+            user.setEmail(userForm.getEmail());
+            user.setImage(userForm.getMultipartFile().getBytes());
+            userService.update(user);
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         LOGGER.info("Redirect to \"/userPage\" page");
         return "redirect:/userPage";
     }
@@ -474,7 +473,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    // is mailing all events to all users when labels are equals to event types.
     @RequestMapping(value = "/mailing", method = RequestMethod.GET)
     public String mailing() {
         LOGGER.info("Request of \"/mailing\" page GET");

@@ -3,6 +3,8 @@ package com.calendar.project.service;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
+
+import java.io.IOException;
 import java.util.List;
 
 public interface NotificationService {
@@ -25,4 +27,5 @@ public interface NotificationService {
 
     void changeState(Notification Notification);
 
+    String getNotificationInJson(Notification notification) throws IOException;
 }

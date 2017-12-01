@@ -1,5 +1,6 @@
 package com.calendar.project.model.dto;
 
+import com.calendar.project.model.Notification;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import com.calendar.project.model.enums.EventType;
@@ -30,7 +31,23 @@ public class EventResource {
     private LocalDateTime eventCreated = LocalDateTime.now();
     private String description;
     private Set<Tag> tags;
+    private List<Notification> notifications;
 
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     public int getId() {
         return id;

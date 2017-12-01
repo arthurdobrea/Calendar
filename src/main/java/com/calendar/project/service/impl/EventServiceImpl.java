@@ -205,6 +205,7 @@ public class EventServiceImpl implements EventService {
         return event;
     }
 
+
     @Override
     public String getEventJson(Event event) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
