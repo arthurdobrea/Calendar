@@ -74,12 +74,12 @@
 <div class="modal fade" id="AddEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 7%">
         <div class="modal-content" style="border-radius: 0;">
-            <div class="event_add_modal-header">
-                <div class="create_event_header" style="padding-left: 35px;">
+            <div class="event_add_modal-header" style="padding-left: 40px; padding-right: 40px">
+                <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
-            <div class="modal-body" style="padding-left: 50px; padding-right: 50px">
+            <div class="modal-body" style="padding-left: 40px; padding-right: 40px">
                 <form action="${contextPath}/createEvent" method="POST">
                     <div class="event-form">
                         <div class="row" id="leftblock" style="padding-right: 15px">
