@@ -48,14 +48,22 @@
                     <table id="notification">
                         <%
                             int counter = 0;
+                            int uncheckedNotifications = 0;
                         %>
                         <c:forEach items="${uncheckedNotifications}" var="notification">
                             <%
                                 if (counter < 3) {
                                     ++counter;
+                                    ++uncheckedNotifications;
                                 } else {
                                     break;
                                 }
+
+                                if (uncheckedNotifications != 0) { %>
+                                    <script>
+                                        document.getElementById("bell_button").style.backgroundImage = "url('resources/icons/ic_notifications_active.png')";
+                                    </script>
+                                <%}
                             %>
                             <tr>
                                 <td id="notification_time_date">
@@ -77,7 +85,7 @@
                                     break;
                                 }
                             %>
-                            <tr>
+                            <tr class="checked">
                                 <td id="notification_time_date">
                                     <p id="notification_time"><javatime:format value="${notification.event.start}"
                                                                         pattern="HH:mm"/></p>
@@ -117,7 +125,7 @@
                 </tr>
             </c:forEach>
             <c:forEach items="${checkedNotifications}" var="notification">
-                <tr id="modal_line">
+                <tr id="modal_line" class="checked">
                     <td id="modal_time_date">
                         <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
                         <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
