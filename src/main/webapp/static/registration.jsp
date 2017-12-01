@@ -189,11 +189,19 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit" onclick="disableSubmitButton()">Register</button>
                 </td>
             </tr>
         </table>
     </form:form>
 </div>
+
+<script>
+    function disableSubmitButton() {
+        document.getElementById("btn-reg").disabled = true;
+    }
+</script>
+
+
 </body>
 </html>
