@@ -42,7 +42,6 @@ public class Event implements Serializable {
     @Column(name = "event_location")
     private String location;
 
-    //@JsonBackReference(value = "child")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "events_users", joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -75,7 +74,6 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     private List<Notification> notifications;
 
-//    @ManyToMany(mappedBy = "events",fetch = FetchType.LAZY)
   @ManyToMany(fetch = FetchType.LAZY )
     @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id"))
@@ -145,10 +143,6 @@ public class Event implements Serializable {
         return eventCreated;
     }
 
-//    public String getEventCreatedTime() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        return eventCreated.format(formatter);
-//    }
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
@@ -175,7 +169,6 @@ public class Event implements Serializable {
     }
 
     public List<TagType> getEventTagsAsEnum() {
-        //if (tags.isEmpty()||tags==null) return null;
         List<TagType> tagTypes=new ArrayList<>();
         for (Tag tag:getTags()){
             for (TagType tt:TagType.values()){
@@ -244,7 +237,6 @@ public class Event implements Serializable {
         if (eventType != event.eventType) return false;
         if (!author.equals(event.author)) return false;
         if (!location.equals(event.location)) return false;
-        //if (!participants.equals(event.participants)) return false;
         if (!start.equals(event.start)) return false;
         if (!end.equals(event.end)) return false;
         if (!eventCreated.equals(event.eventCreated)) return false;

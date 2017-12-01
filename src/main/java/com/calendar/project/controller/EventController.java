@@ -4,8 +4,7 @@ import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
-import com.calendar.project.config.MobilePushNotificationsService;
-import com.calendar.project.model.*;
+import com.calendar.project.service.MobilePushNotificationsService;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
@@ -13,13 +12,8 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
-import com.calendar.project.dao.UserDao;
-import com.calendar.project.model.Event;
-import com.calendar.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -162,26 +156,25 @@ public class EventController {
                 allday,LocalDateTime.now(),description,tagService.parseListOfStringToSetOfTag(checkboxValue));
 
         eventService.saveEvent(event);
-//        try{
-//            String eventString = eventService.getEventJson(event);
-//            HttpEntity<String> request = new HttpEntity<>(eventString);
-//            mobilePushNotificationsService.send(request,event.getId() + ".json");
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
+
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
         for (User u : participants) {
             final Notification notification = new Notification(u, event);
             notifications.add(notification);
+            try{
+            String notificationString = notificationService.getNotificationInJson(notification);
+            HttpEntity<String> request = new HttpEntity<>(notificationString);
+            mobilePushNotificationsService.send(request,u.getId() + ".json");
+            }catch(IOException e){
+                 e.printStackTrace();
+            }
         }
-//        notificationService.saveAll(notifications);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
         notificationService.saveAll(notifications);
         notificationService.sendToAllParticipants(participants, event);
-        //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/showEvent";
@@ -194,17 +187,13 @@ public class EventController {
         User user =securityService.findLoggedInUsername();
         boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
-//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-//        notificationService.changeState(notification);
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
 
         model.addAttribute("start", event.getStart().format(formatter));
         model.addAttribute("end", event.getStart().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
-//        model.addAttribute("image", Base64.encode(userService.getUser(1).getImage()));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
-//        redirectAttributes.addAttribute("eventId", event.getId());
         return "showEvent";
     }
 
@@ -222,10 +211,6 @@ public class EventController {
         }
 
         eventService.updateEvent(event);
-//        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-//        notificationService.changeState(notification);
-        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
-
         LOGGER.info("Opening of \"/showEvent\" page");
 
         return "userPage";
@@ -302,13 +287,11 @@ public class EventController {
             final Notification notification = new Notification(u, event);
             notifications.add(notification);
         }
-//        notificationService.saveAll(notifications);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
         notificationService.saveAll(notifications);
         notificationService.sendToAllParticipants(participants, event);
-        //notificationService.sendToSpecificUser();
 
         LOGGER.info("Redirect to \"/userPage\" page");
         return "redirect:/userPage";
