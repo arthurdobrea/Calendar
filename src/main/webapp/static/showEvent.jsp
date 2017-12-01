@@ -51,38 +51,38 @@
                                     <tbody>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Title:</strong></td>
-                                            <td><span style="color: #d2322d">${event.title}</span></td>
+                                            <td><strong style="font-size: 16px">Title:</strong></td>
+                                            <td><span style="color: #d2322d; font-size: 14px">${event.title}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Location:</strong></td>
-                                            <td>${event.location}</td>
+                                            <td><strong style="font-size: 16px">Location:</strong></td>
+                                            <td><span style="font-size: 14px">${event.location}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Type:</strong></td>
-                                            <td>${event.eventType}</td>
+                                            <td><strong style="font-size: 16px">Type:</strong></td>
+                                            <td><span style="font-size: 14px">${event.eventType}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Start:</strong></td>
-                                            <td>${start}</td>
+                                            <td><strong style="font-size: 16px">Start:</strong></td>
+                                            <td><span style="font-size: 14px">${start}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>End:</strong>&nbsp;</td>
-                                            <td>${end}</td>
+                                            <td><strong style="font-size: 16px">End:</strong>&nbsp;</td>
+                                            <td><span style="font-size: 14px">${end}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Author:</strong></td>
-                                            <td>${event.author.fullName}</td>
+                                            <td><strong style="font-size: 16px">Author:</strong></td>
+                                            <td><span style="font-size: 14px">${event.author.fullName}</span></td>
                                         </div>
                                     </tr>
 
@@ -104,7 +104,7 @@
                         <div class="row" id="bottomblock">
                             <div class="col-sm-12">
                                 <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
-                                        style="color: #d2322d">${event.participants.size()}</span>]</label>
+                                        style="color: #d2322d; font-size: 12px">${event.participants.size()}</span>]</label>
                                 <div class="form-group participant-group" id="t-show-participants">
                                     <div class="row">
 
