@@ -6,12 +6,6 @@ $(document).ready(function(){
     $('#total_events_invited').hide();
 });
 
-function show_event() {
-    $(".show_event_modalka").load("/showEvent #ShowEvent", function () {
-        $("#ShowEvent").modal();
-    });
-}
-
 function create_event() {
     $(".add_event_modal").load("/createEvent #AddEvent", function () {
         $("#AddEvent").modal();
@@ -19,10 +13,12 @@ function create_event() {
         $("#datetimepicker1").datetimepicker({
             dayOfWeekStart: 1,
             closeOnDateSelect:true,
+            step: 10,
         });
         $("#datetimepicker2").datetimepicker({
             dayOfWeekStart: 1,
             closeOnDateSelect:true,
+            step: 10,
         });
 
         $('#w-input-search').autocomplete({
@@ -68,5 +64,3 @@ function showEventsInvited() {
     $('#total_events_created').hide();
     $('#total_events_invited').show();
 }
-
-

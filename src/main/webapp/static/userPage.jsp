@@ -18,8 +18,8 @@
     <title>User Page</title>
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/style.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
@@ -41,6 +41,52 @@
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#w-input-search').autocomplete({
+                serviceUrl: "/getUserFullName",
+                onSelect: function(inp){
+                    console.log(inp.value);
+                    if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
+                        document.getElementById("t-participants").value+=inp.value+",";
+                    else
+                        alert("User "+ inp.value+" is in the list ");
+                    document.getElementById("w-input-search").value="";
+                },
+                paramName: "userFullName",
+                delimiter: ",",
+                width: "31%",
+                transformResult: function(response) {
+                    return {
+                        suggestions: $.map($.parseJSON(response), function(item) {
+                            return { value: item.toString(), data: item.id};
+                        })
+                    };
+                }
+            });
+        });
+    </script>
+
+    <script language="javascript">
+        function Checkfiles()
+        {
+            var fup = document.getElementById('avatar');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "doc")
+            {
+                return true;
+            }
+            else
+            {
+                alert("Upload Gif or Jpg images only");
+                fup.focus();
+                return false;
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -83,22 +129,37 @@
                 <table class="table table-hover">
                     <tbody>
                     <c:forEach items="${eventsByAuthor}" var="event">
-                        <script>
-                            function delete_event() {
-                                $(".delete_event_modalka").load("/deleteEvent?eventId=${event.id} #DeleteEvent", function () {
-                                    $("#DeleteEvent").modal();
-                                });
-                            }
-                        </script>
-
-                        <a href="/showEvent?eventId=${event.id}">
                             <tr>
                                 <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
-                                <td align="right" id="td_edit_btn"><button class="btn_edit_event" onclick="window.location.href='/updateEvent?eventId=${event.id}' "></button></td>
-                                <td align="right" id="td_delete_btn"><button class="btn_delete_event" onclick="delete_event() "></button></td>
+                                <td align="right">
+                                    <input type="hidden" id="${event.id}" value="${event.id}" readonly>
+                                </td>
+
+                                <td align="right" id="td_show_event">
+                                    <button class="btn_show_event" onclick="$('.show_event_modal').
+                                            load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                                    function () {$('#ShowEvent').modal();});">
+                                    </button>
+                                </td>
+
+                                <td align="right" id="td_edit_btn">
+                                    <button class="btn_edit_event" onclick="$('.edit_event_modalka').
+                                            load(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#EditEvent').toString(),
+                                                    function () {$('#EditEvent').modal();});">
+                                    </button>
+                                </td>
+
+                                <td align="right" id="td_delete_btn">
+                                    <button class="btn_delete_event" onclick="$('.delete_event_modalka').
+                                            load(('/' + 'deleteEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#DeleteEvent').toString(),
+                                                     function () {$('#DeleteEvent').modal();});">
+                                    </button>
+                                </td>
                             </tr>
-                        </a>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -109,13 +170,20 @@
                 <table class="table table-hover">
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
-                        <a href="/showEvent?eventId=${event.id}">
                             <tr>
                                 <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
-                                <td align="right" id="td_show_event"><button class="btn_show_event" onclick="window.location.href='/showEvent?eventId=${event.id}'"></button></td>
+                                <td align="right">
+                                    <input type="hidden" id="${event.id}" value="${event.id}" readonly >
+                                </td>
+                                <td align="right" id="td_show_event">
+                                    <button class="btn_show_event" onclick="$('.show_event_modal').
+                                            load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
+                                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                                    function () {$('#ShowEvent').modal();});">
+                                    </button>
+                                </td>
                             </tr>
-                        </a>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -125,7 +193,7 @@
 
     <div class="add_event_modal"></div>
     <div class="edit_user_modal"></div>
-    <div class="show_event_modalka"></div>
+    <div class="show_event_modal"></div>
     <div class="delete_event_modalka"></div>
     <div class="edit_event_modalka"></div>
 

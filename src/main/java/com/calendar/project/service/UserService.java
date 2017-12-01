@@ -4,7 +4,6 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.List;
 public interface UserService {
 
     User getUser(long id);
+
+//    void setDefaultImage(UserResource userForm);
 
     User findById(Long id);
 

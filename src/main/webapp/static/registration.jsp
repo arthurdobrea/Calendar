@@ -52,7 +52,7 @@
                             <form:input id="register-fields" type="text"
                                         path="username"
                                         class="form-control" placeholder='${placeholder}'
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -71,7 +71,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="email" path="email" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -92,7 +92,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="firstname" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -111,7 +111,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="lastname" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -130,7 +130,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="text" path="position" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -151,7 +151,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="password" path="password" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -171,7 +171,7 @@
                             </c:choose>
                             <form:input id="register-fields" type="password" path="confirmPassword" class="form-control"
                                         placeholder="${placeholder}"
-                                        autofocus="true"/>
+                                        autofocus="true" required="true"/>
                         </div>
                     </spring:bind>
                 </td>
@@ -179,7 +179,7 @@
             <tr>
                 <td colspan="4">
                     <spring:bind path="multipartFile">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <div class="form-group ${status.error ? 'has-error' : ''}" style="outline:0;">
                             <form:input id="register-fields" type="file" path="multipartFile" class="form-control"
                                         autofocus="true" />
                             <form:errors path="multipartFile"/>
@@ -189,11 +189,23 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" onclick="disableSubmitButton()">Register</button>
                 </td>
             </tr>
         </table>
     </form:form>
 </div>
+
+<script>
+    function disableSubmitButton() {
+        $("form").submit(function() {
+            $(this).submit(function() {
+                return false;
+            });
+            return true;
+        });
+   }
+</script>
+
 </body>
 </html>

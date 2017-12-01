@@ -60,6 +60,6 @@ public class RoleDaoTest {
     @Test
     public void testFindAll() throws Exception {
         List<Role> allRoles = roleDao.findAll();
-        Assert.assertNotNull(allRoles);
+        Assert.assertFalse(allRoles.isEmpty());
     }
 }

@@ -64,7 +64,6 @@
         $(document).ready(function() {
             calendarInit = true;
             $('#calendar').fullCalendar({
-                timezone: 'local',
                 customButtons: {
                 },
                 header: {
@@ -72,6 +71,19 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
+
+                eventRender: function (event, element) {
+                    element.attr('href', 'javascript:void(0);');
+                    element.click(function() {
+                        $("#eventLocation").html(event.location);
+                        $("#eventAuthor").html(event.author);
+                        $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                        $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+                        $("#eventInfo").html(event.description);
+                        $("#eventContent").dialog({ modal: true, title: event.title, width:350});
+                    });
+                },
+
                 businessHours: {
 
                     dow: [ 1, 2, 3, 4, 5 ],
@@ -91,18 +103,11 @@
                 },
                 height:500,
                 fixedWeekCount:false,
-//                  themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
+                timezone: 'local',
+                allDay: false,
                 events: {url:'/json/allEvents'},
-                eventClick:  function (event, jsEvent, view) {
-//                    console.log(event);
-//                    console.log(jsEvent);
-//                    console.log(view);
-
-                    window.location.replace("/showEvent?eventId=" + event.id);
-                }
             });
-//          $('#calendar').fullCalendar( 'gotoDate', currentDate);
             var container=$('#container');
             var calen = $('#calendar')
             container.append(calen);
@@ -145,6 +150,17 @@
                     center: 'title',
                     right: 'addNew month,agendaWeek,agendaDay,listWeek'
                 },
+                eventRender: function (event, element) {
+                    element.attr('href', 'javascript:void(0);');
+                    element.click(function() {
+                        $("#eventLocation").html(event.location);
+                        $("#eventAuthor").html(event.author);
+                        $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+                        $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+                        $("#eventContent").dialog({ modal: true, title: event.title, width:300});
+                    });
+                },
+
                 businessHours: {
 
                     dow: [ 1, 2, 3, 4, 5 ],
@@ -152,6 +168,8 @@
                     start: '10:00',
                     end: '17:00',
                 },
+                timezone: 'local',
+                allDay: false,
                 firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",
@@ -164,7 +182,6 @@
                 },
                 height:500,
                 fixedWeekCount:false,
-//                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
                 events:
                 {
@@ -176,16 +193,7 @@
                         participantId: particVal
                     }
                 },
-                eventClick: function (event, jsEvent, view) {
-                    console.log(event);
-                    console.log(jsEvent);
-                    console.log(view);
-
-                    window.location.replace("/showEvent?eventId=" + event.id);
-
-                }
             });
-//                 $('#calendar').fullCalendar( 'gotoDate', currentDate);
             var container = $('#container');
             var calen = $('#calendar')
             container.append(calen);
@@ -254,7 +262,29 @@
 
 
 
-<div class="add_event_modal"></div>
+<div class="show_event_modal"></div>
+
+<div id="eventContent" title="Event Details" style="display:none;">
+    <table class="pop_up_event">
+        <tr>
+            <td><strong class="endava_grey_text">Location:</strong></td>
+            <td><span id="eventLocation"></span></td>
+        </tr>
+        <tr>
+            <td><strong class="endava_grey_text">Start:</strong></td>
+            <td><span id="startTime"></span></td>
+        </tr>
+        <tr>
+            <td><strong class="endava_grey_text">End:</strong></td>
+            <td><span id="endTime"></span></td>
+        </tr>
+        <tr>
+            <td><strong class="endava_grey_text">Author:</strong></td>
+            <td><span id="eventAuthor"></span></td>
+        </tr>
+    </table>
+</div>
+
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>

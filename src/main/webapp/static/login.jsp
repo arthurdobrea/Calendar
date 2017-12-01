@@ -16,7 +16,6 @@
     <title>Log in with your account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <%--<link href="${contextPath}/resources/css/common.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
@@ -58,7 +57,7 @@
                     <div style="float: right; margin-right: 35px"><span class="endava_red_text cursor_link" onclick="window.location.href='/wrongSide'" style="margin-right: -33px;">Forgot password?</span></div>
             </div>
             <button type="submit" class="btn_login_submit">LOG IN</button>
-            <div align="center">
+            <div align="center" style="padding-top: 15px">
                 <span class="endava_grey_text">Don't have an account?</span>
                 <span class="endava_red_text cursor_link" onclick="window.location.href='/registration' "> Register</span>
            </div>

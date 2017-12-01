@@ -84,9 +84,9 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testGetUsersBySubscriptionByEventTypeReturns() throws Exception {
+    public void testGetUsersBySubscriptionByEventType() throws Exception {
         List<User> users = userDao.getUsersBySubscriptionByEventType(user.getSubscriptionByEventType());
-        Assert.assertNotNull(users);
+        Assert.assertFalse(users.isEmpty());
     }
 
 
@@ -94,13 +94,13 @@ public class UserDaoTest {
     @Test
     public void testGetUsersBySubscriptionByTagType() throws Exception {
         List<User> users = userDao.getUsersBySubscriptionByTagType(user.getSubscriptionByTagType());
-        Assert.assertNotNull(users);
+        Assert.assertFalse(users.isEmpty());
     }
 
     @Test
     public void testGetAll() throws Exception {
         List<User> allUsers = userDao.getAll();
-        Assert.assertNotNull(allUsers);
+        Assert.assertFalse("List is empty", allUsers.isEmpty());
     }
 
     @Test
