@@ -75,30 +75,6 @@ public class EventController {
         return "events";
     }
 
-//    @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-//    public String updateEvent(int eventId, Model model) {
-//        LOGGER.info("Request of \"/updateEvent\" page GET");
-//        model.addAttribute("eventForm", eventService.getEvent(eventId));
-//        LOGGER.info("Opening of \"/updateEvent\" page");
-//        return "updateEvent";
-//    }
-//
-//    @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-//    public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
-//        LOGGER.info("Request of \"/updateEvent\" page POST");
-//        List<User> participants = new LinkedList<>();
-//        for (User u : eventForm.getParticipants()) {
-//            u.setId(Long.parseLong(u.getUsername()));   // TODO use editEvents.jsp instead
-//            participants.add(userDao.getUser(u.getId()));
-//        }
-//
-//        eventForm.setParticipants(participants);
-//        model.addAttribute("eventForm", eventForm);
-//        eventService.updateEvent(eventForm);
-//        LOGGER.info("Redirect to \"/userPage\" page");
-//        return "redirect:/userPage";
-//    }
-
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
     public String deleteEvent(int eventId, Model model) {
         LOGGER.info("Request of \"/deleteEvent\" page GET");
@@ -141,7 +117,7 @@ public class EventController {
                               RedirectAttributes redirectAttributes
     ) {
         boolean allday=false;
-        System.out.println("participantsList" +participantsList);
+        System.out.println("participantsList" + participantsList);
         if (startDate.length()<15){
             startDate+=" 10:00";
             endDate+=" 17:00";
@@ -213,7 +189,7 @@ public class EventController {
         eventService.updateEvent(event);
         LOGGER.info("Opening of \"/showEvent\" page");
 
-        return "userPage";
+        return "index";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,

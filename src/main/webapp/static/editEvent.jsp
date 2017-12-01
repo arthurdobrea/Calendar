@@ -61,6 +61,18 @@
             });
         });
     </script>
+
+    <script>
+        $('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });$('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });
+    </script>
 </head>
 
 <body>
@@ -82,19 +94,19 @@
                                 <div class="form-group">
                                     <label for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true" value="${event.title}">
+                                           placeholder="Enter title" required="true" value="${event.title}" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true" value="${event.location}">
+                                           placeholder="Enter Location" required="true" value="${event.location}" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-type">EVENT TYPE</label>
                                     <select class="form-control" id="ev-type" name="eventType" required="true">
 
                                         <c:forEach items="${eventTypes}" var="et">
-                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>>${et.view()}</option>
+                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>${et.view()}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -115,14 +127,13 @@
                                                    value="${event.end.toString().replace("T"," ").replace("-","/")}">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6" style="top: 13px">
-                                        <div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">
-                                            <div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">
-                                                <input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}"><span class="endava_red_text">&nbsp;All day</span>
-                                            </label></div>
-                                        </div >
-                                    </div>
-
+                                    <%--<div class="col-sm-6" style="top: 13px">--%>
+                                        <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">--%>
+                                            <%--<div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
+                                                <%--<input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}"><span class="endava_red_text">&nbsp;All day</span>--%>
+                                            <%--</label></div>--%>
+                                        <%--</div >--%>
+                                    <%--</div>--%>
                                 </div>
 
 
@@ -136,7 +147,7 @@
                                         <label for="ev-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3"
                                                   id="ev-description" required="true"
-                                                  value="${event.description}">${event.description} </textarea>
+                                                  value="${event.description}" maxlength="300">${event.description} </textarea>
                                     </div>
                                 </div>
 
@@ -199,6 +210,10 @@
                                         </label>
                                     </c:if>
                                 </c:forEach>
+                                <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                    <input type="checkbox" name="checkboxTags"
+                                           hidden value="hidden" checked/>
+                                </label>
                                 <label class="checkbox-inline" style="color:${tag.tag.color()}">
                                     <input type="checkbox" name="checkboxTags"
                                            hidden value="hidden" checked/>

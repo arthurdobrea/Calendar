@@ -769,3 +769,17 @@ button:focus {
     margin: auto;
 }
 
+body {
+    max-width: 1400px;
+    margin: auto;
+    padding-top: 40px;
+    background-color: #f7f8f9;
+}
+
+.table_show_event td {
+    padding-right: 5px;
+}
+
+#events_invited {
+    background: transparent;
+}

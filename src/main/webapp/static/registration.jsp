@@ -24,6 +24,26 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+
+    <script language="javascript">
+        function Checkfiles()
+        {
+            var fup = document.getElementById('register-fields');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "doc")
+            {
+                return true;
+            }
+            else
+            {
+                alert("Upload Gif or Jpg images only");
+                fup.focus();
+                return false;
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div class="container">
@@ -181,7 +201,7 @@
                     <spring:bind path="multipartFile">
                         <div class="form-group ${status.error ? 'has-error' : ''}" style="outline:0;">
                             <form:input id="register-fields" type="file" path="multipartFile" class="form-control"
-                                        autofocus="true" required="true" />
+                                        autofocus="true" />
                             <form:errors path="multipartFile"/>
                         </div>
                     </spring:bind>
@@ -189,11 +209,20 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" onmouseover="avatarka()" type="submit">Register</button>
                 </td>
             </tr>
         </table>
     </form:form>
 </div>
+
+<script>
+    function avatarka() {
+        if($('#register-fields').isEmpty()) {
+            alert("Choose avatar!!!");
+        }
+    }
+</script>
+
 </body>
 </html>

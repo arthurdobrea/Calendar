@@ -3,28 +3,30 @@ package com.calendar.project.service.impl;
 import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
-import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
-import com.calendar.project.model.dto.UserDTO;
-import com.calendar.project.model.dto.UserResource;
-import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserDTO;
+import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -298,4 +300,26 @@ public class UserServiceImpl implements UserService {
             if (u.getId()== user.getId()) return true;
         return false;
     }
+
+//    @Override
+//    public void setDefaultImage(UserResource userForm){
+//        File file = new File("C:\\Users\\smorari\\IdeaProjects\\Calendar\\src\\main\\webapp\\resources\\images\\Octocat.png");
+//        FileItem fileItem = null;
+//        try {
+//            fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            InputStream input = new FileInputStream(file);
+//            OutputStream os = fileItem.getOutputStream();
+//            IOUtils.copy(input, os);
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+//
+//        userForm.setMultipartFile(multipartFile);}
 }

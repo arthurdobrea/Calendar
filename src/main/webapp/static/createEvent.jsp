@@ -56,6 +56,17 @@
             });
         });
     </script>
+    <script>
+        $('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });$('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });
+    </script>
 </head>
 
 <body>
@@ -76,12 +87,12 @@
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true">
+                                           placeholder="Enter title" required="true" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true">
+                                           placeholder="Enter Location" required="true" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
@@ -97,7 +108,7 @@
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker1"> START DATE</label>
                                             <input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"
-                                                   placeholder="Choose date... " required READONLY >
+                                                   placeholder="Choose date... " required>
                                         </div>
                                     </div>
 
@@ -105,19 +116,19 @@
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker2">END DATE</label>
                                             <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required READONLY style="background-color: #FFFFFF">
+                                                   placeholder="Choose date... " required style="background-color: #FFFFFF">
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6" style="top: 13px">
-                                        <div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">
-                                            <div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">
-                                                <input type="checkbox" id="all-day" onclick="if(this.checked) {
-                                                    allDayChecked();} else {allDayUnchecked();}">
-                                                <span class="endava_red_text">&nbsp;All day</span>
-                                            </label></div>
-                                        </div >
-                                    </div>
+                                    <%--<div class="col-sm-6" style="top: 13px">--%>
+                                        <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">--%>
+                                            <%--<div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
+                                                <%--<input type="checkbox" id="all-day"--%>
+                                                       <%--onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">--%>
+                                                <%--<span class="endava_red_text">&nbsp;All day</span>--%>
+                                            <%--</label></div>--%>
+                                        <%--</div >--%>
+                                    <%--</div>--%>
                                 </div>
                             </div>
 
@@ -126,7 +137,7 @@
                                     <div class="form-group textarea-group">
                                         <label for="ev-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3"
-                                                  id="ev-description" required="true"></textarea>
+                                                  id="ev-description" required="true" maxlength="300"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="top: 10px;">
@@ -135,12 +146,8 @@
 
                                             <input type="text" id="w-input-search" value=""
                                                    class="event_form_enter_name_field" placeholder="Enter name...">
-                                            <%--<span class="input-group-btn" style="text-align: right">--%>
-                                                    <%--<button class="btn btn-secondary" type="button"--%>
-                                                            <%--id="span-btn-search">&#128269</button>--%>
-                                                <%--</span>--%>
-
                                         </div>
+
                                         <label for="t-participants">PARTICIPANTS</label>
                                         <textarea class="form-control" name="participants" id="t-participants"
                                                   rows="3"></textarea>
@@ -174,12 +181,16 @@
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>
                                     </c:forEach>
+                                    <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <input type="checkbox" name="checkboxTags"
+                                               hidden value="hidden" checked/>
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center; bottom: 10px;">
-                                <input type="submit" class="btn_login_submit" value="ADD">
+                                <input type="submit" class="btn_login_submit" value="SUBMIT">
                             </div>
                         </div>
                     </div>
