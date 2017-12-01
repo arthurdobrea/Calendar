@@ -67,12 +67,12 @@
 <div class="modal fade" id="EditEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
         <div class="modal-content" style="border-radius: 0;">
-            <div class="modal-header">
+            <div class="modal-header" style="margin-left: 15px; margin-right: 15px">
                 <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">EDIT EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
-            <div class="modal-body" style="padding-left: 50px; padding-right: 50px">
+            <div class="modal-body" style="padding-left: 30px; padding-right: 30px">
                 <form action="${contextPath}/editEvent" method="POST">
                     <div class="event-form">
 
