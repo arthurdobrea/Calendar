@@ -33,10 +33,6 @@ public class EventServiceImpl implements EventService {
 
     private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
 
-    @Override
-    public List<Event> getEventsByUser(long userId) {
-        return eventDao.getEventsByUser(userId);
-    }
 
     @Override
     public List<Event> getEventsByAuthor(long authorId){
@@ -44,9 +40,51 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getAllEvents() {
+        return eventDao.getAllEvents();
+    }
+
+    @Override
     public Event getEvent (int id){
             return eventDao.getEvent(id);
         }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void saveEvent(Event event){
+        eventDao.saveEvent(event);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteEvent(Event eventToDelete) {
+        Event event = eventDao.getEvent(eventToDelete.getId());
+        eventDao.deleteEvent(event);
+    }
+
+    @Override
+    @Transactional
+    public void updateEvent(Event editedEvent){
+        Event event = eventDao.getEvent(editedEvent.getId());
+        event.setTitle(editedEvent.getTitle());
+        event.setEventType(editedEvent.getEventType());
+        event.setParticipants(editedEvent.getParticipants());
+        event.setDescription(editedEvent.getDescription());
+        event.setLocation(editedEvent.getLocation());
+        event.setStart(editedEvent.getStart());
+        event.setEnd(editedEvent.getEnd());
+        eventDao.updateEvent(event);
+    }
+
+    @Override
+    public List<Event> getEventsByUser(long userId) {
+        return eventDao.getEventsByUser(userId);
+    }
+
+    @Override
+    public List<User> getParticipantsByEvent(int eventId){
+        return eventDao.getParticipantsByEvent(eventId);
+    }
 
     @Override
     public List<EventType> getEventTypeList(){
@@ -86,41 +124,6 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventsByKeyword(String keyword) {
         return eventDao.getEventsByKeyword(keyword);
     }
-
-    @Override
-    public List<Event> getAllEvents() {
-        return eventDao.getAllEvents();
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public void saveEvent(Event event){
-        eventDao.saveEvent(event);
-    }
-
-    @Override
-    @Transactional
-    public void updateEvent(Event editedEvent){
-        Event event = eventDao.getEvent(editedEvent.getId());
-        event.setTitle(editedEvent.getTitle());
-        event.setEventType(editedEvent.getEventType());
-        event.setParticipants(editedEvent.getParticipants());
-        event.setDescription(editedEvent.getDescription());
-        event.setLocation(editedEvent.getLocation());
-        event.setStart(editedEvent.getStart());
-        event.setEnd(editedEvent.getEnd());
-        eventDao.updateEvent(event);
-    }
-
-    @Override
-    public List<User> getParticipantsByEvent(int eventId){
-        return eventDao.getParticipantsByEvent(eventId);
-    }
-    @Override
-    @Transactional(readOnly = false)
-    public void deleteEvent(Event eventToDelete) {
-        Event event = eventDao.getEvent(eventToDelete.getId());
-        eventDao.deleteEvent(event);}
 
     @Override
     public List<Event> getEventsByDate(String date) {
@@ -201,6 +204,7 @@ public class EventServiceImpl implements EventService {
         event.setDescription(eventResource.getDescription());
         return event;
     }
+
 
     @Override
     public String getEventJson(Event event) throws IOException {

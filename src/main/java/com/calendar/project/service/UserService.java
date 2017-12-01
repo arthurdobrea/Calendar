@@ -2,6 +2,7 @@ package com.calendar.project.service;
 
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,4 +52,6 @@ public interface UserService {
     List<User> findLikeFullName(String fullname);
 
     boolean isUserParticipant(Event event, User user);
+
+    UserDTO updateUserForDTO(UserDTO firstUser, UserDTO secondUser);
 }

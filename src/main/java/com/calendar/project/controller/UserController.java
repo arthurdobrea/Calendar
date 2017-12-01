@@ -4,21 +4,21 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
+import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
-import com.calendar.project.model.enums.EventType;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
-import com.calendar.project.service.RoleService;
 import com.calendar.project.service.RoleService;
 import com.calendar.project.service.SecurityService;
 import com.calendar.project.service.TagService;
 import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
-import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,25 +26,18 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
 @Controller
 public class UserController {
@@ -268,8 +261,8 @@ public class UserController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
-        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
-        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+        List<Notification> checkedNotifications = notificationService.getCheckedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUncheckedEvents(securityService.findLoggedInUsername());
 
         model.addAttribute("checkedNotifications", checkedNotifications);
         model.addAttribute("uncheckedNotifications", uncheckedNotifications);
@@ -285,8 +278,8 @@ public class UserController {
 
         Event event = new Event();
         List<User> participants = userService.getAllUsers().stream().collect(Collectors.toList());
-        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
-        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+        List<Notification> checkedNotifications = notificationService.getCheckedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUncheckedEvents(securityService.findLoggedInUsername());
 
         model.addAttribute("checkedNotifications", checkedNotifications);
         model.addAttribute("uncheckedNotifications", uncheckedNotifications);
@@ -325,20 +318,13 @@ public class UserController {
         return "redirect:/index";
     }
 
-
-//    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
-//    public String createEvent(Model model) {
-//    LOGGER.info("Request of \"/index\" page POST");
-//    return "redirect:/index";
-//}
-
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model, HttpServletRequest request) {
         LOGGER.info("Request of \"/admin\" page GET");
 
         List<User> users = userService.findAllUsers();
-        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
-        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+        List<Notification> checkedNotifications = notificationService.getCheckedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUncheckedEvents(securityService.findLoggedInUsername());
 
         model.addAttribute("checkedNotifications", checkedNotifications);
         model.addAttribute("uncheckedNotifications", uncheckedNotifications);
@@ -356,7 +342,6 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
-//        editFormValidator.validate(user, bindingResult);
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
         }
@@ -365,11 +350,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
-    public String userControlPanel(Model model, @ModelAttribute("userForm") User userForm) {
+    public String userControlPanel(Model model, @ModelAttribute("userForm") UserResource userForm) {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userForm = userService.findByUsername(auth.getName());
-
+        userForm = Converter.convert(userService.findByUsername(auth.getName()));
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -382,15 +366,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
-    public String userControlPanel(@ModelAttribute("userForm") User userForm, Model model) {
+    public String userControlPanel(@ModelAttribute("userForm") UserResource userForm, Model model) {
         LOGGER.info("Request of \"/userControlPanel\" page POST");
-        User user = userService.findByUsername(userForm.getUsername());
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setPosition(userForm.getPosition());
-        user.setEmail(userForm.getEmail());
-
-        userService.update(user);
+        try {
+            User user = userService.findByUsername(userForm.getUsername());
+            user.setFirstname(userForm.getFirstname());
+            user.setLastname(userForm.getLastname());
+            user.setPosition(userForm.getPosition());
+            user.setEmail(userForm.getEmail());
+            user.setImage(userForm.getMultipartFile().getBytes());
+            userService.update(user);
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }
         LOGGER.info("Redirect to \"/userPage\" page");
         return "redirect:/userPage";
     }
@@ -401,8 +390,8 @@ public class UserController {
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
-        List<Notification> checkedNotifications = notificationService.getChekedEvents(securityService.findLoggedInUsername());
-        List<Notification> uncheckedNotifications = notificationService.getUnchekedEvents(securityService.findLoggedInUsername());
+        List<Notification> checkedNotifications = notificationService.getCheckedEvents(securityService.findLoggedInUsername());
+        List<Notification> uncheckedNotifications = notificationService.getUncheckedEvents(securityService.findLoggedInUsername());
 
         model.addAttribute("checkedNotifications", checkedNotifications);
         model.addAttribute("uncheckedNotifications", uncheckedNotifications);
@@ -484,7 +473,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    // is mailing all events to all users when labels are equals to event types.
     @RequestMapping(value = "/mailing", method = RequestMethod.GET)
     public String mailing() {
         LOGGER.info("Request of \"/mailing\" page GET");
@@ -539,5 +527,9 @@ public class UserController {
         LOGGER.info("Return response for \"/autocomplete\" " +userFullName);
         System.out.println("result=="+result);
         return result;
+    }
+    @RequestMapping(value = "/wrongSide", method = RequestMethod.GET)
+    public String wrongSide(Model model){
+        return"wrongSide";
     }
 }

@@ -2,13 +2,18 @@ package com.calendar.project.service;
 
 import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
+import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
 import org.apache.commons.codec.binary.Base64;
 
+import javax.persistence.*;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 public class Converter {
 
@@ -44,6 +49,7 @@ public class Converter {
 
     public static UserResource convert(User user){
         UserResource userResource = new UserResource();
+        userResource.setId(user.getId());
         userResource.setUsername(user.getUsername());
         userResource.setFirstname(user.getFirstname());
         userResource.setLastname(user.getLastname());
@@ -68,5 +74,19 @@ public class Converter {
         user.setEmail(userDTO.getEmail());
         user.setConfirmPassword(userDTO.getConfirmPassword());
         return user;
+    }
+
+    public static UserDTO convertToDTO(User user){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setFirstname(user.getFirstname());
+        userDTO.setLastname(user.getLastname());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setPosition(user.getPosition());
+        userDTO.setImage(Base64.encodeBase64String(user.getImage()));
+        userDTO.setEmail(user.getEmail());
+        userDTO.setConfirmPassword(user.getConfirmPassword());
+        return userDTO;
     }
 }

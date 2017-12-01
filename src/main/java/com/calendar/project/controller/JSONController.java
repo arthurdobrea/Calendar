@@ -1,5 +1,6 @@
 package com.calendar.project.controller;
 
+import com.calendar.project.service.MobilePushNotificationsService;
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
@@ -32,7 +33,8 @@ public class JSONController {
     @Autowired
     NotificationService notificationService;
 
-
+    @Autowired
+    MobilePushNotificationsService mobilePushNotificationsService;
 //    @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
 //    public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
 //        Event event;
@@ -89,6 +91,13 @@ public class JSONController {
         List<Event> events = eventService.searchEvents(type, tag, authorId, participantId);
         String eventString = eventService.getEventsJson(events);
         return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getParticipantsByEvent", params = {"id"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getParticipants(@PathVariable @RequestParam("id") int id) throws IOException {
+        List<User> users = eventService.getParticipantsByEvent(id);
+        String usersString = userService.getUsersJson(users);
+        return new ResponseEntity<>(usersString, HttpStatus.OK);
     }
 
 }

@@ -167,14 +167,18 @@ public class MyRestController {
 
     @RequestMapping(value = "/editUser", params = "username", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody ResponseEntity editUser(@PathVariable @RequestParam("username") String username, @RequestBody User user) {
+    public @ResponseBody ResponseEntity editUser(@PathVariable @RequestParam("username") String username, @RequestBody UserDTO userDTO) {
         User firstUser = userService.findByUsername(username);
-        User userFinal = userService.updateUserForRest(firstUser, user);
+        UserDTO userDTOtoUpdate = Converter.convertToDTO(firstUser);
+        UserDTO userFinal = userService.updateUserForDTO(userDTOtoUpdate, userDTO);
         User user1 = securityService.findLoggedInUsername();
         if ((!user1.getId().equals(userFinal.getId()))&&
                 (!user1.getId().equals(userService.findByUsername("admin").getId())))
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
-        userService.update(userFinal);
+        User userToSend = Converter.convert(userFinal);
+        userToSend.setRoles(userService.findByUsername(username).getRoles());
+        userToSend.setId((userService.findByUsername(username).getId()));
+        userService.update(userToSend);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

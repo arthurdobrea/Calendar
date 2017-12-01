@@ -1,7 +1,6 @@
 package com.calendar.project.model;
 
 import javax.persistence.*;
-
 @Entity
 @Table(name = "notifications")
 public class Notification {

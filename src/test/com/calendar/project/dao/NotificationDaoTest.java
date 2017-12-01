@@ -20,8 +20,6 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by mhristiniuc on 11/29/2017.
  */
@@ -44,12 +42,12 @@ public class NotificationDaoTest {
     @Before
     public void setUp() {
         notification = new Notification();
-//        notification.setId(1L);
+        //notification.setId(1L);
         user = new User();
         user.setId(1L);
         notification.setUser(user);
         event = new Event();
-        event.setId(1);
+        event.setId(5);
         notification.setEvent(event);
         notification.setViewed(true);
 
@@ -58,8 +56,8 @@ public class NotificationDaoTest {
     @Test
     public void testSave() throws Exception {
         notificationDao.save(notification);
-        Notification notificationFromDb = notificationDao.getNotification(user,event);
-        Assert.assertEquals(notification, notificationFromDb);
+        //TODO: Add an assert
+
     }
 
     @Test
@@ -76,28 +74,24 @@ public class NotificationDaoTest {
         Assert.assertNotNull(notifsFromDb);
     }
 
-    @Test
-    public void testGetNotification() throws Exception {
-        Assert.assertEquals(notification, notificationDao.getNotification(user, event));
-    }
 
     @Test
     public void testGetCheckedEvents() throws Exception {
-
+        List<Notification> notifications = notificationDao.getCheckedEvents(user);
+        Assert.assertNotNull(notifications);
     }
 
     @Test
     public void testGetUnchekedEvents() throws Exception {
-
+        List<Notification> notifications = notificationDao.getUncheckedEvents(user);
+        Assert.assertNotNull(notifications);
     }
 
     @Test
     public void testChangeState() throws Exception {
-
+        notificationDao.changeState(notification);
+        Assert.assertNotNull(notification);
     }
 
-    @Test
-    public void testDelete() throws Exception {
 
-    }
 }

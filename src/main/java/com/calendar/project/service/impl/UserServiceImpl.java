@@ -5,6 +5,7 @@ import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.mail.EmailSender;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Role;
@@ -185,6 +186,16 @@ public class UserServiceImpl implements UserService {
         firstUser.setLastname(secondUser.getLastname());
         firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
         firstUser.setEmail(secondUser.getEmail());
+        return firstUser;
+    }
+
+    @Override
+    public UserDTO updateUserForDTO(UserDTO firstUser, UserDTO secondUser){
+        firstUser.setFirstname(secondUser.getFirstname());
+        firstUser.setLastname(secondUser.getLastname());
+        firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
+        firstUser.setEmail(secondUser.getEmail());
+        firstUser.setImage(secondUser.getImage());
         return firstUser;
     }
 

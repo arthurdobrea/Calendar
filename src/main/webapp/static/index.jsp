@@ -102,7 +102,7 @@
                         eventLimit: 3,
                     }
                 },
-                height:600,
+                height:500,
                 fixedWeekCount:false,
 //                  themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
@@ -185,7 +185,7 @@
                         eventLimit: 3,
                     }
                 },
-                height:600,
+                height:500,
                 fixedWeekCount:false,
 //                themeSystem: 'bootstrap3',
                 timeFormat: 'h:mma',
@@ -220,7 +220,7 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow", style="padding-top:30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px">
+<div class="panel panel-default box_style_shadow", style="padding: 20px;">
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">
@@ -259,13 +259,13 @@
 </div>
 
 
-<div id="container" class="panel panel-default box_style_shadow1" style="padding-top: 30px; padding-left: 30px; padding-right: 30px; padding-bottom: 30px; margin-bottom: 20px">
+<div id="container" class="panel panel-default box_style_shadow1" style="padding: 20px;margin-bottom: 20px">
 
     <div id="calendar"></div>
 
 </div>
 
-<div class="panel panel-default box_style_shadow", style="padding-top:0px; padding-left: 30px; padding-right: 30px; padding-bottom: 0px; margin-bottom: 30px">
+<div class="panel panel-default box_style_shadow", style="padding: 0 20px">
     <div class="legend-dot"><span id="meeting-color"></span> Meeting</div>
     <div class="legend-dot"><span id="training-color"></span> Training</div>
     <div class="legend-dot"><span id="stand-up-color"></span> Stand Up</div>
