@@ -310,8 +310,8 @@ input:checked + .slider:before {
 
 .btn_delete_event_cancel:hover {
     border: 0;
-    background-color: #DE411B;
-    color: #939fa5;
+    background-color: #7a210c;
+    color: #ffffff;
 }
 
 .btn_delete_event_submit {
@@ -329,7 +329,8 @@ input:checked + .slider:before {
 }
 
 .btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
-    color: #48545B;
+    background-color: #7a210c;
+    color: #ffffff;
 }
 
 .for_delete_event {

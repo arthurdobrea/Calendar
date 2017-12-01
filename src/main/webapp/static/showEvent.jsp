@@ -130,10 +130,10 @@
                                 <input hidden name="id" value="${event.id}">
                                 <%--<c:set var="isParticipant" value="0"/>--%>
                                 <c:if test="${isParticipant}">
-                                    <input type="submit" id="sendButton" value="UNSUBSCRIBE">
+                                    <input type="submit" class="btn_login_submit" value="UNSUBSCRIBE">
                                 </c:if>
                                 <c:if test="${!isParticipant}">
-                                    <input type="submit" id="sendButton" value="SUBSCRIBE">
+                                    <input type="submit" class="btn_login_submit" value="SUBSCRIBE">
                                 </c:if>
                             </div>
                         </div>

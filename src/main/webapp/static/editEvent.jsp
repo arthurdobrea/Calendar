@@ -225,7 +225,7 @@
                     <div class="row">
                         <div class="col-sm-12" style="text-align: center">
                             <input type="text" name="event-id" id="ev-id" value="${event.id}" hidden>
-                            <input type="submit" id="sendButton" value="Edit">
+                            <input type="submit" class="btn_login_submit" value="SAVE">
                         </div>
                     </div>
                 </form>
