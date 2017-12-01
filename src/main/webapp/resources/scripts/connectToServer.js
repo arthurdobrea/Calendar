@@ -21,7 +21,7 @@ function showServerBroadcast(servermessage, localMessage) {
     var decoded = $("<div/>").html(servermessage).text();
 
     tmp = "<span></span>";
-    document.getElementById("bell").src = "resources/icons/ic_notifications_active.png";
+    document.getElementById("bell_button").style.backgroundImage = "url('resources/icons/ic_notifications_active.png')";
 
     var serverResponse = document.getElementById("notification");
     var row = document.createElement("tr");
@@ -62,7 +62,7 @@ function showServerBroadcastModel(servermessage, localMessage) {
     var decoded = $("<div/>").html(servermessage).text();
 
     tmp = "<span></span>";
-    document.getElementById("bell").src = "resources/icons/ic_notifications_active.png";
+    document.getElementById("bell_button").style.backgroundImage = "url('resources/icons/ic_notifications_active.png')";
 
     var serverResponseModal = document.getElementById("modal_table");
     var row = document.createElement("tr");
