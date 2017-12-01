@@ -1,19 +1,14 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.config.MobilePushNotificationsService;
-import com.calendar.project.exception.FirebaseException;
-import com.calendar.project.exception.JacksonUtilityException;
+import com.calendar.project.service.MobilePushNotificationsService;
 import com.calendar.project.model.*;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import com.calendar.project.service.impl.Firebase;
-import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import com.calendar.project.model.User;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/json")
