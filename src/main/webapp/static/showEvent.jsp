@@ -51,37 +51,37 @@
                                     <tbody>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Title:</strong></td>
+                                            <td><strong>Title: </strong></td>
                                             <td><span style="color: #d2322d">${event.title}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Location:</strong></td>
+                                            <td><strong>Location: </strong></td>
                                             <td>${event.location}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Type:</strong></td>
+                                            <td><strong>Type: </strong></td>
                                             <td>${event.eventType}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Start:</strong></td>
+                                            <td><strong>Start: </strong></td>
                                             <td>${start}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>End:</strong>&nbsp;</td>
+                                            <td><strong>End: </strong>&nbsp;</td>
                                             <td>${end}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong>Author:</strong></td>
+                                            <td><strong>Author: </strong></td>
                                             <td>${event.author.fullName}</td>
                                         </div>
                                     </tr>
