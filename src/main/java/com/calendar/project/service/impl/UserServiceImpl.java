@@ -298,4 +298,22 @@ public class UserServiceImpl implements UserService {
             if (u.getId()== user.getId()) return true;
         return false;
     }
+
+    @Override
+    public List<Long> parseStringToIntList(String participants){
+        participants = participants.replace("[", "").replace("]", "");
+        String[] split = participants.split(",");
+        List<String> list = Arrays.asList(split);
+        List<Long> intList = new ArrayList<>();
+        for(String symbol : list) intList.add(Long.valueOf(symbol));
+        return intList;}
+
+//     public List<User> parseIntegerListToUserList(List<Long> intList){
+//         List <User> participantList = new ArrayList<>();
+//        for(Long l: intList){
+//            participantList.add(findById(l));
+//        }
+//       return null;
+//     }
+
 }

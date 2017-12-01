@@ -1,11 +1,11 @@
 package com.calendar.project.controller;
 
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
 import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.dto.UserDTO;
-import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.calendar.project.service.UserService;
@@ -51,6 +53,9 @@ public class MyRestController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    MobilePushNotificationsService mobilePushNotificationsService;
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllUsers() throws IOException {
@@ -93,8 +98,21 @@ public class MyRestController {
     public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
 
         Event event = Converter.convert(eventResource);
+    //    List<Notification> notifications = new ArrayList<>();
         event.setAuthor(securityService.findLoggedInUsername());
         eventService.saveEvent(event);
+//        for (User u : event.getParticipants()) {
+//            final Notification notification = new Notification(u, event);
+//            notifications.add(notification);
+//            try{
+//                String notificationString = notificationService.getNotificationInJson(notification);
+//                HttpEntity<String> request = new HttpEntity<>(notificationString);
+//                mobilePushNotificationsService.send(request,u.getId() + ".json");
+//            }catch(IOException e){
+//                e.printStackTrace();
+//            }
+//        }
+
     }
     @RequestMapping(value = "/updateEvent", params = "id", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
