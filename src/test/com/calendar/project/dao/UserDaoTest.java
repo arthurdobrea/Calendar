@@ -44,16 +44,17 @@ public class UserDaoTest {
         events.add(event);
         user = new User("UserTest12");
         Role role = new Role("ROLE_USER");
-        role.setId(10L);
+        role.setId(1L);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setPassword("$2a$11$TDrIdfhId/ON7V0han8Fa.tS7eBdJ6LooYNQPnBU8CM3Jgcf7q2UG");
-        user.setFirstname("Qawsed");
+        user.setFirstname("Petru");
         user.setLastname("Qawsed");
         user.setEmail("adamaa14@gmail.com");
         user.setRoles(roles);
         user.setEvents(events);
         user.setEventsOfAuthor(null);
+        user.setPosition("am engineer");
         user.setSubscriptionByEventType("DEVELOPMENT");
         user.setSubscriptionByTagType("NBC");
         entityManager.persist(user);
@@ -77,10 +78,18 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testGetUsersBySubscriptionByEventType() throws Exception {
+    public void testGetUsersBySubscriptionByEventTypeReturnsNotNull() throws Exception {
         List<User> users = userDao.getUsersBySubscriptionByEventType(user.getSubscriptionByEventType());
         Assert.assertNotNull(users);
     }
+
+    @Test
+    public void testGetUsersBySubscriptionByEventTypeReturns() throws Exception {
+        List<User> users = userDao.getUsersBySubscriptionByEventType(user.getSubscriptionByEventType());
+        Assert.assertNotNull(users);
+    }
+
+
 
     @Test
     public void testGetUsersBySubscriptionByTagType() throws Exception {

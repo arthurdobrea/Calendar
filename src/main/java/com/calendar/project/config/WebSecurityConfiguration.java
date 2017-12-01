@@ -83,7 +83,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/json/allEvents").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
                 .antMatchers("/json/users").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
                 .antMatchers("/json/getUserByUsername").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-                .antMatchers("/oauth/token").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+//                .antMatchers("/oauth/token").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
                 .and().httpBasic()
                 .and()
                 .formLogin()
