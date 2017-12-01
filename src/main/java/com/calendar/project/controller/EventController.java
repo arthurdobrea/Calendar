@@ -177,7 +177,7 @@ public class EventController {
         notificationService.sendToAllParticipants(participants, event);
 
         LOGGER.info("Redirect to \"/showEvent\" page");
-        return "redirect:/showEvent";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)

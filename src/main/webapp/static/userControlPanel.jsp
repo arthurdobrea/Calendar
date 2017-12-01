@@ -72,12 +72,12 @@
 
                     <spring:bind path="multipartFile">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="file" path="multipartFile" class="form-control"
+                            <form:input type="file" id="change_avatar" path="multipartFile"
                                         autofocus="true"/>
                             <form:errors path="multipartFile"/>
                         </div>
                     </spring:bind>
-                    <button class="btn_edit_user_submit" type="submit">EDIT</button>
+                    <button class="btn_edit_user_submit" type="submit">SAVE</button>
                 </div>
                 </form:form>
         </div>

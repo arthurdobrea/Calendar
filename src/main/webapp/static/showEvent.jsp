@@ -116,10 +116,7 @@
                                                              ${user.getImageBase64()}" alt="Your avatar"
                                                                              style="width: 40px; height: 40px; border-radius: 50%"/>
                                                         </td>
-                                                        <td style="padding-left: 2px; font-size: 14px"> ${user.fullName}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-left: 2px; font-size: 10px"> ${user.position}</td>
+                                                        <td style="padding-left: 2px; font-size: 14px">&nbsp;&nbsp;${user.fullName}</td>
                                                     </tr>
                                                 </table>
                                             </div>

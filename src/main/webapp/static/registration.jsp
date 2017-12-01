@@ -179,7 +179,7 @@
             <tr>
                 <td colspan="4">
                     <spring:bind path="multipartFile">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <div class="form-group ${status.error ? 'has-error' : ''}" style="outline:0;">
                             <form:input id="register-fields" type="file" path="multipartFile" class="form-control"
                                         autofocus="true" required="true" />
                             <form:errors path="multipartFile"/>

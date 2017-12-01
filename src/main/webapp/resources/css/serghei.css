@@ -191,6 +191,15 @@ input:checked + .slider:before {
     padding: 30px 70px 40px;
 }
 
+/*css for editing user modal view*/
+.delete_event_modal {
+    max-width: 500px;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 0;
+    padding: 30px 70px 40px;
+}
+
 .edit_profile_header, .delete_event_header, .login_header, create_event_header {
     margin: 0;
     padding: 0;
@@ -230,8 +239,9 @@ input:checked + .slider:before {
     background-image: url(/resources/icons/ic_close.png);
     background-color: transparent;
     background-repeat: no-repeat;
-    margin-right: 20px;
+    margin-right: 0;
     margin-top: -2px;
+    padding-right: 0;
 }
 
 
@@ -240,7 +250,7 @@ input:checked + .slider:before {
     padding-top: 10px;
 }
 
-#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input  {
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input, #change_avatar  {
     color: #48545B;
     font-size: 15px;
     text-underline: none;
@@ -254,7 +264,7 @@ input:checked + .slider:before {
     border-bottom: 2px solid #ccc;
 }
 
-#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #username_input:focus {
+#user_username, #user_firstname, #user_lastname, #user_position, #user_email, #password_input, #change_avatar, #username_input:focus {
     outline: 0;
 }
 
@@ -319,12 +329,12 @@ input:checked + .slider:before {
 }
 
 .btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
-    color: white;
+    color: #48545B;
 }
 
 .for_delete_event {
     margin: 20px auto;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .cursor_link {
@@ -479,7 +489,7 @@ input:checked + .slider:before {
 }
 
 #user_edit_form {
-    margin: 0;
+    margin: auto;
     padding-top: 10px;
 }
 
@@ -739,3 +749,23 @@ input:checked + .slider:before {
         text-align: center;
     }
 }
+
+button:focus {
+    outline:0;
+}
+
+#user_firstname, #user_lastname, #user_position, #user_email:focus {
+    outline: 0;
+}
+
+/*css for delete event modal*/
+.delete_event_modal {
+    width: 550px;
+    background-color: white;
+    border-radius: 0;
+    height: 250px;
+    padding: 30px;
+    justify-content: space-between;
+    margin: auto;
+}
+
