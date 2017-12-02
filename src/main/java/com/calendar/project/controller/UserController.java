@@ -207,7 +207,7 @@ public class UserController {
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
         LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        return "redirect:/welcome";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
