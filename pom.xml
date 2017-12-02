@@ -6,7 +6,7 @@
 
     <groupId>com.calendar</groupId>
     <artifactId>calendar-project</artifactId>
-    <version>${build.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
         <spring.version>5.0.0.RELEASE</spring.version>
@@ -60,7 +60,7 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://18.220.96.216:5432/calendar_db</url>
+                    <url>jdbc:postgresql://18.217.47.109:5432/calendar_db</url>
                     <user>postgres</user>
                     <password>server..</password>
                 </configuration>
