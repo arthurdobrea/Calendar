@@ -54,16 +54,14 @@
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
-
-    <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300&amp;subset=cyrillic,latin-ext" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/adminStyle.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">
+
     <script src='${contextPath}/resources/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/js/jquery-ui.min.js'></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
@@ -74,7 +72,6 @@
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
-    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 </head>
 <body style="width:1600px;">
 

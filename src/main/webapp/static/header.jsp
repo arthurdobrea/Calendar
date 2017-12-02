@@ -41,9 +41,10 @@
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>
             </div>
+
             <input type="checkbox" class="no-underline image-checkbox" id = "bell_button">
 
-            <div class="notifications-list" style="z-index: 9;">
+            <div class="notifications-list" style="z-index: 9;" onmouseleave="$('#bell_button').prop('checked', false);">
                     <p id="notification-title">Notifications</p>
                     <table id="notification">
                         <%
@@ -72,8 +73,15 @@
                                     <p id="notification_date"><javatime:format value="${notification.event.start}"
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
-                                <td id="notification_message"><a
-                                        href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+
+                                <td align="right">
+                                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
+                                </td>
+
+                                <td id="notification_message"><a href="#" onclick="$('.show_event_modal').
+                                        load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
+                                        getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                        function () {$('#ShowEvent').modal();});" style="cursor: pointer">${notification.event.title}</a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -92,8 +100,15 @@
                                     <p id="notification_date"><javatime:format value="${notification.event.start}"
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
-                                <td id="notification_message"><a
-                                        href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+
+                                <td align="right">
+                                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
+                                </td>
+
+                                <td id="notification_message"><a onclick="$('.show_event_modal').
+                                        load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
+                                        getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                                        function () {$('#ShowEvent').modal();});" style="cursor: pointer">${notification.event.title}</a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -119,8 +134,15 @@
                         <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
                         <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
-                    <td id="modal_message"><a
-                            href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+
+                    <td align="right">
+                        <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
+                    </td>
+
+                    <td id="modal_message"><a onclick="$('.show_event_modal').
+                            load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
+                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                            function () {$('#ShowEvent').modal();});">${notification.event.title}</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -130,8 +152,15 @@
                         <p id="modal_time"><javatime:format value="${notification.event.start}" pattern="HH:mm"/></p>
                         <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
-                    <td id="modal_message"><a
-                            href="${contextPath}/showEvent?eventId=${notification.event.id}">${notification.event.title}</a>
+
+                    <td align="right">
+                        <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
+                    </td>
+
+                    <td id="modal_message"><a onclick="$('.show_event_modal').
+                            load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
+                            getAttribute('value') + ' ' + '#ShowEvent').toString(),
+                            function () {$('#ShowEvent').modal();});">${notification.event.title}</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -183,3 +212,4 @@
 </script>
 
 <div class="add_event_modal"></div>
+<div class="show_event_modal"></div>

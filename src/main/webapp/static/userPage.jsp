@@ -90,9 +90,10 @@
 </head>
 
 <body>
-<c:import url="header.jsp" />
+
 
     <div class="wrap_box_user_page">
+        <c:import url="header.jsp" />
         <div class="user_page_left for_shadow">
             <div class="left_block_header">
                 <span class="endava_grey_text profile_text">PROFILE</span>

@@ -45,7 +45,7 @@
                 },
                 paramName: "userFullName",
                 delimiter: ",",
-                width: "31%",
+                width: "25%",
                 transformResult: function(response) {
                     return {
                         suggestions: $.map($.parseJSON(response), function(item) {
@@ -108,7 +108,7 @@
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker1"> START DATE</label>
                                             <input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"
-                                                   placeholder="Choose date... " required>
+                                                   placeholder="Choose date... " required readonly>
                                         </div>
                                     </div>
 
@@ -116,7 +116,7 @@
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker2">END DATE</label>
                                             <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required style="background-color: #FFFFFF">
+                                                   placeholder="Choose date... " required style="background-color: #FFFFFF" readonly>
                                         </div>
                                     </div>
 
@@ -142,15 +142,14 @@
                                 </div>
                                 <div class="col-sm-6" style="top: 10px;">
                                     <div class="form-group participant-group">
-                                        <div class="input-group" style="bottom: 15px;">
-
+                                        <div align="left" class="input-group" style="bottom: 15px; width: 100%">
                                             <input type="text" id="w-input-search" value=""
-                                                   class="event_form_enter_name_field" placeholder="Enter name...">
+                                                   class="event_form_enter_name_field" placeholder="Enter name..." style="width: inherit">
                                         </div>
 
                                         <label for="t-participants">PARTICIPANTS</label>
                                         <textarea class="form-control" name="participants" id="t-participants"
-                                                  rows="3"></textarea>
+                                                  rows="3" readonly style="background: none"></textarea>
                                     </div>
 
                                     <div class="row">

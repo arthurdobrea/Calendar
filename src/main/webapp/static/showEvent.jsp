@@ -33,7 +33,7 @@
 
 <body>
 <%--show event modal--%>
-<div class="modal fade" id="ShowEvent" role="dialog">
+<div class="modal fade" id="ShowEvent" role="dialog" style="width: 900px; margin: auto; margin-top: 60px">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
         <div class="modal-content" style="border-radius: 0; cursor: context-menu">
             <div class="modal-header" style="padding-left: 25px; padding-right: 25px">
@@ -104,7 +104,7 @@
                         <div class="row" id="bottomblock">
                             <div class="col-sm-12">
                                 <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
-                                        style="color: #d2322d">${event.participants.size()}</span>]</label>
+                                        style="color: #d2322d; font-size: 12px;">${event.participants.size()}</span>]</label>
                                 <div class="form-group participant-group" id="t-show-participants">
                                     <div class="row">
 

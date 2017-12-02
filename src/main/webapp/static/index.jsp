@@ -18,16 +18,16 @@
     <link href='${contextPath}/resources/css/fullcalendar.css' rel='stylesheet' />
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/calendar.custom.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
