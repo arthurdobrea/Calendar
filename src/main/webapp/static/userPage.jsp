@@ -19,12 +19,12 @@
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <%--<link href="${contextPath}/resources/css/style.css" rel="stylesheet">--%>
+    <link href="${contextPath}/resources/css/datepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">--%>
+    <%--<link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
 
@@ -36,7 +36,8 @@
     <script src="${contextPath}/resources/js/userProfile.js"></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src='${contextPath}/resources/js/moment.js'></script>
-
+    <%--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>--%>
+    <script src="${contextPath}/resources/js/datepicker.min.js"></script>
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>

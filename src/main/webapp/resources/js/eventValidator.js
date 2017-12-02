@@ -1,45 +1,22 @@
 $(document).ready(function () {
-    $("#datetimepicker1").datetimepicker({
-        dayOfWeekStart: 1,
-        closeOnDateSelect:false,
-    });
-    $("#datetimepicker2").datetimepicker({
-        dayOfWeekStart: 1,
-        closeOnDateSelect:false,
-    });
+    $("#datetimepicker1").datetimepicker({});
+    $("#datetimepicker2").datetimepicker({});
+
+    // $("#datepicker1").datepicker({});
+    // $("#datepicker2").datepicker({});
 });
 
-// function allDayChecked() {
-//     $("#datetimepicker1").datetimepicker({
-//         timepicker: false,
-//         dayOfWeekStart: 1,
-//         closeOnDateSelect:true,
-//         value: defaultDate,
-//         format: 'Y/m/d',
-//     });
-//     $("#datetimepicker2").datetimepicker({
-//         timepicker: false,
-//         dayOfWeekStart: 1,
-//         closeOnDateSelect:true,
-//         value: defaultDate,
-//         format: 'Y/m/d',
-//     });
-// }
-//
-//
-// function allDayUnchecked() {
-//     $("#datetimepicker1").datetimepicker({
-//         timepicker: true,
-//         dayOfWeekStart: 1,
-//         closeOnDateSelect:true,
-//         value: defaultDate,
-//         format: 'Y/m/d H:i',
-//     });
-//     $("#datetimepicker2").datetimepicker({
-//         timepicker: true,
-//         dayOfWeekStart: 1,
-//         closeOnDateSelect:true,
-//         value: defaultDate,
-//         format: 'Y/m/d H:i',
-//     });
-// }
+function allDayChecked() {
+    $("#timepicker1").prop('disabled', true);
+    $("#timepicker1").prop('placeholder', '--:--');
+    $("#timepicker2").prop('disabled', true);
+    $("#timepicker2").prop('placeholder', '--:--');
+}
+
+
+function allDayUnchecked() {
+    $("#timepicker1").prop('disabled', false);
+    $("#timepicker1").prop('placeholder', 'HH:mm');
+    $("#timepicker2").prop('disabled', false);
+    $("#timepicker2").prop('placeholder', 'HH:mm');
+}
