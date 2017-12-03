@@ -121,7 +121,6 @@
             </div>
 
             <%--Created events--%>
-            <span id="emptyTableText" hidden>Nothing to show</span>
 
             <div id="my_events" align="left" class="scrollable-content">
                 <table class="table table-hover" id="myEventsTable">
