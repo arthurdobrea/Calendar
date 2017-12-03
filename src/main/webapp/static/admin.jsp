@@ -238,7 +238,7 @@
                     // you can add more
                     example: {
                         pattern: /^[A-Z][-a-zA-Z]+$/,
-                        errorMessage: 'Please fill in the field correctly (No spaces or numbers)!'
+                        errorMessage: 'Please fill in the field correctly (English letters only, first letter - capital, no spaces or numbers)!'
                     },
 
                 }
