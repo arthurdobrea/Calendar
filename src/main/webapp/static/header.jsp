@@ -36,7 +36,12 @@
                     src="/resources/icons/ic_arrow_down.png" id="down-arrow" height="24" width="24"></a>
                 <div class="sub-menu">
                     <div class="sub-menu-item"><a href="/userPage">My profile</a></div>
-                    <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
+                    <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
+                        <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
+                    </c:if>
+                    <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
+                        <div class="sub-menu-item"><a href="/admin">Admin panel</a></div>
+                    </c:if>
                     <div class="sub-menu-item"><a onclick="create_event()" data-toggle="modal" data-toggle="#AddEvent">Add event</a></div>
                     <div class="sub-menu-item"><a href="/logout">Logout</a></div>
                 </div>

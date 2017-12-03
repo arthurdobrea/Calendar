@@ -13,4 +13,6 @@ public interface RoleDao {
 
     List<Role> findAll();
 
+
+
 }

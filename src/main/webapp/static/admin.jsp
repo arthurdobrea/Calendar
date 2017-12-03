@@ -22,6 +22,7 @@
     <title>Edit account</title>
 
 
+
     <%--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>--%>
     <%--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--%>
     <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
@@ -74,7 +75,16 @@
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 
-    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <%--<script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>--%>
+
+    <link href="${contextPath}/resources/css/validetta.css" rel="stylesheet" type="text/css" media="screen" >
+    <%--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>--%>
+    <script type="text/javascript" src="${contextPath}/resources/js/validetta.js"></script>
+
+
+
+
+
 </head>
 <body style="width:1600px;">
 
@@ -177,13 +187,32 @@
 </div>
 
 <!-- Modal edit-->
-<div class="modal" id="myModal_edit" role="dialog" style="width: 40%; top: 15%;">
+<div class="modal" id="myModal_edit" role="dialog" style="width: 100%; top: 15%;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 600px; border-radius: 0px; padding-bottom: 37px">
             <div id="modal-content" class="modal_content">
                 <button type="button" id = "close-edit" class="btn_close_modal" data-dismiss="modal"></button>
                 <div  align="left" style="padding-top: 7px; margin-bottom: 5%">EDIT USER </div>
+
+
+                <form id="edit-form" name="form">
+                <div id="div-edit-form" class="form-group"></div>
+                <input type = "hidden" id="idOfUser" data-id="id"  class="form-control class_for_submit111 modal_window_fields_admin" placeholder="ID"/>
+                <input type = "hidden" id="username" data-id="username" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Username"/>
+                <input type = "hidden" id="email" data-id="email" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Email"/>
+                <div>
+                <input type = "text" id="firstname" data-id="firstname" name = "firstname" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="First name"/>
+                </div>
+                <input type = "text" id="lastname" data-id="lastname" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Last name"/>
+                <input type = "text" id="position" data-id="position" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Position"/>
+                <select type="select" id = "roles" data-id="roles" class="modal_window_select_box_admin class_for_submit111">
+                    <option value="ROLE_GUEST">ROLE_GUEST</option>
+                    <option value="ROLE_USER">ROLE_USER</option>
+                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                </select>
+                    <input type="hidden" id="imageOfUser" data-id="imageOfUser">
+                </form>
 
             </div>
         </div>
@@ -194,13 +223,55 @@
 
 <script>
     $(document).ready(function() {
+        $('#edit-form').validetta({
+            validators: {
+                regExp: {
+                    regname: {
+                        pattern: /^hello$/i,
+                        errorMessage: 'Custom Reg Error Message!'
+                    },
+                    // you can add more
+                    example: {
+                        pattern: /^[A-Z][-a-zA-Z]+$/,
+                        errorMessage: 'Please fill in the field correctly (No spaces or numbers)!'
+                    },
 
-        $('#close-edit').on('click', function(){
-            location.reload()
-            $("#myModal_edit").modal('h ide');
+                }
+            },
+            realTime: true,
+            onValid: function(event){
+                event.preventDefault();
+//                console.log('valid');
+                var result = {};
+                        $.each($('.class_for_submit111'), function (index, element) {
+                            result[$(element).attr('data-id')] = element.value;
+                        });
+                        console.log(result);
+                        $.ajax({
+                                type: "POST",
+                                url: "/admin",
+                                data: result
+                            }).done(function () {
+                                $("#myModal_edit,.modal-backdrop").hide();
+                                location.reload();
+
+                            }).fail(function () {
+                                alert('fail');
+                                $("#myModal_edit,.modal-backdrop").hide();
+                                location.reload();
+                            });
+            },
+            onError: function(){
+                console.log('not valid');
+            }
         });
 
-        $(".btn_delete_image").on('click', function() {
+        $('#close-edit').on('click', function () {
+            location.reload();
+            $("#myModal_edit").hide();
+        });
+
+        $(".btn_delete_image").on('click', function () {
             var $modalDeleteButton = $('#modal_delete');
             $modalDeleteButton.attr('href', '/delete-user-' + $(this).attr('id'));
 
@@ -213,138 +284,83 @@
             $.ajax({
                 method: "GET",
                 url: url
-            }).done(function(user){
-                var form = document.createElement('form');
-                form.id = "edit-form";
-
-                var neededFields = ["id", "username", "email", "firstname", "lastname", "position"];
+            }).done(function (user) {
+                var form = document.getElementById('edit-form');
+                var neededFields = ["id", "username", "email", "firstname", "lastname", "position", "image"];
                 var userInfo = {};
-                neededFields.forEach(function(fieldName){
+                neededFields.forEach(function (fieldName) {
                     userInfo[fieldName] = user[0][fieldName];
                 });
 
+
                 var rolesField = ["roles"];
                 var rolesFieldValue = {};
-                rolesField.forEach(function(rolesValue)
-                {
+                rolesField.forEach(function (rolesValue) {
                     rolesFieldValue = user[0][rolesValue];
                 });
-                console.log(rolesFieldValue);
                 var right_text = rolesFieldValue.substring(1, rolesFieldValue.indexOf("]"));
-                console.log(right_text);
+                console.log(rolesFieldValue);
+
                 var btn = document.createElement('input');
-                btn.type="button";
+                btn.type = "button";
                 btn.value = 'EDIT';
                 btn.className = "btn_submit_edit";
                 btn.id = "submit-edit";
 
-                var array = ["ROLE_GUEST","ROLE_USER","ROLE_ADMIN"];
-
-                Array.prototype.swap = function(fromIndex, toIndex){
-                    var temp = this[toIndex];
-                    this[toIndex] = this[fromIndex];
-                    this[fromIndex] = temp;
-                };
-
-                for(var i = 0; i < array.length; i++) {
-                    if (array[i] === right_text) {
-                        console.log('YEP!');
-                        console.log(array[i]);
-                        array.swap(0, i);
-                    }
-                }
-
-                var selectList = document.createElement("select");
-                selectList.id = "roles";
-                selectList.className = 'select_box_of_role class_for_submit111';
-
-                for (var i = 0; i < array.length; i++) {
-                    var option = document.createElement("option");
-                    option.value = array[i];
-                    option.text = array[i];
-                    selectList.appendChild(option);
-                }
-
-                    neededFields.forEach(function(fieldName){
-                    var div = document.createElement('div');
-                    div.className = 'form-group';
-                    var input = document.createElement('input');
+                var selectList = document.getElementById('roles');
+                selectList.className = 'modal_window_select_box_admin class_for_submit111';
+//                console.log(selectList);
+//                for (var i = 0; i < array.length; i++) {
+//                    var option = document.createElement("option");
+//                    option.value = array[i];
+//                    option.text = array[i];
+//                    selectList.appendChild(option);
+//                }
+                /////////////////////////////////////////////////////
+                neededFields.forEach(function (fieldName) {
+                    var input_id = document.getElementById('idOfUser');
+                    var input_username = document.getElementById('username');
+                    var input_email = document.getElementById('email');
+                    var input_firstname = document.getElementById('firstname');
+                    var input_lastname = document.getElementById('lastname');
+                    var input_position = document.getElementById('position');
 
 
-                    if(fieldName === "id"){
-//                        input.readOnly = true;
-                        input.style.display = 'none';
-                    }
-                    else if(fieldName === "email"){
-                        input.readOnly = true;
-                    }
-                    else if(fieldName === "username"){
-                        input.readOnly = true;
-                    }
+                    input_id.className = 'modal_window_fields_admin class_for_submit111';
+                    input_username.className = 'modal_window_fields_admin class_for_submit111';
+                    input_email.className = 'modal_window_fields_admin class_for_submit111';
+                    input_firstname.className = 'modal_window_fields_admin class_for_submit111';
+                    input_lastname.className = 'modal_window_fields_admin class_for_submit111';
+                    input_position.className = 'modal_window_fields_admin class_for_submit111';
 
-                    else{
-                        input.type = 'text';
-                    }
 
-                    input.id = fieldName;
-                    input.className = 'form-control class_for_submit111';
-                    input.placeholder = fieldName;
-                    input.value = userInfo[fieldName];
-                    input.style.float = "none";
-                    input.style.width = "100%";
-                    input.style.height = "34px";
-                    input.style.marginBottom = "4%";
-                    input.style.borderTop = "none";
-                    input.style.borderLeft = "none";
-                    input.style.borderRight = "none";
-                    input.style.borderBottom = "2px solid #E0E0E1";
+                    input_id.value = userInfo["id"];
+                    input_username.value = userInfo["username"];
+                    input_email.value = userInfo["email"];
+                    input_firstname.value = userInfo["firstname"];
+                    input_lastname.value = userInfo["lastname"];
+                    input_position.value = userInfo["position"];
 
-                    div.appendChild((input));
-                    div.appendChild((selectList));
-                    form.appendChild(div);
+
+
                 });
 
 
                 form.appendChild(btn);
                 var modalContext = $('#modal-content');
-                modalContext.append(form);
                 registerSubmitEvent(btn);
-            }).fail(function(err, status, errorText){
+            }).fail(function (err, status, errorText) {
                 console.log("Status: " + status);
                 console.log("Error text: " + errorText);
             });
         });
 
-
-        function registerSubmitEvent(btn){
-            btn.onclick = function() {
-                var result = {};
-                $.each($('.class_for_submit111'), function(index, element){
-                    result[element.id] = element.value;
-                    console.log(element.value);
-                });
-
-                console.log(result);
-
-                $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: "/admin",
-                    data: result
-                }).done(function(){
-
-                    $("#myModal_edit").hide();
-                    location.reload()
-                }).fail(function(){
-                    $("#myModal_edit,.modal-backdrop").hide();
-                    location.reload()
-                });
-
+        function registerSubmitEvent(btn) {
+                    btn.onclick = function () {
+                        $('#edit-form').submit();
+                    };
             }
-        }
-
-    });
-
+        });
 </script>
 
 <script>

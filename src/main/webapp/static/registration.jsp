@@ -24,6 +24,22 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready( function() {
+            $(".file-upload input[type=file]").change(function(){
+                $("#filename").val("Avatar uploaded");
+            });
+        });
+
+        function disableSubmitButton() {
+            $("form").submit(function() {
+                $(this).submit(function() {
+                    return false;
+                });
+                return true;
+            });
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -150,8 +166,7 @@
 
                             <div class="register-hint">
                                 <form:input id="register-fields" type="password" path="confirmPassword"
-                                            class="form-control"
-                                            placeholder="${placeholder}" autofocus="true"/>
+                                            class="form-control" placeholder="${placeholder}" autofocus="true"/>
 
                                 <c:if test="${status.error}">
                                     <span class="hint-body"><form:errors path="confirmPassword"/></span>
@@ -165,8 +180,14 @@
                 <td colspan="4">
                     <spring:bind path="multipartFile">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input id="register-fields" type="file" path="multipartFile" class="form-control"
-                                        autofocus="true"/>
+                            <input type="text" id="filename" class="filename" value="Upload an avatar" disabled>
+                            <div class="file-upload">
+                                <label>
+                                    <form:input type="file" path="multipartFile" class="form-control"
+                                                autofocus="true"/>
+                                    <span>Choose image</span>
+                                </label>
+                            </div>
 
                             <form:errors path="multipartFile"/>
                         </div>
@@ -175,7 +196,7 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit" onclick="disableSubmitButton()">Register</button>
                 </td>
             </tr>
         </table>
