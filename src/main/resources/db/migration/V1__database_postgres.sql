@@ -7,7 +7,8 @@ CREATE TABLE users (
   lastname                   VARCHAR(255),
   firstname                  VARCHAR(255),
   subscription_by_event_type VARCHAR(255),
-  subscription_by_tag_type   VARCHAR(255)
+  subscription_by_tag_type   VARCHAR(255),
+  position                   VARCHAR(255)
 );
 
 -- Roles creating
@@ -89,37 +90,37 @@ VALUES ('admin', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
 
 
 --Users for demo
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('dkuznetski', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'dkuznetski@gmail.com', 'Cuznetchii', 'Dmitrii', 'TRAINING,OTHER', 'TOWER');
+        'dkuznetski@gmail.com', 'Cuznetchii', 'Dmitrii', 'TRAINING,OTHER', 'TOWER', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('vdmitruc', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'vdmitruc@gmail.com', 'Dmitruc', 'Vasile', 'OFFLINE,TRAINING', 'NBC');
+        'vdmitruc@gmail.com', 'Dmitruc', 'Vasile', 'OFFLINE,TRAINING', 'NBC', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('adobrya', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'adobrya@gmail.com', 'Dobrea', 'Artur', 'MEETING', 'DEVELOPMENT');
+        'adobrya@gmail.com', 'Dobrea', 'Artur', 'MEETING', 'DEVELOPMENT', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('mhristiniuc', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'mhristiniuc@gmail.com', 'Hristiniuc', 'Maxim', 'MEETING, TRAINING', 'DEVELOPMENT');
+        'mhristiniuc@gmail.com', 'Hristiniuc', 'Maxim', 'MEETING, TRAINING', 'DEVELOPMENT', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('smorari', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'smorari@gmail.com', 'Morari', 'Serghei', 'MEETING, TRAINING', 'DEVELOPMENT');
+        'smorari@gmail.com', 'Morari', 'Serghei', 'MEETING, TRAINING', 'DEVELOPMENT', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('isirosenco', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'isirosenco@gmail.com', 'Sirosenco', 'Ivan', 'MEETING, TRAINING', 'DEVELOPMENT');
+        'isirosenco@gmail.com', 'Sirosenco', 'Ivan', 'MEETING, TRAINING', 'DEVELOPMENT', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('icebotari', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'icebotari@gmail.com', 'Cebotari', 'Ilia', 'MEETING, TRAINING', 'DEVELOPMENT');
+        'icebotari@gmail.com', 'Cebotari', 'Ilia', 'MEETING, TRAINING', 'DEVELOPMENT', 'AM Java Intern');
 
-INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type)
+INSERT INTO users (username, password, email, lastname, firstname, subscription_by_event_type, subscription_by_tag_type, position)
 VALUES ('eciolacu', '$2a$11$4ZwgE8rsoWXEBWsZcIld/.3lJ4y2PLAmigqFX7O2oyKau9j6aS6IC',
-        'eciolacu@gmail.com', 'Ciolacu', 'Eugen', 'MEETING, TRAINING', 'DEVELOPMENT');
+        'eciolacu@gmail.com', 'Ciolacu', 'Eugen', 'MEETING, TRAINING', 'DEVELOPMENT', 'AM Java Intern');
 
 
 

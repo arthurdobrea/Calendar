@@ -27,7 +27,7 @@
     <script>
         $(document).ready( function() {
             $(".file-upload input[type=file]").change(function(){
-                $("#filename").val("Avatar chosen");
+                $("#filename").val("Avatar uploaded");
             });
         });
 
@@ -180,7 +180,7 @@
                 <td colspan="4">
                     <spring:bind path="multipartFile">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <input type="text" id="filename" class="filename" value="Avatar haven't chosen yet" disabled>
+                            <input type="text" id="filename" class="filename" value="Upload an avatar" disabled>
                             <div class="file-upload">
                                 <label>
                                     <form:input type="file" path="multipartFile" class="form-control"
