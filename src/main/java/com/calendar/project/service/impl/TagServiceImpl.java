@@ -98,7 +98,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> getTagsByEvent(int EventId){
         return tagDao.getTagsByEvent(EventId);
-    };
+    }
 
     @Override
     public Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString){
@@ -112,5 +112,13 @@ public class TagServiceImpl implements TagService {
         return tagList;
     }
 
+    @Override
+    public Set<Tag> parseIntegerListToTagList(List<Long> intList){
+        Set <Tag> tagList = new HashSet<>();
+        for(Long l: intList){
+            tagList.add(getTag(l));
+        }
+        return tagList;
+    }
 
 }

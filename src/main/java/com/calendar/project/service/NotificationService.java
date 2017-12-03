@@ -27,5 +27,5 @@ public interface NotificationService {
 
     void changeState(Notification Notification);
 
-    String getNotificationInJson(Notification notification) throws IOException;
+    String getNotificationInJson(Notification notification, User u) throws IOException;
 }
