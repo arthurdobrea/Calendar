@@ -1,18 +1,17 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.model.Tag;
-import com.calendar.project.model.dto.EventResource;
-import com.calendar.project.model.enums.EventType;
-import com.calendar.project.model.User;
-import com.calendar.project.model.enums.TagType;
-import com.calendar.project.service.EventService;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Tag;
+import com.calendar.project.model.User;
+import com.calendar.project.model.dto.EventResource;
+import com.calendar.project.model.enums.EventType;
+import com.calendar.project.model.enums.TagType;
+import com.calendar.project.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +71,7 @@ public class EventServiceImpl implements EventService {
         event.setLocation(editedEvent.getLocation());
         event.setStart(editedEvent.getStart());
         event.setEnd(editedEvent.getEnd());
+        //event.setAllDay(editedEvent.isAllDay());
         eventDao.updateEvent(event);
     }
 

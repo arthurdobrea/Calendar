@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -19,10 +18,10 @@
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <%--<link href="${contextPath}/resources/css/style.css" rel="stylesheet">--%>
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-    <link href="${contextPath}/resources/css/jquery.timepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
 
@@ -34,11 +33,11 @@
     <script src="${contextPath}/resources/js/userProfile.js"></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src='${contextPath}/resources/js/moment.js'></script>
+
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
-
 
     <script>
         $(document).ready(function() {
@@ -122,8 +121,10 @@
             </div>
 
             <%--Created events--%>
+            <span id="emptyTableText" hidden>Nothing to show</span>
+
             <div id="my_events" align="left" class="scrollable-content">
-                <table class="table table-hover">
+                <table class="table table-hover" id="myEventsTable">
                     <tbody>
                     <c:forEach items="${eventsByAuthor}" var="event">
                             <tr>
@@ -145,7 +146,7 @@
                                     <button class="btn_edit_event" onclick="$('.edit_event_modalka').
                                             load(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).
                                             getAttribute('value') + ' ' + '#EditEvent').toString(),
-                                                    function () {$('#EditEvent').modal();});">
+                                                    function () {$('#EditEvent').modal();});" >
                                     </button>
                                 </td>
 
