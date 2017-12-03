@@ -144,7 +144,12 @@
                 <td style="width: 90px; padding-top: 15px">
 
                     <c:if test="${pageContext.request.isUserInRole('ADMIN')}">
-                    <button type="button" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" id = "${user.username}"></button>
+
+                        <c:set var = "SUPREME_ADMIN_ROLE" value = "${user.roles}"/>
+
+                        <c:if test = "${not fn:contains({user.roles}, 'ROLE_SUPREME_ADMIN')}">
+                            <button type="button" class="btn_edit_image" data-toggle="modal" data-target="#myModal_edit" id = "${user.username}"></button>
+                        </c:if>
                         </c:if>
 
                     <c:if test="${pageContext.request.isUserInRole('SUPREME_ADMIN')}">
