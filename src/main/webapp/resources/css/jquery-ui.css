@@ -521,6 +521,7 @@ button.ui-button::-moz-focus-inner {
 	background-position: -6px -6px;
 	border: 0;
 }
+
 .ui-dialog .ui-dialog-content {
 	position: relative;
 	border: 0;

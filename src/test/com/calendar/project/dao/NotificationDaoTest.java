@@ -53,12 +53,6 @@ public class NotificationDaoTest {
 
     }
 
-    @Test
-    public void testSave() throws Exception {
-        notificationDao.save(notification);
-        //TODO: Add an assert
-
-    }
 
     @Test
     public void testSaveAll() throws Exception {
@@ -71,7 +65,7 @@ public class NotificationDaoTest {
             notifsFromDb.add(n);
         }
 
-        Assert.assertNotNull(notifsFromDb);
+        Assert.assertFalse(notifsFromDb.isEmpty());
     }
 
 
@@ -82,7 +76,7 @@ public class NotificationDaoTest {
     }
 
     @Test
-    public void testGetUnchekedEvents() throws Exception {
+    public void testGetUncheckedEvents() throws Exception {
         List<Notification> notifications = notificationDao.getUncheckedEvents(user);
         Assert.assertNotNull(notifications);
     }

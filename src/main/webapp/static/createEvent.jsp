@@ -16,78 +16,87 @@
 
     <title>Create an event</title>
 
-    <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
-    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
-    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
-    <script src="${contextPath}/resources/js/userProfile.js"></script>
+<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
+<script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
+<script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
+<script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+<script src="${contextPath}/resources/js/userProfile.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#w-input-search').autocomplete({
                 serviceUrl: "/getUserFullName",
-                onSelect: function (inp) {
+                onSelect: function(inp){
                     console.log(inp.value);
-                    if (document.getElementById("t-participants").value.indexOf(inp.value) < 0)
-                        document.getElementById("t-participants").value += inp.value + ",";
+                    if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
+                        document.getElementById("t-participants").value+=inp.value+",";
                     else
-                        alert("User " + inp.value + " is in the list ");
-                    document.getElementById("w-input-search").value = "";
+                        alert("User "+ inp.value+" is in the list ");
+                    document.getElementById("w-input-search").value="";
                 },
                 paramName: "userFullName",
                 delimiter: ",",
                 width: "31%",
-                transformResult: function (response) {
+                transformResult: function(response) {
                     return {
-                        suggestions: $.map($.parseJSON(response), function (item) {
-                            return {value: item.toString(), data: item.id};
+                        suggestions: $.map($.parseJSON(response), function(item) {
+                            return { value: item.toString(), data: item.id};
                         })
                     };
                 }
             });
         });
     </script>
+    <script>
+        $('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });$('form').submit(function(){
+            // Блокируем кнопки при отправке формы
+            $('input[type=submit]', $(this)).prop( 'disabled', true );
+            e.preventDefault();
+        });
+    </script>
 </head>
 
 <body>
 <%--create event modal--%>
-<div class="modal fade" id="AddEvent" role="dialog" style="width: auto;">
+<div class="modal fade" id="AddEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 7%">
         <div class="modal-content" style="border-radius: 0;">
-            <div class="event_add_modal-header">
-                <div class="create_event_header" style="padding-left: 28px;">
-                    <p align="left" class="modal_topic endava_grey_text">ADD EVENT
-                        <button type="button" class="close_modal" data-dismiss="modal"></button>
-                    </p>
+            <div class="event_add_modal-header" style="padding-left: 40px; padding-right: 40px">
+                <div class="create_event_header">
+                    <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
             </div>
-            <div class="modal-body" style="padding-left: 50px; padding-right: 50px">
+            <div class="modal-body" style="padding-left: 40px; padding-right: 40px">
                 <form action="${contextPath}/createEvent" method="POST">
                     <div class="event-form">
-                        <div class="row" id="leftblock">
+                        <div class="row" id="leftblock" style="padding-right: 15px">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true">
+                                           placeholder="Enter title" required="true" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true">
+                                           placeholder="Enter Location" required="true" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
-                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType">
+                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType" >
                                         <option style="font-size: 14px" value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
                                             <option style="font-size: 14px" value=${et}>${et.view()}</option>
@@ -98,9 +107,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker1"> START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="datetimepicker1"
-                                                   style="background-color: #FFFFFF"
-                                                   placeholder="Choose date... " required READONLY>
+                                            <input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"
+                                                   placeholder="Choose date... " required>
                                         </div>
                                     </div>
 
@@ -108,58 +116,54 @@
                                         <div class="form-group">
                                             <label class="label_add_event" for="datetimepicker2">END DATE</label>
                                             <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required READONLY
-                                                   style="background-color: #FFFFFF">
+                                                   placeholder="Choose date... " required style="background-color: #FFFFFF">
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6" style="top: 13px">
-                                        <div class="form-group" id="alldaydiv"
-                                             style="padding-bottom:5px; text-align: left">
-                                            <div style="float: left"><label id="alldaylabel"
-                                                                            class="modal-header edit_profile_header">
-                                                <input type="checkbox" id="all-day" onclick="if(this.checked) {
-                                                    allDayChecked();} else {allDayUnchecked();}">
-                                                <span class="endava_red_text">&nbsp;All day</span>
-                                            </label></div>
-                                        </div>
-                                    </div>
+                                    <%--<div class="col-sm-6" style="top: 13px">--%>
+                                        <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">--%>
+                                            <%--<div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
+                                                <%--<input type="checkbox" id="all-day"--%>
+                                                       <%--onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">--%>
+                                                <%--<span class="endava_red_text">&nbsp;All day</span>--%>
+                                            <%--</label></div>--%>
+                                        <%--</div >--%>
+                                    <%--</div>--%>
                                 </div>
                             </div>
 
-                            <div class="col-sm-6" id="rightblock">
-                                <div class="form-group textarea-group">
-                                    <label for="ev-description">DESCRIPTION</label>
-                                    <textarea name="description" class="form-control" rows="3"
-                                              id="ev-description" required="true"></textarea>
-                                </div>
-                                <div class="form-group participant-group" style="top: 10px;">
-                                    <div class="input-group" style="bottom: 15px;">
-
-                                        <input type="text" id="w-input-search" value=""
-                                               class="event_form_enter_name_field" placeholder="Enter name...">
-                                        <%--<span class="input-group-btn" style="text-align: right">--%>
-                                        <%--<button class="btn btn-secondary" type="button"--%>
-                                        <%--id="span-btn-search">&#128269</button>--%>
-                                        <%--</span>--%>
-
+                            <div class="row" id="rightblock">
+                                <div class="col-sm-6">
+                                    <div class="form-group textarea-group">
+                                        <label for="ev-description">DESCRIPTION</label>
+                                        <textarea name="description" class="form-control" rows="3"
+                                                  id="ev-description" required="true" maxlength="300"></textarea>
                                     </div>
-                                    <label for="t-participants">PARTICIPANTS</label>
-                                    <textarea class="form-control" name="participants" id="t-participants"
-                                              rows="3"></textarea>
                                 </div>
+                                <div class="col-sm-6" style="top: 10px;">
+                                    <div class="form-group participant-group">
+                                        <div class="input-group" style="bottom: 15px;">
 
-                                <div class="row">
-                                    <div class="col-sm-12" style="bottom: 8px;">
-                                        <div class="checkbox-group" name="end" id="subs-checkbox"
-                                             style="padding-bottom:15px">
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox"/>Send emails to
-                                                participants</label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" name="checkSubscribe"/>Send emails to
-                                                subscribers
-                                            </label>
+                                            <input type="text" id="w-input-search" value=""
+                                                   class="event_form_enter_name_field" placeholder="Enter name...">
+                                        </div>
+
+                                        <label for="t-participants">PARTICIPANTS</label>
+                                        <textarea class="form-control" name="participants" id="t-participants"
+                                                  rows="3"></textarea>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12" style="bottom: 8px;">
+                                            <div class="checkbox-group" name="end" id="subs-checkbox" style="padding-bottom:15px">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox"/>Send emails to
+                                                    participants</label>
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="checkSubscribe"/>Send emails to
+                                                    subscribers
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -177,12 +181,16 @@
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>
                                     </c:forEach>
+                                    <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <input type="checkbox" name="checkboxTags"
+                                               hidden value="hidden" checked/>
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center; bottom: 10px;">
-                                <input type="submit" class="btn_login_submit" value="ADD">
+                                <input type="submit" class="btn_login_submit" value="SUBMIT">
                             </div>
                         </div>
                     </div>

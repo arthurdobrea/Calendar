@@ -41,6 +41,52 @@
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#w-input-search').autocomplete({
+                serviceUrl: "/getUserFullName",
+                onSelect: function(inp){
+                    console.log(inp.value);
+                    if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
+                        document.getElementById("t-participants").value+=inp.value+",";
+                    else
+                        alert("User "+ inp.value+" is in the list ");
+                    document.getElementById("w-input-search").value="";
+                },
+                paramName: "userFullName",
+                delimiter: ",",
+                width: "31%",
+                transformResult: function(response) {
+                    return {
+                        suggestions: $.map($.parseJSON(response), function(item) {
+                            return { value: item.toString(), data: item.id};
+                        })
+                    };
+                }
+            });
+        });
+    </script>
+
+    <script language="javascript">
+        function Checkfiles()
+        {
+            var fup = document.getElementById('avatar');
+            var fileName = fup.value;
+            var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "doc")
+            {
+                return true;
+            }
+            else
+            {
+                alert("Upload Gif or Jpg images only");
+                fup.focus();
+                return false;
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -87,7 +133,7 @@
                                 <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
                                 <td align="right">
-                                    <input type="text" id="${event.id}" value="${event.id}" readonly hidden>
+                                    <input type="hidden" id="${event.id}" value="${event.id}" readonly>
                                 </td>
 
                                 <td align="right" id="td_show_event">
@@ -125,12 +171,14 @@
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
                             <tr>
-                                <td><input type="text" id="${event.id}" value="${event.id}" readonly hidden></td>
                                 <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
+                                <td align="right">
+                                    <input type="hidden" id="${event.id}" value="${event.id}" readonly >
+                                </td>
                                 <td align="right" id="td_show_event">
                                     <button class="btn_show_event" onclick="$('.show_event_modal').
-                                            load(('/' + 'ShowEvent?eventId=' + document.getElementById(${event.id}).
+                                            load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
                                             getAttribute('value') + ' ' + '#ShowEvent').toString(),
                                                     function () {$('#ShowEvent').modal();});">
                                     </button>
