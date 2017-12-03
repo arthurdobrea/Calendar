@@ -127,12 +127,10 @@
 
             var authorVal = null;
             var particVal = null;
-            if (selectedOption == "EventsCreatedByMe")
-            {
+            if (selectedOption == "EventsCreatedByMe") {
                 authorVal = userIdVal;
             }
-            else if (selectedOption == "EventsWhereIamInvited")
-            {
+            else if (selectedOption == "EventsWhereIamInvited") {
                 particVal = userIdVal;
             }
 
@@ -232,7 +230,7 @@
                 <option value="" style="font-size: 15px">Search by Type</option>
                 <option value="MEETING" style="font-size: 15px">Meeting</option>
                 <option value="TRAINING" style="font-size: 15px">Training</option>
-                <option value="STANDUP" style="font-size: 15px">Stand up</option>
+                <option value="STAND_UP" style="font-size: 15px">Stand up</option>
                 <option value="OFFLINE" style="font-size: 15px">Offline</option>
                 <option value="TEAM_BUILDING" style="font-size: 15px">Team building</option>
                 <option value="WORKSHOP" style="font-size: 15px">Workshop</option>
