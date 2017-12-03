@@ -33,7 +33,6 @@ function create_event() {
             },
             paramName: "userFullName",
             delimiter: ",",
-            width: "31%",
             transformResult: function(response) {
                 return {
                     suggestions: $.map($.parseJSON(response), function(item) {

@@ -132,7 +132,7 @@ public class Event implements Serializable {
     }
 
     public List<User> getParticipants() {
-        return participants;
+        return new ArrayList<>(new HashSet<>(participants));
     }
 
     public void setParticipants(List<User> participants) {

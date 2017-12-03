@@ -4,21 +4,14 @@ import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
-import com.calendar.project.model.dto.UserDTO;
 import com.calendar.project.model.dto.UserResource;
-import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
-import com.calendar.project.service.RoleService;
-import com.calendar.project.service.SecurityService;
-import com.calendar.project.service.TagService;
-import com.calendar.project.service.UserService;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,16 +19,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -206,13 +196,18 @@ public class UserController {
             LOGGER.info("Opening of \"/registration\" page");
             return "registration";
         }
+
+//        if (userForm.getMultipartFile().isEmpty()) {
+//            userService.setDefaultImage(userForm);
+//        }
+
         User user = Converter.convert(userForm);
         userService.save(user);
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
         LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        return "redirect:/welcome";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
@@ -342,9 +337,14 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
+
+        user.setImage(temp.getImage());
+
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
+            System.out.println(r.getName());
         }
+        System.out.println(user.getRoles());
         userService.updateUser(user);
         return "admin";
     }
@@ -374,7 +374,9 @@ public class UserController {
             user.setLastname(userForm.getLastname());
             user.setPosition(userForm.getPosition());
             user.setEmail(userForm.getEmail());
-            user.setImage(userForm.getMultipartFile().getBytes());
+            if (!userForm.getMultipartFile().isEmpty()) {
+                user.setImage(userForm.getMultipartFile().getBytes());
+            }
             userService.update(user);
         }catch(IOException e)
         {
@@ -402,6 +404,7 @@ public class UserController {
         model.addAttribute("eventsList", eventService.getEventTypeList());
         model.addAttribute("user", user);
         model.addAttribute("image", Base64.encode(userService.getUser(user.getId()).getImage()));
+
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }

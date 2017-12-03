@@ -44,9 +44,9 @@
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"
                                         autofocus="true"></form:input>
-                            <div class=" col-sm-12">
-                                <button class="btn_delete_event_cancel" data-dismiss="modal">NOT TODAY</button>
-                                <button class="btn_delete_event_submit" type="submit">DELETE</button>
+                            <div class=" col-sm-12" style="padding: 0">
+                                <button class="btn_delete_event_cancel" data-dismiss="modal" style="float: left">NOT TODAY</button>
+                                <button class="btn_delete_event_submit" type="submit" style="float: right">DELETE</button>
                             </div>
                         </div>
                     </spring:bind>

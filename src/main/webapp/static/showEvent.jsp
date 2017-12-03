@@ -46,43 +46,43 @@
                     <div class="event-form">
 
                         <div class="row" id="leftblock" style="padding-right: 15px">
-                            <div class="col-sm-6" style="text-align: left; overflow: scroll;">
+                            <div class="col-sm-6" style="text-align: left; overflow: scroll">
                                 <table class="table_show_event">
                                     <tbody>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">Title:</strong></td>
-                                            <td><span style="color: #d2322d; font-size: 14px">${event.title}</span></td>
+                                            <td><strong>Title: </strong></td>
+                                            <td><span style="color: #d2322d">${event.title}</span></td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">Location:</strong></td>
-                                            <td><span style="font-size: 14px">${event.location}</span></td>
+                                            <td><strong>Location: </strong></td>
+                                            <td>${event.location}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">Type:</strong></td>
-                                            <td><span style="font-size: 14px">${event.eventType}</span></td>
+                                            <td><strong>Type: </strong></td>
+                                            <td>${event.eventType}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">Start:</strong></td>
-                                            <td><span style="font-size: 14px">${start}</span></td>
+                                            <td><strong>Start: </strong></td>
+                                            <td>${start}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">End:</strong>&nbsp;</td>
-                                            <td><span style="font-size: 14px">${end}</span></td>
+                                            <td><strong>End: </strong>&nbsp;</td>
+                                            <td>${end}</td>
                                         </div>
                                     </tr>
                                     <tr>
                                         <div class="form-group">
-                                            <td><strong style="font-size: 16px">Author:</strong></td>
-                                            <td><span style="font-size: 14px">${event.author.fullName}</span></td>
+                                            <td><strong>Author: </strong></td>
+                                            <td>${event.author.fullName}</td>
                                         </div>
                                     </tr>
 
@@ -104,7 +104,7 @@
                         <div class="row" id="bottomblock">
                             <div class="col-sm-12">
                                 <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
-                                        style="color: #d2322d; font-size: 12px">${event.participants.size()}</span>]</label>
+                                        style="color: #d2322d">${event.participants.size()}</span>]</label>
                                 <div class="form-group participant-group" id="t-show-participants">
                                     <div class="row">
 
@@ -116,10 +116,7 @@
                                                              ${user.getImageBase64()}" alt="Your avatar"
                                                                              style="width: 40px; height: 40px; border-radius: 50%"/>
                                                         </td>
-                                                        <td style="padding-left: 2px; font-size: 14px"> ${user.fullName}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-left: 2px; font-size: 10px"> ${user.position}</td>
+                                                        <td style="padding-left: 2px; font-size: 14px">&nbsp;&nbsp;${user.fullName}</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -133,10 +130,10 @@
                                 <input hidden name="id" value="${event.id}">
                                 <%--<c:set var="isParticipant" value="0"/>--%>
                                 <c:if test="${isParticipant}">
-                                    <input type="submit" id="sendButton" value="UNSUBSCRIBE">
+                                    <input type="submit" class="btn_login_submit" value="UNSUBSCRIBE">
                                 </c:if>
                                 <c:if test="${!isParticipant}">
-                                    <input type="submit" id="sendButton" value="SUBSCRIBE">
+                                    <input type="submit" class="btn_login_submit" value="SUBSCRIBE">
                                 </c:if>
                             </div>
                         </div>

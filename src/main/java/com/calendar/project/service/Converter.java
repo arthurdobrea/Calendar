@@ -26,7 +26,7 @@ public class Converter {
         ev.setEventType(eventResource.getEventType());
         ev.setLocation(eventResource.getLocation());
         ev.setDescription(eventResource.getDescription());
-        ev.setParticipants(eventResource.getParticipants());
+       // ev.setParticipants();
         ev.setTags(eventResource.getTags());
         ev.setAllDay(eventResource.isAllDay());
         return ev;
@@ -89,4 +89,6 @@ public class Converter {
         userDTO.setConfirmPassword(user.getConfirmPassword());
         return userDTO;
     }
+
+
 }

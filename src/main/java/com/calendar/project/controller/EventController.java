@@ -75,30 +75,6 @@ public class EventController {
         return "events";
     }
 
-//    @RequestMapping(value = "/updateEvent", method = RequestMethod.GET)
-//    public String updateEvent(int eventId, Model model) {
-//        LOGGER.info("Request of \"/updateEvent\" page GET");
-//        model.addAttribute("eventForm", eventService.getEvent(eventId));
-//        LOGGER.info("Opening of \"/updateEvent\" page");
-//        return "updateEvent";
-//    }
-//
-//    @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-//    public String updateEvent(@ModelAttribute("eventForm") Event eventForm, Model model) {
-//        LOGGER.info("Request of \"/updateEvent\" page POST");
-//        List<User> participants = new LinkedList<>();
-//        for (User u : eventForm.getParticipants()) {
-//            u.setId(Long.parseLong(u.getUsername()));   // TODO use editEvents.jsp instead
-//            participants.add(userDao.getUser(u.getId()));
-//        }
-//
-//        eventForm.setParticipants(participants);
-//        model.addAttribute("eventForm", eventForm);
-//        eventService.updateEvent(eventForm);
-//        LOGGER.info("Redirect to \"/userPage\" page");
-//        return "redirect:/userPage";
-//    }
-
     @RequestMapping(value = "/deleteEvent", method = RequestMethod.GET)
     public String deleteEvent(int eventId, Model model) {
         LOGGER.info("Request of \"/deleteEvent\" page GET");
@@ -141,7 +117,7 @@ public class EventController {
                               RedirectAttributes redirectAttributes
     ) {
         boolean allday=false;
-        System.out.println("participantsList" +participantsList);
+        System.out.println("participantsList" + participantsList);
         if (startDate.length()<15){
             startDate+=" 10:00";
             endDate+=" 17:00";
@@ -177,7 +153,7 @@ public class EventController {
         notificationService.sendToAllParticipants(participants, event);
 
         LOGGER.info("Redirect to \"/showEvent\" page");
-        return "redirect:/showEvent";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.GET)
@@ -202,18 +178,19 @@ public class EventController {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
         User user =securityService.findLoggedInUsername();
+        List<User> participants=event.getParticipants();
         if (userService.isUserParticipant(event,user)) {
-            System.out.println("found "+user.getFullName());
-            event.getParticipants().remove(user);
+            participants.remove(user);
         }else {
-            event.getParticipants().add(user);
-            System.out.println("NOT found "+user.getFullName());
+            participants.add(user);
         }
-
+        event.setParticipants(participants);
         eventService.updateEvent(event);
+
+
         LOGGER.info("Opening of \"/showEvent\" page");
 
-        return "userPage";
+        return "index";
     }
 
     @RequestMapping(value = "/getParticipantsByEvent", method = RequestMethod.GET,
