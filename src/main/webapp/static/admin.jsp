@@ -39,7 +39,7 @@
 
     <%--<script src="${contextPath}/resources/js/userProfile.js"></script>--%>
     <%--<link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">--%>
-    <%--<script src="<c:url value="/resources/js/jquery.autocomplete.min.js" />"></script>--%>
+    <%--<script src="<c:url value="/resources/js/scripts/jquery.autocomplete.min.js" />"></script>--%>
     <%--<link href="<c:url value="/resources/css/filterStyle.css" />" rel="stylesheet">--%>
     <%--<script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>--%>
     <%--<script src="<c:url value="/resources/scripts/stomp.js"/>"></script>--%>

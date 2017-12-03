@@ -7,6 +7,11 @@
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
 }
+
+*:focus {
+    outline: none;
+}
+
 .container{
     width: 1113px;
     height: 675px;

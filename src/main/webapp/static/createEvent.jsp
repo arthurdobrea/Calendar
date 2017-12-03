@@ -23,39 +23,15 @@
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery-ui.min.css" rel="stylesheet">
 
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
+    <%--<script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>--%>
+    <script src="${contextPath}/resources/js/jquery-ui.min.js"></script>
     <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#w-input-search').autocomplete({
-                serviceUrl: "/getUserFullName",
-                onSelect: function(inp){
-                    console.log(inp.value);
-                    if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
-                        document.getElementById("t-participants").value+=inp.value+",";
-                    else
-                        alert("User "+ inp.value+" is in the list ");
-                    document.getElementById("w-input-search").value="";
-                },
-                paramName: "userFullName",
-                delimiter: ",",
-                width: "25%",
-                transformResult: function(response) {
-                    return {
-                        suggestions: $.map($.parseJSON(response), function(item) {
-                            return { value: item.toString(), data: item.id};
-                        })
-                    };
-                }
-            });
-        });
-    </script>
     <script>
         $('form').submit(function(){
             // Блокируем кнопки при отправке формы
@@ -67,18 +43,12 @@
             e.preventDefault();
         });
     </script>
-
-    <script>
-        $( function() {
-            $( "#datepicker1" ).datepicker();
-        } );
-    </script>
 </head>
 
 <body>
 <%--create event modal--%>
-<div class="modal fade" id="AddEvent" role="dialog">
-    <div class="modal-dialog modal-lg" align="center" style="margin-top: 7%">
+<div class="modal fade" id="AddEvent" role="dialog" >
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0;">
             <div class="event_add_modal-header" style="padding-left: 40px; padding-right: 40px">
                 <div class="create_event_header">
@@ -111,39 +81,22 @@
                                 </div>
 
                                 <div class="row">
-                                    <%--<div class="col-sm-6">--%>
-                                        <%--<div class="form-group">--%>
-                                            <%--<label class="label_add_event" for="datetimepicker1"> START DATE</label>--%>
-                                            <%--<input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"--%>
-                                                   <%--placeholder="Choose date... " required readonly>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-
-                                    <%--<div class="col-sm-6">--%>
-                                        <%--<div class="form-group">--%>
-                                            <%--<label class="label_add_event" for="datetimepicker2">END DATE</label>--%>
-                                            <%--<input type="text" name="end" class="form-control" id="datetimepicker2"--%>
-                                                   <%--placeholder="Choose date... " required style="background-color: #FFFFFF" readonly>--%>
-                                        <%--</div>--%>
-                                    <%--</div>--%>
-
-
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <input type="hidden" name="start" class="form-control" id="datetimepicker1">
                                                 </div>
                                                 <label class="label_add_event" for="datepicker1"> START DATE</label>
-                                                <input type="date" class="form-control" id="datepicker1" placeholder="mm/dd/yyyy">
-                                                <input type="time" class="form-control" id="timepicker1" placeholder="HH:mm">
+                                                <input type="date" class="form-control" id="datepicker1">
+                                                <input type="time" class="form-control" id="timepicker1">
                                             </div>
 
                                             <div class="col-sm-6">
                                                 <div class="form-group" >
                                                     <input type="hidden" name="end" class="form-control" id="datetimepicker2">
                                                 </div>
-                                                <label class="label_add_event" for="datepicker2"> START DATE</label>
-                                                <input type="date" class="form-control" id="datepicker2" placeholder="mm/dd/yyyy">
-                                                <input type="time" class="form-control" id="timepicker2" placeholder="HH:mm">
+                                                <label class="label_add_event" for="datepicker2"> END DATE</label>
+                                                <input type="date" class="form-control" id="datepicker2" onchange="changeColor()">
+                                                <input type="time" class="form-control" id="timepicker2" onchange="changeColor()">
                                             </div>
 
                                         <div class="col-sm-6">
@@ -170,7 +123,8 @@
                                     <div class="form-group participant-group">
                                         <div align="left" class="input-group" style="bottom: 15px; width: 100%">
                                             <input type="text" id="w-input-search" value=""
-                                                   class="event_form_enter_name_field" placeholder="Enter name..." style="width: inherit">
+                                                   class="event_form_enter_name_field" placeholder="Enter name..."
+                                                   onclick="autoComplete()" style="width: inherit">
                                         </div>
 
                                         <label for="t-participants">PARTICIPANTS</label>
@@ -215,7 +169,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center; bottom: 10px;">
-                                <input type="submit" class="btn_login_submit" value="SUBMIT" onmouseover="eventDateTimeValidation();">
+                                <input type="submit" class="btn_login_submit" value="SUBMIT" onmousedown="eventDateTimeValidation();">
                             </div>
                         </div>
                     </div>

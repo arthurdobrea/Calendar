@@ -229,7 +229,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/editEvent", method = RequestMethod.POST)
-    public String editvent(Model model,
+    public String editEvent(Model model,
                            @ModelAttribute("event-id") int id,
                            @ModelAttribute("title") String title,
                               @ModelAttribute("location") String location,
@@ -243,6 +243,7 @@ public class EventController {
                               @RequestParam("checkboxTags")List<String> checkboxValue,
                               RedirectAttributes redirectAttributes
     ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/editEvent\" page POST");
         List<Notification> notifications = new ArrayList<>();
         List<User> participants=userService.parseStringToUsersList(participantsList);
@@ -250,7 +251,6 @@ public class EventController {
         event.setTitle(title);
         event.setEventType(eventType);
         event.setAuthor( securityService.findLoggedInUsername());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         event.setStart(LocalDateTime.parse(startDate, formatter));
         event.setEnd(LocalDateTime.parse(endDate, formatter));
         event.setLocation(location);

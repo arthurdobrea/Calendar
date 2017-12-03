@@ -233,3 +233,7 @@
 #timepicker1:disabled, #timepicker2:disabled {
   color: transparent;
 }
+
+#datetimepicker1, #datetimepicker2 {
+  background: none;
+}
