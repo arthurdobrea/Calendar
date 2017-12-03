@@ -114,7 +114,7 @@ public class EventController {
         System.out.println("participantsList" + participantsList);
         if (startDate.length()<15){
             startDate+=" 10:00";
-            endDate+=" 17:00";
+            endDate+=" 18:00";
             allday=true;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
@@ -135,7 +135,7 @@ public class EventController {
         notificationService.saveAll(finalNotifications);
         notificationService.sendToAllParticipants(event.getParticipants(), event);
 
-        LOGGER.info("Redirect to \"/showEvent\" page");
+        LOGGER.info("Redirect to \"/index\" page");
         return "redirect:/index";
     }
 
@@ -146,11 +146,12 @@ public class EventController {
         User user =securityService.findLoggedInUsername();
         boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
-        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, 'Time:'  kk:mm");
 
         model.addAttribute("start", event.getStart().format(formatter));
-        model.addAttribute("end", event.getStart().format(formatter));
+        model.addAttribute("end", event.getEnd().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
+        model.addAttribute("created", event.getEventCreated().format(formatter));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
         return "showEvent";
@@ -170,6 +171,10 @@ public class EventController {
         event.setParticipants(participants);
         List<Notification> finalNotifications = eventService.notificationCreator(event);
         eventService.updateEvent(event);
+
+
+        LOGGER.info("Opening of \"/index\" page");
+
         notificationService.saveAll(finalNotifications);
         notificationService.sendToAllParticipants(event.getParticipants(), event);
         LOGGER.info("Opening of \"/showEvent\" page");
@@ -211,7 +216,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/editEvent", method = RequestMethod.POST)
-    public String editvent(Model model,
+    public String editEvent(Model model,
                            @ModelAttribute("event-id") int id,
                            @ModelAttribute("title") String title,
                               @ModelAttribute("location") String location,
@@ -225,13 +230,13 @@ public class EventController {
                               @RequestParam("checkboxTags")List<String> checkboxValue,
                               RedirectAttributes redirectAttributes
     ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/editEvent\" page POST");
         List<User> participants=userService.parseStringToUsersList(participantsList);
         Event event = eventService.getEvent(id);
         event.setTitle(title);
         event.setEventType(eventType);
         event.setAuthor( securityService.findLoggedInUsername());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         event.setStart(LocalDateTime.parse(startDate, formatter));
         event.setEnd(LocalDateTime.parse(endDate, formatter));
         event.setLocation(location);

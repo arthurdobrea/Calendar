@@ -33,9 +33,9 @@
 
 <body>
 <%--show event modal--%>
-<div class="modal fade" id="ShowEvent" role="dialog">
-    <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
-        <div class="modal-content" style="border-radius: 0; cursor: context-menu">
+<div class="modal fade" id="ShowEvent" role="dialog" >
+    <div class="modal-dialog modal-lg" align="center" style="width: 900px; margin: auto; margin-top: 50px">
+        <div class="modal-content" style="border-radius: 0; cursor: context-menu;">
             <div class="modal-header" style="padding-left: 25px; padding-right: 25px">
                 <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
@@ -79,6 +79,15 @@
                                             <td>${end}</td>
                                         </div>
                                     </tr>
+                                    <tr style="height: 5px; margin: 0; padding: ">
+                                        <td colspan="2"></td>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
+                                            <td><strong>Created: </strong>&nbsp;</td>
+                                            <td>${created}</td>
+                                        </div>
+                                    </tr>
                                     <tr>
                                         <div class="form-group">
                                             <td><strong>Author: </strong></td>
@@ -102,10 +111,10 @@
                         </div>
 
                         <div class="row" id="bottomblock">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" >
                                 <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
-                                        style="color: #d2322d">${event.participants.size()}</span>]</label>
-                                <div class="form-group participant-group" id="t-show-participants">
+                                        style="color: #d2322d; font-size: 12px;">${event.participants.size()}</span>]</label>
+                                <div class="form-group participant-group" id="t-show-participants" style="margin-bottom: 5px">
                                     <div class="row">
 
                                         <c:forEach items="${event.participants}" var="user">
@@ -126,7 +135,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12" style="text-align: center">
+                            <div class="col-sm-12" style="text-align: center; margin-bottom: 15px">
                                 <input hidden name="id" value="${event.id}">
                                 <%--<c:set var="isParticipant" value="0"/>--%>
                                 <c:if test="${isParticipant}">
