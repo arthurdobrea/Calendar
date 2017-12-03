@@ -15,15 +15,12 @@ import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.calendar.project.service.UserService;
@@ -34,7 +31,7 @@ import com.calendar.project.service.EventService;
 @RequestMapping("/rest")
 public class MyRestController {
 
-    private static final Logger LOGGER = Logger.getLogger(JSONController.class);
+    private static final Logger LOGGER = Logger.getLogger(MyRestController.class);
 
     @Autowired
     UserService userService;
@@ -98,22 +95,14 @@ public class MyRestController {
     public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
 
         Event event = Converter.convert(eventResource);
-    //    List<Notification> notifications = new ArrayList<>();
-        event.setAuthor(securityService.findLoggedInUsername());
+        eventService.setParticipantsTagsAndAuthor(eventResource, event);
         eventService.saveEvent(event);
-//        for (User u : event.getParticipants()) {
-//            final Notification notification = new Notification(u, event);
-//            notifications.add(notification);
-//            try{
-//                String notificationString = notificationService.getNotificationInJson(notification);
-//                HttpEntity<String> request = new HttpEntity<>(notificationString);
-//                mobilePushNotificationsService.send(request,u.getId() + ".json");
-//            }catch(IOException e){
-//                e.printStackTrace();
-//            }
-//        }
+        List<Notification> finalNotifications = eventService.notificationCreator(event);
+        notificationService.saveAll(finalNotifications);
+        notificationService.sendToAllParticipants(event.getParticipants(), event);
 
     }
+
     @RequestMapping(value = "/updateEvent", params = "id", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody ResponseEntity updateEvent(@PathVariable @RequestParam("id") int id, @RequestBody EventResource eventResource) {
@@ -123,7 +112,11 @@ public class MyRestController {
         if ((!user.getId().equals(event.getAuthor().getId()))&&
                 (!user.getId().equals(userService.findByUsername("admin").getId())))
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+        eventService.setParticipantsTagsAndAuthor(eventResource, event);
         eventService.updateEvent(event);
+        List<Notification> finalNotifications = eventService.notificationCreator(event);
+        notificationService.saveAll(finalNotifications);
+        notificationService.sendToAllParticipants(event.getParticipants(), event);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -187,16 +180,12 @@ public class MyRestController {
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody ResponseEntity editUser(@PathVariable @RequestParam("username") String username, @RequestBody UserDTO userDTO) {
         User firstUser = userService.findByUsername(username);
-        UserDTO userDTOtoUpdate = Converter.convertToDTO(firstUser);
-        UserDTO userFinal = userService.updateUserForDTO(userDTOtoUpdate, userDTO);
         User user1 = securityService.findLoggedInUsername();
-        if ((!user1.getId().equals(userFinal.getId()))&&
+        if ((!user1.getId().equals(userDTO.getId()))&&
                 (!user1.getId().equals(userService.findByUsername("admin").getId())))
             return new ResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
-        User userToSend = Converter.convert(userFinal);
-        userToSend.setRoles(userService.findByUsername(username).getRoles());
-        userToSend.setId((userService.findByUsername(username).getId()));
-        userService.update(userToSend);
+        firstUser = userService.updateUserWithUserDTO(firstUser, userDTO);
+        userService.update(firstUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

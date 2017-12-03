@@ -1,19 +1,23 @@
 package com.calendar.project.service.impl;
 
+import com.calendar.project.model.Notification;
+import com.calendar.project.dao.EventDao;
+import com.calendar.project.model.Event;
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
-import com.calendar.project.model.User;
 import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.EventService;
+import com.calendar.project.service.*;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +25,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +36,22 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private EventDao eventDao;
 
-    private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
+    @Autowired
+    private NotificationService notificationService;
 
+    @Autowired
+    private MobilePushNotificationsService mobilePushNotificationsService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private SecurityService securityService;
+
+    private static final Logger LOGGER = Logger.getLogger(EventServiceImpl.class);
 
     @Override
     public List<Event> getEventsByAuthor(long authorId){
@@ -73,6 +92,7 @@ public class EventServiceImpl implements EventService {
         event.setLocation(editedEvent.getLocation());
         event.setStart(editedEvent.getStart());
         event.setEnd(editedEvent.getEnd());
+        //event.setAllDay(editedEvent.isAllDay());
         eventDao.updateEvent(event);
     }
 
@@ -144,25 +164,20 @@ public class EventServiceImpl implements EventService {
         ObjectMapper mapper = new ObjectMapper();
         JsonArray eventsJsonArr = new JsonArray();
         for (Event event : events) {
-            JsonObject eventAsJson = new JsonObject();
-            eventAsJson.addProperty("id", event.getId());
-            eventAsJson.addProperty("title", event.getTitle());
-            eventAsJson.addProperty("location", event.getLocation());
-            eventAsJson.addProperty("eventType", event.getEventType().toString());
-            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
-            eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("allDay", event.isAllDay());
-            eventAsJson.addProperty("eventCreated", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("author", event.getAuthor().getFullName());
-            eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
-            eventAsJson.addProperty("description", event.getDescription());
-            eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());
-            eventsJsonArr.add(eventAsJson);
+            eventsJsonArr.add(setPropertiesForEvent(event));
         }
         String eventsString = eventsJsonArr.toString();
         Object json = mapper.readValue(eventsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    }
+
+    private JsonObject getUserInfoForEvent(User user){
+        JsonObject eventAsJson = new JsonObject();
+        eventAsJson.addProperty("id", user.getId());
+        eventAsJson.addProperty("firstname", user.getFirstname());
+        eventAsJson.addProperty("lastname", user.getLastname());
+        eventAsJson.addProperty("position", user.getPosition());
+        return eventAsJson;
     }
 
     @Override
@@ -210,21 +225,7 @@ public class EventServiceImpl implements EventService {
     public String getEventJson(Event event) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonArray eventsJsonArr = new JsonArray();
-            JsonObject eventAsJson = new JsonObject();
-            eventAsJson.addProperty("id", event.getId());
-            eventAsJson.addProperty("title", event.getTitle());
-            eventAsJson.addProperty("location", event.getLocation());
-            eventAsJson.addProperty("eventType", event.getEventType().toString());
-            eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
-            eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("allDay", event.isAllDay());
-            eventAsJson.addProperty("eventCreated", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            eventAsJson.addProperty("author", event.getAuthor().getUsername());
-            eventAsJson.addProperty("participants", event.getParticipants().stream().map(User::getFullName).collect(Collectors.toSet()).toString());
-            eventAsJson.addProperty("description", event.getDescription());
-            eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());
-            eventsJsonArr.add(eventAsJson);
+        eventsJsonArr.add(setPropertiesForEvent(event));
         String eventsString = eventsJsonArr.toString();
         Object json = mapper.readValue(eventsString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
@@ -236,6 +237,59 @@ public class EventServiceImpl implements EventService {
             if (et.toString().equals(eventType)) return et;
         }
         return null;
+    }
+
+    @Override
+    public List<Notification> notificationCreator(Event event) {
+        List<Notification> notifications = new ArrayList<>();
+        for (User u : event.getParticipants()) {
+            final Notification notification = new Notification(u, event);
+            notifications.add(notification);
+            try {
+                String notificationString = notificationService.getNotificationInJson(notification, u);
+                HttpEntity<String> request = new HttpEntity<>(notificationString);
+                CompletableFuture<String> pushNotification = mobilePushNotificationsService.send(request);
+                CompletableFuture.allOf(pushNotification).join();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return notifications;
+    }
+
+    @Override
+    public void setParticipantsTagsAndAuthor(EventResource eventResource, Event event){
+        List<Long> participants = userService.parseStringToIntList(eventResource.getParticipants());
+        Set<User> users = userService.parseIntegerListToUserList(participants);
+        event.setParticipants( new ArrayList<>(users));
+        List<Long> tagsForEvent = userService.parseStringToIntList(eventResource.getTags());
+        Set<Tag> tags = tagService.parseIntegerListToTagList(tagsForEvent);
+        event.setTags(tags);
+        event.setAuthor(securityService.findLoggedInUsername());
+    }
+
+    private JsonObject setPropertiesForEvent(Event event){
+        JsonObject eventAsJson = new JsonObject();
+        eventAsJson.addProperty("id", event.getId());
+        eventAsJson.addProperty("title", event.getTitle());
+        eventAsJson.addProperty("location", event.getLocation());
+        eventAsJson.addProperty("eventType", event.getEventType().toString());
+        eventAsJson.addProperty("color", getColorForEvent(event.getEventType()));
+        eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        eventAsJson.addProperty("end", event.getEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        eventAsJson.addProperty("allDay", event.isAllDay());
+        eventAsJson.addProperty("eventCreated", event.getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        JsonObject authorJson = getUserInfoForEvent(event.getAuthor());
+        eventAsJson.add("author", authorJson);
+        JsonArray userArray = new JsonArray();
+        for (User user : event.getParticipants()) {
+            JsonObject eventsJson = getUserInfoForEvent(user);
+            userArray.add(eventsJson);
+        }
+        eventAsJson.add("participants", userArray);
+        eventAsJson.addProperty("description", event.getDescription());
+        eventAsJson.addProperty("tags",event.getTags().stream().map(Tag::getTag).collect(Collectors.toSet()).toString());
+        return eventAsJson;
     }
 
 }

@@ -5,8 +5,13 @@
 	-moz-transition-property: all;
   -moz-transition-timing-function: cubic-bezier(100,50,21,6);
   font-family: 'Roboto', sans-serif;
-  font-size: 21px;
+  font-size: 14px;
 }
+
+*:focus {
+    outline: none;
+}
+
 .container{
     width: 1113px;
     height: 675px;

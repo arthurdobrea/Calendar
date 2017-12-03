@@ -1,5 +1,12 @@
 /*******************user page css****************************/
-
+* {
+    -webkit-transition-property: all;
+    -webkit-transition-duration: .2s;
+    -moz-transition-timing-function: cubic-bezier(100,50,21,6);
+    -moz-transition-property: all;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
 /*-----------switch--------------*/
 .switch {
     position: relative;
@@ -570,7 +577,7 @@ input:checked + .slider:before {
 
 .right_block_header {
     padding: 0;
-    margin: 1px 0 0;
+    margin: 1px 0 20px;
     width: 100%;
     display: inline-block;
     justify-content: space-between;
@@ -783,4 +790,8 @@ body {
 
 #events_invited {
     background: transparent;
+}
+
+*:focus {
+    outline: none;
 }

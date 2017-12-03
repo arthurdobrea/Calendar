@@ -4,6 +4,7 @@ import com.calendar.project.exception.CustomGenericException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import com.calendar.project.exception.CustomGenericException;
 
 @ControllerAdvice
 public class GlobalExceptionController {
