@@ -48,4 +48,6 @@ public class RoleDaoImpl implements RoleDao {
                 .getResultList();
     }
 
+
+
 }

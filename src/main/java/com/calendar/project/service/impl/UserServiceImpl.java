@@ -301,25 +301,21 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-//    @Override
-//    public void setDefaultImage(UserResource userForm){
-//        File file = new File("C:\\Users\\smorari\\IdeaProjects\\Calendar\\src\\main\\webapp\\resources\\images\\Octocat.png");
-//        FileItem fileItem = null;
-//        try {
-//            fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
-//        } catch (IOException e) {
-//            e.printStackTrace();
+    @Override
+    public List<Long> parseStringToIntList(String participants){
+        participants = participants.replace("[", "").replace("]", "");
+        String[] split = participants.split(",");
+        List<String> list = Arrays.asList(split);
+        List<Long> intList = new ArrayList<>();
+        for(String symbol : list) intList.add(Long.valueOf(symbol));
+        return intList;}
+
+//     public List<User> parseIntegerListToUserList(List<Long> intList){
+//         List <User> participantList = new ArrayList<>();
+//        for(Long l: intList){
+//            participantList.add(findById(l));
 //        }
-//
-//        try {
-//            InputStream input = new FileInputStream(file);
-//            OutputStream os = fileItem.getOutputStream();
-//            IOUtils.copy(input, os);
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
-//
-//        userForm.setMultipartFile(multipartFile);}
+//       return null;
+//     }
+
 }

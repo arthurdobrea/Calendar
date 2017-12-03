@@ -55,4 +55,6 @@ public interface UserService {
     boolean isUserParticipant(Event event, User user);
 
     UserDTO updateUserForDTO(UserDTO firstUser, UserDTO secondUser);
+
+    List<Long> parseStringToIntList(String participants);
 }

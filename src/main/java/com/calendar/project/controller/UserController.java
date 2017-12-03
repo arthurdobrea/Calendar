@@ -207,7 +207,7 @@ public class UserController {
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
         LOGGER.info("Redirect to \"/index\" page");
-        return "redirect:/index";
+        return "redirect:/welcome";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
@@ -337,9 +337,14 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
+
+        user.setImage(temp.getImage());
+
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
+            System.out.println(r.getName());
         }
+        System.out.println(user.getRoles());
         userService.updateUser(user);
         return "admin";
     }

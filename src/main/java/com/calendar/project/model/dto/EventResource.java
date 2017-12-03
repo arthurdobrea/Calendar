@@ -21,7 +21,7 @@ public class EventResource {
     private EventType eventType;
     private User author;
     private String location;
-    private List<User> participants = new ArrayList<>();
+    private String participants;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime start;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
@@ -89,11 +89,11 @@ public class EventResource {
         this.location = location;
     }
 
-    public List<User> getParticipants() {
+    public String getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(String participants) {
         this.participants = participants;
     }
 
