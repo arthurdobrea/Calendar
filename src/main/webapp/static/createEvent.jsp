@@ -16,18 +16,20 @@
 
     <title>Create an event</title>
 
-<link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-<link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-<link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-<link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-<link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
+    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
-<script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-<script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
-<script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
-<script src="${contextPath}/resources/js/userProfile.js"></script>
+    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
+    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
+    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
+    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <script src="${contextPath}/resources/js/userProfile.js"></script>
 
     <script>
         $(document).ready(function() {
