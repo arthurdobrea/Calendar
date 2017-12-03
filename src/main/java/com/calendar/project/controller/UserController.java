@@ -342,9 +342,14 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
+
+        user.setImage(temp.getImage());
+
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
+            System.out.println(r.getName());
         }
+        System.out.println(user.getRoles());
         userService.updateUser(user);
         return "admin";
     }

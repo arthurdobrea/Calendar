@@ -189,7 +189,7 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit" onclick="disableSubmitButton()">Register</button>
+                    <button id="btn-reg" class="btn btn-lg btn-block" type="submit" >Register</button>
                 </td>
             </tr>
         </table>
@@ -197,9 +197,11 @@
 </div>
 
 <script>
-    function disableSubmitButton() {
-        document.getElementById("btn-reg").disabled = true;
-    }
+    $('form').submit(function(){
+        // Блокируем кнопки при отправке формы
+        $('input[type=submit]', $(this)).prop( 'disabled', true );
+        e.preventDefault();
+    });
 </script>
 
 
