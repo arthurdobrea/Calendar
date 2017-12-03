@@ -80,9 +80,7 @@
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
 
-                                <td align="right">
-                                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
-                                </td>
+                                <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
 
                                 <td id="notification_message"><a href="#" onclick="$('.show_event_modal').
                                         load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
@@ -107,9 +105,7 @@
                                                                         pattern="MM/dd/yy"/></p>
                                 </td>
 
-                                <td align="right">
-                                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
-                                </td>
+                                <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
 
                                 <td id="notification_message"><a onclick="$('.show_event_modal').
                                         load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
@@ -141,9 +137,7 @@
                         <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
 
-                    <td align="right">
-                        <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
-                    </td>
+                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
 
                     <td id="modal_message"><a onclick="$('.show_event_modal').
                             load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
@@ -159,9 +153,7 @@
                         <p id="modal_date"><javatime:format value="${notification.event.start}" pattern="MM/dd/yy"/></p>
                     </td>
 
-                    <td align="right">
-                        <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
-                    </td>
+                    <input type="hidden" id="${notification.event.id}" value="${notification.event.id}" readonly >
 
                     <td id="modal_message"><a onclick="$('.show_event_modal').
                             load(('/' + 'showEvent?eventId=' + document.getElementById(${notification.event.id}).
