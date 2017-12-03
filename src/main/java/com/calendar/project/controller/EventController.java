@@ -1,6 +1,6 @@
 package com.calendar.project.controller;
 
-import com.calendar.project.dao.UserDao;
+
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
@@ -10,7 +10,6 @@ import com.calendar.project.service.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+
 
 @Controller
 public class EventController {
@@ -34,9 +31,6 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-
-    @Autowired
-    private UserDao userDao;
 
     @Autowired
     private UserService userService;
@@ -125,7 +119,6 @@ public class EventController {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/createEvent\" page POST");
-        List<Notification> notifications = new ArrayList<>();
         List<User> participants=userService.parseStringToUsersList(participantsList);
         Event event = new Event(title,eventType,securityService.findLoggedInUsername(),location, participants,
                 LocalDateTime.parse(startDate, formatter),LocalDateTime.parse(endDate, formatter),
@@ -135,22 +128,12 @@ public class EventController {
 
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
-        for (User u : participants) {
-            final Notification notification = new Notification(u, event);
-            notifications.add(notification);
-            try{
-            String notificationString = notificationService.getNotificationInJson(notification);
-            HttpEntity<String> request = new HttpEntity<>(notificationString);
-            mobilePushNotificationsService.send(request,u.getId() + ".json");
-            }catch(IOException e){
-                 e.printStackTrace();
-            }
-        }
+        List<Notification> finalNotifications = eventService.notificationCreator(event);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
-        notificationService.saveAll(notifications);
-        notificationService.sendToAllParticipants(participants, event);
+        notificationService.saveAll(finalNotifications);
+        notificationService.sendToAllParticipants(event.getParticipants(), event);
 
         LOGGER.info("Redirect to \"/showEvent\" page");
         return "redirect:/index";
@@ -174,7 +157,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
-    public String suscribeToEvent(Model model, @ModelAttribute("id") int eventId) {
+    public String subscribeToEvent(@ModelAttribute("id") int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
         User user =securityService.findLoggedInUsername();
@@ -185,11 +168,11 @@ public class EventController {
             participants.add(user);
         }
         event.setParticipants(participants);
+        List<Notification> finalNotifications = eventService.notificationCreator(event);
         eventService.updateEvent(event);
-
-
+        notificationService.saveAll(finalNotifications);
+        notificationService.sendToAllParticipants(event.getParticipants(), event);
         LOGGER.info("Opening of \"/showEvent\" page");
-
         return "index";
     }
 
@@ -243,7 +226,6 @@ public class EventController {
                               RedirectAttributes redirectAttributes
     ) {
         LOGGER.info("Request of \"/editEvent\" page POST");
-        List<Notification> notifications = new ArrayList<>();
         List<User> participants=userService.parseStringToUsersList(participantsList);
         Event event = eventService.getEvent(id);
         event.setTitle(title);
@@ -260,15 +242,12 @@ public class EventController {
         eventService.updateEvent(event);
         if (checkSubscribe.equals("on")) emailService.mailParticipantsNewEvent(event);
         if (checkParticipants.equals("on")) emailService.mailSubscribersNewEvent(event);
-        for (User u : participants) {
-            final Notification notification = new Notification(u, event);
-            notifications.add(notification);
-        }
+        List<Notification> finalNotifications = eventService.notificationCreator(event);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
 
-        notificationService.saveAll(notifications);
-        notificationService.sendToAllParticipants(participants, event);
+        notificationService.saveAll(finalNotifications);
+        notificationService.sendToAllParticipants(event.getParticipants(), event);
 
         LOGGER.info("Redirect to \"/userPage\" page");
         return "redirect:/userPage";

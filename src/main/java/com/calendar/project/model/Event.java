@@ -143,7 +143,6 @@ public class Event implements Serializable {
         return eventCreated;
     }
 
-
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
     }

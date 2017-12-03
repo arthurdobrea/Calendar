@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
 public class MobilePushNotificationsService {
 
     private static final String FIREBASE_SERVER_KEY = "AAAALKcsbUw:APA91bEXPvZYZ-f39WJdA6v6xEOMQpFUWSYbDNLyrcKg5qivCLIlJizm2x3t7JO7VdaiWmtxFLpAHfLkyBobpePdm_MnxqHkMEGy0uYQ9tS0P79ccSC6dFJ9aDdg9HEQEdQl8OpvjePq";
-    private static final String FIREBASE_API_URL = "https://my-calendar-project-cf933.firebaseio.com/";
+    private static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";
 
     @Async
-    public CompletableFuture<String> send(HttpEntity<String> entity, String topic) {
+    public CompletableFuture<String> send(HttpEntity<String> entity) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -26,7 +26,7 @@ public class MobilePushNotificationsService {
         interceptors.add(new HeaderRequestInterceptor("Content-Type", "application/json"));
         restTemplate.setInterceptors(interceptors);
 
-        String firebaseResponse = restTemplate.postForObject(FIREBASE_API_URL + topic, entity, String.class);
+        String firebaseResponse = restTemplate.postForObject(FIREBASE_API_URL, entity, String.class);
 
         return CompletableFuture.completedFuture(firebaseResponse);
     }

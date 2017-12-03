@@ -1,32 +1,24 @@
 package com.calendar.project.service.impl;
 
-import com.calendar.project.config.BASE64DecodedMultipartFile;
 import com.calendar.project.dao.RoleDao;
 import com.calendar.project.dao.UserDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Role;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserDTO;
-import com.calendar.project.model.dto.UserResource;
 import com.calendar.project.service.EventService;
 import com.calendar.project.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import java.io.*;
-import java.nio.file.Files;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,7 +95,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(User editedUser) {
         userDao.update(editedUser);
-        // userDao.save(editedUser);
     }
 
     @Override
@@ -133,23 +124,7 @@ public class UserServiceImpl implements UserService {
         ObjectMapper mapper = new ObjectMapper();
         JsonArray usersJsonArr = new JsonArray();
         for (User user : users) {
-            JsonObject userAsJson = new JsonObject();
-            userAsJson.addProperty("id", user.getId());
-            userAsJson.addProperty("username", user.getUsername());
-            userAsJson.addProperty("firstname", user.getFirstname());
-            userAsJson.addProperty("lastname", user.getLastname());
-            userAsJson.addProperty("email", user.getEmail());
-            userAsJson.addProperty("position", user.getPosition());
-            if(user.getImage() == null) userAsJson.addProperty("image", "null");
-            else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
-                String base64Encoded = new String(encodeBase64, "UTF-8");
-                userAsJson.addProperty("image", base64Encoded);}
-            userAsJson.addProperty("subscription_by_event_type", user.getSubscriptionByEventType());
-            userAsJson.addProperty("subscription_by_tag_type", user.getSubscriptionByTagType());
-            userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
-            userAsJson.addProperty("events", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
-            userAsJson.addProperty("eventsOfAuthor", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
-            usersJsonArr.add(userAsJson);
+            usersJsonArr.add(setPropertiesForUser(user));
         }
         String usersString = usersJsonArr.toString();
         Object json = mapper.readValue(usersString, Object.class);
@@ -159,81 +134,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUserJson(User user) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
-        JsonObject userAsJson = new JsonObject();
         JsonArray userJsonArr = new JsonArray();
-        userAsJson.addProperty("id", user.getId());
-        userAsJson.addProperty("username", user.getUsername());
-        userAsJson.addProperty("firstname", user.getFirstname());
-        userAsJson.addProperty("lastname", user.getLastname());
-        userAsJson.addProperty("email", user.getEmail());
-        userAsJson.addProperty("position", user.getPosition());
-        if(user.getImage() == null) userAsJson.addProperty("image", "null");
-        else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
-        String base64Encoded = new String(encodeBase64, "UTF-8");
-        userAsJson.addProperty("image", base64Encoded);}
-        userAsJson.addProperty("subscription_by_event_type", user.getSubscriptionByEventType());
-        userAsJson.addProperty("subscription_by_tag_type", user.getSubscriptionByTagType());
-        userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
-        userAsJson.addProperty("events", user.getEvents().stream().map(Event::getTitleAndId).collect(Collectors.toList()).toString());
-        userAsJson.addProperty("eventsOfAuthor", user.getEventsOfAuthor().stream().map(Event::getTitleAndId).collect(Collectors.toSet()).toString());
-        userJsonArr.add(userAsJson);
+        userJsonArr.add(setPropertiesForUser(user));
         String userString = userJsonArr.toString();
         Object json = mapper.readValue(userString, Object.class);
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 
-    @Override
-    public User updateUserForRest(User firstUser, User secondUser){
-        firstUser.setFirstname(secondUser.getFirstname());
-        firstUser.setLastname(secondUser.getLastname());
-        firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
-        firstUser.setEmail(secondUser.getEmail());
-        return firstUser;
+        private JsonObject getEventsInfoForUser(Event event){
+        JsonObject eventAsJson = new JsonObject();
+        eventAsJson.addProperty("id", event.getId());
+        eventAsJson.addProperty("title", event.getTitle());
+        eventAsJson.addProperty("eventType", event.getEventType().toString());
+        eventAsJson.addProperty("start", event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        return eventAsJson;
     }
 
     @Override
-    public UserDTO updateUserForDTO(UserDTO firstUser, UserDTO secondUser){
-        firstUser.setFirstname(secondUser.getFirstname());
-        firstUser.setLastname(secondUser.getLastname());
-        firstUser.setPassword(bCryptPasswordEncoder.encode(secondUser.getPassword()));
-        firstUser.setEmail(secondUser.getEmail());
-        firstUser.setImage(secondUser.getImage());
-        return firstUser;
-    }
-
-    @Override
-    public User updateUser(User user, UserResource userResource){
-        user.setFirstname(userResource.getFirstname());
-        user.setLastname(userResource.getLastname());
-        user.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
-        user.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
-        user.setEmail(userResource.getEmail());
+    public User updateUserWithUserDTO(User user, UserDTO userDTO){
+        user.setFirstname(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setEmail(userDTO.getEmail());
+        user.setPosition(userDTO.getPosition());
+        if (userDTO.getImage() != null)
+        {
+            user.setImage(org.apache.commons.codec.binary.Base64.decodeBase64(userDTO.getImage()));
+        }
         return user;
     }
-
-    @Override
-    public UserResource updateUserResourceWithUser(UserResource userResource, User user){
-        userResource.setFirstname(user.getFirstname());
-        userResource.setLastname(user.getLastname());
-        userResource.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userResource.setConfirmPassword(bCryptPasswordEncoder.encode(user.getConfirmPassword()));
-        BASE64DecodedMultipartFile base64DecodedMultipartFile = new BASE64DecodedMultipartFile(user.getImage());
-        userResource.setMultipartFile(base64DecodedMultipartFile);
-        userResource.setEmail(user.getEmail());
-        return userResource;
-    }
-
-    @Override
-    public UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource){
-        userResourceToUpdate.setFirstname(userResource.getFirstname());
-        userResourceToUpdate.setLastname(userResource.getLastname());
-        userResourceToUpdate.setPassword(bCryptPasswordEncoder.encode(userResource.getPassword()));
-        userResourceToUpdate.setConfirmPassword(bCryptPasswordEncoder.encode(userResource.getConfirmPassword()));
-        userResourceToUpdate.setMultipartFile(userResource.getMultipartFile());
-        userResourceToUpdate.setEmail(userResource.getEmail());
-        return userResourceToUpdate;
-    }
-
 
     @Override
     public List<User> parseStringToUsersList(String participants){
@@ -310,12 +238,44 @@ public class UserServiceImpl implements UserService {
         for(String symbol : list) intList.add(Long.valueOf(symbol));
         return intList;}
 
-//     public List<User> parseIntegerListToUserList(List<Long> intList){
-//         List <User> participantList = new ArrayList<>();
-//        for(Long l: intList){
-//            participantList.add(findById(l));
-//        }
-//       return null;
-//     }
+
+    @Override
+     public Set<User> parseIntegerListToUserList(List<Long> intList){
+         Set <User> participantList = new HashSet<>();
+        for(Long l: intList){
+            participantList.add(findById(l));
+        }
+       return participantList;
+     }
+
+     private JsonObject setPropertiesForUser(User user) throws UnsupportedEncodingException{
+         JsonObject userAsJson = new JsonObject();
+         userAsJson.addProperty("id", user.getId());
+         userAsJson.addProperty("username", user.getUsername());
+         userAsJson.addProperty("firstname", user.getFirstname());
+         userAsJson.addProperty("lastname", user.getLastname());
+         userAsJson.addProperty("email", user.getEmail());
+         userAsJson.addProperty("position", user.getPosition());
+         if(user.getImage() == null) userAsJson.addProperty("image", "null");
+         else{byte[] encodeBase64 = Base64.getEncoder().encode(user.getImage());
+             String base64Encoded = new String(encodeBase64, "UTF-8");
+             userAsJson.addProperty("image", base64Encoded);}
+         userAsJson.addProperty("subscription_by_event_type", user.getSubscriptionByEventType());
+         userAsJson.addProperty("subscription_by_tag_type", user.getSubscriptionByTagType());
+         userAsJson.addProperty("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()).toString());
+         JsonArray eventArray = new JsonArray();
+         for (Event event : user.getEvents()) {
+             JsonObject eventsJson = getEventsInfoForUser(event);
+             eventArray.add(eventsJson);
+         }
+         userAsJson.add("events", eventArray);
+         JsonArray eventAuthorArray = new JsonArray();
+         for (Event event : user.getEventsOfAuthor()) {
+             JsonObject eventsOfAuthorJson = getEventsInfoForUser(event);
+             eventAuthorArray.add(eventsOfAuthorJson);
+         }
+         userAsJson.add("eventsOfAuthor", eventAuthorArray);
+         return userAsJson;
+     }
 
 }

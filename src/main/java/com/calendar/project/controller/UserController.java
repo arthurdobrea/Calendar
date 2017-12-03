@@ -197,10 +197,6 @@ public class UserController {
             return "registration";
         }
 
-//        if (userForm.getMultipartFile().isEmpty()) {
-//            userService.setDefaultImage(userForm);
-//        }
-
         User user = Converter.convert(userForm);
         userService.save(user);
 
@@ -526,6 +522,7 @@ public class UserController {
         System.out.println("result=="+result);
         return result;
     }
+
     @RequestMapping(value = "/wrongSide", method = RequestMethod.GET)
     public String wrongSide(Model model){
         return"wrongSide";
