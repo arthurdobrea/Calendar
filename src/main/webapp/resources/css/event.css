@@ -228,5 +228,8 @@
 
 #timepicker1, #timepicker2 {
   background-color: #FFFFFF;
+}
 
+#timepicker1:disabled, #timepicker2:disabled {
+  color: transparent;
 }

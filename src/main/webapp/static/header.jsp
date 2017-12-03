@@ -18,6 +18,7 @@
     });
 </script>
 
+<script src="${contextPath}/resources/js/alex-date-time.js"></script>
 <script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 

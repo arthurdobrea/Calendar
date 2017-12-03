@@ -105,7 +105,7 @@
                 fixedWeekCount:false,
                 timeFormat: 'h:mma',
                 timezone: 'local',
-                allDay: false,
+                allDay: true,
                 events: {url:'/json/allEvents'},
             });
             var container=$('#container');
@@ -169,7 +169,7 @@
                     end: '17:00',
                 },
                 timezone: 'local',
-                allDay: false,
+                allDay: true,
                 firstDay:1,
                 defaultDate: $('#calendar').fullCalendar('today'),
                 weekNumbers: "ISO",

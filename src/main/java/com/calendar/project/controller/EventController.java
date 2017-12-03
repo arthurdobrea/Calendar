@@ -120,7 +120,7 @@ public class EventController {
         System.out.println("participantsList" + participantsList);
         if (startDate.length()<15){
             startDate+=" 10:00";
-            endDate+=" 17:00";
+            endDate+=" 18:00";
             allday=true;
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
@@ -152,7 +152,7 @@ public class EventController {
         notificationService.saveAll(notifications);
         notificationService.sendToAllParticipants(participants, event);
 
-        LOGGER.info("Redirect to \"/showEvent\" page");
+        LOGGER.info("Redirect to \"/index\" page");
         return "redirect:/index";
     }
 
@@ -163,11 +163,12 @@ public class EventController {
         User user =securityService.findLoggedInUsername();
         boolean isParticipant=userService.isUserParticipant(event,user);
         System.out.println(event);
-        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d, MMMM ,yyyy, 'Time:'  KK:MM a ");
+        DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, 'Time:'  kk:mm");
 
         model.addAttribute("start", event.getStart().format(formatter));
-        model.addAttribute("end", event.getStart().format(formatter));
+        model.addAttribute("end", event.getEnd().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
+        model.addAttribute("created", event.getEventCreated().format(formatter));
         model.addAttribute("event", event);
         LOGGER.info("Opening of \"/showEvent\" page");
         return "showEvent";
@@ -188,7 +189,7 @@ public class EventController {
         eventService.updateEvent(event);
 
 
-        LOGGER.info("Opening of \"/showEvent\" page");
+        LOGGER.info("Opening of \"/index\" page");
 
         return "index";
     }

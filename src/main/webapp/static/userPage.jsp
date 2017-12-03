@@ -19,12 +19,10 @@
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/datepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-    <%--<link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">--%>
-    <%--<link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">--%>
+    <link href="${contextPath}/resources/css/jquery.timepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
 
@@ -36,12 +34,11 @@
     <script src="${contextPath}/resources/js/userProfile.js"></script>
     <script src='${contextPath}/resources/js/fullcalendar.js'></script>
     <script src='${contextPath}/resources/js/moment.js'></script>
-    <%--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>--%>
-    <script src="${contextPath}/resources/js/datepicker.min.js"></script>
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -91,9 +88,7 @@
 </head>
 
 <body>
-
-
-    <div class="wrap_box_user_page">
+     <div class="wrap_box_user_page">
         <c:import url="header.jsp" />
         <div class="user_page_left for_shadow">
             <div class="left_block_header">
@@ -199,8 +194,8 @@
     <div class="delete_event_modalka"></div>
     <div class="edit_event_modalka"></div>
 
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
+
 </body>
 </html>
 

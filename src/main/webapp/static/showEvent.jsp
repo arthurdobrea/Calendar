@@ -81,6 +81,12 @@
                                     </tr>
                                     <tr>
                                         <div class="form-group">
+                                            <td><strong>Created: </strong>&nbsp;</td>
+                                            <td>${created}</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div class="form-group">
                                             <td><strong>Author: </strong></td>
                                             <td>${event.author.fullName}</td>
                                         </div>

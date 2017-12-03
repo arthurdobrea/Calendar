@@ -21,15 +21,11 @@
 <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-<%--<link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">--%>
-    <link href="${contextPath}/resources/css/datepicker.min.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
 <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
 <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
-<%--<script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>--%>
-<script src="${contextPath}/resources/js/datepicker.min.js"></script>
 <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
 <script src="${contextPath}/resources/js/userProfile.js"></script>
 
@@ -69,6 +65,12 @@
             e.preventDefault();
         });
     </script>
+
+    <script>
+        $( function() {
+            $( "#datepicker1" ).datepicker();
+        } );
+    </script>
 </head>
 
 <body>
@@ -107,48 +109,50 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="label_add_event" for="datetimepicker1"> START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"
-                                                   placeholder="Choose date... " required readonly>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="label_add_event" for="datetimepicker2">END DATE</label>
-                                            <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required style="background-color: #FFFFFF" readonly>
-                                        </div>
-                                    </div>
-
-
-                                            <%--<div class="col-sm-6">--%>
-                                                <%--<div class="form-group">--%>
-                                                    <%--<input type="hidden" name="start" class="form-control" id="datetimepicker1">--%>
-                                                    <%--<input type="text" name="end" class="form-control" id="datepicker1" placeholder="mm/dd/yyyy" maxlength="10">--%>
-                                                    <%--<input type="text" name="end" class="form-control" id="datepicker2" placeholder="mm/dd/yyyy" maxlength="10">--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-
-                                            <%--<div class="col-sm-6">--%>
-                                                <%--<div class="form-group" >--%>
-                                                    <%--<input type="hidden" name="end" class="form-control" id="datetimepicker2">--%>
-                                                    <%--<input type="text" name="end" class="form-control" id="timepicker1" placeholder="HH:mm" maxlength="5">--%>
-                                                    <%--<input type="text" name="end" class="form-control" id="timepicker2" placeholder="HH:mm" maxlength="5">--%>
-                                                <%--</div>--%>
-                                            <%--</div>--%>
-
-                                        <%--<div class="col-sm-6">--%>
-                                            <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; padding-top: 0; text-align: left;">--%>
-                                                <%--<div align="right" style="width: 70px"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
-                                                    <%--<input type="checkbox" id="all-day"--%>
-                                                           <%--onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">--%>
-                                                    <%--<span class="endava_red_text" style="font-size: 12px">&nbsp;All day</span>--%>
-                                                <%--</label></div>--%>
-                                            <%--</div>--%>
+                                    <%--<div class="col-sm-6">--%>
+                                        <%--<div class="form-group">--%>
+                                            <%--<label class="label_add_event" for="datetimepicker1"> START DATE</label>--%>
+                                            <%--<input type="text" name="start" class="form-control" id="datetimepicker1" style="background-color: #FFFFFF"--%>
+                                                   <%--placeholder="Choose date... " required readonly>--%>
                                         <%--</div>--%>
+                                    <%--</div>--%>
+
+                                    <%--<div class="col-sm-6">--%>
+                                        <%--<div class="form-group">--%>
+                                            <%--<label class="label_add_event" for="datetimepicker2">END DATE</label>--%>
+                                            <%--<input type="text" name="end" class="form-control" id="datetimepicker2"--%>
+                                                   <%--placeholder="Choose date... " required style="background-color: #FFFFFF" readonly>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="start" class="form-control" id="datetimepicker1">
+                                                </div>
+                                                <label class="label_add_event" for="datepicker1"> START DATE</label>
+                                                <input type="date" class="form-control" id="datepicker1" placeholder="mm/dd/yyyy">
+                                                <input type="time" class="form-control" id="timepicker1" placeholder="HH:mm">
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class="form-group" >
+                                                    <input type="hidden" name="end" class="form-control" id="datetimepicker2">
+                                                </div>
+                                                <label class="label_add_event" for="datepicker2"> START DATE</label>
+                                                <input type="date" class="form-control" id="datepicker2" placeholder="mm/dd/yyyy">
+                                                <input type="time" class="form-control" id="timepicker2" placeholder="HH:mm">
+                                            </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group" id="alldaydiv" style="padding-bottom:5px; padding-top: 0; text-align: left;">
+                                                <div align="right" style="width: 70px"><label id="alldaylabel" class="modal-header edit_profile_header">
+                                                    <input type="checkbox" id="all-day"
+                                                           onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">
+                                                    <span class="endava_red_text" style="font-size: 12px">&nbsp;All day</span>
+                                                </label></div>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
 
@@ -209,7 +213,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center; bottom: 10px;">
-                                <input type="submit" class="btn_login_submit" value="SUBMIT">
+                                <input type="submit" class="btn_login_submit" value="SUBMIT" onmouseover="eventDateTimeValidation();">
                             </div>
                         </div>
                     </div>
@@ -219,7 +223,6 @@
     </div>
 </div>
 
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

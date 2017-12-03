@@ -24,10 +24,10 @@
     <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+
     <script src="<c:url value="/resources/scripts/sockjs-0.3.4.min.js"/>"></script>
     <script src="<c:url value="/resources/scripts/stomp.js"/>"></script>
-    <%--<script src="<c:url value="/resources/scripts/jquery-1.10.2.min.js"/>"></script>--%>
-    <%--<script src="<c:url value="/resources/scripts/bootstrap/js/bootstrap.min.js"/>"></script>--%>
+    <script src="${contextPath}/resources/js/alex-date-time.js"></script>
     <script src="<c:url value="/resources/scripts/knockout-3.0.0.js"/>"></script>
     <script src="<c:url value="/resources/scripts/connectToServer.js"/>"></script>
 
