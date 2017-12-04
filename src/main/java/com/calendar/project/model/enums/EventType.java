@@ -7,7 +7,7 @@ public enum EventType {
 
     MEETING ("Meeting"),
     TRAINING ("Training"),
-    STANDUP ("Stand up"),
+    STAND_UP ("Stand up"),
     OFFLINE ("Offline"),
     TEAM_BUILDING("Team building"),
     WORKSHOP ("Workshop"),

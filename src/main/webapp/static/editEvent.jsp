@@ -62,12 +62,12 @@
                                 <div class="form-group">
                                     <label for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true" value="${event.title}" maxlength="30">
+                                           placeholder="Enter title" required="true" value="${event.title}" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true" value="${event.location}" maxlength="30">
+                                           placeholder="Enter Location" required="true" value="${event.location}" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
@@ -95,13 +95,13 @@
                                     </div>
 
                                         <div class="col-sm-6" id="startBlock" hidden>
-                                            <input type="date" class="form-control" id="datepicker1">
-                                            <input type="time" class="form-control" id="timepicker1">
+                                            <input type="date" class="form-control" id="datepicker1" required>
+                                            <input type="time" class="form-control" id="timepicker1" required>
                                         </div>
 
                                         <div class="col-sm-6" id="endBlock" hidden>
-                                            <input type="date" class="form-control" id="datepicker2" value="${event.start}" onchange="changeColor()">
-                                            <input type="time" class="form-control" id="timepicker2" onchange="changeColor()">
+                                            <input type="date" class="form-control" id="datepicker2" value="${event.start}" onchange="changeColor()" required>
+                                            <input type="time" class="form-control" id="timepicker2" onchange="changeColor()" required>
                                         </div>
 
                                         <%--<div class="col-sm-6" id="allDayBlock" hidden>--%>

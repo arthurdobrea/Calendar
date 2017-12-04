@@ -175,7 +175,7 @@ public class EventServiceImpl implements EventService {
                 return "#00897b";
             case WORKSHOP:
                 return "#1bb7de";
-            case STANDUP:
+            case STAND_UP:
                 return "#992f99";
             case OFFLINE:
                 return "#1a5a8f";

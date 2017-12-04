@@ -63,12 +63,12 @@
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true" maxlength="30">
+                                           placeholder="Enter title" required="true" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true" maxlength="30">
+                                           placeholder="Enter Location" required="true" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
