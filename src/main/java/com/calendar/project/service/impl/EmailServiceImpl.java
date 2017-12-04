@@ -10,6 +10,8 @@ import com.calendar.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -85,7 +87,7 @@ public class EmailServiceImpl implements EmailService {
         mailText.append(" \n");
 
         mailText.append("Event starts at time: ");
-        mailText.append(event.getStart());
+        mailText.append(event.getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         mailText.append(" \n");
 
         mailText.append("Was created by: ");

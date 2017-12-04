@@ -150,6 +150,7 @@ function changeColor() {
 function changeDateTimeForm () {
     $("#datetimepicker1, #datetimepicker2").hide();
     $("#startBlock, #endBlock, #allDayBlock").show();
+    $("#datepicker1, #datepicker2, #timepicker1, #timepicker2").prop("required", true);
 }
 
 

@@ -148,9 +148,6 @@ public class EventController {
         System.out.println(event);
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, 'Time:'  kk:mm");
 
-        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
-        notificationService.changeState(notification);
-
         model.addAttribute("start", event.getStart().format(formatter));
         model.addAttribute("end", event.getEnd().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
@@ -232,7 +229,7 @@ public class EventController {
                               @ModelAttribute("checkParticipants") String checkParticipants,
                               @ModelAttribute("eventType") EventType eventType,
                               @RequestParam("checkboxTags")List<String> checkboxValue,
-                              RedirectAttributes redirectAttributes
+                            RedirectAttributes redirectAttributes
     ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/editEvent\" page POST");
@@ -240,7 +237,7 @@ public class EventController {
         Event event = eventService.getEvent(id);
         event.setTitle(title);
         event.setEventType(eventType);
-        event.setAuthor( securityService.findLoggedInUsername());
+        event.setAuthor(securityService.findLoggedInUsername());
         event.setStart(LocalDateTime.parse(startDate, formatter));
         event.setEnd(LocalDateTime.parse(endDate, formatter));
         event.setLocation(location);
@@ -254,7 +251,6 @@ public class EventController {
         List<Notification> finalNotifications = eventService.notificationCreator(event);
         model.addAttribute("eventForm", event);
         redirectAttributes.addAttribute("eventId", event.getId());
-
         notificationService.saveAll(finalNotifications);
         notificationService.sendToAllParticipants(event.getParticipants(), event);
 
