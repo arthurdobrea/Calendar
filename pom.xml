@@ -60,7 +60,8 @@
                     <locations>
                         <location>filesystem:/src/main/resources/db/migration</location>
                     </locations>
-                    <url>jdbc:postgresql://18.217.47.109:5432/calendar_db</url>
+                    <!--<url>jdbc:postgresql://18.217.47.109:5432/calendar_db</url>-->
+                    <url>jdbc:postgresql://localhost:5433/calendar</url>
                     <user>postgres</user>
                     <password>server..</password>
                 </configuration>
