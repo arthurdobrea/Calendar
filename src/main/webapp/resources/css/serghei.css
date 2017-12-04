@@ -341,7 +341,7 @@ input:checked + .slider:before {
 }
 
 .btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
-    background-color: #7a210c;
+    background-color: #DE411B;
     color: #ffffff;
 }
 
