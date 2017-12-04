@@ -1,11 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>--%>
-<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -19,48 +14,20 @@
     <meta name="description">
     <meta name="author">
 
-    <title>Edit event</title>
+    <title>Create an event</title>
 
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/jquery-ui.min.css" rel="stylesheet">
 
     <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
-    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
+    <script src="${contextPath}/resources/js/jquery-ui.min.js"></script>
     <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#w-input-search').autocomplete({
-                serviceUrl: "/getUserFullName",
-                onSelect: function(inp){
-                    console.log(inp.value);
-                    if (document.getElementById("t-participants").value.indexOf(inp.value)<0)
-                        document.getElementById("t-participants").value+=inp.value+",";
-                    else
-                        alert("User "+ inp.value+" is in the list ");
-                    document.getElementById("w-input-search").value="";
-                },
-                paramName: "userFullName",
-                delimiter: ",",
-                width: "31%",
-                transformResult: function(response) {
-                    return {
-                        suggestions: $.map($.parseJSON(response), function(item) {
-                            return { value: item.toString(), data: item.id};
-                        })
-                    };
-                }
-            });
-        });
-    </script>
 
     <script>
         $('form').submit(function(){
@@ -74,13 +41,14 @@
         });
     </script>
 </head>
+</head>
 
 <body>
 <%--edit event modal--%>
 <div class="modal fade" id="EditEvent" role="dialog">
-    <div class="modal-dialog modal-lg" align="center" style="margin-top: 40px">
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 50px">
         <div class="modal-content" style="border-radius: 0;">
-            <div class="modal-header" style="margin-left: 15px; margin-right: 15px">
+            <div class="modal-header" style="margin-left: 15px; margin-right: 15px; border:0">
                 <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">EDIT EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
@@ -102,46 +70,54 @@
                                            placeholder="Enter Location" required="true" value="${event.location}" maxlength="30">
                                 </div>
                                 <div class="form-group">
-                                    <label for="ev-type">EVENT TYPE</label>
-                                    <select class="form-control" id="ev-type" name="eventType" required="true">
-
+                                    <label class="label_add_event" for="ev-type">EVENT TYPE</label>
+                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType" required="true" >
+                                        <option style="font-size: 14px" value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
-                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>${et.view()}</option>
+                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>>${et.view()}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" >
+                                        <label for="datetimepicker1">START DATE</label>
                                         <div class="form-group">
-                                            <label for="datetimepicker1">START DATE</label>
-                                            <input type="text" name="start" class="form-control" id="datetimepicker1"
-                                                   placeholder="Choose date... " required="true"
-                                                   value="${event.start.toString().replace("T"," ").replace("-","/")}">
+                                            <input type="text" name="start" class="form-control" id="datetimepicker1" readonly
+                                                   onclick="changeDateTimeForm()" value="${event.start.toString().replace("T"," ").replace("-","/")}" >
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" >
+                                        <label for="datetimepicker2">END DATE</label>
                                         <div class="form-group">
-                                            <label for="datetimepicker2">END DATE</label>
-                                            <input type="text" name="end" class="form-control" id="datetimepicker2"
-                                                   placeholder="Choose date... " required="true"
-                                                   value="${event.end.toString().replace("T"," ").replace("-","/")}">
+                                            <input type="text" name="end" class="form-control" id="datetimepicker2" readonly
+                                                   onclick="changeDateTimeForm()" value="${event.end.toString().replace("T"," ").replace("-","/")}" >
                                         </div>
                                     </div>
-                                    <%--<div class="col-sm-6" style="top: 13px">--%>
-                                        <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; text-align: left">--%>
-                                            <%--<div style="float: left"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
-                                                <%--<input type="checkbox" id="all-day" onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}"><span class="endava_red_text">&nbsp;All day</span>--%>
-                                            <%--</label></div>--%>
-                                        <%--</div >--%>
-                                    <%--</div>--%>
+
+                                        <div class="col-sm-6" id="startBlock" hidden>
+                                            <input type="date" class="form-control" id="datepicker1">
+                                            <input type="time" class="form-control" id="timepicker1">
+                                        </div>
+
+                                        <div class="col-sm-6" id="endBlock" hidden>
+                                            <input type="date" class="form-control" id="datepicker2" value="${event.start}" onchange="changeColor()">
+                                            <input type="time" class="form-control" id="timepicker2" onchange="changeColor()">
+                                        </div>
+
+                                        <%--<div class="col-sm-6" id="allDayBlock" hidden>--%>
+                                            <%--<div class="form-group" id="alldaydiv" style="padding-bottom:5px; padding-top: 0; text-align: left;">--%>
+                                                <%--<div align="right" style="width: 70px"><label id="alldaylabel" class="modal-header edit_profile_header">--%>
+                                                    <%--<input type="checkbox" id="all-day" value="${event.allDay}"--%>
+                                                           <%--onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">--%>
+                                                    <%--<span class="endava_red_text" style="font-size: 12px">&nbsp;All day</span>--%>
+                                                <%--</label></div>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+
                                 </div>
-
-
                             </div>
 
-
                             <div class="row" id="rightblock">
-
                                 <div class="col-sm-6">
                                     <div class="form-group textarea-group">
                                         <label for="ev-description">DESCRIPTION</label>
@@ -151,16 +127,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="top: 10px;">
                                     <div class="form-group participant-group">
-                                        <div class="input-group">
+                                        <div align="left" class="input-group" style="bottom: 15px; width: 100%">
                                             <input type="text" id="w-input-search" value=""
-                                                   class="form-control" placeholder="Enter name...">
-                                            <span class="input-group-btn" style="text-align: right">
-                                                    <button class="btn btn-secondary" type="button"
-                                                            id="span-btn-search">&#128269</button>
-                                                </span>
-
+                                                   class="event_form_enter_name_field" placeholder="Enter name..."
+                                                   onclick="autoComplete()" style="width: inherit">
                                         </div>
                                         <label for="t-participants">PARTICIPANTS</label>
                                         <textarea class="form-control" name="participants" id="t-participants"
@@ -188,8 +160,9 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="tag-checkbox-edit" id="tag-box-label-edit">TAGS</label>
-                            <div class="checkbox-group" style="text-align: center" id="tag-checkbox-edit">
+                            <label for="tag-checkbox" id="tag-box-label" style="position: absolute; margin: 0;width: auto;top: -13px;
+                            left: 5px;background: #fff;padding: 10px;line-height: 1; font-size: 10px;font-weight: normal;text-align: left;">TAGS</label>
+                            <div class="checkbox-group form-group " style="text-align: center; bottom:-10px; border-radius: 0; border: 2px solid #eee;height: 50px;" id="tag-checkbox">
                                 <c:forEach items="${tags}" var="tag">
                                     <c:set var="checked" value="0"/>
                                     <c:forEach items="${event.getEventTagsAsEnum()}" var="eventTag">
@@ -198,23 +171,23 @@
                                         </c:if>
                                     </c:forEach>
                                     <c:if test="${checked==1}">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag" checked/> ${tag.tag.view()}
                                         </label>
                                     </c:if>
                                     <c:if test="${checked==0}">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag"/> ${tag.tag.view()}
                                         </label>
                                     </c:if>
                                 </c:forEach>
-                                <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                     <input type="checkbox" name="checkboxTags"
                                            hidden value="hidden" checked/>
                                 </label>
-                                <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                     <input type="checkbox" name="checkboxTags"
                                            hidden value="hidden" checked/>
                                 </label>
@@ -225,7 +198,8 @@
                     <div class="row">
                         <div class="col-sm-12" style="text-align: center">
                             <input type="text" name="event-id" id="ev-id" value="${event.id}" hidden>
-                            <input type="submit" class="btn_login_submit" value="SAVE">
+                            <input type="submit" class="btn_login_submit" value="SAVE"
+                                   style="margin-bottom: 15px" onmousedown="checkHiddenInput()" >
                         </div>
                     </div>
                 </form>
@@ -234,8 +208,6 @@
     </div>
 </div>
 
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
-
 </body>
 </html>

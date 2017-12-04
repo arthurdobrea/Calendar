@@ -30,12 +30,21 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
+    public Notification getNotification(User user, Event event) {
+        return entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
+                + "and n.event.id = :idOfEvent ", Notification.class)
+                .setParameter("idOfUser", user.getId())
+                .setParameter("idOfEvent", event.getId())
+                .getSingleResult();
+    }
+
+    @Override
     public List<Notification> getCheckedEvents(User user) {
         List<Notification> notificationList = entityManager.createQuery("select n from Notification n left join fetch n.user left join fetch n.event where n.user.id = :idOfUser "
                 + "and n.isViewed = true", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
-        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
         return notificationList;
     }
 
@@ -45,7 +54,7 @@ public class NotificationDaoImpl implements NotificationDao {
                 + "and n.isViewed = false", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
-        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
         return notificationList;
     }
 

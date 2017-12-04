@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -23,8 +22,6 @@
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
 
 
@@ -87,12 +84,13 @@
         }
     </script>
 
+
+
 </head>
 
 <body>
-<c:import url="header.jsp" />
-
-    <div class="wrap_box_user_page">
+     <div class="wrap_box_user_page">
+        <c:import url="header.jsp" />
         <div class="user_page_left for_shadow">
             <div class="left_block_header">
                 <span class="endava_grey_text profile_text">PROFILE</span>
@@ -125,18 +123,19 @@
             </div>
 
             <%--Created events--%>
+
             <div id="my_events" align="left" class="scrollable-content">
-                <table class="table table-hover">
+                <table class="table table-hover" id="myEventsTable">
                     <tbody>
                     <c:forEach items="${eventsByAuthor}" var="event">
                             <tr>
-                                <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
+                                <td id="created_event_name" align="left" style="padding-left: 5px"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
-                                <td align="right">
+                                <td align="right" style="padding-left: 10px">
                                     <input type="hidden" id="${event.id}" value="${event.id}" readonly>
                                 </td>
 
-                                <td align="right" id="td_show_event">
+                                <td align="right" id="td_show_event" style="padding: 0">
                                     <button class="btn_show_event" onclick="$('.show_event_modal').
                                             load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
                                             getAttribute('value') + ' ' + '#ShowEvent').toString(),
@@ -148,7 +147,7 @@
                                     <button class="btn_edit_event" onclick="$('.edit_event_modalka').
                                             load(('/' + 'editEvent?eventId=' + document.getElementById(${event.id}).
                                             getAttribute('value') + ' ' + '#EditEvent').toString(),
-                                                    function () {$('#EditEvent').modal();});">
+                                                    function () {$('#EditEvent').modal();});" >
                                     </button>
                                 </td>
 
@@ -171,7 +170,7 @@
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
                             <tr>
-                                <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
+                                <td align="left" id="invited_event_name" style="padding-left: 5px"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
                                 <td align="right">
                                     <input type="hidden" id="${event.id}" value="${event.id}" readonly >
@@ -197,8 +196,8 @@
     <div class="delete_event_modalka"></div>
     <div class="edit_event_modalka"></div>
 
-<script src="${contextPath}/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="${contextPath}/resources/js/eventValidator.js"></script>
+
 </body>
 </html>
 

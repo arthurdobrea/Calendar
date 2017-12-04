@@ -65,11 +65,16 @@
                     <password>server..</password>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.9</version>
+        </dependency>
 
         <dependency>
             <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -335,6 +340,18 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20160810</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.3.3</version>
         </dependency>
 
     </dependencies>

@@ -1,11 +1,14 @@
 package com.calendar.project.service.impl;
 
 import com.calendar.project.model.Notification;
+import com.calendar.project.dao.EventDao;
+import com.calendar.project.model.Event;
 import com.calendar.project.model.Tag;
+import com.calendar.project.model.User;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
-import com.calendar.project.model.User;
 import com.calendar.project.model.enums.TagType;
+import com.calendar.project.service.EventService;
 import com.calendar.project.service.*;
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
@@ -89,6 +92,7 @@ public class EventServiceImpl implements EventService {
         event.setLocation(editedEvent.getLocation());
         event.setStart(editedEvent.getStart());
         event.setEnd(editedEvent.getEnd());
+        //event.setAllDay(editedEvent.isAllDay());
         eventDao.updateEvent(event);
     }
 
