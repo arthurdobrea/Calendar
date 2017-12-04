@@ -97,7 +97,7 @@
                 <span class="endava_red_text edit_user_link cursor_link" onclick="edit_user()">EDIT</span>
             </div>
             <div class="left_block_body" align="center">
-                        <img id="avatar" src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
+                        <img id="avatar" src="data:image/jpeg;base64,${image}" onerror="this.src='/resources/icons/defaultImage.png'" alt="Your avatar"/>
                     <div id="profile_fullname" class="endava_grey_text"><span style="size: 25px">${user.fullName}</span><br>
                         ${user.email}
                         <p class="endava_red_text" style="line-height: 40px">${user.position}</p>

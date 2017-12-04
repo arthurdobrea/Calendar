@@ -210,7 +210,7 @@
                 <input type = "text" id="firstname" data-id="firstname" name = "firstname" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="First name"/>
                 </div>
                 <input type = "text" id="lastname" data-id="lastname" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Last name"/>
-                <input type = "text" id="position" data-id="position" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Position"/>
+                <input type = "text" id="position" data-id="position" data-validetta="required,minLength[2],maxLength[20],regExp[fields]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Position"/>
                 <select type="select" id = "roles" data-id="roles" class="modal_window_select_box_admin class_for_submit111" style="padding-left: 5px;">
                     <%--<option value="ROLE_GUEST">ROLE_GUEST</option>--%>
                     <%--<option value="ROLE_USER">ROLE_USER</option>--%>
@@ -240,7 +240,10 @@
                         pattern: /^[A-Z][-a-zA-Z]+$/,
                         errorMessage: 'Please fill in the field correctly (English letters only, first letter - capital, no spaces or numbers)!'
                     },
-
+                    fields:{
+                        pattern: /^[a-zA-Z\s]*$/,
+                        errorMessage: 'Please fill in the field correctly (English letters only, no numbers)!'
+                    }
                 }
             },
             realTime: true,
