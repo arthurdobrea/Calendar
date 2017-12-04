@@ -74,7 +74,7 @@
                                     <select class="event_add_form_type_select_box" id="ev-type" name="eventType" required="true" >
                                         <option style="font-size: 14px" value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
-                                            <option style="font-size: 14px" value=${et}>${et.view()}</option>
+                                            <option value=${et}  <c:if test="${et == event.eventType}">selected</c:if>>${et.view()}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

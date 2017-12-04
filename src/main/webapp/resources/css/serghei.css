@@ -340,10 +340,15 @@ input:checked + .slider:before {
     color: black;
 }
 
-.btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
+.btn_edit_user_submit:hover, .btn_login_submit:hover {
+    background-color: #7a210c;
+    color: #ffffff;
+}
+.btn_delete_event_submit:hover{
     background-color: #DE411B;
     color: #ffffff;
 }
+
 
 .for_delete_event {
     margin: 20px auto;

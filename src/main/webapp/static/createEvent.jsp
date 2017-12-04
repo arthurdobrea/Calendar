@@ -34,11 +34,6 @@
 
     <script>
         $('form').submit(function(){
-            // Блокируем кнопки при отправке формы
-            $('input[type=submit]', $(this)).prop( 'disabled', true );
-            e.preventDefault();
-        });$('form').submit(function(){
-            // Блокируем кнопки при отправке формы
             $('input[type=submit]', $(this)).prop( 'disabled', true );
             e.preventDefault();
         });

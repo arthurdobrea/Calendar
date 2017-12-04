@@ -148,6 +148,9 @@ public class EventController {
         System.out.println(event);
         DateTimeFormatter formatter =DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy, 'Time:'  kk:mm");
 
+        Notification notification = notificationService.getNotification(securityService.findLoggedInUsername(), event);
+        notificationService.changeState(notification);
+
         model.addAttribute("start", event.getStart().format(formatter));
         model.addAttribute("end", event.getEnd().format(formatter));
         model.addAttribute("isParticipant", isParticipant);
