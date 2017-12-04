@@ -156,6 +156,7 @@ public class EventController {
         return "showEvent";
     }
 
+
     @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
     public String subscribeToEvent(@ModelAttribute("id") int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");

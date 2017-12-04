@@ -113,7 +113,7 @@
                                                 <table style="border: none">
                                                     <tr>
                                                         <td rowspan="2"><img id="avatar" src="data:image/jpeg;base64,
-                                                             ${user.getImageBase64()}" alt="Your avatar"
+                                                             ${user.getImageBase64()}" onerror="this.src='/resources/icons/defaultImage.png'" alt="Your avatar"
                                                                              style="width: 40px; height: 40px; border-radius: 50%"/>
                                                         </td>
                                                         <td style="padding-left: 2px; font-size: 14px">&nbsp;&nbsp;${user.fullName}</td>

@@ -14,17 +14,28 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletContext;
 
 
 @org.springframework.web.bind.annotation.RestController
@@ -93,7 +104,6 @@ public class MyRestController {
     @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody void createEvent(@RequestBody EventResource eventResource) {
-
         Event event = Converter.convert(eventResource);
         eventService.setParticipantsTagsAndAuthor(eventResource, event);
         eventService.saveEvent(event);
@@ -234,6 +244,21 @@ public class MyRestController {
         List<Event> events = eventService.getEventsByType(type);
         String eventString = eventService.getEventsJson(events);
         return new ResponseEntity<>(eventString, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/becomeParticipant", params = {"id"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    public ResponseEntity<String> becomeParticipant(@PathVariable @RequestParam("id") int id){
+        Event event = eventService.getEvent(id);
+        User user = securityService.findLoggedInUsername();
+        String message;
+        if (userService.isUserParticipant(event,user)) {
+            event.getParticipants().remove(user);
+            message = "unsubscribed";
+        }else {
+            event.getParticipants().add(user);
+            message = "subscribed";
+        }
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }
 

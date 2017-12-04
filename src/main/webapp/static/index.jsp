@@ -76,7 +76,7 @@
                     element.attr('href', 'javascript:void(0);');
                     element.click(function() {
                         $("#eventLocation").html(event.location);
-                        $("#eventAuthor").html(event.author);
+                        //$("#eventAuthor").html(event.author);
                         $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
                         $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
                         $("#eventInfo").html(event.description);
@@ -152,7 +152,7 @@
                     element.attr('href', 'javascript:void(0);');
                     element.click(function() {
                         $("#eventLocation").html(event.location);
-                        $("#eventAuthor").html(event.author);
+//                        $("#eventAuthor").html(event.author.firstname);
                         $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
                         $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
                         $("#eventContent").dialog({ modal: true, title: event.title, width:300});
@@ -276,10 +276,10 @@
             <td><strong class="endava_grey_text">End:</strong></td>
             <td><span id="endTime"></span></td>
         </tr>
-        <tr>
-            <td><strong class="endava_grey_text">Author:</strong></td>
-            <td><span id="eventAuthor"></span></td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td><strong class="endava_grey_text">Author:</strong></td>--%>
+            <%--<td><span id="eventAuthor"></span></td>--%>
+        <%--</tr>--%>
     </table>
 </div>
 
