@@ -175,7 +175,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
-    public String suscribeToEvent(Model model, @ModelAttribute("id") int eventId) {
+    public String subscribeToEvent(Model model, @ModelAttribute("id") int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
         Event event = eventService.getEvent(eventId);
         User user =securityService.findLoggedInUsername();
