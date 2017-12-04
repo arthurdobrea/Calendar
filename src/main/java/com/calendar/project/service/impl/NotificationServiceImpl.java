@@ -74,6 +74,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public Notification getNotification(User user, Event event) {
+        return notificationDao.getNotification(user, event);
+    }
+
+    @Override
     public List<Notification> getUncheckedEvents(User user) {
         return notificationDao.getUncheckedEvents(user);
     }

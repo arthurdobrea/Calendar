@@ -34,11 +34,6 @@
 
     <script>
         $('form').submit(function(){
-            // Блокируем кнопки при отправке формы
-            $('input[type=submit]', $(this)).prop( 'disabled', true );
-            e.preventDefault();
-        });$('form').submit(function(){
-            // Блокируем кнопки при отправке формы
             $('input[type=submit]', $(this)).prop( 'disabled', true );
             e.preventDefault();
         });
@@ -155,7 +150,7 @@
                                 <div class="checkbox-group form-group " style="text-align: center; bottom:-10px; "
                                      id="tag-checkbox">
                                     <c:forEach items="${tags}" var="tag">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 15px;">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>
