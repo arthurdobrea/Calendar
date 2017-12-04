@@ -95,13 +95,13 @@
                                     </div>
 
                                         <div class="col-sm-6" id="startBlock" hidden>
-                                            <input type="date" class="form-control" id="datepicker1" required>
-                                            <input type="time" class="form-control" id="timepicker1" required>
+                                            <input type="date" class="form-control" id="datepicker1" >
+                                            <input type="time" class="form-control" id="timepicker1" >
                                         </div>
 
                                         <div class="col-sm-6" id="endBlock" hidden>
-                                            <input type="date" class="form-control" id="datepicker2" value="${event.start}" onchange="changeColor()" required>
-                                            <input type="time" class="form-control" id="timepicker2" onchange="changeColor()" required>
+                                            <input type="date" class="form-control" id="datepicker2" value="${event.start}" onchange="changeColor()" >
+                                            <input type="time" class="form-control" id="timepicker2" onchange="changeColor()" >
                                         </div>
 
                                         <%--<div class="col-sm-6" id="allDayBlock" hidden>--%>
