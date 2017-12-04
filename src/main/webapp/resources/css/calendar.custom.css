@@ -172,7 +172,7 @@ button:focus {
 }
 
 .fc-listWeek-button.fc-button.fc-state-default.fc-corner-right.fc-state-active{
-    color: black ;
+    color: #DE411B;
     background: none;
 }
 

@@ -127,16 +127,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="top: 10px;">
                                     <div class="form-group participant-group">
-                                        <div class="input-group">
+                                        <div align="left" class="input-group" style="bottom: 15px; width: 100%">
                                             <input type="text" id="w-input-search" value=""
-                                                   class="form-control" placeholder="Enter name...">
-                                            <span class="input-group-btn" style="text-align: right">
-                                                    <button class="btn btn-secondary" type="button"
-                                                            id="span-btn-search">&#128269</button>
-                                                </span>
-
+                                                   class="event_form_enter_name_field" placeholder="Enter name..."
+                                                   onclick="autoComplete()" style="width: inherit">
                                         </div>
                                         <label for="t-participants">PARTICIPANTS</label>
                                         <textarea class="form-control" name="participants" id="t-participants"
@@ -164,8 +160,9 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <label for="tag-checkbox-edit" id="tag-box-label-edit">TAGS</label>
-                            <div class="checkbox-group" style="text-align: center" id="tag-checkbox-edit">
+                            <label for="tag-checkbox" id="tag-box-label" style="position: absolute; margin: 0;width: auto;top: -13px;
+                            left: 5px;background: #fff;padding: 10px;line-height: 1; font-size: 10px;font-weight: normal;text-align: left;">TAGS</label>
+                            <div class="checkbox-group form-group " style="text-align: center; bottom:-10px; border-radius: 0; border: 2px solid #eee;height: 50px;" id="tag-checkbox">
                                 <c:forEach items="${tags}" var="tag">
                                     <c:set var="checked" value="0"/>
                                     <c:forEach items="${event.getEventTagsAsEnum()}" var="eventTag">
@@ -174,23 +171,23 @@
                                         </c:if>
                                     </c:forEach>
                                     <c:if test="${checked==1}">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag" checked/> ${tag.tag.view()}
                                         </label>
                                     </c:if>
                                     <c:if test="${checked==0}">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag"/> ${tag.tag.view()}
                                         </label>
                                     </c:if>
                                 </c:forEach>
-                                <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                     <input type="checkbox" name="checkboxTags"
                                            hidden value="hidden" checked/>
                                 </label>
-                                <label class="checkbox-inline" style="color:${tag.tag.color()}">
+                                <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                     <input type="checkbox" name="checkboxTags"
                                            hidden value="hidden" checked/>
                                 </label>

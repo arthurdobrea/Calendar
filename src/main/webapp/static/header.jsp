@@ -50,7 +50,7 @@
 
             <input type="checkbox" class="no-underline image-checkbox" id = "bell_button">
 
-            <div class="notifications-list" style="z-index: 9;" onmouseleave="$('#bell_button').prop('checked', false);">
+            <div class="notifications-list" style="z-index: 9; margin-top: 20px; margin-right: 60px;" onmouseleave="$('#bell_button').prop('checked', false);">
                     <p id="notification-title">Notifications</p>
                     <table id="notification">
                         <%

@@ -176,8 +176,8 @@
 <div class="add_event_modal"></div>
 
 <!-- Modal delete-->
-<div class="modal" id="myModal" role="dialog">
-    <div class="modal-dialog">
+<div class="modal" id="myModal" role="dialog" >
+    <div class="modal-dialog" style="padding-top: 25%; padding-bottom: 25%;padding-left: 11%;padding-right: 25%">
         <!-- Modal content-->
         <div class="modal-content" style="width: 400px; border-radius: 0px; padding-bottom: 37px">
             <div class="modal_content"> <button type="button" style="margin-top: 0%" class="btn_close_modal" data-dismiss="modal"></button>
@@ -211,10 +211,10 @@
                 </div>
                 <input type = "text" id="lastname" data-id="lastname" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Last name"/>
                 <input type = "text" id="position" data-id="position" data-validetta="required,minLength[2],maxLength[20],regExp[example]" class="form-control modal_window_fields_admin class_for_submit111" placeholder="Position"/>
-                <select type="select" id = "roles" data-id="roles" class="modal_window_select_box_admin class_for_submit111">
-                    <option value="ROLE_GUEST">ROLE_GUEST</option>
-                    <option value="ROLE_USER">ROLE_USER</option>
-                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                <select type="select" id = "roles" data-id="roles" class="modal_window_select_box_admin class_for_submit111" style="padding-left: 5px;">
+                    <%--<option value="ROLE_GUEST">ROLE_GUEST</option>--%>
+                    <%--<option value="ROLE_USER">ROLE_USER</option>--%>
+                    <%--<option value="ROLE_ADMIN">ROLE_ADMIN</option>--%>
                 </select>
                     <input type="hidden" id="imageOfUser" data-id="imageOfUser">
                 </form>
@@ -312,15 +312,29 @@
                 btn.className = "btn_submit_edit";
                 btn.id = "submit-edit";
 
+                var array = ["ROLE_GUEST", "ROLE_USER", "ROLE_ADMIN"];
+
+                Array.prototype.swap = function (fromIndex, toIndex) {
+                    var temp = this[toIndex];
+                    this[toIndex] = this[fromIndex];
+                    this[fromIndex] = temp;
+                };
+
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] === right_text) {
+                        array.swap(0, i);
+                    }
+                }
+
                 var selectList = document.getElementById('roles');
                 selectList.className = 'modal_window_select_box_admin class_for_submit111';
-//                console.log(selectList);
-//                for (var i = 0; i < array.length; i++) {
-//                    var option = document.createElement("option");
-//                    option.value = array[i];
-//                    option.text = array[i];
-//                    selectList.appendChild(option);
-//                }
+                console.log(selectList);
+                for (var i = 0; i < array.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = array[i];
+                    option.text = array[i];
+                    selectList.appendChild(option);
+                }
                 /////////////////////////////////////////////////////
                 neededFields.forEach(function (fieldName) {
                     var input_id = document.getElementById('idOfUser');
