@@ -35,7 +35,7 @@ public class NotificationDaoImpl implements NotificationDao {
                 + "and n.isViewed = true", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
-        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
         return notificationList;
     }
 
@@ -45,7 +45,7 @@ public class NotificationDaoImpl implements NotificationDao {
                 + "and n.isViewed = false", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
-        notificationList.sort((o1, o2) -> o2.getEvent().getEventCreated().compareTo(o1.getEvent().getEventCreated()));
+        notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
         return notificationList;
     }
 
