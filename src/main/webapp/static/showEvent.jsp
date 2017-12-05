@@ -34,7 +34,7 @@
 <body>
 <%--show event modal--%>
 <div class="modal fade" id="ShowEvent" role="dialog" >
-    <div class="modal-dialog modal-lg" align="center" style="width: 900px; margin: auto; margin-top: 120px">
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0; cursor: context-menu;">
             <div class="modal-header" style="padding-left: 25px; padding-right: 25px; border:0">
                 <div class="create_event_header">

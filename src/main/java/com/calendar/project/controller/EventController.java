@@ -157,7 +157,6 @@ public class EventController {
         return "showEvent";
     }
 
-
     @RequestMapping(value = "/showEvent", method = RequestMethod.POST)
     public String subscribeToEvent(@ModelAttribute("id") int eventId) {
         LOGGER.info("Request of \"/showEvent\" page GET");
@@ -229,7 +228,7 @@ public class EventController {
                               @ModelAttribute("checkParticipants") String checkParticipants,
                               @ModelAttribute("eventType") EventType eventType,
                               @RequestParam("checkboxTags")List<String> checkboxValue,
-                            RedirectAttributes redirectAttributes
+                              RedirectAttributes redirectAttributes
     ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LOGGER.info("Request of \"/editEvent\" page POST");

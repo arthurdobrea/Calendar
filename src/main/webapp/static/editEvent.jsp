@@ -46,7 +46,7 @@
 <body>
 <%--edit event modal--%>
 <div class="modal fade" id="EditEvent" role="dialog">
-    <div class="modal-dialog modal-lg" align="center" style="margin-top: 50px">
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0;">
             <div class="modal-header" style="margin-left: 15px; margin-right: 15px; border:0">
                 <div class="create_event_header">
