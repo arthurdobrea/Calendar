@@ -203,7 +203,7 @@ public class EventDaoTest {
 
     @Test
     public void testGetEventsByKeywordNotEmptyList() throws Exception {
-        List<Event> eventsByKeyword = eventDao.getEventsByKeyword("Hibernate");
+        List<Event> eventsByKeyword = eventDao.getEventsByKeyword("Spring");
         Assert.assertFalse("List is empty", eventsByKeyword.isEmpty());
     }
 

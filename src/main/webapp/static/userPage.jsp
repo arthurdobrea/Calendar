@@ -84,6 +84,8 @@
         }
     </script>
 
+
+
 </head>
 
 <body>
@@ -95,7 +97,7 @@
                 <span class="endava_red_text edit_user_link cursor_link" onclick="edit_user()">EDIT</span>
             </div>
             <div class="left_block_body" align="center">
-                        <img id="avatar" src="data:image/jpeg;base64,${image}" alt="Your avatar"/>
+                        <img id="avatar" src="data:image/jpeg;base64,${image}" onerror="this.src='/resources/icons/defaultImage.png'" alt="Your avatar"/>
                     <div id="profile_fullname" class="endava_grey_text"><span style="size: 25px">${user.fullName}</span><br>
                         ${user.email}
                         <p class="endava_red_text" style="line-height: 40px">${user.position}</p>
@@ -127,13 +129,13 @@
                     <tbody>
                     <c:forEach items="${eventsByAuthor}" var="event">
                             <tr>
-                                <td id="created_event_name" align="left"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
+                                <td id="created_event_name" align="left" style="padding-left: 5px"><span  class="endava_grey_text span_event_title">${event.title}<br></span>
                                     <span  class="endava_grey_text">${event.eventType}</span></td>
-                                <td align="right">
+                                <td align="right" style="padding-left: 10px">
                                     <input type="hidden" id="${event.id}" value="${event.id}" readonly>
                                 </td>
 
-                                <td align="right" id="td_show_event">
+                                <td align="right" id="td_show_event" style="padding: 0">
                                     <button class="btn_show_event" onclick="$('.show_event_modal').
                                             load(('/' + 'showEvent?eventId=' + document.getElementById(${event.id}).
                                             getAttribute('value') + ' ' + '#ShowEvent').toString(),
@@ -168,7 +170,7 @@
                     <tbody>
                     <c:forEach items="${eventsByUser}" var="event">
                             <tr>
-                                <td align="left" id="invited_event_name"><span  class="endava_grey_text">${event.title}<br></span>
+                                <td align="left" id="invited_event_name" style="padding-left: 5px"><span  class="endava_grey_text">${event.title}<br></span>
                                     <span  class="endava_red_text span_event_title">${event.eventType}</span></td>
                                 <td align="right">
                                     <input type="hidden" id="${event.id}" value="${event.id}" readonly >

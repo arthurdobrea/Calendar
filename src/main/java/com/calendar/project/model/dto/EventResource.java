@@ -21,7 +21,7 @@ public class EventResource {
     private EventType eventType;
     private User author;
     private String location;
-    private List<User> participants = new ArrayList<>();
+    private String participants;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime start;
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
@@ -30,7 +30,7 @@ public class EventResource {
     private boolean allDay;
     private LocalDateTime eventCreated = LocalDateTime.now();
     private String description;
-    private Set<Tag> tags;
+    private String tags;
     private List<Notification> notifications;
 
     public void setStart(LocalDateTime start) {
@@ -89,11 +89,11 @@ public class EventResource {
         this.location = location;
     }
 
-    public List<User> getParticipants() {
+    public String getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(String participants) {
         this.participants = participants;
     }
 
@@ -137,11 +137,11 @@ public class EventResource {
         this.description = description;
     }
 
-    public Set<Tag> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 }

@@ -34,11 +34,6 @@
 
     <script>
         $('form').submit(function(){
-            // Блокируем кнопки при отправке формы
-            $('input[type=submit]', $(this)).prop( 'disabled', true );
-            e.preventDefault();
-        });$('form').submit(function(){
-            // Блокируем кнопки при отправке формы
             $('input[type=submit]', $(this)).prop( 'disabled', true );
             e.preventDefault();
         });
@@ -63,12 +58,12 @@
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-title">TITLE</label>
                                     <input type="text" name="title" class="form-control" id="ev-title"
-                                           placeholder="Enter title" required="true" maxlength="50">
+                                           placeholder="Enter title" required="true" maxlength="60">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-location">LOCATION</label>
                                     <input type="text" name="location" class="form-control" id="ev-location"
-                                           placeholder="Enter Location" required="true" maxlength="50">
+                                           placeholder="Enter Location" required="true" maxlength="60">
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
@@ -155,7 +150,7 @@
                                 <div class="checkbox-group form-group " style="text-align: center; bottom:-10px; "
                                      id="tag-checkbox">
                                     <c:forEach items="${tags}" var="tag">
-                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 15px;">
+                                        <label class="checkbox-inline" style="color:${tag.tag.color()}; top: 13px;">
                                             <input type="checkbox" name="checkboxTags"
                                                    id="checkboxTag" value="${tag.tag}"/> ${tag.tag.view()}
                                         </label>

@@ -31,4 +31,5 @@ public interface TagService {
 
     Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString);
 
+    Set<Tag> parseIntegerListToTagList(List<Long> intList);
 }

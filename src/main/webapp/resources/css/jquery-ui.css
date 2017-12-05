@@ -592,15 +592,22 @@ button.ui-button::-moz-focus-inner {
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
 	right: .3em;
-	top: 50%;
+	top: 55%;
 	width: 20px;
 	margin: -10px 0 0 0;
 	padding: 1px;
 	height: 20px;
+	background-size: 25px 25px;
+	background-image: url(/resources/icons/ic_close.png);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: -5px -4px;
+	border: 0;
 }
 .ui-dialog .ui-dialog-content {
 	position: relative;
@@ -1303,7 +1310,7 @@ a.ui-button:active,
 /* Overlays */
 .ui-widget-overlay {
 	background: #aaaaaa;
-	opacity: .3;
+	opacity: .0;
 	filter: Alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {

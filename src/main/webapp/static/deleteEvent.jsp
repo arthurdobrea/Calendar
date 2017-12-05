@@ -31,7 +31,7 @@
 
 <!-- Modal for deleting an event-->
 <div class="modal fade" id="DeleteEvent" role="dialog">
-    <div class="modal-dialog" align="center" style="margin-top: 100px">
+    <div class="modal-dialog" align="center" style="margin-top: 15%">
         <!-- Modal content-->
         <div class="row delete_event_modal">
             <div class="modal-header delete_event_header endava_grey_text">
@@ -39,7 +39,7 @@
             </div>
             <div class="delete_event_body">
                 <form:form method="POST" modelAttribute="eventForm">
-                    <div class="for_delete_event endava_grey_text">Are you sure you want to delete this event?</div>
+                    <div class="for_delete_event endava_grey_text" style="float: left;">Are you sure you want to delete this event?</div>
                     <spring:bind path="id">
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input type="hidden" path="id" class="form-control" placeholder="Id of event"

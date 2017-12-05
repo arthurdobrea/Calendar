@@ -74,6 +74,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public Notification getNotification(User user, Event event) {
+        return notificationDao.getNotification(user, event);
+    }
+
+    @Override
     public List<Notification> getUncheckedEvents(User user) {
         return notificationDao.getUncheckedEvents(user);
     }
@@ -90,17 +95,20 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public String getNotificationInJson(Notification notification) throws IOException{
-        ObjectMapper mapper = new ObjectMapper();
-        JSONObject notificationAsJson = new JSONObject();
-        //JsonArray notificationJsonArr = new JsonArray();
-        notificationAsJson.put("id", notification.getId());
-        notificationAsJson.put("title", notification.getEvent().getTitle());
-        notificationAsJson.put("eventCreated", notification.getEvent().getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-        notificationAsJson.put("start", notification.getEvent().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-        //notificationJsonArr.add(notificationAsJson);
-        String notificationString = notificationAsJson.toString();
-        Object json = mapper.readValue(notificationString, Object.class);
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+    public String getNotificationInJson(Notification notification, User u) throws IOException{
+        JSONObject body = new JSONObject();
+        body.put("to", "/topics/" + u.getId()+".json");
+        body.put("priority", "high");
+        JSONObject notification2 = new JSONObject();
+        notification2.put("title", "Event Manager Notification");
+        notification2.put("body", notification.getEvent().getTitle());
+        JSONObject data = new JSONObject();
+        data.put("event_id", notification.getEvent().getId());
+        data.put("title", notification.getEvent().getTitle());
+        data.put("eventCreated", notification.getEvent().getEventCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        data.put("start", notification.getEvent().getStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        body.put("notification", notification2);
+        body.put("data", data);
+        return body.toString();
     }
 }

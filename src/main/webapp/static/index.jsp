@@ -76,7 +76,7 @@
                     element.attr('href', 'javascript:void(0);');
                     element.click(function() {
                         $("#eventLocation").html(event.location);
-                        $("#eventAuthor").html(event.author);
+                        $("#eventAuthor").html((event.author.firstname + " " + event.author.lastname).toString());
                         $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
                         $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
                         $("#eventInfo").html(event.description);
@@ -127,12 +127,10 @@
 
             var authorVal = null;
             var particVal = null;
-            if (selectedOption == "EventsCreatedByMe")
-            {
+            if (selectedOption == "EventsCreatedByMe") {
                 authorVal = userIdVal;
             }
-            else if (selectedOption == "EventsWhereIamInvited")
-            {
+            else if (selectedOption == "EventsWhereIamInvited") {
                 particVal = userIdVal;
             }
 
@@ -154,7 +152,7 @@
                     element.attr('href', 'javascript:void(0);');
                     element.click(function() {
                         $("#eventLocation").html(event.location);
-                        $("#eventAuthor").html(event.author);
+                        $("#eventAuthor").html((event.author.firstname + " " + event.author.lastname).toString());
                         $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
                         $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
                         $("#eventContent").dialog({ modal: true, title: event.title, width:300});
@@ -205,7 +203,7 @@
 <body>
 <input type="hidden" id="userId" value="${userId}">
 
-<div class="panel panel-default box_style_shadow", style="padding: 20px;">
+<div class="panel panel-default box_style_shadow", style=" padding: 20px; padding-left: 125px;" >
     <div class="row">
         <div class="col-md-4" style="border: none">
             <select id="allEventsId" onchange="searchEvents()" class="roles_button_style1">

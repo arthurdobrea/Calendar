@@ -47,7 +47,7 @@
             <input autocomplete="false" name="username" id="username_input" type="text" placeholder="USERNAME"
                    autofocus="true" />
             <input autocomplete="false" name="password" id="password_input" type="password" placeholder="PASSWORD" />
-            <span class="error_text">${error}</span>
+            <span class="error_text" style="margin: 0;">${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <div style="margin-top: 40px">

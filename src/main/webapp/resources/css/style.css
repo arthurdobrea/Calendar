@@ -54,14 +54,16 @@
     width: 440px;
     float: left;
 }
-#email{
-width: 434px;
-    float: left;
-    height: 60px;
-    margin-left: 2px;
-    margin-top: 1px;
+/*#email{*/
+    /*!*margin-bottom: 50px; *!*/
+    /*!* margin-right: -18px; *!*/
+    /*width: 434px;*/
+    /*float: left;*/
+    /*height: 60px;*/
+    /*margin-left: 2px;*/
+    /*margin-top: 1px;*/
 
-}
+/*}*/
 .assignment{
     float: right;
     width: 460px;
@@ -73,13 +75,13 @@ width: 434px;
     width: 431px;
 }
 
-#username{
-    margin-top: 17px;
-    margin-left: 3px;
-    width: 434px;
-    margin-bottom: 50px;
-    line-height: 0.6;
-}
+/*#username{*/
+    /*margin-top: 17px;*/
+    /*margin-left: 3px;*/
+    /*width: 434px;*/
+    /*margin-bottom: 50px;*/
+    /*line-height: 0.6;*/
+/*}*/
 #btn-reg{
     border: none;
     width: 435px;
@@ -128,26 +130,26 @@ line-height: 0.6;
       margin-left: 10px;
 }
 
-#lastname{
-    width: 202px;
-    float: right;
-    margin-right: 3px;
-    margin-bottom: 0px;
-    margin-top: -10px;
-}
+/*#lastname{*/
+    /*width: 202px;*/
+    /*float: right;*/
+    /*margin-right: 3px;*/
+    /*margin-bottom: 0px;*/
+    /*margin-top: -10px;*/
+/*}*/
 
 #lastname input{
     height: 50px;
 }
 
 
-#firstname {
-    margin-top: -20px;
-    margin-left: 3px;
-    width: 204px;
-    height: 50px;
-    margin-bottom: 0;
-}
+/*#firstname {*/
+    /*margin-top: -20px;*/
+    /*margin-left: 3px;*/
+    /*width: 204px;*/
+    /*height: 50px;*/
+    /*margin-bottom: 0px;*/
+/*}*/
 .form-group-reg{
     margin-left: -4px;
 }

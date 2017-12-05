@@ -7,12 +7,11 @@ import com.calendar.project.model.dto.UserResource;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
     User getUser(long id);
-
-//    void setDefaultImage(UserResource userForm);
 
     User findById(Long id);
 
@@ -40,19 +39,15 @@ public interface UserService {
 
     String getUserJson(User user) throws IOException;
 
-    User updateUserForRest(User firstUser, User secondUser);
-
     List<User> parseStringToUsersList(String participants);
-
-    User updateUser(User user, UserResource userResource);
-
-    UserResource updateUserResourceWithUser(UserResource userResource, User user);
-
-    UserResource updateUserResourceWithUserResource(UserResource userResourceToUpdate, UserResource userResource);
 
     List<User> findLikeFullName(String fullname);
 
     boolean isUserParticipant(Event event, User user);
 
-    UserDTO updateUserForDTO(UserDTO firstUser, UserDTO secondUser);
+    List<Long> parseStringToIntList(String participants);
+
+    Set<User> parseIntegerListToUserList(List<Long> intList);
+
+    User updateUserWithUserDTO(User user, UserDTO userDTO);
 }

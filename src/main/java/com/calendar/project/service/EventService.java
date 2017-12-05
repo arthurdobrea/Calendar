@@ -2,6 +2,7 @@ package com.calendar.project.service;
 
 import com.calendar.project.dao.EventDao;
 import com.calendar.project.model.Event;
+import com.calendar.project.model.Notification;
 import com.calendar.project.model.dto.EventResource;
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.Tag;
@@ -59,5 +60,7 @@ public interface EventService {
 
     List<Event> searchEvents(EventType type, TagType tag, Long authorId, Long participantId);
 
+    List<Notification> notificationCreator(Event event);
 
+    void setParticipantsTagsAndAuthor(EventResource eventResource, Event event);
 }

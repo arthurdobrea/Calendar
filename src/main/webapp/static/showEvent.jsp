@@ -34,9 +34,9 @@
 <body>
 <%--show event modal--%>
 <div class="modal fade" id="ShowEvent" role="dialog" >
-    <div class="modal-dialog modal-lg" align="center" style="width: 900px; margin: auto; margin-top: 50px">
+    <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0; cursor: context-menu;">
-            <div class="modal-header" style="padding-left: 25px; padding-right: 25px">
+            <div class="modal-header" style="padding-left: 25px; padding-right: 25px; border:0">
                 <div class="create_event_header">
                     <p align="left" class="modal_topic endava_grey_text">EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
                 </div>
@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="row" id="rightblock">
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="padding-top: 23px";>
                                     <div class="form-group textarea-group">
                                         <label for="ev-show-description">DESCRIPTION</label>
                                         <textarea name="description" class="form-control" rows="3" readonly style="background: none"
@@ -122,10 +122,10 @@
                                                 <table style="border: none">
                                                     <tr>
                                                         <td rowspan="2"><img id="avatar" src="data:image/jpeg;base64,
-                                                             ${user.getImageBase64()}" alt="Your avatar"
+                                                             ${user.getImageBase64()}" onerror="this.src='/resources/icons/defaultImage.png'" alt="Your avatar"
                                                                              style="width: 40px; height: 40px; border-radius: 50%"/>
                                                         </td>
-                                                        <td style="padding-left: 2px; font-size: 14px">&nbsp;&nbsp;${user.fullName}</td>
+                                                        <td style="padding-left: 2px; font-size: 14px; padding-bottom: 18px;">&nbsp;&nbsp;${user.fullName}</td>
                                                     </tr>
                                                 </table>
                                             </div>

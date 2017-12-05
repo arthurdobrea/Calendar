@@ -111,7 +111,6 @@ input:checked + .slider:before {
     width: 32px;
     background-size: 15px 15px;
     vertical-align: middle;
-    padding-right: 0
 }
 
 .btn_edit_event {
@@ -160,6 +159,10 @@ input:checked + .slider:before {
     padding: 0;
     margin: 0;
     vertical-align: top;
+}
+#add_event_button:hover{
+    background-color: #7a210c;
+    color:white;
 }
 
 .btn_show_event {
@@ -306,13 +309,14 @@ input:checked + .slider:before {
 .btn_delete_event_cancel {
     width: 200px;
     height: 30px;
-    background-color: white;
+    background-color: #DE411B;
     font-size: 15px;
     font-family: Arial, sans-serif;
     border: solid thin #DE411B;
     border-radius: 15px;
     padding: 0;
     margin: 20px 0 0;
+    color: white;
 }
 
 .btn_delete_event_cancel:hover {
@@ -324,21 +328,27 @@ input:checked + .slider:before {
 .btn_delete_event_submit {
     width: 200px;
     height: 30px;
-    background-color: #DE411B;
+    background-color: white;
+    border: solid thin #DE411B;
     color: white;
     font-size: 15px;
     font-family: Arial, sans-serif;
-    border: 0;
     border-radius: 15px;
     padding: 0;
     margin: 0;
     margin-top: 20px;
+    color: black;
 }
 
-.btn_edit_user_submit:hover, .btn_delete_event_submit:hover, .btn_login_submit:hover {
+.btn_edit_user_submit:hover, .btn_login_submit:hover {
     background-color: #7a210c;
     color: #ffffff;
 }
+.btn_delete_event_submit:hover{
+    background-color: #DE411B;
+    color: #ffffff;
+}
+
 
 .for_delete_event {
     margin: 20px auto;
@@ -421,7 +431,6 @@ input:checked + .slider:before {
     width: 32px;
     background-size: 15px 15px;
     vertical-align: middle;
-    padding-right: 0
 }
 
 .btn_edit_event {
