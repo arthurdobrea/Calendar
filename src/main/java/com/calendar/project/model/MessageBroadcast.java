@@ -1,6 +1,5 @@
 package com.calendar.project.model;
 
-
 public class MessageBroadcast {
 
     private String messageContent;
@@ -8,6 +7,7 @@ public class MessageBroadcast {
     public MessageBroadcast() {
 
     }
+
     public MessageBroadcast(String messageContent) {
         this.messageContent = messageContent;
     }
@@ -19,7 +19,4 @@ public class MessageBroadcast {
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
     }
-
-
-
 }

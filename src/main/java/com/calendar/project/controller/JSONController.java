@@ -7,22 +7,22 @@ import com.calendar.project.model.enums.TagType;
 import com.calendar.project.service.*;
 import com.calendar.project.service.UserService;
 import com.calendar.project.service.EventService;
-import org.apache.log4j.Logger;
+import com.calendar.project.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.calendar.project.model.User;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.io.IOException;
+
 import java.util.*;
 
 @RestController
 @RequestMapping("/json")
 public class JSONController {
-
-    private static final Logger LOGGER = Logger.getLogger(JSONController.class);
 
     @Autowired
     UserService userService;
@@ -35,37 +35,12 @@ public class JSONController {
 
     @Autowired
     MobilePushNotificationsService mobilePushNotificationsService;
-//    @RequestMapping(value = "/sendToFirebase",method = RequestMethod.GET)
-//    public String sendTOfirebase() throws FirebaseException, UnsupportedEncodingException, JacksonUtilityException {
-//        Event event;
-//        event = eventService.getEvent(1);
-//
-//        User user;
-//        user = userService.getUser(1);
-//
-//        Notification notification = new Notification();
-//        notification.setEvent(event);
-//        notification.setUser(user);
-//
-//
-//        // get the base-url (ie: 'http://gamma.firebase.com/username')
-//        String firebase_baseUrl = "https://fir-tutorial-61989.firebaseio.com/";
-//
-//        // create the firebase
-//        Firebase firebase = new Firebase( firebase_baseUrl );
-//
-//        // "PUT" (test-map into the fb4jDemo-root)
-//        Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
-//        dataMap.put( "event 1", notification.toString());
-//        FirebaseResponse response = firebase.put( dataMap );
-//
-//        return "welcome";
-//    }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllUsers() throws IOException {
         List<User> users = userService.getAllUsers();
         String userString = userService.getUsersJson(users);
+
         return new ResponseEntity<>(userString, HttpStatus.OK);
     }
 
@@ -73,6 +48,7 @@ public class JSONController {
     public ResponseEntity<String> getAllEvents() throws IOException {
         List<Event> events = eventService.getAllEvents();
         String eventString = eventService.getEventsJson(events);
+
         return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
 
@@ -80,6 +56,7 @@ public class JSONController {
     public ResponseEntity<String> getUser(@PathVariable @RequestParam("username") String username) throws IOException {
         User user = userService.findByUsername(username);
         String userString = userService.getUserJson(user);
+
         return new ResponseEntity<>(userString, HttpStatus.OK);
     }
 
@@ -90,6 +67,7 @@ public class JSONController {
                                                @PathVariable @RequestParam("participantId") Long participantId) throws IOException {
         List<Event> events = eventService.searchEvents(type, tag, authorId, participantId);
         String eventString = eventService.getEventsJson(events);
+
         return new ResponseEntity<>(eventString, HttpStatus.OK);
     }
 
@@ -97,7 +75,7 @@ public class JSONController {
     public ResponseEntity<String> getParticipants(@PathVariable @RequestParam("id") int id) throws IOException {
         List<User> users = eventService.getParticipantsByEvent(id);
         String usersString = userService.getUsersJson(users);
+
         return new ResponseEntity<>(usersString, HttpStatus.OK);
     }
-
 }

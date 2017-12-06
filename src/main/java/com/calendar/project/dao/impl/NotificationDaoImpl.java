@@ -4,13 +4,12 @@ import com.calendar.project.dao.NotificationDao;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 
 @Repository
@@ -44,7 +43,9 @@ public class NotificationDaoImpl implements NotificationDao {
                 + "and n.isViewed = true", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
+
         notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
+
         return notificationList;
     }
 
@@ -54,15 +55,16 @@ public class NotificationDaoImpl implements NotificationDao {
                 + "and n.isViewed = false", Notification.class)
                 .setParameter("idOfUser", user.getId())
                 .getResultList();
+
         notificationList.sort((o1, o2) -> o2.getEvent().getStart().compareTo(o1.getEvent().getStart()));
+
         return notificationList;
     }
 
     @Override
     public void changeState(Notification notification) {
         notification.setViewed(true);
+
         entityManager.merge(notification);
     }
-
-
 }

@@ -9,8 +9,11 @@ import com.calendar.project.service.*;
 import com.calendar.project.validator.EditFormValidator;
 import com.calendar.project.validator.UserResourceValidator;
 import com.calendar.project.validator.UserValidator;
+
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +26,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +36,8 @@ import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
+
+    private static final Logger LOGGER = Logger.getLogger(UserController.class);
 
     @Autowired
     EventService eventService;
@@ -61,11 +68,6 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
-
-
-    private static final Logger LOGGER = Logger.getLogger(UserController.class);
-
-    //________________________________________________
 
     @RequestMapping(value = "/getUsernames", method = RequestMethod.GET)
     public @ResponseBody
@@ -100,13 +102,9 @@ public class UserController {
     private List<String> simulateSearchResultForUsername(String userName) throws IOException {
         List<User> listOfUsers = userService.getAllUsers();
         List<String> usernames = new ArrayList<>();
-
-
-
-        for(User u: listOfUsers){
+        for (User u : listOfUsers) {
             usernames.add(u.getUsername());
         }
-
 
         List<String> result = new ArrayList<>();
         for (String s : usernames) {
@@ -114,12 +112,14 @@ public class UserController {
                 result.add(s);
             }
         }
+
         return result;
     }
+
     private List<String> simulateSearchResultForFirstName(String firstName) {
         List<User> listOfUsers = userService.getAllUsers();
         List<String> firstname = new ArrayList<>();
-        for(User u: listOfUsers){
+        for (User u : listOfUsers) {
             firstname.add(u.getFirstname());
         }
 
@@ -129,12 +129,14 @@ public class UserController {
                 result.add(s);
             }
         }
+
         return result;
     }
+
     private List<String> simulateSearchResultForLastName(String lastName) {
         List<User> listOfUsers = userService.getAllUsers();
         List<String> lastnames = new ArrayList<>();
-        for(User u: listOfUsers){
+        for (User u : listOfUsers) {
             lastnames.add(u.getLastname());
         }
 
@@ -144,12 +146,14 @@ public class UserController {
                 result.add(s);
             }
         }
+
         return result;
     }
+
     private List<String> simulateSearchResultForEmail(String email) {
         List<User> listOfUsers = userService.getAllUsers();
         List<String> emails = new ArrayList<>();
-        for(User u: listOfUsers){
+        for (User u : listOfUsers) {
             emails.add(u.getEmail());
         }
 
@@ -159,8 +163,10 @@ public class UserController {
                 result.add(s);
             }
         }
+
         return result;
     }
+
     private List<User> simulateSearchResultForRoles(String role) {
         List<User> listOfUsers = userService.getAllUsers();
         List<User> result = new ArrayList<>();
@@ -169,15 +175,14 @@ public class UserController {
                 result.add(user);
             }
         }
+
         return result;
     }
-
-
-    //________________________________________________
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         LOGGER.info("Request of \"/registration\" page GET");
+
         model.addAttribute("userForm", new UserResource());
 
         LOGGER.info("Opening of \"/registration\" page");
@@ -186,8 +191,7 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("userForm") @Valid UserResource userForm,
-                               BindingResult bindingResult)
-            {
+                               BindingResult bindingResult) {
         LOGGER.info("Request of \"/registration\" page POST");
 
         userResourceValidator.validate(userForm, bindingResult);
@@ -209,6 +213,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.GET)
     public String addUser(Model model) {
         LOGGER.info("Request of \"/addUser\" page GET");
+
         model.addAttribute("userForm", new User());
 
         LOGGER.info("Opening of \"/addUser\" page");
@@ -218,6 +223,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, @PathVariable String id) {
         LOGGER.info("Request of \"/addUser\" page POST");
+
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -235,7 +241,7 @@ public class UserController {
     public String login(Model model, String error, String logout) {
         LOGGER.info("Request of \"/login\" page GET");
 
-        if(securityService.findLoggedInUsername() != null) {
+        if (securityService.findLoggedInUsername() != null) {
             return "redirect:/index";
         }
 
@@ -246,6 +252,7 @@ public class UserController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
+
         LOGGER.info("Opening of \"/login\" page");
         return "login";
     }
@@ -263,8 +270,8 @@ public class UserController {
         return "welcome";
     }
 
-    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.GET)
-    public String index(Model model){
+    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.GET)
+    public String index(Model model) {
         LOGGER.info("Request of \"/index\" page GET");
 
         Event event = new Event();
@@ -286,23 +293,28 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = { "/index", "/"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/index", "/"}, method = RequestMethod.POST)
     public String createEvent(@ModelAttribute("eventForm") Event eventForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         LOGGER.info("Request of \"/index\" page POST");
+
         if (bindingResult.hasErrors()) {
             LOGGER.info("Opening of \"/index\" page");
             return "index";
         }
+
         List<User> participants = new ArrayList<>();
         for (User u : eventForm.getParticipants()) {
             u.setId(Long.parseLong(u.getUsername()));
+
             participants.add(userService.getUser(u.getId()));
         }
 
         eventForm.setParticipants(participants);
+
         User user = securityService.findLoggedInUsername();
         eventForm.setAuthor(userService.findByUsername(user.getUsername()));
         eventService.saveEvent(eventForm);
+
         redirectAttributes.addAttribute("eventId", eventForm.getId());
 
         LOGGER.info("Redirect to \"/index\" page");
@@ -333,23 +345,26 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
         User temp = userService.findByUsername(user.getUsername());
         user.setPassword(temp.getPassword());
-
         user.setImage(temp.getImage());
 
         for (Role r : user.getRoles()) {
             r.setId(roleService.findRoleIdByValue(r.getName()));
             System.out.println(r.getName());
         }
+
         System.out.println(user.getRoles());
         userService.updateUser(user);
+
         return "admin";
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.GET)
     public String userControlPanel(Model model, @ModelAttribute("userForm") UserResource userForm) {
         LOGGER.info("Request of \"/userControlPanel\" page GET");
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userForm = Converter.convert(userService.findByUsername(auth.getName()));
+
         model.addAttribute("username", userForm.getUsername());
         model.addAttribute("firstname", userForm.getFirstname());
         model.addAttribute("lastname", userForm.getLastname());
@@ -357,34 +372,38 @@ public class UserController {
         model.addAttribute("email", userForm.getEmail());
 
         LOGGER.info("Opening of \"/userControlPanel\" page");
-
         return "userControlPanel";
     }
 
     @RequestMapping(value = "/userControlPanel", method = RequestMethod.POST)
     public String userControlPanel(@ModelAttribute("userForm") UserResource userForm, Model model) {
         LOGGER.info("Request of \"/userControlPanel\" page POST");
+
         try {
             User user = userService.findByUsername(userForm.getUsername());
+
             user.setFirstname(userForm.getFirstname());
             user.setLastname(userForm.getLastname());
             user.setPosition(userForm.getPosition());
             user.setEmail(userForm.getEmail());
+
             if (!userForm.getMultipartFile().isEmpty()) {
                 user.setImage(userForm.getMultipartFile().getBytes());
             }
+
             userService.update(user);
-        }catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
         LOGGER.info("Redirect to \"/userPage\" page");
         return "redirect:/userPage";
     }
 
     @RequestMapping(value = "/userPage", method = RequestMethod.GET)
-    public String showMyEvents(  Model model, User user){
+    public String showMyEvents(Model model, User user) {
         LOGGER.info("Request of \"/userPage\" page GET");
+
         user = securityService.findLoggedInUsername();
         List<Event> eventsByAuthor = eventService.getEventsByAuthor(user.getId());
         List<Event> eventsByUser = eventService.getEventsByUser(user.getId());
@@ -394,7 +413,7 @@ public class UserController {
         model.addAttribute("checkedNotifications", checkedNotifications);
         model.addAttribute("uncheckedNotifications", uncheckedNotifications);
         model.addAttribute("userLabels", user.getSubscriptionByEventTypeAsEnums());
-        model.addAttribute("userAuthor", userService.getUser(user.getId()) );
+        model.addAttribute("userAuthor", userService.getUser(user.getId()));
         model.addAttribute("eventsByAuthor", eventsByAuthor);
         model.addAttribute("eventsByUser", eventsByUser);
         model.addAttribute("eventsList", eventService.getEventTypeList());
@@ -406,12 +425,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/eventTypeLink", method = RequestMethod.POST)
-    public String userPage(Model model,@RequestParam("checkboxName")Set<String> checkboxValue) {
+    public String userPage(Model model, @RequestParam("checkboxName") Set<String> checkboxValue) {
         LOGGER.info("Request of \"/eventTypeLink\" page POST");
+
         User user = securityService.findLoggedInUsername();
 
         StringBuilder stringBuilder = new StringBuilder();
-        for(String ptr: checkboxValue) {
+        for (String ptr : checkboxValue) {
             if (!ptr.equals("")) {
                 stringBuilder.append(ptr + ',');
             }
@@ -422,6 +442,7 @@ public class UserController {
 
         userService.update(user);
         emailService.mailToUserFutureEvents(user);
+
         LOGGER.info("Opening of \"/userPage\" page");
         return "userPage";
     }
@@ -429,7 +450,9 @@ public class UserController {
     @ModelAttribute("list_of_roles")
     public List<Role> initializeProfiles() {
         List<Role> list = roleService.findAll();
+
         list.remove(1);     // to clarify
+
         LOGGER.info("Return list of roles");
         return list;
     }
@@ -437,10 +460,13 @@ public class UserController {
     @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model) {
         LOGGER.info("Request of \"/edit-user-{username}\" page GET");
+
         User user = userService.findByUsername(username);
+
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
         model.addAttribute("loggedinuser", securityService.findLoggedInUsername());
+
         LOGGER.info("Opening of \"/userEdit\" page");
         return "userEdit";
     }
@@ -448,6 +474,7 @@ public class UserController {
     @RequestMapping(value = "/edit-user-{username}", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user") User user, BindingResult bindingResult, @PathVariable String username) {
         LOGGER.info("Request of \"/edit-user-{username}\" page POST");
+
         editFormValidator.validate(user, bindingResult);
 
         for (Role r : user.getRoles()) {
@@ -460,6 +487,7 @@ public class UserController {
         }
 
         userService.updateUser(user);
+
         LOGGER.info("Redirect to \"/admin\" page");
         return "redirect:/admin";
     }
@@ -467,7 +495,9 @@ public class UserController {
     @RequestMapping(value = "/delete-user-{username}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) {
         LOGGER.info("Request of \"/delete-user-{username}\" page GET");
+
         userService.deleteUserByUsername(username);
+
         LOGGER.info("Redirect to \"/admin\" page");
         return "redirect:/admin";
     }
@@ -482,7 +512,9 @@ public class UserController {
     @RequestMapping(value = "/mailing", method = RequestMethod.POST)
     public String mailing(Model model) {
         LOGGER.info("Request of \"/mailing\" page POST");
+
         emailService.mailSubscribersAllFutureEvents();
+
         LOGGER.info("Opening of \"/mailing\" page");
         return "mailing";
     }
@@ -490,25 +522,29 @@ public class UserController {
     @RequestMapping(value = "/usersTag", method = RequestMethod.GET)
     public String setUsersTag(Model model) {
         LOGGER.info("Request of \"/usersTag\" page GET");
+
         model.addAttribute("usersList", userService.getAllUsers());
         model.addAttribute("tagsList", tagService.getTagsTypeList());
+
         LOGGER.info("Opening of \"/usersTags\" page");
         return "usersTags";
     }
 
     @RequestMapping(value = "/usersTag", method = RequestMethod.POST)
-    public String setUsersTag(Model model,@RequestParam("checkboxName")Set<String> checkboxValue,@RequestParam("user")User user) {
+    public String setUsersTag(Model model, @RequestParam("checkboxName") Set<String> checkboxValue, @RequestParam("user") User user) {
         LOGGER.info("Request of \"/usersTag\" page POST");
+
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(String ptr: checkboxValue) {
+        for (String ptr : checkboxValue) {
             stringBuilder.append(ptr + ',');
         }
+
         String tagSet = stringBuilder.toString();
 
         user.setSubscriptionByTagType(tagSet);
-
         userService.update(user);
+
         LOGGER.info("Opening of \"/usersTags\" page");
         return "usersTags";
     }
@@ -517,19 +553,22 @@ public class UserController {
     public @ResponseBody
     List<String> getUsersFromRequest(@RequestParam String userFullName) {
         LOGGER.info("Request of \"/autocomplete\" page GET");
+
         List<String> result = new ArrayList<>();
+
         for (User user : userService.findAllUsers()) {
             if (user.getFullName().toLowerCase().contains(userFullName.toLowerCase())) {
                 result.add(user.getFullName().toString());
             }
         }
-        LOGGER.info("Return response for \"/autocomplete\" " +userFullName);
-        System.out.println("result=="+result);
+
+        LOGGER.info("Return response for \"/autocomplete\" " + userFullName);
+        System.out.println("result==" + result);
         return result;
     }
 
     @RequestMapping(value = "/wrongSide", method = RequestMethod.GET)
-    public String wrongSide(Model model){
-        return"wrongSide";
+    public String wrongSide(Model model) {
+        return "wrongSide";
     }
 }

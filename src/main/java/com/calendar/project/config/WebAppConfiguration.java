@@ -12,19 +12,18 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-import java.io.IOException;
 
+import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.calendar.project"})
+@ComponentScan(basePackages = "com.calendar.project")
 public class WebAppConfiguration implements WebMvcConfigurer {
 
     private static final String RES_HANDLER = "/resources/**";
     private static final String RES_LOCATION = "/resources/";
     private static final String PREFIX = "/static/";
     private static final String SUFFIX = ".jsp";
-
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
@@ -36,23 +35,29 @@ public class WebAppConfiguration implements WebMvcConfigurer {
     @Override
     public void configureViewResolvers(final ViewResolverRegistry registry) {
         final InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix(PREFIX);
         viewResolver.setSuffix(SUFFIX);
+
         registry.viewResolver(viewResolver);
     }
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+
         messageSource.addBasenames("classpath:validation");
+
         return messageSource;
     }
 
     @Bean(name="multipartResolver")
     public MultipartResolver getResolver() throws IOException{
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSizePerFile(5242880);//5MB
+
+        resolver.setMaxUploadSizePerFile(5242880); //5MB
+
         return resolver;
     }
 }

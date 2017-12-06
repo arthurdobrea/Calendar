@@ -1,8 +1,11 @@
 package com.calendar.project.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+
 import java.io.Serializable;
+
 import java.util.Set;
 
 @Entity
@@ -17,12 +20,12 @@ public class Role implements Serializable {
     @Column(name = "name")
     private String name;
 
-
     @JsonBackReference(value = "child")
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users;
 
     public Role() {
+
     }
 
     public Role(String name) {

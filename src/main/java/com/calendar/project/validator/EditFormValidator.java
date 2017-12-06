@@ -1,28 +1,25 @@
 package com.calendar.project.validator;
 
 import com.calendar.project.model.User;
-import org.apache.log4j.Logger;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
 import java.util.regex.Pattern;
 
 @Component
 public class EditFormValidator  implements Validator {
 
-    private static final Logger LOGGER = Logger.getLogger(EditFormValidator.class);
-
     @Override
     public boolean supports(Class<?> aClass) {
-
         return User.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        String username = user.getUsername();
         String firstname = user.getFirstname();
         String lastname = user.getLastname();
 

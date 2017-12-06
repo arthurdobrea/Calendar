@@ -23,7 +23,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-
 import javax.sql.DataSource;
 
 @Configuration
@@ -34,10 +33,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String GUEST = "GUEST";
     private static final String USER = "USER";
     private static final String ADMIN = "ADMIN";
-    private static final String SUPREME_ADMIN ="SUPREME_ADMIN";
+    private static final String SUPREME_ADMIN = "SUPREME_ADMIN";
 
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Autowired
     private ClientDetailsService clientDetailsService;
@@ -45,10 +44,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
     @Autowired
     private DataSource dataSource;
-
 
     @Autowired
     public void setbCryptPasswordEncoder(final BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -64,34 +61,37 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+
         return authenticationProvider;
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers("/").authenticated()
-                .antMatchers("/index").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-                .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
-                .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
-                .antMatchers("/json/allEvents").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-                .antMatchers("/json/users").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-                .antMatchers("/json/getUserByUsername").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-//                .antMatchers("/oauth/token").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
-                .and().httpBasic()
+                    .antMatchers("/").authenticated()
+                    .antMatchers("/index").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/admin").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/addUser").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/edit-user-{username}").hasAnyRole(ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/delete-user-{username}").hasRole(SUPREME_ADMIN)
+                    .antMatchers("/json/allEvents").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/users").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
+                    .antMatchers("/json/getUserByUsername").hasAnyRole(GUEST, USER, ADMIN, SUPREME_ADMIN)
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/index")
-                .failureUrl("/login?error")
-                .usernameParameter("username")
-                .passwordParameter("password")
+                    .httpBasic()
+                .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/index")
+                    .failureUrl("/login?error")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
                 .and()
                     .logout()
                     .logoutSuccessUrl("/login?logout")
@@ -111,7 +111,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+
         tokenRepositoryImpl.setDataSource(dataSource);
+
         return tokenRepositoryImpl;
     }
 
@@ -133,11 +135,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Autowired
-    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore){
+    public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore) {
         TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
+
         handler.setTokenStore(tokenStore);
         handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
         handler.setClientDetailsService(clientDetailsService);
+
         return handler;
     }
 
@@ -145,9 +149,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
         TokenApprovalStore store = new TokenApprovalStore();
+
         store.setTokenStore(tokenStore);
+
         return store;
     }
-
-
 }

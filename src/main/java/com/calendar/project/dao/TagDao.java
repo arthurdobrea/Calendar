@@ -13,12 +13,12 @@ public interface TagDao {
 
     void deleteTag(Tag tag);
 
-    List<Tag> getAllTags();
-
     Tag getTagById(Long EventTagId);
 
     Tag getTagByName(TagType tag);
 
     List<Tag> getTagsByEvent(int EventId);
+
+    List<Tag> getAllTags();
 
 }

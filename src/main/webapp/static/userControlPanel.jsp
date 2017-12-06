@@ -20,10 +20,10 @@
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
+    <script src="${contextPath}/resources/js/lib/bootstrap.min.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -32,53 +32,60 @@
         <!-- Modal content-->
         <div class="row edit_profile_modal">
             <div class="modal-header edit_profile_header endava_grey_text">
-                <div align="left" class="modal_topic">EDIT PROFILE<button type="button" class="close_modal" data-dismiss="modal"></button></div>
+                <div align="left" class="modal_topic">EDIT PROFILE
+                    <button type="button" class="close_modal" data-dismiss="modal"></button>
+                </div>
             </div>
             <div class="modal-body edit_profile_body">
-                <form:form method="POST" modelAttribute="userForm" id="user_edit_form" enctype = "multipart/form-data">
-                    <input id="user_username" type="hidden" name="username" placeholder="Username" autofocus="true" value="${username}" readonly>
+                <form:form method="POST" modelAttribute="userForm" id="user_edit_form" enctype="multipart/form-data">
+                <input id="user_username" type="hidden" name="username" placeholder="Username" autofocus="true"
+                       value="${username}" readonly>
 
-                    <spring:bind path="firstname">
-                        <div class="${status.error ? 'has-error' : ''}">
-                            <form:input autocomplete="false" id="user_firstname" type="text" path="firstname" name="firstname" placeholder="FIRST NAME"
-                                        autofocus="true" value="${firstname}"></form:input>
-                            <form:errors path="firstname"></form:errors>
-                        </div>
-                    </spring:bind>
+                <spring:bind path="firstname">
+                    <div class="${status.error ? 'has-error' : ''}">
+                        <form:input autocomplete="false" id="user_firstname" type="text" path="firstname"
+                                    name="firstname" placeholder="FIRST NAME"
+                                    autofocus="true" value="${firstname}"></form:input>
+                        <form:errors path="firstname"></form:errors>
+                    </div>
+                </spring:bind>
 
-                    <spring:bind path="lastname">
-                        <div class="${status.error ? 'has-error' : ''}">
-                            <form:input autocomplete="false" id="user_lastname"  type="text" path="lastname" name="lastname" placeholder="LAST NAME"
-                                         autofocus="true" value="${lastname}"></form:input>
-                            <form:errors path="lastname"></form:errors>
-                        </div>
-                    </spring:bind>
+                <spring:bind path="lastname">
+                    <div class="${status.error ? 'has-error' : ''}">
+                        <form:input autocomplete="false" id="user_lastname" type="text" path="lastname" name="lastname"
+                                    placeholder="LAST NAME"
+                                    autofocus="true" value="${lastname}"></form:input>
+                        <form:errors path="lastname"></form:errors>
+                    </div>
+                </spring:bind>
 
-                    <spring:bind path="position">
-                        <div class="${status.error ? 'has-error' : ''}">
-                            <form:input autocomplete="false" id="user_position"  type="text" path="position" name="position" placeholder="ASSIGNMENT"
-                                        autofocus="true" value="${position}"></form:input>
-                            <form:errors path="position"></form:errors>
-                        </div>
-                    </spring:bind>
+                <spring:bind path="position">
+                    <div class="${status.error ? 'has-error' : ''}">
+                        <form:input autocomplete="false" id="user_position" type="text" path="position" name="position"
+                                    placeholder="ASSIGNMENT"
+                                    autofocus="true" value="${position}"></form:input>
+                        <form:errors path="position"></form:errors>
+                    </div>
+                </spring:bind>
 
-                    <spring:bind path="email">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input autocomplete="false" id="user_email" type="text" path="email" name="email" placeholder="EMAIL"
-                                        autofocus="true" value="${email}"></form:input>
-                            <form:errors path="email"></form:errors>
-                        </div>
-                    </spring:bind>
+                <spring:bind path="email">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input autocomplete="false" id="user_email" type="text" path="email" name="email"
+                                    placeholder="EMAIL"
+                                    autofocus="true" value="${email}"></form:input>
+                        <form:errors path="email"></form:errors>
+                    </div>
+                </spring:bind>
 
-                    <spring:bind path="multipartFile">
-                        <div class="form-group ${status.error ? 'has-error' : ''}">
-                            <form:input type="file" id="change_avatar" path="multipartFile" autofocus="true"/>
-                            <form:errors path="multipartFile"/>
-                        </div>
-                    </spring:bind>
-                    <button class="btn_edit_user_submit" type="submit">SAVE</button>
-                </div>
-                </form:form>
+                <spring:bind path="multipartFile">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="file" id="change_avatar" path="multipartFile" autofocus="true"/>
+                        <form:errors path="multipartFile"/>
+                    </div>
+                </spring:bind>
+                <button class="btn_edit_user_submit" type="submit">SAVE</button>
+            </div>
+            </form:form>
         </div>
     </div>
 </div>

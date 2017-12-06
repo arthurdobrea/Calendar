@@ -4,32 +4,34 @@ import com.calendar.project.model.Tag;
 import com.calendar.project.model.enums.TagType;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Set;
 
 public interface TagService {
 
-    public void saveTag(Tag tag);
+    void saveTag(Tag tag);
 
-    public void updateTag(Tag tag);
+    void updateTag(Tag tag);
 
-    public void deleteTag(Tag tag);
+    void deleteTag(Tag tag);
 
-    public Tag getTagByName(TagType tagName);
+    Tag getTag(Long id);
 
-    public Tag getTagById(Long tagId);
+    Tag getTagById(Long tagId);
 
-    public Tag getTag(Long id);
+    Tag getTagByName(TagType tagName);
 
-    public List<Tag> getAllTags();
+    List<Tag> getTagsByEvent(int EventId);
 
-    public List<TagType> getTagsTypeList();
+    List<TagType> getTagsTypeList();
 
     String getTagsJson(List<Tag> tags) throws IOException;
 
-    List<Tag> getTagsByEvent(int EventId);
+    List<Tag> getAllTags();
 
     Set<Tag> parseListOfStringToSetOfTag(List<String> listOfString);
 
     Set<Tag> parseIntegerListToTagList(List<Long> intList);
+
 }

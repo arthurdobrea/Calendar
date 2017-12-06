@@ -17,8 +17,8 @@
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
         define([
-            'jquery',
-            'jquery.ui.widget'
+            'lib/jquery',
+            'lib/jquery.ui.widget'
         ], factory);
     } else {
         // Browser globals:

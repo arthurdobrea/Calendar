@@ -4,9 +4,6 @@ import com.calendar.project.model.enums.TagType;
 
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 11/18/2017.
- */
 public class TagResource {
 
     private Long id;

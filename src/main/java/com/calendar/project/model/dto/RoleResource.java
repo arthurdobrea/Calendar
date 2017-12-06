@@ -2,9 +2,6 @@ package com.calendar.project.model.dto;
 
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 11/19/2017.
- */
 public class RoleResource {
 
     private Long id;

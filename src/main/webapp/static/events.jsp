@@ -1,6 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,18 +15,16 @@
     <title>Events</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <title>All events</title>
 </head>
 <body>
 
-    <c:import url="header.jsp" />
+<c:import url="header.jsp"/>
 
 <a href="/welcome" class="btn_calendar">Home</a>
 <a href="/index" class="btn_calendar">Calendar</a>
@@ -49,23 +48,22 @@
     <tr>
         <th>Event</th>
         <th>Type</th>
-        <%--<th>Author</th>--%>
         <th>Participants</th>
         <th>Tags</th>
     </tr>
-        <c:forEach items="${events}" var="event">
-    <tr>
-        <td>${event.title}</td>
-        <td>${event.eventType.view()}</td>
-        <%--<td>${event.author.fullName}</td>--%>
-        <td><c:forEach items="${event.getParticipants()}" var="participant">
-            <p>${participant.username}</p>
+    <c:forEach items="${events}" var="event">
+        <tr>
+            <td>${event.title}</td>
+            <td>${event.eventType.view()}</td>
+                <%--<td>${event.author.fullName}</td>--%>
+            <td><c:forEach items="${event.getParticipants()}" var="participant">
+                <p>${participant.username}</p>
             </c:forEach></td>
-    </tr>
-    <td><c:forEach items="${event.tags}" var="tag">
-        | ${tag.tag} |
-    </c:forEach></td>
-        </c:forEach>
+        </tr>
+        <td><c:forEach items="${event.tags}" var="tag">
+            | ${tag.tag} |
+        </c:forEach></td>
+    </c:forEach>
 </table>
 </body>
 </html>

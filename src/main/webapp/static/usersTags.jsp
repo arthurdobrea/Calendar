@@ -16,15 +16,14 @@
     <title>set user tag</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
+    <script src="${contextPath}/resources/js/lib/bootstrap.min.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
 <a href="/welcome" class="btn_calendar">Home</a>
@@ -35,30 +34,28 @@
 <a href="/events" class="btn_calendar">All events</a>
 <a href="/logout" class="btn_calendar">Logout</a>
 
-    <form action="usersTag" method="post">
-       <c:forEach items="${usersList}" var="user">
-           <p>${user.username}||</p>
-            <c:forEach items="${tagsList}" var="tag">
-                ${tag.view()}
-                <c:set var="checked" value="0"/>
-                    <c:forEach items="${user.getTagsAsEnums()}" var="userTag">
-                       <c:if test = "${tag==userTag}">
-                           <c:set var="checked" value="1"/>
-                        </c:if>
-                    </c:forEach>
-                    <c:if test = "${checked==1}">
-                        <input type="checkbox" name="checkboxName" value="${tag}" checked/>
-                    </c:if>
-                    <c:if test = "${checked==0}">
-                         <input type="checkbox" name="checkboxName" value="${tag}"/>
-                    </c:if>
-               </c:forEach>
-           </p>
+<form action="usersTag" method="post">
+    <c:forEach items="${usersList}" var="user">
+        <p>${user.username}||</p>
+        <c:forEach items="${tagsList}" var="tag">
+            ${tag.view()}
+            <c:set var="checked" value="0"/>
+            <c:forEach items="${user.getTagsAsEnums()}" var="userTag">
+                <c:if test="${tag==userTag}">
+                    <c:set var="checked" value="1"/>
+                </c:if>
+            </c:forEach>
+            <c:if test="${checked==1}">
+                <input type="checkbox" name="checkboxName" value="${tag}" checked/>
+            </c:if>
+            <c:if test="${checked==0}">
+                <input type="checkbox" name="checkboxName" value="${tag}"/>
+            </c:if>
         </c:forEach>
-           <p>
-        <input type="submit">
-    </form>
-
+        </p>
+    </c:forEach>
+    <p><input type="submit"></p>
+</form>
 </div>
 </body>
 </html>

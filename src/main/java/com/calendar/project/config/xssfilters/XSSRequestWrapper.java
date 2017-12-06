@@ -1,8 +1,9 @@
 package com.calendar.project.config.xssfilters;
 
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import java.util.regex.Pattern;
 
 public class XSSRequestWrapper extends HttpServletRequestWrapper {
 
@@ -26,6 +27,24 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
             // onload(...)=...
             Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL)
     };
+
+    private String stripXSS(String value) {
+        if (value != null) {
+            // NOTE: It's highly recommended to use the ESAPI library and uncomment the following line to
+            // avoid encoded attacks.
+            // value = ESAPI.encoder().canonicalize(value);
+
+            // Avoid null characters
+            value = value.replaceAll("", "");
+
+            // Remove all sections that match a pattern
+            for (Pattern scriptPattern : patterns) {
+                value = scriptPattern.matcher(value).replaceAll("");
+            }
+        }
+
+        return value;
+    }
 
     public XSSRequestWrapper(HttpServletRequest servletRequest) {
         super(servletRequest);
@@ -58,23 +77,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getHeader(String name) {
         String value = super.getHeader(name);
+
         return stripXSS(value);
-    }
-
-    private String stripXSS(String value) {
-        if (value != null) {
-            // NOTE: It's highly recommended to use the ESAPI library and uncomment the following line to
-            // avoid encoded attacks.
-            // value = ESAPI.encoder().canonicalize(value);
-
-            // Avoid null characters
-            value = value.replaceAll("", "");
-
-            // Remove all sections that match a pattern
-            for (Pattern scriptPattern : patterns){
-                value = scriptPattern.matcher(value).replaceAll("");
-            }
-        }
-        return value;
     }
 }

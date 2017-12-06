@@ -3,19 +3,44 @@ package com.calendar.project.model.dto;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.Notification;
 import com.calendar.project.model.Role;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by mhristiniuc on 11/18/2017.
- */
 public class UserResource {
 
     private Long id;
+
+    private String username;
+
+    private String firstname;
+
+    private String lastname;
+
+    private String email;
+
+    private String password;
+
+    private String confirmPassword;
+
+    private String position;
+
+    private MultipartFile multipartFile;
+
+    private String subscriptionByEventType;
+
+    private String subscriptionByTagType;
+
+    private Set<Role> roles;
+
+    private List<Event> events = new ArrayList<>();
+
+    private List<Event> eventsOfAuthor = new ArrayList<>();
+
+    private List<Notification> notifications;
 
     public Long getId() {
         return id;
@@ -25,75 +50,9 @@ public class UserResource {
         this.id = id;
     }
 
-    private String username;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
-    private String confirmPassword;
-    private String position;
-    private MultipartFile multipartFile;
-    private String subscriptionByEventType;
-    private String subscriptionByTagType;
-    private List<Event> events = new ArrayList<>();
-    private List<Event> eventsOfAuthor = new ArrayList<>();
-    private List<Notification> notifications;
-
-    public String getSubscriptionByEventType() {
-        return subscriptionByEventType;
-    }
-
-    public void setSubscriptionByEventType(String subscriptionByEventType) {
-        this.subscriptionByEventType = subscriptionByEventType;
-    }
-
-    public String getSubscriptionByTagType() {
-        return subscriptionByTagType;
-    }
-
-    public void setSubscriptionByTagType(String subscriptionByTagType) {
-        this.subscriptionByTagType = subscriptionByTagType;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public List<Event> getEventsOfAuthor() {
-        return eventsOfAuthor;
-    }
-
-    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
-        this.eventsOfAuthor = eventsOfAuthor;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    private Set<Role> roles;
-
     public String getUsername() {
         return username;
     }
-
-    public String getFullName(){return firstname + " " + lastname;}
 
     public void setUsername(String username) {
         this.username = username;
@@ -113,6 +72,10 @@ public class UserResource {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getFullName() {
+        return firstname + " " + lastname;
     }
 
     public String getEmail() {
@@ -153,5 +116,45 @@ public class UserResource {
 
     public void setMultipartFile(MultipartFile multipartFile) {
         this.multipartFile = multipartFile;
+    }
+
+    public String getSubscriptionByEventType() {
+        return subscriptionByEventType;
+    }
+
+    public void setSubscriptionByEventType(String subscriptionByEventType) {
+        this.subscriptionByEventType = subscriptionByEventType;
+    }
+
+    public String getSubscriptionByTagType() {
+        return subscriptionByTagType;
+    }
+
+    public void setSubscriptionByTagType(String subscriptionByTagType) {
+        this.subscriptionByTagType = subscriptionByTagType;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<Event> getEventsOfAuthor() {
+        return eventsOfAuthor;
+    }
+
+    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
+        this.eventsOfAuthor = eventsOfAuthor;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

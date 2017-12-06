@@ -1,21 +1,20 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
-
 import com.calendar.project.model.enums.TagType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
+
 import java.time.LocalDateTime;
+
 import java.util.*;
 
 @Entity
@@ -38,7 +37,6 @@ public class Event implements Serializable {
     @JoinColumn(name = "author_user_id", nullable = false)
     private User author;
 
-
     @Column(name = "event_location")
     private String location;
 
@@ -47,39 +45,41 @@ public class Event implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants = new ArrayList<>();
 
-    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @Column(name = "createdata")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime eventCreated = LocalDateTime.now();
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "timebegin")
     private LocalDateTime start;
 
     @Column(name = "timeend")
-    @JsonDeserialize(using=LocalDateDeserializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
-    @Column(name="all_day")
+    @Column(name = "all_day")
     private boolean allDay;
-
-    @Column(name = "createdata")
-    @JsonDeserialize(using=LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ss HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime eventCreated = LocalDateTime.now();
 
     @Column(name = "description")
     private String description;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
+
     @OneToMany(mappedBy = "event")
     private List<Notification> notifications;
 
-  @ManyToMany(fetch = FetchType.LAZY )
-    @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "event_id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+    public Event() {
 
-    public Event(){}
+    }
 
     public Event(String title, EventType eventType, User author, String location,
                  List<User> participants, LocalDateTime start, LocalDateTime end,
@@ -97,22 +97,32 @@ public class Event implements Serializable {
         this.tags = tags;
     }
 
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
     public int getId() {
         return id;
     }
 
-    public String getTitleAndId(){return "{id: " + id + ", title: " + title + "}";}
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitleAndId() {
+        return "{id: " + id + ", title: " + title + "}";
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public User getAuthor() {
@@ -139,62 +149,26 @@ public class Event implements Serializable {
         this.participants = participants;
     }
 
+    public String getParticipantsToString() {
+        if (participants.isEmpty() || participants == null) {
+            return null;
+        }
+
+        StringBuilder part = new StringBuilder();
+
+        for (User participant : getParticipants()) {
+            part.append(participant.getFullName() + ",");
+        }
+
+        return part.toString();
+    }
+
     public LocalDateTime getEventCreated() {
         return eventCreated;
     }
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
-    }
-
-    public EventType getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public List<TagType> getEventTagsAsEnum() {
-        List<TagType> tagTypes=new ArrayList<>();
-        for (Tag tag:getTags()){
-            for (TagType tt:TagType.values()){
-                if(tag.getTag().equals(tt)){ tagTypes.add(tt); break;}
-            }
-        }
-        return tagTypes;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getParticipantsToString() {
-        if (participants.isEmpty()||participants==null) return null;
-        StringBuilder part=new StringBuilder();
-        for (User participant:getParticipants())
-            part.append(participant.getFullName().toString()+",");
-        return part.toString();
     }
 
     public LocalDateTime getStart() {
@@ -211,7 +185,6 @@ public class Event implements Serializable {
     }
 
     public void setEnd(LocalDateTime end) {
-
         this.end = end;
     }
 
@@ -221,6 +194,45 @@ public class Event implements Serializable {
 
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<TagType> getEventTagsAsEnum() {
+        List<TagType> tagTypes = new ArrayList<>();
+
+        for (Tag tag : getTags()) {
+            for (TagType tt : TagType.values()) {
+                if (tag.getTag().equals(tt)) {
+                    tagTypes.add(tt);
+
+                    break;
+                }
+            }
+        }
+        return tagTypes;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override

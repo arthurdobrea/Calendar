@@ -1,9 +1,9 @@
 package com.calendar.project.model;
 
 import com.calendar.project.model.enums.TagType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -21,14 +21,11 @@ public class Tag {
     @Column(name = "tag_color")
     private String color;
 
-//   @ManyToMany(fetch = FetchType.LAZY )
-   //@JsonBackReference(value = "child")
-   @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
-//   @JoinTable(name = "events_tags", joinColumns = @JoinColumn(name = "tag_id"),
-//           inverseJoinColumns = @JoinColumn(name = "event_id"))
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Event> events;
 
     public Tag() {
+
     }
 
     public Tag(TagType tag) {

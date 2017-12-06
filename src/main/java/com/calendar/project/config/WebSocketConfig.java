@@ -11,6 +11,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableWebSocketMessageBroker
 @ComponentScan(basePackages = "com.calendar.project.controller")
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "/queue" ,"/user");
@@ -22,6 +23,4 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/notification").withSockJS();
     }
-
-
 }

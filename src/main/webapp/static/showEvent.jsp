@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -17,28 +17,27 @@
     <title>show event</title>
 
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
-    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>
-    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <script src="${contextPath}/resources/js/lib/bootstrapmodal.js"></script>
+    <script src="${contextPath}/resources/js/lib/jquery-1.10.2.min.js"></script>
+    <script src="${contextPath}/resources/js/lib/jquery.autocomplete.min.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
 </head>
-
 <body>
 <%--show event modal--%>
-<div class="modal fade" id="ShowEvent" role="dialog" >
+<div class="modal fade" id="ShowEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0; cursor: context-menu;">
             <div class="modal-header" style="padding-left: 25px; padding-right: 25px; border:0">
                 <div class="create_event_header">
-                    <p align="left" class="modal_topic endava_grey_text">EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
+                    <p align="left" class="modal_topic endava_grey_text">EVENT
+                        <button type="button" class="close_modal" data-dismiss="modal"></button>
+                    </p>
                 </div>
             </div>
             <div class="modal-body" style="padding-left: 25px; padding-right: 25px">
@@ -100,21 +99,24 @@
                             </div>
 
                             <div class="row" id="rightblock">
-                                <div class="col-sm-6" style="padding-top: 23px";>
+                                <div class="col-sm-6" style="padding-top: 23px" ;>
                                     <div class="form-group textarea-group">
                                         <label for="ev-show-description">DESCRIPTION</label>
-                                        <textarea name="description" class="form-control" rows="3" readonly style="background: none"
-                                                  id="ev-show-description" required="true" value="${event.description}">${event.description}</textarea>
+                                        <textarea name="description" class="form-control" rows="3" readonly
+                                                  style="background: none"
+                                                  id="ev-show-description" required="true"
+                                                  value="${event.description}">${event.description}</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row" id="bottomblock">
-                            <div class="col-sm-12" >
+                            <div class="col-sm-12">
                                 <label for="t-show-participants" id="label-show-participants">PARTICIPANTS [<span
                                         style="color: #d2322d; font-size: 12px;">${event.participants.size()}</span>]</label>
-                                <div class="form-group participant-group" id="t-show-participants" style="margin-bottom: 5px">
+                                <div class="form-group participant-group" id="t-show-participants"
+                                     style="margin-bottom: 5px">
                                     <div class="row">
 
                                         <c:forEach items="${event.participants}" var="user">
@@ -122,10 +124,13 @@
                                                 <table style="border: none">
                                                     <tr>
                                                         <td rowspan="2"><img id="avatar" src="data:image/jpeg;base64,
-                                                             ${user.getImageBase64()}" onerror="this.src='/resources/icons/defaultImage.png'" alt="Your avatar"
+                                                             ${user.getImageBase64()}"
+                                                                             onerror="this.src='/resources/icons/defaultImage.png'"
+                                                                             alt="Your avatar"
                                                                              style="width: 40px; height: 40px; border-radius: 50%"/>
                                                         </td>
-                                                        <td style="padding-left: 2px; font-size: 14px; padding-bottom: 18px;">&nbsp;&nbsp;${user.fullName}</td>
+                                                        <td style="padding-left: 2px; font-size: 14px; padding-bottom: 18px;">
+                                                            &nbsp;&nbsp;${user.fullName}</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -152,8 +157,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
-
-

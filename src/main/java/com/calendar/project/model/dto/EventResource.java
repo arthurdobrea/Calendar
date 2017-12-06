@@ -1,53 +1,46 @@
 package com.calendar.project.model.dto;
 
 import com.calendar.project.model.Notification;
-import com.calendar.project.model.Tag;
 import com.calendar.project.model.User;
 import com.calendar.project.model.enums.EventType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
-/**
- * Created by mhristiniuc on 11/18/2017.
- */
+import java.util.List;
+
 public class EventResource {
+
     private int id;
+
     private String title;
+
     private EventType eventType;
+
     private User author;
+
     private String location;
+
     private String participants;
+
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime start;
+
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     private LocalDateTime end;
+
     @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-    private boolean allDay;
     private LocalDateTime eventCreated = LocalDateTime.now();
+
+    private boolean allDay;
+
     private String description;
+
     private String tags;
+
     private List<Notification> notifications;
-
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
 
     public int getId() {
         return id;
@@ -99,26 +92,18 @@ public class EventResource {
 
     public LocalDateTime getStart() {
         return start;
-        }
+    }
 
-    public void setStart(String start) {
-        this.start = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
     public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
-        this.end = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
-
-    public boolean isAllDay() {
-        return allDay;
-    }
-
-    public void setAllDay(boolean allDay) {
-        this.allDay = allDay;
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 
     public LocalDateTime getEventCreated() {
@@ -127,6 +112,14 @@ public class EventResource {
 
     public void setEventCreated(LocalDateTime eventCreated) {
         this.eventCreated = eventCreated;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     public String getDescription() {
@@ -143,5 +136,13 @@ public class EventResource {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

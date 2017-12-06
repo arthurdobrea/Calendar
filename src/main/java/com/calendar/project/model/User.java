@@ -2,13 +2,16 @@ package com.calendar.project.model;
 
 import com.calendar.project.model.enums.EventType;
 import com.calendar.project.model.enums.TagType;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.*;
 
+import java.io.Serializable;
+
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -39,10 +42,10 @@ public class User implements Serializable {
     private String confirmPassword;
 
     @JsonIgnore
-    @Column(name="image")
+    @Column(name = "image")
     private byte[] image;
 
-    @Column(name="position")
+    @Column(name = "position")
     private String position;
 
     @Column(name = "subscription_by_event_type")
@@ -50,7 +53,6 @@ public class User implements Serializable {
 
     @Column(name = "subscription_by_tag_type")
     private String subscriptionByTagType;
-
 
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -60,27 +62,15 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Event> events = new ArrayList<>(); //events in which user participates
 
-
-
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Event> eventsOfAuthor = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
-    public User() { }
+    public User() {
 
-    public List<Notification> getNotifications() {
-        return notifications;
     }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
-    public String getPosition() { return position; }
-
-    public void setPosition(String position) { this.position = position; }
 
     public User(String username) {
         this.username = username;
@@ -118,6 +108,10 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
+    }
+
     public String getEmail() {
         return email;
     }
@@ -125,13 +119,6 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getImageBase64() { return  Base64.encode(image);}
-
-    public byte[] getImage() { return image; }
-
-    public void setImage(byte[] image) { this.image = image; }
-
 
     public String getPassword() {
         return password;
@@ -149,54 +136,53 @@ public class User implements Serializable {
         this.confirmPassword = confirmPassword;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getImageBase64() {
+        return Base64.encode(image);
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getSubscriptionByEventType() {
         return subscriptionByEventType;
     }
 
-    public void setSubscriptionByEventType(String subscriptionByEventType) { this.subscriptionByEventType = subscriptionByEventType; }
-
-    public List<Event> getEventsOfAuthor() {
-        return eventsOfAuthor;
+    public void setSubscriptionByEventType(String subscriptionByEventType) {
+        this.subscriptionByEventType = subscriptionByEventType;
     }
 
-    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
-        this.eventsOfAuthor = eventsOfAuthor;
-    }
+    public Set<EventType> getSubscriptionByEventTypeAsEnums() {
+        Set<EventType> subscriptionByEventTypeSet;
+        subscriptionByEventTypeSet = new HashSet<>();
+        String labelArray[];
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public String getFullName() {
-        return getFirstname() + " " + getLastname();
-    }
-
-    public Set<EventType>getSubscriptionByEventTypeAsEnums(){
-        Set <EventType> subscriptionByEventTypeSet;
-        subscriptionByEventTypeSet=new HashSet();
-
-        String labelArray[] = null;
-        try{
+        try {
             labelArray = subscriptionByEventType.split(",");
-        } catch (Exception e){
+        } catch (Exception e) {
             return subscriptionByEventTypeSet;
         }
-        for (String label:labelArray)
-            for (EventType eventType : EventType.values())
-                if (label.equals(eventType.toString()))
+
+        for (String label : labelArray) {
+            for (EventType eventType : EventType.values()) {
+                if (label.equals(eventType.toString())) {
                     subscriptionByEventTypeSet.add(eventType);
+                }
+            }
+        }
+
         return subscriptionByEventTypeSet;
     }
 
@@ -208,19 +194,57 @@ public class User implements Serializable {
         this.subscriptionByTagType = subscriptionByTagType;
     }
 
-    public Set<TagType> getSubscriptionByTagTypeAsEnums(){
-        Set <TagType> subscriptionByTagTypeSet=new HashSet();
+    public Set<TagType> getSubscriptionByTagTypeAsEnums() {
+        Set<TagType> subscriptionByTagTypeSet = new HashSet<>();
         String tagArray[];
-        try{
+
+        try {
             tagArray = subscriptionByTagType.split(",");
-        } catch (Exception e){
+        } catch (Exception e) {
             return subscriptionByTagTypeSet;
         }
-        for (String tag:tagArray)
-            for (TagType tagType : TagType.values())
-                if (tag.equals(tagType.toString()))
+
+        for (String tag : tagArray) {
+            for (TagType tagType : TagType.values()) {
+                if (tag.equals(tagType.toString())) {
                     subscriptionByTagTypeSet.add(tagType);
+                }
+            }
+        }
+
         return subscriptionByTagTypeSet;
+    }
+
+    public List<Event> getEventsOfAuthor() {
+        return eventsOfAuthor;
+    }
+
+    public void setEventsOfAuthor(List<Event> eventsOfAuthor) {
+        this.eventsOfAuthor = eventsOfAuthor;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override

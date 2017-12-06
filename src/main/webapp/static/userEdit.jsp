@@ -16,18 +16,16 @@
     <title>Create an account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/header-style.css" rel="stylesheet">
 
+    <script src="${contextPath}/resources/js/lib/bootstrap.min.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
     <form:form method="POST" modelAttribute="user" class="form-signin">
-        <%--<form:input type="hidden" path="id" id="id"/>--%>
         <h2 class="form-signin-heading">Edit user </h2>
 
         <spring:bind path="id">
@@ -80,14 +78,14 @@
 
         <spring:bind path="roles">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name" class="form-control input-sm"
+                <form:select path="roles" items="${list_of_roles}" multiple="true" itemValue="name" itemLabel="name"
+                             class="form-control input-sm"
                              autofocus="true"></form:select>
                 <form:errors path="roles"></form:errors>
             </div>
         </spring:bind>
 
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit", autofocus="true" >Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" , autofocus="true">Submit</button>
     </form:form>
 </div>
 </body>

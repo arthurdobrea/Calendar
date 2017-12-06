@@ -1,7 +1,6 @@
 package com.calendar.project.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -16,7 +15,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    private static String REALM="MY_OAUTH_REALM";
+    private static String REALM = "MY_OAUTH_REALM";
 
     @Autowired
     private TokenStore tokenStore;
@@ -29,7 +28,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
         clients.inMemory()
                 .withClient("my-trusted-client")
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
@@ -46,7 +44,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.realm(REALM+"/client");
+        oauthServer.realm(REALM + "/client");
     }
-
 }

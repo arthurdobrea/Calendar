@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -17,24 +18,22 @@
     <title>Create an event</title>
 
     <link href="${contextPath}/resources/css/autocomplete.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serghei.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/jquery.datetimepicker.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/event.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/jquery-ui.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Oswald:300' rel='stylesheet' type='text/css'>
 
-    <script src="${contextPath}/resources/js/bootstrapmodal.js"></script>
-    <%--<script src="${contextPath}/resources/scripts/jquery-1.10.2.min.js"></script>--%>
-    <script src="${contextPath}/resources/js/jquery-ui.min.js"></script>
-    <script src="${contextPath}/resources/js/jquery.datetimepicker.js"></script>
-    <script src="${contextPath}/resources/scripts/jquery.autocomplete.min.js"></script>
+    <script src="${contextPath}/resources/js/lib/bootstrapmodal.js"></script>
+    <script src="${contextPath}/resources/js/lib/jquery-ui.min.js"></script>
+    <script src="${contextPath}/resources/js/lib/jquery.autocomplete.min.js"></script>
     <script src="${contextPath}/resources/js/userProfile.js"></script>
+    <script src="${contextPath}/resources/js/eventValidator.js"></script>
 
     <script>
-        $('form').submit(function(){
-            $('input[type=submit]', $(this)).prop( 'disabled', true );
+        $('form').submit(function () {
+            $('input[type=submit]', $(this)).prop('disabled', true);
             e.preventDefault();
         });
     </script>
@@ -42,12 +41,14 @@
 
 <body>
 <%--create event modal--%>
-<div class="modal fade" id="AddEvent" role="dialog" >
+<div class="modal fade" id="AddEvent" role="dialog">
     <div class="modal-dialog modal-lg" align="center" style="margin-top: 60px">
         <div class="modal-content" style="border-radius: 0;">
             <div class="event_add_modal-header" style="padding-left: 40px; padding-right: 40px">
                 <div class="create_event_header">
-                    <p align="left" class="modal_topic endava_grey_text">ADD EVENT<button type="button" class="close_modal" data-dismiss="modal"></button></p>
+                    <p align="left" class="modal_topic endava_grey_text">ADD EVENT
+                        <button type="button" class="close_modal" data-dismiss="modal"></button>
+                    </p>
                 </div>
             </div>
             <div class="modal-body" style="padding-left: 40px; padding-right: 40px">
@@ -67,7 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="label_add_event" for="ev-type">EVENT TYPE</label>
-                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType" >
+                                    <select class="event_add_form_type_select_box" id="ev-type" name="eventType">
                                         <option style="font-size: 14px" value="">Select event type</option>
                                         <c:forEach items="${eventTypes}" var="et">
                                             <option style="font-size: 14px" value=${et}>${et.view()}</option>
@@ -76,33 +77,38 @@
                                 </div>
 
                                 <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input type="hidden" name="start" class="form-control" id="datetimepicker1">
-                                                </div>
-                                                <label class="label_add_event" for="datepicker1"> START DATE</label>
-                                                <input type="date" class="form-control" id="datepicker1">
-                                                <input type="time" class="form-control" id="timepicker1">
-                                            </div>
-
-                                            <div class="col-sm-6">
-                                                <div class="form-group" >
-                                                    <input type="hidden" name="end" class="form-control" id="datetimepicker2">
-                                                </div>
-                                                <label class="label_add_event" for="datepicker2"> END DATE</label>
-                                                <input type="date" class="form-control" id="datepicker2" onchange="changeColor()">
-                                                <input type="time" class="form-control" id="timepicker2" onchange="changeColor()">
-                                            </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="form-group" id="alldaydiv" style="padding-bottom:5px; padding-top: 0; text-align: left;">
-                                                <div align="right" style="width: 70px"><label id="alldaylabel" class="modal-header edit_profile_header">
-                                                    <input type="checkbox" id="all-day"
-                                                           onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">
-                                                    <span class="endava_red_text" style="font-size: 12px">&nbsp;All day</span>
-                                                </label></div>
-                                            </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="hidden" name="start" class="form-control" id="datetimepicker1">
                                         </div>
+                                        <label class="label_add_event" for="datepicker1"> START DATE</label>
+                                        <input type="date" class="form-control" id="datepicker1">
+                                        <input type="time" class="form-control" id="timepicker1">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <input type="hidden" name="end" class="form-control" id="datetimepicker2">
+                                        </div>
+                                        <label class="label_add_event" for="datepicker2"> END DATE</label>
+                                        <input type="date" class="form-control" id="datepicker2"
+                                               onchange="changeColor()">
+                                        <input type="time" class="form-control" id="timepicker2"
+                                               onchange="changeColor()">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group" id="alldaydiv"
+                                             style="padding-bottom:5px; padding-top: 0; text-align: left;">
+                                            <div align="right" style="width: 70px"><label id="alldaylabel"
+                                                                                          class="modal-header edit_profile_header">
+                                                <input type="checkbox" id="all-day"
+                                                       onclick="if(this.checked) {allDayChecked();} else {allDayUnchecked();}">
+                                                <span class="endava_red_text"
+                                                      style="font-size: 12px">&nbsp;All day</span>
+                                            </label></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -129,7 +135,8 @@
 
                                     <div class="row">
                                         <div class="col-sm-12" style="bottom: 8px;">
-                                            <div class="checkbox-group" name="end" id="subs-checkbox" style="padding-bottom:15px">
+                                            <div class="checkbox-group" name="end" id="subs-checkbox"
+                                                 style="padding-bottom:15px">
                                                 <label class="checkbox-inline">
                                                     <input type="checkbox"/>Send emails to
                                                     participants</label>
@@ -164,7 +171,8 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center; bottom: 10px;">
-                                <input type="submit" class="btn_login_submit" value="SUBMIT" onmousedown="eventDateTimeValidation();">
+                                <input type="submit" class="btn_login_submit" value="SUBMIT"
+                                       onmousedown="eventDateTimeValidation();">
                             </div>
                         </div>
                     </div>
@@ -173,7 +181,5 @@
         </div>
     </div>
 </div>
-
-<script src="${contextPath}/resources/js/eventValidator.js"></script>
 </body>
 </html>

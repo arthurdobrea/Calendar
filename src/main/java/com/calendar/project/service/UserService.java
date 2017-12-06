@@ -3,29 +3,13 @@ package com.calendar.project.service;
 import com.calendar.project.model.Event;
 import com.calendar.project.model.User;
 import com.calendar.project.model.dto.UserDTO;
-import com.calendar.project.model.dto.UserResource;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Set;
 
 public interface UserService {
-
-    User getUser(long id);
-
-    User findById(Long id);
-
-    User findByUsername(String username);
-
-    List<User>  getUsersListBySubscriptionByEventType(String subscriptionByTagType);
-
-    List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType);
-
-    List<User> findAllUsers();
-
-    List<User> getAllUsers();
-
-    boolean exists(String username);
 
     void save(User user);
 
@@ -33,21 +17,38 @@ public interface UserService {
 
     void updateUser(User user);
 
+    User updateUserWithUserDTO(User user, UserDTO userDTO);
+
     void deleteUserByUsername(String username);
 
-    String getUsersJson(List<User> users) throws IOException;
+    User getUser(long id);
 
-    String getUserJson(User user) throws IOException;
+    User findById(Long id);
 
-    List<User> parseStringToUsersList(String participants);
+    User findByUsername(String username);
 
     List<User> findLikeFullName(String fullname);
 
-    boolean isUserParticipant(Event event, User user);
+    List<User>  getUsersListBySubscriptionByEventType(String subscriptionByTagType);
+
+    List<User> getUsersListBySubscriptionByTagType(String subscriptionByTagType);
+
+    String getUserJson(User user) throws IOException;
+
+    String getUsersJson(List<User> users) throws IOException;
+
+    List<User> findAllUsers();
+
+    List<User> getAllUsers();
+
+    List<User> parseStringToUsersList(String participants);
 
     List<Long> parseStringToIntList(String participants);
 
     Set<User> parseIntegerListToUserList(List<Long> intList);
 
-    User updateUserWithUserDTO(User user, UserDTO userDTO);
+    boolean exists(String username);
+
+    boolean isUserParticipant(Event event, User user);
+
 }

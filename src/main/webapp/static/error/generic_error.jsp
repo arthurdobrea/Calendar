@@ -1,5 +1,6 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -7,9 +8,7 @@
 </head>
 
 <body style="padding: 0px; margin: 0px">
-
 <div class="error-wrapper">
-
     <input type="image" height="250" width="300" src="${contextPath}/resources/images/octopus-resized.png"/>
 
     <div class="error-msg">
@@ -37,8 +36,6 @@
     <div style="margin-top: 10px;">
         <a href="/welcome" class="greeting-btn">Home</a>
     </div>
-
 </div>
-
 </body>
 </html>

@@ -5,9 +5,14 @@ import com.calendar.project.model.Notification;
 import com.calendar.project.model.User;
 
 import java.io.IOException;
+
 import java.util.List;
 
 public interface NotificationService {
+
+    void save(Notification notification);
+
+    void saveAll(List<Notification> notifications);
 
     void sendToAllParticipantsNotification(String username, Event eventForm);
 
@@ -17,17 +22,13 @@ public interface NotificationService {
 
     void sendToSpecificUser(List<User> users,Notification notification);
 
-    void save(Notification notification);
-
-    void saveAll(List<Notification> notifications);
-
     Notification getNotification(User user, Event event);
 
     List<Notification> getUncheckedEvents(User User);
 
     List<Notification> getCheckedEvents(User User);
 
-    void changeState(Notification Notification);
-
     String getNotificationInJson(Notification notification, User u) throws IOException;
+
+    void changeState(Notification Notification);
 }
